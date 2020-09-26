@@ -1,0 +1,13 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  number: 1
+  yardage: 411
+  par: 4
+  hdcp: 9
+
+two:
+  number: 18
+  yardage: 372
+  par: 4
+  hdcp: 12
