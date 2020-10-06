@@ -1,4 +1,4 @@
-require 'rails_helper'
+# frozen_string_literal: true
 
 describe Tee, type: :model do
   describe 'basic creation' do

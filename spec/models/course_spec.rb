@@ -1,4 +1,7 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
+require 'support/tee_hole_info'
 
 describe Course, type: :model do
   describe 'basic creation' do
@@ -8,7 +11,8 @@ describe Course, type: :model do
     end
     it 'tees' do
       course = Course.new(name: 'Lochmere')
-      course.add_tee('black', 67.3, 70.7, 18)
+
+      course.add_tee('black', 67.3, 70.7, TeeHoleInfo::BLACK_HOLE_INFO)
       expect(course.tees.size).to eq(1)
       tee = course.tees.first
       expect(tee.color).to eq('black')
@@ -22,7 +26,7 @@ describe Course, type: :model do
       expect(address.street_2).to eq('<nothing>')
       expect(address.city).to eq('Clarksville')
       expect(address.state).to eq('IN')
-      expect(address.zip_code).to eq(47529)
+      expect(address.zip_code).to eq(47_529)
     end
     it 'tees' do
       course = FactoryBot.create(:course)
@@ -45,5 +49,4 @@ describe Course, type: :model do
       expect(hole.tee).to be(tee)
     end
   end
-
 end

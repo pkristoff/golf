@@ -1,3 +1,7 @@
+# frozen_string_literal: true
+
+# create Tee
+#
 class CreateTees < ActiveRecord::Migration[6.0]
   def change
     create_table :tees do |t|
