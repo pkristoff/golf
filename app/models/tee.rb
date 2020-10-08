@@ -8,11 +8,31 @@ class Tee < ApplicationRecord
   has_many(:holes, dependent: :destroy)
   accepts_nested_attributes_for(:holes, allow_destroy: true)
 
+  # Add a hole to tee
+  #
+  # === Parameters:
+  #
+  # * <tt>:hole_number</tt> golf course hole number
+  # * <tt>:yardage</tt> for tee and hole number
+  # * <tt>:par</tt> for tee and hole number
+  # * <tt>:hdcp</tt> handicap for tee and hole number
+  #
+  # === Returns:
+  #
+  # * <tt>Hole</tt>
+  #
+  def add_hole(hole_number, yardage, par, hdcp)
+    hole = Hole.new(number: hole_number, yardage: yardage, par: par, hdcp: hdcp)
+    hole.tee = self
+    holes.push(hole)
+    hole
+  end
+
   # Add 18 Holes numbered 1-18
   #
   def add_18_holes
     (1...19).each do |num|
-      add_hole(num)
+      add_hole(num, nil, nil, nil)
     end
   end
 
@@ -20,7 +40,7 @@ class Tee < ApplicationRecord
   #
   def add_9_holes
     (1...10).each do |num|
-      add_hole(num)
+      add_hole(num, nil, nil, nil)
     end
   end
 
@@ -28,7 +48,7 @@ class Tee < ApplicationRecord
   #
   # === Parameters:
   #
-  # * <tt>:hole_num</tt> common event
+  # * <tt>:hole_num</tt> golf course hole number
   #
   # === Returns:
   #
@@ -39,13 +59,5 @@ class Tee < ApplicationRecord
     raise("Hole not found:  #{hole_num}") if hole.nil?
 
     hole
-  end
-
-  private
-
-  def add_hole(hole_number)
-    hole = Hole.new(number: hole_number)
-    hole.tee = self
-    holes.push(hole)
   end
 end

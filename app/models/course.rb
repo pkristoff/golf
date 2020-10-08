@@ -27,7 +27,6 @@ class Course < ApplicationRecord
   def add_tee(color, rating, slope, hole_info)
     tee = Tee.new(color: color, rating: rating, slope: slope)
     tee.course = self
-    tee.add_18_holes
     front_nine = nil
     back_nine = nil
     eighteen = nil
@@ -42,10 +41,7 @@ class Course < ApplicationRecord
         front_nine = info if front_nine.nil?
         next
       end
-      hole = tee.hole(hole_num)
-      hole.yardage = yardage
-      hole.par = par
-      hole.hdcp = hdcp
+      tee.add_hole(hole_num, yardage, par, hdcp)
     end
     check_totals(tee, front_nine, back_nine)
     tees.push(tee)
@@ -69,8 +65,8 @@ class Course < ApplicationRecord
     tees[idx]
   end
 
-
   private
+
   # dheck totals for tee if problem raise signal
   #
   # === Parameters:
@@ -84,6 +80,7 @@ class Course < ApplicationRecord
   # * <tt>Hole</tt>
   #
   def check_totals(tee, front_nine, back_nine)
+    check_hdcp(tee)
     unless front_nine.nil?
       yardage = 0
       par = 0
@@ -111,6 +108,21 @@ class Course < ApplicationRecord
   def build_associations
     address || build_address
     true
+  end
+
+  def check_hdcp(tee)
+    num_of_holes = tee.holes.size
+    hdcps = []
+    tee.holes.each do |hole|
+      hdcp = hole.hdcp
+      next if hdcp.nil?
+
+      raise "hdcp (#{hdcp}) larger than number of holes (#{num_of_holes})" if hdcp > num_of_holes
+
+      raise("hdcp problem hdcp: #{hdcp} already used: #{hdcps}") unless hdcps.find_index(hdcp).nil?
+
+      hdcps.push(hdcp)
+    end
   end
 
   def generate_error_message(name, tee_color, total, type)

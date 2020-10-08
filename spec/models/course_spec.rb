@@ -11,9 +11,9 @@ describe Course, type: :model do
     end
     it 'tees' do
       course = Course.new(name: 'Lochmere')
-
       course.add_tee('black', 67.3, 70.7, TeeHoleInfo::BLACK_HOLE_INFO)
       expect(course.tees.size).to eq(1)
+
       tee = course.tees.first
       expect(tee.color).to eq('black')
     end
