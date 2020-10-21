@@ -26,7 +26,7 @@ describe Course, type: :model do
       expect(address.street_2).to eq('<nothing>')
       expect(address.city).to eq('Clarksville')
       expect(address.state).to eq('IN')
-      expect(address.zip_code).to eq(47_529)
+      expect(address.zip_code).to eq('47529')
     end
     it 'tees' do
       course = FactoryBot.create(:course)
@@ -40,7 +40,6 @@ describe Course, type: :model do
   def expect_tee(course, color, rating, slope, num_of_holes)
     tee = course.tee(color)
     expect(tee).to be_truthy
-    puts "tee.ratig:#{tee.rating.class}=rating#{rating.class}: eq?#{tee.holes == rating}"
     expect(tee.rating.to_f).to eq(rating)
     expect(tee.slope).to eq(slope)
     expect(tee.holes.size).to eq(num_of_holes)

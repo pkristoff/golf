@@ -6,7 +6,6 @@ class Tee < ApplicationRecord
   belongs_to(:course)
 
   has_many(:holes, dependent: :destroy)
-  accepts_nested_attributes_for(:holes, allow_destroy: true)
 
   # Add a hole to tee
   #

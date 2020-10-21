@@ -48,11 +48,14 @@ group :development do
   gem 'web-console', '>= 3.3.0'
 end
 
+group :development, :test do
+  gem 'factory_bot_rails', require: false
+end
+
 group :test do
   # Adds support for Capybara system testing and selenium driver
   gem 'capybara', '>= 2.15'
   gem 'database_cleaner'
-  gem 'factory_bot_rails'
   gem 'launchy'
   gem 'rspec-rails'
   gem 'selenium-webdriver'

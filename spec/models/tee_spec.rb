@@ -48,5 +48,15 @@ describe Tee, type: :model do
         expect(hole.tee).to be(tee)
       end
     end
+    it 'should add hole to tee' do
+      tee = Tee.new(color: 'red', slope: 0, rating: 0)
+      hole = tee.add_hole(3, 500, 4, 7)
+      expect(tee.color).to eq('red')
+      expect(tee.slope).to eq(0)
+      expect(tee.rating).to eq(0)
+      expect(tee.holes.size).to eq(1)
+      expect(tee.holes.first).to eql(hole)
+      expect(hole.tee).to eql(tee)
+    end
   end
 end
