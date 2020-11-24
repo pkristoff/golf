@@ -7,7 +7,8 @@ ruby '2.5.1'
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 6.0.3', '>= 6.0.3.3'
-
+# gem 'axlsx', git: 'https://github.com/randym/axlsx.git'
+gem 'caxlsx'
 gem 'pg', '=0.20'
 # Use Puma as the app server
 gem 'puma', '~> 4.1'

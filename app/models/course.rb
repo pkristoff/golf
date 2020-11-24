@@ -11,10 +11,31 @@ class Course < ApplicationRecord
 
   after_initialize :build_associations, if: :new_record?
 
-  # Add Tee with color
+  # whether golf course has a rating
+  #
+  # === Returns:
+  #
+  # * <tt>Boole</tt>
+  #
+  def rate?
+    tees.first.rating != 0
+  end
+
+  # number of holes for course
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt>
+  #
+  def num_of_holes
+    tees.first.holes.size
+  end
+
+  # Create tee if tee is nil
   #
   # === Parameters:
   #
+  # * <tt>:tee</tt> nil or Tee if nil create Tee
   # * <tt>:color</tt> color of tee
   # * <tt>:rating</tt> rating of tee
   # * <tt>:slope</tt> slope of tee
@@ -24,8 +45,15 @@ class Course < ApplicationRecord
   #
   # * <tt>Tee</tt>
   #
-  def add_tee(color, rating, slope, hole_info)
-    tee = Tee.new(color: color, rating: rating, slope: slope)
+  def add_tee(tee, color, rating, slope, hole_info)
+    if tee.nil?
+      tee = Tee.new(color: color, rating: rating, slope: slope)
+      tee.course = self
+    else
+      tee.color = color
+      tee.rating = rating
+      tee.slope = slope
+    end
     tee.course = self
     front_nine = nil
     back_nine = nil

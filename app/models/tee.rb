@@ -33,6 +33,7 @@ class Tee < ApplicationRecord
     (1...19).each do |num|
       add_hole(num, nil, nil, nil)
     end
+    # pprint 'add_18_holes'
   end
 
   # Add 9 Holes numbered 1-9
@@ -41,6 +42,7 @@ class Tee < ApplicationRecord
     (1...10).each do |num|
       add_hole(num, nil, nil, nil)
     end
+    # pprint 'add_9_holes'
   end
 
   # Find the Hole with number hole_num
@@ -58,5 +60,83 @@ class Tee < ApplicationRecord
     raise("Hole not found:  #{hole_num}") if hole.nil?
 
     hole
+  end
+
+  # Returns sorted array of holes and integers(representing hdcp totals)
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt>
+  #
+  def holes_inorder_with_hdcp_totals
+    holes_inorder_with_totals(:hdcp)
+  end
+
+  # Returns sorted array of holes and integers(representing par totals)
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt>
+  #
+  def holes_inorder_with_par_totals
+    holes_inorder_with_totals(:par)
+  end
+
+  # Returns sorted array of holes and integers (representing yardage totals)
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt>
+  #
+  def holes_inorder_with_yardage_totals
+    holes_inorder_with_totals(:yardage)
+  end
+
+  private
+
+  # Returns sorted array of holes and integers(representing totals for yardage, par or hdcp)
+  #
+  # === Parameters:
+  #
+  # * <tt>:sym</tt> to get info from hole
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt>
+  #
+  def holes_inorder_with_totals(sym)
+    front_nine = 0
+    back_nine = 0
+    golf_holes = holes.sort { |hole1, hole2| hole1.number <=> hole2.number }
+    front_nine = golf_holes[0..8].sum(&sym) unless golf_holes[0].send(sym).nil?
+    front_nine = 0 if golf_holes[0].send(sym).nil?
+    back_nine = golf_holes[9..17].sum(&sym) unless golf_holes[9].send(sym).nil?
+    back_nine = 0 if golf_holes[9].send(sym).nil?
+    total = front_nine + back_nine
+    first_nine_holes = golf_holes[0..8].<<(front_nine)
+    return first_nine_holes.concat(golf_holes[9..18].<<(back_nine).<<(total)) if golf_holes.size == 18
+
+    first_nine_holes
+  end
+
+  def print_hole_with_total(xxx)
+    # xxx.each do |hole|
+    #   puts "Hole#{hole.number}" if hole.is_a? Hole
+    #   puts "Total#{hole}" unless hole.is_a? Hole
+    # end
+  end
+
+  def pprint(heading = 'No heading')
+    #   puts "tee-#{heading}"
+    #   puts " color:#{color}"
+    #   puts " rating:#{rating}"
+    #   puts " slope:#{slope}"
+    #   puts " holes"
+    #   holes.each do |hole|
+    #     puts "   Num:#{hole.number}"
+    #     puts "   Yardage:#{hole.yardage}"
+    #     puts "   HDCP:#{hole.hdcp}"
+    #   end
+    #   puts " done-#{heading}"
   end
 end

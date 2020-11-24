@@ -7,17 +7,25 @@ describe GolfReader, type: :model do
   describe 'Reading excel spreadsheet' do
     it 'read' do
       golf_reader = GolfReader.new('spec/fixtures/Golf.xlsx')
-      # spreadsheet = golf_reader.fill_in_courses
-      # expect(spreadsheet).to be_truthy
       course = golf_reader.course('Lochmere')
       expect(course).to be_truthy, 'Course not found: Lochmere'
       expect(course.name).to eq('Lochmere')
+
+      expect_address(course)
 
       expect_tee(course, 'Black', 71.6, 139, TeeHoleInfo::BLACK_HOLE_INFO)
       expect_tee(course, 'Blue', 69.5, 132, TeeHoleInfo::BLUE_HOLE_INFO)
       expect_tee(course, 'White', 67.1, 123, TeeHoleInfo::WHITE_HOLE_INFO)
     end
   end
+end
+
+def expect_address(course)
+  expect(course.address.street_1).to eq(TeeHoleInfo::STREET_1)
+  expect(course.address.street_2).to eq(TeeHoleInfo::STREET_2)
+  expect(course.address.city).to eq(TeeHoleInfo::CITY)
+  expect(course.address.state).to eq(TeeHoleInfo::STATE)
+  expect(course.address.zip_code).to eq(TeeHoleInfo::ZIP_CODE)
 end
 
 def expect_tee(course, color, rating, slope, hole_info)

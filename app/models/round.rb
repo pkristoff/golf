@@ -22,9 +22,7 @@ class Round < ApplicationRecord
   #
   # * <tt>Course</tt>
   #
-  def course
-    scores.first.hole.tee.course
-  end
+  delegate :course, to: :tee
 
   # Add Score for Hole
   #

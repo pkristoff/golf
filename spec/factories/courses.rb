@@ -14,10 +14,10 @@ FactoryBot.define do
       course.address.state = 'IN'
       course.address.zip_code = '47529'
 
-      course.add_tee('Black', 71.6, 139, TeeHoleInfo::BLACK_HOLE_INFO)
-      course.add_tee('Blue', 69.5, 132, TeeHoleInfo::BLUE_HOLE_INFO)
-      course.add_tee('White', 67.1, 123, TeeHoleInfo::WHITE_HOLE_INFO)
-      course.add_tee('Red', 63.6, 106, TeeHoleInfo::RED_HOLE_INFO)
+      course.add_tee(nil, 'Black', 71.6, 139, TeeHoleInfo::BLACK_HOLE_INFO)
+      course.add_tee(nil, 'Blue', 69.5, 132, TeeHoleInfo::BLUE_HOLE_INFO)
+      course.add_tee(nil, 'White', 67.1, 123, TeeHoleInfo::WHITE_HOLE_INFO)
+      course.add_tee(nil, 'Red', 63.6, 106, TeeHoleInfo::RED_HOLE_INFO)
     end
   end
 end

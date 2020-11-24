@@ -48,6 +48,18 @@ describe Tee, type: :model do
         expect(hole.tee).to be(tee)
       end
     end
+    it 'should the holes in order' do
+      tee = FactoryBot.create(:tee, tee_hole_info: TeeHoleInfo::BLUE_HOLE_INFO)
+      holes_in_order = tee.holes_inorder_with_yardage_totals
+      holes_in_order.each_with_index do |hole, index|
+        hole_info = TeeHoleInfo::BLUE_HOLE_INFO[index]
+        expect(hole).to eq(hole_info[1]) if hole.is_a? Integer
+        expect(hole.number).to eq(hole_info[0]) unless hole.is_a? Integer
+        expect(hole.yardage).to eq(hole_info[1]) unless hole.is_a? Integer
+        expect(hole.par).to eq(hole_info[2]) unless hole.is_a? Integer
+        expect(hole.hdcp).to eq(hole_info[3]) unless hole.is_a? Integer
+      end
+    end
     it 'should add hole to tee' do
       tee = Tee.new(color: 'red', slope: 0, rating: 0)
       hole = tee.add_hole(3, 500, 4, 7)

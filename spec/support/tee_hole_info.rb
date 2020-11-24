@@ -120,4 +120,10 @@ module TeeHoleInfo
     [nil, 89, 35],
   ].freeze
 
+  STREET_1 = '2511 Kildare Farm Road'
+  STREET_2 = ''
+  CITY = 'Cary'
+  STATE = 'NC'
+  ZIP_CODE = '27511'
+
 end

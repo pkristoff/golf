@@ -16,7 +16,7 @@ FactoryBot.define do
       course = Course.new(name: 'Factory-bot for Tee')
       tee.course = course
       if evaluator.tee_hole_info
-        course.add_tee(tee.color, tee.rating, tee.slope, evaluator.tee_hole_info)
+        course.add_tee(tee, tee.color, tee.rating, tee.slope, evaluator.tee_hole_info)
       else
         tee.add_18_holes
         (1..18).each do |i|

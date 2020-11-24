@@ -2,7 +2,7 @@
 
 # A GolfReader
 class GolfReader
-  attr_accessor :path, :courses
+  attr_accessor :path, :courses, :workbook
 
   # initialize with path to xlxs file
   #
@@ -40,21 +40,35 @@ class GolfReader
   private
 
   def fill_in_courses
-    workbook = fill_in_workbook
-    workbook.sheets.each do |sheet_name|
-      # puts "worksheet=#{sheet_name}"
-      courses.push(process_course(workbook, sheet_name))
+    @workbook = fill_in_workbook
+    @workbook.sheets.each do |sheet_name|
+      courses.push(process_course(sheet_name))
     end
   end
 
-  def process_course(workbook, sheet_name)
-    sheet = workbook.sheet(sheet_name)
+  # creates course objects from Roo objects
+  def process_course(sheet_name)
+    sheet = @workbook.sheet(sheet_name)
+    address_row_num = 1
+    tee_row_num = 4
+    par_row_num = (tee_row_num..10).detect { |row| sheet.row(row)[0] == 'Par' }
+    hdcp_row_num = par_row_num + 1
+    header_row_num = 2
     course = Course.new(name: sheet_name)
-    header_row = sheet.row(1)
-    process_tee(course, sheet.row(3), header_row, sheet.row(6), sheet.row(7))
-    process_tee(course, sheet.row(4), header_row, sheet.row(6), sheet.row(7))
-    process_tee(course, sheet.row(5), header_row, sheet.row(6), sheet.row(7))
+    process_address(sheet.row(address_row_num), course)
+    header_row = sheet.row(header_row_num)
+    (tee_row_num..par_row_num - 1).each do |row_num|
+      process_tee(course, sheet.row(row_num), header_row, sheet.row(par_row_num), sheet.row(hdcp_row_num))
+    end
     course
+  end
+
+  def process_address(address_row, course)
+    course.address.street_1 = address_row[1].nil? ? '' : address_row[1]
+    course.address.street_2 = address_row[2].nil? ? '' : address_row[2]
+    course.address.city = address_row[3].nil? ? '' : address_row[3]
+    course.address.state = address_row[4].nil? ? '' : address_row[4]
+    course.address.zip_code = address_row[5].nil? ? '' : address_row[5]
   end
 
   def process_tee(course, tee_row, header_row, par_row, hdcp_row)
@@ -70,9 +84,6 @@ class GolfReader
     end
     end_index = header_row.find_index { |cell| cell == '18 Total' }
 
-    # puts "start_index=#{start_index}"
-    # puts "end_index=#{end_index}"
-
     nine_total = nil
     second_total = nil
     eighteen_total = nil
@@ -82,7 +93,6 @@ class GolfReader
       when '9 Total'
         hole_num = nil
         yardage = tee_row[idx]
-        # puts "9 - total yardage: #{yardage}"
         par = par_row[idx]
         nine_total = [hole_num, yardage, par] if nine_total.nil?
         second_total = [hole_num, yardage, par] unless nine_total.nil?
@@ -101,7 +111,7 @@ class GolfReader
         hole_info.push([hole_num, yardage, par, hdcp])
       end
     end
-    tee = course.add_tee(tee_color, rating, slope, hole_info)
+    tee = course.add_tee(nil, tee_color, rating, slope, hole_info)
 
     unless nine_total.nil?
       yardage = 0
@@ -142,17 +152,11 @@ class GolfReader
     "Course: #{course_name} tee: #{tee_color}"
   end
 
-  # def process_tees(course, sheet)
-  #   # header_row = sheet.row(1)
-  #   # puts "sheet.row(6)=#{sheet.row(6)}"
-  #   laet_tee_row = sheet.row(6)
-  #   2..sheet.row(laet_tee_row)
-  # end
-
+  # reads in spreadsheed creating Roo objects
   def fill_in_workbook
-    workbook = Roo::Excelx.new(path, file_warning: :ignore)
-    workbook.header_line = 1
-    workbook.default_sheet = workbook.sheets[0]
-    workbook
+    @workbook = Roo::Excelx.new(path, file_warning: :ignore)
+    @workbook.header_line = 1
+    @workbook.default_sheet = workbook.sheets[0]
+    @workbook
   end
 end
