@@ -147,7 +147,7 @@ class Course < ApplicationRecord
 
       raise "hdcp (#{hdcp}) larger than number of holes (#{num_of_holes})" if hdcp > num_of_holes
 
-      raise("hdcp problem hdcp: #{hdcp} already used: #{hdcps}") unless hdcps.find_index(hdcp).nil?
+      raise("hdcp problem hdcp: #{hdcp} already used: #{hdcps}") unless hdcps.find_index(hdcp).nil? || hdcp.zero?
 
       hdcps.push(hdcp)
     end

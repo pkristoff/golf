@@ -18,6 +18,7 @@ class GolfReader
     @path = path
     @courses = []
     fill_in_courses
+    save
   end
 
   # Find the Course named <tt> name </tt>
@@ -32,7 +33,7 @@ class GolfReader
   #
   def course(name)
     idx = courses.find_index { |course| course.name == name }
-    raise "Unknown course named: #{sheet}" if idx.nil?
+    raise "Unknown course named: #{name}" if idx.nil?
 
     courses[idx]
   end
@@ -83,6 +84,7 @@ class GolfReader
       cell == 1
     end
     end_index = header_row.find_index { |cell| cell == '18 Total' }
+    end_index = header_row.find_index { |cell| cell == '9 Total' } if end_index.nil?
 
     nine_total = nil
     second_total = nil
@@ -107,11 +109,14 @@ class GolfReader
         yardage = tee_row[idx]
         # puts "#{header_row[idx]} yardage: #{yardage}"
         par = par_row[idx]
-        hdcp = hdcp_row[idx]
+        hdcp = hdcp_row[idx] unless hdcp_row[idx].nil?
+        hdcp = 0 if hdcp_row[idx].nil?
+        # puts "[hole_num, yardage, par, hdcp]=#{[hole_num, yardage, par, hdcp]}"
         hole_info.push([hole_num, yardage, par, hdcp])
       end
     end
     tee = course.add_tee(nil, tee_color, rating, slope, hole_info)
+    total_holes = tee.number_of_holes
 
     unless nine_total.nil?
       yardage = 0
@@ -129,8 +134,8 @@ class GolfReader
       par_err_msg = "#{err_msg} yardage sum problem: expected total=#{expected_par} hole total=#{par}"
       raise par_err_msg unless par == expected_par
     end
-
-    unless second_total.nil?
+    # puts "second_total.nil? || total_holes == 9=#{second_total.nil? || total_holes == 9}"
+    unless second_total.nil? || total_holes == 9
       yardage = 0
       par = 0
       (10..18).each do |i|
@@ -158,5 +163,9 @@ class GolfReader
     @workbook.header_line = 1
     @workbook.default_sheet = workbook.sheets[0]
     @workbook
+  end
+
+  def save
+    courses.each(&:save)
   end
 end

@@ -59,7 +59,7 @@ end
 def compare_hdcp_row(roo_hdcp_row, axlsx_hdcp_row)
   # puts "comparing hdcp row axlsx_tee_row=#{axlsx_tee_row.cells.map { |cell| cell.value }}"
   # puts "comparing hdcp row roo_tee_row=#{roo_tee_row}"
-  compare_row_cells(axlsx_hdcp_row, roo_hdcp_row)
+  compare_row_cells(axlsx_hdcp_row, roo_hdcp_row, for_hdcp: true)
   # roo_hdcp_row.each_with_index do |roo_tee_cell, index|
   #   expect(roo_tee_cell).to eq(axlsx_hdcp_row.cells[index].value)
   # end
@@ -84,13 +84,15 @@ end
 
 private
 
-def compare_row_cells(axlsx_row, roo_row)
-  # puts "comparing par row axlsx_row=#{axlsx_row.cells.map(&:value)}"
-  # puts "comparing par row roo_tee_row=#{roo_row}"
+def compare_row_cells(axlsx_row, roo_row, for_hdcp: false)
+  # puts "comparing row axlsx_row=#{axlsx_row.cells.map(&:value)}"
+  # puts "comparing row roo_tee_row=#{roo_row}"
   roo_row.each_with_index do |roo_cell, index|
-    # rubocop:disable Layout/LineLength
-    expect(roo_cell).to eq(axlsx_row.cells[index].value), "tee row not eq roo=#{roo_cell} axlsx=#{axlsx_row.cells[index].value} index=#{index}"
-    # rubocop:enable Layout/LineLength
+    rc = 0
+    rc = roo_cell unless for_hdcp && roo_cell.nil?
+    ac = 0
+    ac = axlsx_row.cells[index].value unless for_hdcp && axlsx_row.cells[index].value.nil?
+    expect(rc).to eq(ac), "tee row not eq roo=#{rc} axlsx=#{ac} index=#{index}"
   end
   expect(roo_row.size).to eq(axlsx_row.cells.size)
 end

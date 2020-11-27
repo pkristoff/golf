@@ -8,14 +8,16 @@ describe GolfReader, type: :model do
     it 'read' do
       golf_reader = GolfReader.new('spec/fixtures/Golf.xlsx')
       course = golf_reader.course('Lochmere')
-      expect(course).to be_truthy, 'Course not found: Lochmere'
-      expect(course.name).to eq('Lochmere')
-
-      expect_address(course)
-
-      expect_tee(course, 'Black', 71.6, 139, TeeHoleInfo::BLACK_HOLE_INFO)
-      expect_tee(course, 'Blue', 69.5, 132, TeeHoleInfo::BLUE_HOLE_INFO)
-      expect_tee(course, 'White', 67.1, 123, TeeHoleInfo::WHITE_HOLE_INFO)
+      expect_lochmere(course)
+      expect_knights_play(golf_reader.course("Knight's play 1-9"))
+      expect_knights_play(golf_reader.course("Knight's play 10-18"))
+      expect_knights_play(golf_reader.course("Knight's play 19-27"))
+    end
+    it 'reads and saves to DB' do
+      GolfReader.new('spec/fixtures/Golf.xlsx')
+      course = Course.find_by(name: 'Lochmere')
+      expect_lochmere(course)
+      expect_knights_play(Course.find_by(name: "Knight's play 1-9"))
     end
   end
 end
@@ -50,4 +52,19 @@ def expect_tee(course, color, rating, slope, hole_info)
     expect(hole.number).to eq(hole_num)
     expect(hole.tee).to be(tee)
   end
+end
+
+def expect_lochmere(course)
+  expect(course).to be_truthy, 'Course not found: Lochmere'
+  expect(course.name).to eq('Lochmere')
+
+  expect_address(course)
+
+  expect_tee(course, 'Black', 71.6, 139, TeeHoleInfo::BLACK_HOLE_INFO)
+  expect_tee(course, 'Blue', 69.5, 132, TeeHoleInfo::BLUE_HOLE_INFO)
+  expect_tee(course, 'White', 67.1, 123, TeeHoleInfo::WHITE_HOLE_INFO)
+end
+
+def expect_knights_play(course)
+  expect(course).to be_truthy, "Course not found: Knight's play 1-9"
 end

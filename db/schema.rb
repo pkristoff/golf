@@ -63,6 +63,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
     t.integer "hole_number", default: 0, null: false
     t.integer "strokes", default: 0, null: false
     t.integer "putts", default: 0, null: false
+    t.string "penaties", default: "", null: false
     t.bigint "round_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

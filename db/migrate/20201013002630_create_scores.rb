@@ -8,6 +8,7 @@ class CreateScores < ActiveRecord::Migration[6.0]
       t.integer :hole_number, default: 0, null: false
       t.integer :strokes, default: 0, null: false
       t.integer :putts, default: 0, null: false
+      t.string :penaties, default: '', null: false
       t.belongs_to :round, index: true
 
       t.timestamps

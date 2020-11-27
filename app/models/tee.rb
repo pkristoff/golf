@@ -27,6 +27,16 @@ class Tee < ApplicationRecord
     hole
   end
 
+  # total number holes normally 9 or 18
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt>
+  #
+  def number_of_holes
+    holes.size
+  end
+
   # Add 18 Holes numbered 1-18
   #
   def add_18_holes
@@ -105,18 +115,19 @@ class Tee < ApplicationRecord
   # * <tt>Array</tt>
   #
   def holes_inorder_with_totals(sym)
+    num_of_holes = number_of_holes
     front_nine = 0
     back_nine = 0
     golf_holes = holes.sort { |hole1, hole2| hole1.number <=> hole2.number }
     front_nine = golf_holes[0..8].sum(&sym) unless golf_holes[0].send(sym).nil?
     front_nine = 0 if golf_holes[0].send(sym).nil?
-    back_nine = golf_holes[9..17].sum(&sym) unless golf_holes[9].send(sym).nil?
-    back_nine = 0 if golf_holes[9].send(sym).nil?
+
+    back_nine = golf_holes[9..17].sum(&sym) unless num_of_holes == 9
     total = front_nine + back_nine
     first_nine_holes = golf_holes[0..8].<<(front_nine)
-    return first_nine_holes.concat(golf_holes[9..18].<<(back_nine).<<(total)) if golf_holes.size == 18
+    return first_nine_holes.concat(golf_holes[9..18].<<(back_nine).<<(total)) if num_of_holes == 18
 
-    first_nine_holes
+    golf_holes[0..8].<<(front_nine)
   end
 
   def print_hole_with_total(xxx)
