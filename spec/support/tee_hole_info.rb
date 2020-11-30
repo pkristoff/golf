@@ -48,6 +48,45 @@ module TeeHoleInfo
     [nil, 6136, 71]
   ].freeze
 
+  BLACK_HOLE_INFO_KN_1_9 = [
+    [1, 126, 3, 0],
+    [2, 100, 3, 0],
+    [3, 139, 3, 0],
+    [4, 194, 3, 0],
+    [5, 106, 3, 0],
+    [6, 166, 3, 0],
+    [7, 123, 3, 0],
+    [8, 171, 3, 0],
+    [9, 151, 3, 0],
+    [nil, 1276, 27]
+  ].freeze
+
+  BLACK_HOLE_INFO_KN_10_18 = [
+    [1, 134, 3, 0],
+    [2, 160, 3, 0],
+    [3, 213, 3, 0],
+    [4, 102, 3, 0],
+    [5, 112, 3, 0],
+    [6, 105, 3, 0],
+    [7, 194, 3, 0],
+    [8, 140, 3, 0],
+    [9, 165, 3, 0],
+    [nil, 1325, 27]
+  ].freeze
+
+  BLACK_HOLE_INFO_KN_19_27 = [
+    [1, 125, 3, 0],
+    [2, 150, 3, 0],
+    [3, 118, 3, 0],
+    [4, 117, 3, 0],
+    [5, 134, 3, 0],
+    [6, 174, 3, 0],
+    [7, 136, 3, 0],
+    [8, 100, 3, 0],
+    [9, 155, 3, 0],
+    [nil, 1209, 27]
+  ].freeze
+
   WHITE_HOLE_INFO = [
     [1, 350, 4, 9],
     [2, 300, 4, 15],
@@ -120,10 +159,20 @@ module TeeHoleInfo
     [nil, 89, 35],
   ].freeze
 
-  STREET_1 = '2511 Kildare Farm Road'
-  STREET_2 = ''
-  CITY = 'Cary'
-  STATE = 'NC'
-  ZIP_CODE = '27511'
+  LOCHMERE_ADDRESS = [
+    '2511 Kildare Farm Road',
+    '',
+    'Cary',
+    'NC',
+    '27511'
+  ].freeze
+
+  KNIGHTS_PLAY_ADDRESS = [
+    '2512 Ten Ten Rd',
+    '',
+    'Apex',
+    'NC',
+    '27539'
+  ].freeze
 
 end
