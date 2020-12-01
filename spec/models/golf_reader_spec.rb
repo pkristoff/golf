@@ -11,13 +11,13 @@ describe GolfReader, type: :model do
       expect_lochmere(course)
       expect_knights_play(golf_reader.course("Knight's play 1-9"),
                           "Knight's play 1-9",
-                          TeeHoleInfo::BLACK_HOLE_INFO_KN_1_9)
+                          TeeHoleInfo::HOLE_INFO_KN_1_9)
       expect_knights_play(golf_reader.course("Knight's play 10-18"),
                           "Knight's play 10-18",
-                          TeeHoleInfo::BLACK_HOLE_INFO_KN_10_18)
+                          TeeHoleInfo::HOLE_INFO_KN_10_18)
       expect_knights_play(golf_reader.course("Knight's play 19-27"),
                           "Knight's play 19-27",
-                          TeeHoleInfo::BLACK_HOLE_INFO_KN_19_27)
+                          TeeHoleInfo::HOLE_INFO_KN_19_27)
     end
     it 'reads and saves to DB' do
       GolfReader.new('spec/fixtures/Golf.xlsx')
@@ -25,13 +25,13 @@ describe GolfReader, type: :model do
       expect_lochmere(course)
       expect_knights_play(Course.find_by(name: "Knight's play 1-9"),
                           "Knight's play 1-9",
-                          TeeHoleInfo::BLACK_HOLE_INFO_KN_1_9)
+                          TeeHoleInfo::HOLE_INFO_KN_1_9)
       expect_knights_play(Course.find_by(name: "Knight's play 10-18"),
                           "Knight's play 10-18",
-                          TeeHoleInfo::BLACK_HOLE_INFO_KN_10_18)
+                          TeeHoleInfo::HOLE_INFO_KN_10_18)
       expect_knights_play(Course.find_by(name: "Knight's play 19-27"),
                           "Knight's play 19-27",
-                          TeeHoleInfo::BLACK_HOLE_INFO_KN_19_27)
+                          TeeHoleInfo::HOLE_INFO_KN_19_27)
     end
   end
 end
@@ -85,5 +85,7 @@ def expect_knights_play(course, name, hole_info)
   expect(course).to be_truthy, "Course not found: #{name}"
   expect_address(course, TeeHoleInfo::KNIGHTS_PLAY_ADDRESS)
 
-  expect_tee(course, 'Black', 0, 0, hole_info)
+  expect_tee(course, 'Black', 0, 0, hole_info[:Black])
+  expect_tee(course, 'White', 0, 0, hole_info[:White])
+  expect_tee(course, 'Blue', 0, 0, hole_info[:Blue])
 end
