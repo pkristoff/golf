@@ -30,14 +30,16 @@ class Round < ApplicationRecord
   #
   # * <tt>:hole</tt> hole
   # * <tt>:strokes</tt> for hole
-  # * <tt>:putts</tt> dor hole
+  # * <tt>:putts</tt> for hole
+  # * <tt>:penalties</tt> for hole
   #
   # === Returns:
   #
   # * <tt>Score</tt> added score for hole
   #
-  def add_score(hole, strokes, putts)
-    score = Score.new(hole_number: hole.number, strokes: strokes, putts: putts)
+  def add_score(hole, strokes, putts, penalties)
+    penalties = '' if penalties.nil?
+    score = Score.new(hole_number: hole.number, strokes: strokes, putts: putts, penalties: penalties)
     score.hole = hole
     scores << score
     score.round = self

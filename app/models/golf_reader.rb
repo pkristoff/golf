@@ -2,7 +2,7 @@
 
 # A GolfReader
 class GolfReader
-  attr_accessor :path, :courses, :workbook
+  attr_accessor :path, :courses, :workbook, :rounds
 
   # initialize with path to xlxs file
   #
@@ -17,8 +17,26 @@ class GolfReader
   def initialize(path)
     @path = path
     @courses = []
+    @rounds = []
     fill_in_courses
+    fill_in_rounds
     save
+  end
+
+  # finds round for given date course and tee color
+  #
+  # === Parameters:
+  #
+  # * <tt>:date</tt> played round
+  # * <tt>:course</tt> played round on
+  # * <tt>:color</tt> tee color
+  #
+  # === Returns:
+  #
+  # * <tt>Round</tt> or nil
+  #
+  def round(date, course, color)
+    rounds.detect { |round| round.course == course && round.tee.color == color && round.date == date }
   end
 
   # Find the Course named <tt> name </tt>
@@ -45,6 +63,55 @@ class GolfReader
     @workbook.sheets.each do |sheet_name|
       courses.push(process_course(sheet_name))
     end
+  end
+
+  def fill_in_rounds
+    @workbook.sheets.each do |sheet_name|
+      process_rounds_for_course(sheet_name)
+    end
+  end
+
+  # creates Round objects from Roo objects
+  def process_rounds_for_course(sheet_name)
+    sheet = @workbook.sheet(sheet_name)
+    course = course(sheet_name)
+    hdcp_row_num = (1..sheet.last_row).detect { |row| sheet.row(row)[0] == 'HDCP' }
+    round_row_num = find_round_row(sheet, hdcp_row_num + 1)
+    until round_row_num.nil?
+      rounds.push(process_round(sheet, course, round_row_num)) unless round_row_num.nil?
+      round_row_num = find_round_row(sheet, round_row_num + 3)
+    end
+  end
+
+  def process_round(sheet, course, row_num)
+    # puts "procesing round course.nam#{course.name} row_num=#{row_num}"
+    date_cell = sheet.row(row_num)[0]
+    score_row = sheet.row(row_num + 1)
+    putts_row = sheet.row(row_num + 2)
+    penalties_row = sheet.row(row_num + 3)
+    tee_color = score_row[0]
+    # puts "course.name=#{course.name} tee_color=#{tee_color}"
+    tee = course.tee(tee_color)
+    round = Round.new(date: date_cell)
+    # puts "  round=#{date_cell}"
+    offset = 1 if tee.slope.zero?
+    offset = 3 unless tee.slope.zero?
+    tee.holes.each_with_index do |hole, index|
+      strokes = score_row[index + offset]
+      putts = putts_row[index + offset]
+      penalties = penalties_row[index + offset]
+      # puts "  add_score hole.number=#{hole.number} strokes=#{strokes}"
+      round.add_score(hole, strokes, putts, penalties)
+    end
+    round
+  end
+
+  def find_round_row(sheet, row_num)
+    putt_row = (row_num..sheet.last_row).detect { |row| sheet.row(row)[0] == 'putts' }
+    # puts "putt_row=#{putt_row}"
+    return putt_row - 2 if putt_row.is_a? Integer
+
+    nil if putt_row.nil?
   end
 
   # creates course objects from Roo objects
@@ -167,5 +234,6 @@ class GolfReader
 
   def save
     courses.each(&:save)
+    rounds.each(&:save)
   end
 end

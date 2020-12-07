@@ -21,6 +21,20 @@ class Course < ApplicationRecord
     tees.first.rating != 0
   end
 
+  # Find the Tee with color
+  #
+  # === Parameters:
+  #
+  # * <tt>:color</tt> tee color
+  #
+  # === Returns:
+  #
+  # * <tt>Tee</tt>
+  #
+  def tee(color)
+    tees.detect { |tee| tee.color == color }
+  end
+
   # number of holes for course
   #
   # === Returns:
@@ -74,23 +88,6 @@ class Course < ApplicationRecord
     check_totals(tee, front_nine, back_nine)
     tees.push(tee)
     tee
-  end
-
-  # Find the Tee with color
-  #
-  # === Parameters:
-  #
-  # * <tt>:color</tt> tee color
-  #
-  # === Returns:
-  #
-  # * <tt>Tee</tt>
-  #
-  def tee(color)
-    idx = tees.index { |x| x.color == color }
-    return nil if idx.nil?
-
-    tees[idx]
   end
 
   private

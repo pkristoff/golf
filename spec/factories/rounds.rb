@@ -14,7 +14,7 @@ FactoryBot.define do
       eighteen_putt_total = nil
       total_stroke_total = nil
       total_putt_total = nil
-      TeeHoleInfo::BLACK_SCORE_INFO.each do |score_info|
+      TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO].each do |score_info|
         hole_number = score_info[0]
         strokes = score_info[1]
         putts = score_info[2]
@@ -28,7 +28,7 @@ FactoryBot.define do
           nine_putt_total = putts if nine_putt_total.nil?
         else
           hole = tee.hole(hole_number)
-          round.add_score(hole, strokes, putts)
+          round.add_score(hole, strokes, putts, '')
         end
       end
       check_totals(round, nine_stroke_total, nine_putt_total,
