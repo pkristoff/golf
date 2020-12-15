@@ -59,4 +59,20 @@ class Round < ApplicationRecord
   def score(hole_number)
     scores.detect { |score| score.hole.number == hole_number }
   end
+
+  # return Rounds with for a given course
+  #
+  # === Parameters:
+  #
+  # * <tt>:course</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> of Round
+  #
+  def self.rounds(course)
+    Round.all.select do |round|
+      round.course.name == course.name
+    end
+  end
 end

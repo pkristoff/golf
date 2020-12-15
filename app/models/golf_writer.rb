@@ -2,7 +2,7 @@
 
 # A GolfWriter
 class GolfWriter
-  attr_accessor :write_path, :courses, :workbook
+  attr_accessor :write_path, :courses, :workbook, :rounds
 
   # Find the Hole with number hole_num
   #
@@ -10,14 +10,16 @@ class GolfWriter
   #
   # * <tt>:write_path</tt> path to write the excel document
   # * <tt>:courses</tt> Array of Course to write
+  # * <tt>:rounds</tt> Array of Round to write
   #
   # === Returns:
   #
   # * <tt>GolfWriter</tt>
   #
-  def initialize(write_path, courses)
+  def initialize(write_path, courses, rounds)
     @write_path = write_path
     @courses = courses
+    @rounds = rounds
     fill_in_workbook
   end
 
@@ -34,26 +36,65 @@ class GolfWriter
         add_worksheet(@workbook, course)
       end
     end
-    # @workbook = Axlsx::Package.new(author: 'Admin').workbook
-    # # courses = @rounds.map{|round| round.course}.uniq
-    # @courses.each do | course |
-    #   add_worksheet(@workbook, course)
-    # end
     @workbook
   end
 
   def add_worksheet(wbk, course)
     wbk.add_worksheet(name: course.name) do |sheet|
+      add_course(course, sheet) # empty
+      add_rounds(Round.rounds(course), sheet)
+    end
+  end
+
+  def add_course(course, sheet)
+    sheet.add_row do |row|
+      add_address(course, row)
+    end
+    sheet.add_row do |row|
+      add_holes(course, row)
+    end
+    sheet.add_row # empty row
+    add_tee_rows(course.tees, sheet)
+    add_par_rows(course.tees, sheet)
+    add_hdcp_rows(course.tees, sheet)
+    sheet.add_row
+  end
+
+  def add_rounds(rounds, sheet)
+    rounds.each do |round|
       sheet.add_row do |row|
-        add_address(course, row)
+        row.add_cell(round.date) # date
       end
-      sheet.add_row do |row|
-        add_holes(course, row)
+      add_score_row(round, round.tee.color, sheet, :strokes)
+      add_score_row(round, 'putts', sheet, :putts)
+      add_score_row(round, 'penalties', sheet, :penalties)
+      sheet.add_row # blank
+    end
+  end
+
+  def add_score_row(round, cell0, sheet, score_accessor)
+    doing_penalties = cell0 == 'penalties'
+    sheet.add_row do |row|
+      tee = round.tee
+      row.add_cell(cell0)
+      row.add_cell('') unless tee.slope.zero?
+      row.add_cell('') unless tee.rating.zero?
+      front_nine = 0 unless doing_penalties
+      back_nine = 0 unless doing_penalties
+      on_back_nine = false unless doing_penalties
+      round.scores.each_with_index do |score, index|
+        case index
+        when 9
+          row.add_cell(front_nine) unless doing_penalties
+          on_back_nine = true unless doing_penalties
+        end
+        row.add_cell(score.send(score_accessor))
+        front_nine += score.send score_accessor if !on_back_nine && !doing_penalties
+        back_nine += score.send score_accessor if on_back_nine && !doing_penalties
       end
-      sheet.add_row # empty row
-      add_tee_rows(course.tees, sheet)
-      add_par_rows(course.tees, sheet)
-      add_hdcp_rows(course.tees, sheet)
+      row.add_cell(front_nine) if !doing_penalties && back_nine.zero?
+      row.add_cell(back_nine) if !doing_penalties && !back_nine.zero?
+      row.add_cell(front_nine + back_nine) if !doing_penalties && !back_nine.zero?
     end
   end
 

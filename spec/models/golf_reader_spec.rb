@@ -36,14 +36,13 @@ describe GolfReader, type: :model do
                                                     'Black'),
                                   round_info[1..10])
       end
-      # course = golf_reader.course("Lochmere")
-      # TeeHoleInfo::HOLE_INFO_[:Black_rounds].each do |round_info|
-      #   puts "round_info[0]=#{round_info[0]}"
-      #   expect_knights_play_round(golf_reader.round(Date.strptime(round_info[0], '%m/%d/%y'),
-      #                                               course,
-      #                                               'Black'),
-      #                             round_info[1..10])
-      # end
+      course = golf_reader.course('Lochmere')
+      TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue_rounds].each do |round_info|
+        expect_lochmere_round(golf_reader.round(Date.strptime(round_info[0], '%m/%d/%y'),
+                                                course,
+                                                'Blue'),
+                              round_info[1..20])
+      end
     end
     it 'reads and saves to DB' do
       GolfReader.new('spec/fixtures/Golf.xlsx')
@@ -123,6 +122,7 @@ def expect_knights_play_round(round, score_info)
   score_info.each_with_index do |hole_score, index|
     if index == 9
       expect(hole_score[0]).to eq(nine_strokes)
+      expect(hole_score[1]).to eq(nine_putts)
     else
       score = round.scores[index]
       expect(score.strokes).to eq(hole_score[0]),
@@ -133,6 +133,46 @@ def expect_knights_play_round(round, score_info)
                                  "penalty mismatch penalties=#{score.penalties} expected=#{hole_score[2]} index=#{index}"
       nine_strokes += score.strokes
       nine_putts += score.putts
+    end
+  end
+end
+
+def expect_lochmere_round(round, score_info)
+  expect(round).to be_truthy
+  front_nine_strokes = 0
+  back_nine_strokes = 0
+  front_nine_putts = 0
+  back_nine_putts = 0
+  doing_front_nine = true
+  # puts "round.scores=#{round.scores.map {|score| "#{score.hole.number} #{score.strokes}"}}"
+  hole_num = 1
+  score_info.each_with_index do |hole_score, index|
+    # puts "hole_score=#{hole_score} index=#{index}"
+    case index
+    when 9
+      expect(hole_score[0]).to eq(front_nine_strokes)
+      expect(hole_score[1]).to eq(front_nine_putts)
+      doing_front_nine = false
+    when 19
+      expect(hole_score[0]).to eq(back_nine_strokes),
+                               "total mismatch expected=#{hole_score[0]} actual=#{back_nine_strokes} index=#{index}"
+      expect(hole_score[1]).to eq(back_nine_putts)
+    when 20
+      expect(hole_score[0]).to eq(front_nine_strokes + back_nine_strokes)
+      expect(hole_score[1]).to eq(front_nine_putts + back_nine_putts)
+    else
+      score = round.scores[hole_num - 1]
+      expect(score.strokes).to eq(hole_score[0]),
+                               "stroke mismatch stroke=#{score.strokes} expected=#{hole_score[0]} index=#{index}"
+      expect(score.putts).to eq(hole_score[1]),
+                             "putt mismatch putts=#{score.putts} expected=#{hole_score[1]} index=#{index}"
+      expect(score.penalties).to eq(hole_score[2]),
+                                 "penalty mismatch penalties=#{score.penalties} expected=#{hole_score[2]} index=#{index}"
+      front_nine_strokes += score.strokes if doing_front_nine
+      front_nine_putts += score.putts if doing_front_nine
+      back_nine_strokes += score.strokes unless doing_front_nine
+      back_nine_putts += score.putts unless doing_front_nine
+      hole_num += 1
     end
   end
 end

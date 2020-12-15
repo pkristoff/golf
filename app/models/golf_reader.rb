@@ -84,7 +84,6 @@ class GolfReader
   end
 
   def process_round(sheet, course, row_num)
-    # puts "procesing round course.nam#{course.name} row_num=#{row_num}"
     date_cell = sheet.row(row_num)[0]
     score_row = sheet.row(row_num + 1)
     putts_row = sheet.row(row_num + 2)
@@ -97,10 +96,10 @@ class GolfReader
     offset = 1 if tee.slope.zero?
     offset = 3 unless tee.slope.zero?
     tee.holes.each_with_index do |hole, index|
+      offset += 1 if hole.number == 10
       strokes = score_row[index + offset]
       putts = putts_row[index + offset]
       penalties = penalties_row[index + offset]
-      # puts "  add_score hole.number=#{hole.number} strokes=#{strokes}"
       round.add_score(hole, strokes, putts, penalties)
     end
     round
