@@ -4,12 +4,66 @@ require 'rails_helper'
 require 'support/tee_hole_info'
 
 describe Round, type: :model do
+  before(:each) do
+    @round = FactoryBot.create(:round)
+  end
   it 'create factory' do
-    round = FactoryBot.create(:round)
+    round = @round
     expect(round).to be_truthy
     expect(round.date).to eq(Time.zone.today)
     expect_score(round, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
     expect(round.tee.color).to eq('Black')
+  end
+  describe 'score' do
+    it 'should return nil if not found' do
+      expect(@round.score(19)).to be_nil
+    end
+    it 'should return a Score if found' do
+      score = @round.score(18)
+
+      expect(score).to be_truthy
+      expect(score.hole_number).to eq(18)
+    end
+  end
+  describe 'tee' do
+    it 'should return a Tee if found' do
+      tee = @round.tee
+      expect(tee).to be_truthy
+      expect(tee.color).to eq('Black')
+    end
+  end
+  describe 'add_score' do
+    it 'should add a score for hole' do
+    end
+    it 'should error if score for hole number already exists' do
+      hole = @round.tee.holes.first
+      expect { @round.add_score(hole, 5, 5, 'OBW') }.to raise_error("score for hole number:#{hole.number} already exists")
+    end
+    it 'should error if score for hole of another tee' do
+      course = FactoryBot.create(:course)
+      tee1 = course.tee('Black')
+      hole1 = tee1.holes.first
+      tee2 = course.tee('White')
+      hole2 = tee2.holes.second
+      round1 = Round.new
+      round1.add_score(hole1, 5, 5, '')
+      # rubocop:disable Layout/LineLength
+      expect { round1.add_score(hole2, 6, 2, 'OBW') }.to raise_error("Hole from a different tee current tee: '#{tee1.color}' adding hole from tee '#{tee2.color}'")
+      # rubocop:enable Layout/LineLength
+    end
+    it 'should error if score for hole of another course' do
+      course1 = FactoryBot.create(:course)
+      tee1 = course1.tee('Black')
+      hole1 = tee1.holes.first
+      course2 = FactoryBot.create(:course, name: 'George2')
+      tee2 = course2.tee('Black')
+      hole2 = tee2.holes.second
+      round1 = Round.new
+      round1.add_score(hole1, 5, 5, '')
+      # rubocop:disable Layout/LineLength
+      expect { round1.add_score(hole2, 6, 2, 'OBW') }.to raise_error("Hole from a different course current course: '#{course1.name}' adding hole from '#{course2.name}'")
+      # rubocop:enable Layout/LineLength
+    end
   end
 end
 

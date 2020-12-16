@@ -38,6 +38,19 @@ class Round < ApplicationRecord
   # * <tt>Score</tt> added score for hole
   #
   def add_score(hole, strokes, putts, penalties)
+    # rubocop:disable Layout/LineLength
+    raise("score for hole number:#{hole.number} already exists") if score(hole.number)
+
+    current_tee = scores.empty? ? nil : scores.first.hole.tee
+    added_tee = hole.tee
+    raise("Hole from a different tee current tee: '#{current_tee.color}' adding hole from tee '#{added_tee.color}'") if !current_tee.nil? && (current_tee.color != added_tee.color)
+
+    current_course = current_tee.nil? ? nil : current_tee.course
+    added_course = added_tee.course
+    raise("Hole from a different course current course: '#{current_course.name}' adding hole from '#{added_course.name}'") unless current_tee.nil? || (current_course.name == added_course.name)
+
+    # rubocop:enable Layout/LineLength
+
     penalties = '' if penalties.nil?
     score = Score.new(hole_number: hole.number, strokes: strokes, putts: putts, penalties: penalties)
     score.hole = hole
