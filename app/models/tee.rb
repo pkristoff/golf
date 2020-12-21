@@ -108,7 +108,7 @@ class Tee < ApplicationRecord
   #
   # === Parameters:
   #
-  # * <tt>:sym</tt> to get info from hole
+  # * <tt>:sym</tt> to get info from hole (:hdcp, :yardage, :par)
   #
   # === Returns:
   #
@@ -130,6 +130,7 @@ class Tee < ApplicationRecord
     golf_holes[0..8].<<(front_nine)
   end
 
+  # debuugging only
   def print_hole_with_total(xxx)
     # xxx.each do |hole|
     #   puts "Hole#{hole.number}" if hole.is_a? Hole
@@ -137,6 +138,7 @@ class Tee < ApplicationRecord
     # end
   end
 
+  # debuugging only
   def pprint(heading = 'No heading')
     #   puts "tee-#{heading}"
     #   puts " color:#{color}"

@@ -31,6 +31,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "address_id"
     t.index ["address_id"], name: "index_courses_on_address_id"
+    t.index ["name"], name: "index_courses_on_name", unique: true
   end
 
   create_table "holes", force: :cascade do |t|
@@ -45,7 +46,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.date "date", default: "2020-10-21", null: false
+    t.date "date", default: "2020-12-21", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

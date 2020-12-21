@@ -40,7 +40,7 @@ describe Round, type: :model do
       expect { @round.add_score(hole, 5, 5, 'OBW') }.to raise_error("score for hole number:#{hole.number} already exists")
     end
     it 'should error if score for hole of another tee' do
-      course = FactoryBot.create(:course)
+      course = FactoryBot.create(:course, name: 'George2')
       tee1 = course.tee('Black')
       hole1 = tee1.holes.first
       tee2 = course.tee('White')
@@ -52,10 +52,10 @@ describe Round, type: :model do
       # rubocop:enable Layout/LineLength
     end
     it 'should error if score for hole of another course' do
-      course1 = FactoryBot.create(:course)
+      course1 = FactoryBot.create(:course, name: 'George2')
       tee1 = course1.tee('Black')
       hole1 = tee1.holes.first
-      course2 = FactoryBot.create(:course, name: 'George2')
+      course2 = FactoryBot.create(:course, name: 'George3')
       tee2 = course2.tee('Black')
       hole2 = tee2.holes.second
       round1 = Round.new
@@ -63,6 +63,20 @@ describe Round, type: :model do
       # rubocop:disable Layout/LineLength
       expect { round1.add_score(hole2, 6, 2, 'OBW') }.to raise_error("Hole from a different course current course: '#{course1.name}' adding hole from '#{course2.name}'")
       # rubocop:enable Layout/LineLength
+    end
+  end
+  describe 'self.rounds' do
+    it 'should return an empty array if none is found' do
+      course = Course.new
+      course.name = 'foo'
+      expect(Round.rounds(course)).to be_empty
+    end
+    it 'should return an array of Round if found' do
+      course = @round.course
+      rounds = Round.rounds(course)
+      expect(rounds).not_to be_empty
+      expect(rounds.size).to eq(1)
+      expect(rounds[0].id).to eq(@round.id)
     end
   end
 end

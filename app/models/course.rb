@@ -9,6 +9,8 @@ class Course < ApplicationRecord
   has_many(:tees, dependent: :destroy)
   accepts_nested_attributes_for(:tees, allow_destroy: true)
 
+  validates :name, uniqueness: { case_sensitive: false }
+
   after_initialize :build_associations, if: :new_record?
 
   # whether golf course has a rating
