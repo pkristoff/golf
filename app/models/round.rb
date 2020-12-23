@@ -52,7 +52,7 @@ class Round < ApplicationRecord
     # rubocop:enable Layout/LineLength
 
     penalties = '' if penalties.nil?
-    score = Score.new(hole_number: hole.number, strokes: strokes, putts: putts, penalties: penalties)
+    score = Score.create(hole_number: hole.number, strokes: strokes, putts: putts, penalties: penalties)
     score.hole = hole
     scores << score
     score.round = self

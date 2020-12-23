@@ -12,11 +12,10 @@ FactoryBot.define do
     color { 'black' }
     rating { 60.7 }
     slope { 62.9 }
-    after(:build) do |tee, evaluator|
-      course = Course.new(name: 'Factory-bot for Tee')
-      tee.course = course
+    course { Course.create(name: 'Factory-bot for Tee') }
+    after(:create) do |tee, evaluator|
       if evaluator.tee_hole_info
-        course.add_tee(tee, tee.color, tee.rating, tee.slope, evaluator.tee_hole_info)
+        tee.course.add_tee(tee, tee.color, tee.rating, tee.slope, evaluator.tee_hole_info)
       else
         tee.add_18_holes
         (1..18).each do |i|

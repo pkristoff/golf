@@ -18,7 +18,7 @@ describe Course, type: :model do
       expect(course2.errors[:name][0]).to eq('has already been taken')
     end
     it 'tees' do
-      course = Course.new(name: 'Lochmere')
+      course = Course.create(name: 'Lochmere')
       course.add_tee(nil, 'black', 67.3, 70.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
       expect(course.tees.size).to eq(1)
 
@@ -42,6 +42,16 @@ describe Course, type: :model do
       expect_tee(course, 'Blue', 69.5, 132, 18)
       expect_tee(course, 'White', 67.1, 123, 18)
       expect_tee(course, 'Red', 63.6, 106, 18)
+    end
+    describe 'dupliate tee colors' do
+      it 'should raise error if a course has two tees of same color' do
+        course = FactoryBot.create(:course)
+        tee1 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+        expect(tee1.errors[:color][0]).to eq('has already been taken')
+        # case insensitive
+        tee2 = course.add_tee(nil, 'black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+        expect(tee2.errors[:color][0]).to eq('has already been taken')
+      end
     end
   end
 

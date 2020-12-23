@@ -7,6 +7,8 @@ class Tee < ApplicationRecord
 
   has_many(:holes, dependent: :destroy)
 
+  validates :color, uniqueness: { case_sensitive: false, scope: :course }
+
   # Add a hole to tee
   #
   # === Parameters:
@@ -21,7 +23,7 @@ class Tee < ApplicationRecord
   # * <tt>Hole</tt>
   #
   def add_hole(hole_number, yardage, par, hdcp)
-    hole = Hole.new(number: hole_number, yardage: yardage, par: par, hdcp: hdcp)
+    hole = Hole.create(number: hole_number, yardage: yardage, par: par, hdcp: hdcp)
     hole.tee = self
     holes.push(hole)
     hole
@@ -41,7 +43,7 @@ class Tee < ApplicationRecord
   #
   def add_18_holes
     (1...19).each do |num|
-      add_hole(num, nil, nil, nil)
+      add_hole(num, 0, 0, 0)
     end
     # pprint 'add_18_holes'
   end
@@ -50,7 +52,7 @@ class Tee < ApplicationRecord
   #
   def add_9_holes
     (1...10).each do |num|
-      add_hole(num, nil, nil, nil)
+      add_hole(num, 0, 0, 0)
     end
     # pprint 'add_9_holes'
   end

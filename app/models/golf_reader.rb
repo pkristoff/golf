@@ -91,7 +91,7 @@ class GolfReader
     tee_color = score_row[0]
     # puts "course.name=#{course.name} tee_color=#{tee_color}"
     tee = course.tee(tee_color)
-    round = Round.new(date: date_cell)
+    round = Round.create(date: date_cell)
     # puts "  round=#{date_cell}"
     offset = 1 if tee.slope.zero?
     offset = 3 unless tee.slope.zero?
@@ -121,7 +121,7 @@ class GolfReader
     par_row_num = (tee_row_num..10).detect { |row| sheet.row(row)[0] == 'Par' }
     hdcp_row_num = par_row_num + 1
     header_row_num = 2
-    course = Course.new(name: sheet_name)
+    course = Course.create(name: sheet_name)
     process_address(sheet.row(address_row_num), course)
     header_row = sheet.row(header_row_num)
     (tee_row_num..par_row_num - 1).each do |row_num|

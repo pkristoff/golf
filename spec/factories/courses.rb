@@ -7,7 +7,7 @@ require 'support/tee_hole_info'
 FactoryBot.define do
   factory :course do
     name { 'George' }
-    after(:build) do |course|
+    after(:create) do |course|
       course.address.street_1 = '555 Xxx Ave.'
       course.address.street_2 = '<nothing>'
       course.address.city = 'Clarksville'

@@ -12,5 +12,6 @@ class CreateTees < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
+    add_index 'tees', %i[color course_id], unique: true
   end
 end

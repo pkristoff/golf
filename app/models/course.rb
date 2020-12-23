@@ -63,14 +63,13 @@ class Course < ApplicationRecord
   #
   def add_tee(tee, color, rating, slope, hole_info)
     if tee.nil?
-      tee = Tee.new(color: color, rating: rating, slope: slope)
-      tee.course = self
+      tee = tees.create(course: self, color: color, rating: rating, slope: slope)
     else
+      tee.course = self
       tee.color = color
       tee.rating = rating
       tee.slope = slope
     end
-    tee.course = self
     front_nine = nil
     back_nine = nil
     eighteen = nil
@@ -78,7 +77,7 @@ class Course < ApplicationRecord
       hole_num = info[0]
       yardage = info[1]
       par = info[2]
-      hdcp = info[3]
+      hdcp = info[3].nil? ? 0 : info[3]
       if hole_num.nil?
         eighteen = info if eighteen.nil? && !front_nine.nil? && !back_nine.nil?
         back_nine = info if back_nine.nil? && !front_nine.nil?

@@ -67,8 +67,7 @@ describe Round, type: :model do
   end
   describe 'self.rounds' do
     it 'should return an empty array if none is found' do
-      course = Course.new
-      course.name = 'foo'
+      course = Course.create(name: 'foo')
       expect(Round.rounds(course)).to be_empty
     end
     it 'should return an array of Round if found' do

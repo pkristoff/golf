@@ -78,6 +78,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
     t.bigint "course_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.index ["color", "course_id"], name: "index_tees_on_color_and_course_id", unique: true
     t.index ["course_id"], name: "index_tees_on_course_id"
   end
 
