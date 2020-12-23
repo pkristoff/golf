@@ -2,7 +2,7 @@
 
 # A GolfReader
 class GolfReader
-  attr_accessor :path, :courses, :workbook, :rounds
+  attr_accessor :path, :workbook
 
   # initialize with path to xlxs file
   #
@@ -36,7 +36,7 @@ class GolfReader
   # * <tt>Round</tt> or nil
   #
   def round(date, course, color)
-    rounds.detect { |round| round.course == course && round.tee.color == color && round.date == date }
+    @rounds.detect { |round| round.course == course && round.tee.color == color && round.date == date }
   end
 
   # Find the Course named <tt> name </tt>
@@ -50,10 +50,10 @@ class GolfReader
   # * <tt>Course</tt>
   #
   def course(name)
-    idx = courses.find_index { |course| course.name == name }
+    idx = @courses.find_index { |course| course.name == name }
     raise "Unknown course named: #{name}" if idx.nil?
 
-    courses[idx]
+    @courses[idx]
   end
 
   private
@@ -61,7 +61,7 @@ class GolfReader
   def fill_in_courses
     @workbook = fill_in_workbook
     @workbook.sheets.each do |sheet_name|
-      courses.push(process_course(sheet_name))
+      @courses.push(process_course(sheet_name))
     end
   end
 
@@ -78,7 +78,7 @@ class GolfReader
     hdcp_row_num = (1..sheet.last_row).detect { |row| sheet.row(row)[0] == 'HDCP' }
     round_row_num = find_round_row(sheet, hdcp_row_num + 1)
     until round_row_num.nil?
-      rounds.push(process_round(sheet, course, round_row_num)) unless round_row_num.nil?
+      @rounds.push(process_round(sheet, course, round_row_num)) unless round_row_num.nil?
       round_row_num = find_round_row(sheet, round_row_num + 3)
     end
   end
@@ -232,7 +232,7 @@ class GolfReader
   end
 
   def save
-    courses.each(&:save)
-    rounds.each(&:save)
+    @courses.each(&:save)
+    @rounds.each(&:save)
   end
 end

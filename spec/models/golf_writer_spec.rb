@@ -5,21 +5,9 @@ require 'support/tee_hole_info'
 
 describe GolfWriter, type: :model do
   describe 'writing excel spreadsheet' do
-    it 'write courses' do
-      golf_reader = GolfReader.new('spec/fixtures/Golf.xlsx')
-      courses = golf_reader.courses
-      rounds = golf_reader.rounds
-      golf_writer = GolfWriter.new('spec/fixtures/Golf_writer.xlsx', courses, rounds)
-      workbook = golf_writer.workbook
-      courses.each do |course|
-        nme = course.name.gsub("'", '&apos;')
-        sheet = workbook.sheet_by_name(nme)
-        expect(sheet).to be_truthy
-      end
-    end
     it 'write & read compare' do
       golf_reader = GolfReader.new('spec/fixtures/Golf.xlsx')
-      golf_writer = GolfWriter.new('spec/fixtures/Golf_writer.xlsx', golf_reader.courses, golf_reader.rounds)
+      golf_writer = GolfWriter.new('spec/fixtures/Golf_writer.xlsx')
       compare_excel(golf_reader.workbook, golf_writer.workbook)
     end
   end

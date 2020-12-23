@@ -2,24 +2,20 @@
 
 # A GolfWriter
 class GolfWriter
-  attr_accessor :write_path, :courses, :workbook, :rounds
+  attr_accessor :write_path, :workbook
 
   # Find the Hole with number hole_num
   #
   # === Parameters:
   #
   # * <tt>:write_path</tt> path to write the excel document
-  # * <tt>:courses</tt> Array of Course to write
-  # * <tt>:rounds</tt> Array of Round to write
   #
   # === Returns:
   #
   # * <tt>GolfWriter</tt>
   #
-  def initialize(write_path, courses, rounds)
+  def initialize(write_path)
     @write_path = write_path
-    @courses = courses
-    @rounds = rounds
     fill_in_workbook
   end
 
@@ -32,7 +28,7 @@ class GolfWriter
   def create_xlsx
     Axlsx::Package.new do |p|
       @workbook = p.workbook
-      @courses.each do |course|
+      Course.find_each do |course|
         add_worksheet(@workbook, course)
       end
     end
