@@ -43,7 +43,7 @@ describe Tee, type: :model do
       expect(tee.slope).to eq(62.9)
       expect(tee.rating).to eq(60.7)
       expect(tee.holes.size).to eq(18)
-      tee.holes.each_with_index do |hole, index|
+      tee.sorted_holes.each_with_index do |hole, index|
         expect(hole.number).to eq(index + 1)
         expect(hole.tee).to be(tee)
       end
@@ -75,7 +75,6 @@ describe Tee, type: :model do
     it 'should the holes in order 1 hole' do
       tee = FactoryBot.create(:tee)
       holes_in_order = tee.holes_inorder_with_yardage_totals
-      puts "holes_in_order=#{holes_in_order}"
       tee_info = [[1, 350, 4, 9],
                   [2, 350, 4, 9],
                   [3, 350, 4, 9],

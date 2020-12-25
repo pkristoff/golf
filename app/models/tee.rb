@@ -29,6 +29,17 @@ class Tee < ApplicationRecord
     hole
   end
 
+  # returns holes sorted by Hole.number
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> holes sorted by Hole.number
+  #
+  def sorted_holes
+    # puts "sorted=#{holes.sort_by(&:number).map{|h|h.number} }"
+    holes.sort_by(&:number)
+  end
+
   # total number holes normally 9 or 18
   #
   # === Returns:

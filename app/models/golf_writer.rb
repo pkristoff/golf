@@ -2,37 +2,43 @@
 
 # A GolfWriter
 class GolfWriter
-  attr_accessor :write_path, :workbook
+  attr_accessor :write_path, :package
 
   # Find the Hole with number hole_num
-  #
-  # === Parameters:
-  #
-  # * <tt>:write_path</tt> path to write the excel document
   #
   # === Returns:
   #
   # * <tt>GolfWriter</tt>
   #
-  def initialize(write_path)
-    @write_path = write_path
+  def initialize
     fill_in_workbook
+  end
+
+  # save to file
+  #
+  # === Parameters:
+  #
+  # * <tt>:write_path</tt> path to write the excel document
+  #
+  def save_to_file(write_path)
+    outstrio = StringIO.new
+    outstrio.write(@package.to_stream.read)
+    File.open(write_path, 'w') do |file|
+      file.write outstrio.string
+    end
   end
 
   private
 
   def fill_in_workbook
-    create_xlsx
-  end
-
-  def create_xlsx
-    Axlsx::Package.new do |p|
-      @workbook = p.workbook
+    Axlsx::Package.new(author: 'Paul') do |p|
+      p.use_shared_strings = true # Otherwise strings don't display in iWork Numbers
+      @package = p
       Course.find_each do |course|
-        add_worksheet(@workbook, course)
+        add_worksheet(@package.workbook, course)
       end
     end
-    @workbook
+    package
   end
 
   def add_worksheet(wbk, course)

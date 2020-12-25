@@ -5,10 +5,20 @@ require 'support/tee_hole_info'
 
 describe GolfWriter, type: :model do
   describe 'writing excel spreadsheet' do
+    before(:each) do
+      @write_path = 'tmp/Golf_writer.xlsx'
+      @read_path = 'spec/fixtures/Golf.xlsx'
+      File.delete(@write_path) if File.exist?(@write_path)
+    end
+    after(:each) do
+      File.delete(@write_path) if File.exist?(@write_path)
+    end
     it 'write & read compare' do
-      golf_reader = GolfReader.new('spec/fixtures/Golf.xlsx')
-      golf_writer = GolfWriter.new('spec/fixtures/Golf_writer.xlsx')
-      compare_excel(golf_reader.workbook, golf_writer.workbook)
+      golf_reader = GolfReader.new(@read_path)
+      golf_writer = GolfWriter.new
+      golf_writer.save_to_file(@write_path)
+      expect(File.exist?(@write_path)).to be_truthy
+      compare_excel(golf_reader.workbook, golf_writer.package.workbook)
     end
   end
 end
