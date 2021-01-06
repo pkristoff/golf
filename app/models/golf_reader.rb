@@ -121,8 +121,9 @@ class GolfReader
     par_row_num = (tee_row_num..10).detect { |row| sheet.row(row)[0] == 'Par' }
     hdcp_row_num = par_row_num + 1
     header_row_num = 2
-    course = Course.create(name: sheet_name)
+    course = Course.new(name: sheet_name)
     process_address(sheet.row(address_row_num), course)
+    course.save!
     header_row = sheet.row(header_row_num)
     (tee_row_num..par_row_num - 1).each do |row_num|
       process_tee(course, sheet.row(row_num), header_row, sheet.row(par_row_num), sheet.row(hdcp_row_num))

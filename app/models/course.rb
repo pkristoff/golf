@@ -9,9 +9,11 @@ class Course < ApplicationRecord
   has_many(:tees, dependent: :destroy)
   accepts_nested_attributes_for(:tees, allow_destroy: true)
 
-  validates :name, uniqueness: { case_sensitive: false }
+  validates :name, uniqueness: { case_sensitive: false }, presence: true
 
   after_initialize :build_associations, if: :new_record?
+
+  validates_associated :address
 
   # whether golf course has a rating
   #
@@ -89,6 +91,10 @@ class Course < ApplicationRecord
     check_totals(tee, front_nine, back_nine)
     tees.push(tee)
     tee
+  end
+
+  def self.basic_permitted_params
+    %i[name id]
   end
 
   private

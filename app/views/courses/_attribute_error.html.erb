@@ -1,0 +1,5 @@
+<% unless object_with_errors.errors.full_messages_for(attribute).empty? %>
+  <% object_with_errors.errors.full_messages_for(attribute).each do |message| %>
+    <div><%= message %></div>
+  <% end %>
+<% end %>

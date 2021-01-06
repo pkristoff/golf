@@ -1,0 +1,56 @@
+<%= form_with model: course, local: true do |form| %>
+
+  <% if @course.errors.any? %>
+    <div id="error_explanation">
+      <h2>Valadation errors prohibited this course from being saved:</h2>
+    </div>
+  <% end %>
+
+  <% flash.each do |type, msg| %>
+    <div>
+      <%= msg %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.label :name, Label::Course::NAME %><br>
+    <%= form.text_field :name %>
+    <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
+  </div>
+
+  <%= field_set_tag "Golf Course Address", class: 'fieldset' do %>
+    <div class="fieldset-div">
+      <%= form.fields_for :address do |address_fields| %>
+        <div class="field">
+          <%= address_fields.label :street_1, Label::Course::STREET1 %><br/>
+          <%= address_fields.text_field :street_1 %>
+          <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_1 %>
+        </div>
+        <div class="field">
+          <%= address_fields.label :street_2, Label::Course::STREET2 %><br/>
+          <%= address_fields.text_field :street_2 %>
+          <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_2 %>
+        </div>
+        <div class="field">
+          <%= address_fields.label :city, Label::Course::CITY %><br/>
+          <%= address_fields.text_field :city %>
+          <%= render 'attribute_error', object_with_errors: course.address, attribute: :city %>
+        </div>
+        <div class="field">
+          <%= address_fields.label :state, Label::Course::STATE %><br/>
+          <%= address_fields.text_field :state %>
+          <%= render 'attribute_error', object_with_errors: course.address, attribute: :state %>
+        </div>
+        <div class="field">
+          <%= address_fields.label :zip_code, Label::Course::ZIP %><br/>
+          <%= address_fields.text_field :zip_code %>
+          <%= render 'attribute_error', object_with_errors: course.address, attribute: :zip_code %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+
+  <div>
+    <%= form.submit(id: 'submit-course') %>
+  </div>
+<% end %>

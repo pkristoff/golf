@@ -12,13 +12,19 @@ describe Course, type: :model do
     it 'duplicate course name case insensitive' do
       FactoryBot.create(:course)
       expect(Course.all.size).to eq(1)
-      expect { Course.create!(name: 'george') }.to raise_error(ActiveRecord::RecordInvalid,
-                                                               'Validation failed: Name has already been taken')
+      # rubocop:disable Layout/LineLength
+      expect { Course.create!(name: 'george') }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken, Address is invalid')
+      # rubocop:enable Layout/LineLength
       course2 = Course.create(name: 'george')
       expect(course2.errors[:name][0]).to eq('has already been taken')
     end
     it 'tees' do
-      course = Course.create(name: 'Lochmere')
+      course = Course.new(name: 'Lochmere')
+      course.address.street_1 = '555 Xxx Ave.'
+      course.address.city = 'Clarksville'
+      course.address.state = 'IN'
+      course.address.state = '47529'
+      course.save!
       course.add_tee(nil, 'black', 67.3, 70.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
       expect(course.tees.size).to eq(1)
 
