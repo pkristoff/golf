@@ -49,15 +49,27 @@ describe Course, type: :model do
       expect_tee(course, 'White', 67.1, 123, 18)
       expect_tee(course, 'Red', 63.6, 106, 18)
     end
-    describe 'dupliate tee colors' do
-      it 'should raise error if a course has two tees of same color' do
-        course = FactoryBot.create(:course)
-        tee1 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
-        expect(tee1.errors[:color][0]).to eq('has already been taken')
-        # case insensitive
-        tee2 = course.add_tee(nil, 'black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
-        expect(tee2.errors[:color][0]).to eq('has already been taken')
-      end
+  end
+  describe 'dupliate tee colors' do
+    it 'should raise error if a course has two tees of same color' do
+      course = FactoryBot.create(:course)
+      tee1 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+      expect(tee1.errors[:color][0]).to eq('has already been taken')
+      # case insensitive
+      tee2 = course.add_tee(nil, 'black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+      expect(tee2.errors[:color][0]).to eq('has already been taken')
+    end
+  end
+  describe 'destroy' do
+    it 'should remove course, address, tee, holes' do
+      course = FactoryBot.create(:course)
+      expect(Course.all.size).to eq(1)
+      expect(Tee.all.size).to eq(4)
+      expect(Hole.all.size).to eq(72)
+      course.destroy
+      expect(Course.all.size).to eq(0)
+      expect(Tee.all.size).to eq(0)
+      expect(Hole.all.size).to eq(0)
     end
   end
 

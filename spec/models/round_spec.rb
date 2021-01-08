@@ -78,6 +78,21 @@ describe Round, type: :model do
       expect(rounds[0].id).to eq(@round.id)
     end
   end
+  describe 'destroy' do
+    it 'should remove Round and scores used by Round, but not tee, course' do
+      expect(Round.all.size).to eq(1)
+      expect(Score.all.size).to eq(18)
+      expect(Course.all.size).to eq(1)
+      expect(Tee.all.size).to eq(4)
+      expect(Hole.all.size).to eq(72)
+      @round.destroy
+      expect(Round.all.size).to eq(0)
+      expect(Score.all.size).to eq(0)
+      expect(Course.all.size).to eq(1)
+      expect(Tee.all.size).to eq(4)
+      expect(Hole.all.size).to eq(72)
+    end
+  end
 end
 
 def expect_score(round, score_info)
