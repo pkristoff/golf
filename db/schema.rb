@@ -17,7 +17,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
 
   create_table "addresses", force: :cascade do |t|
     t.string "street_1", default: "", null: false
-    t.string "street_2"
+    t.string "street_2", default: "", null: false
     t.string "city", default: "", null: false
     t.string "state", default: "", null: false
     t.string "zip_code", default: "27502", null: false
@@ -46,7 +46,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.date "date", default: "2020-12-21", null: false
+    t.date "date", default: "2021-01-07", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

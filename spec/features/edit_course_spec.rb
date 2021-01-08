@@ -1,7 +1,6 @@
 require 'common/course_common'
 feature 'edit_existing_course' do
   include CourseCommon
-  # include ViewsHelpers
   before(:each) do
     @course = FactoryBot.create(:course)
   end
@@ -11,7 +10,6 @@ feature 'edit_existing_course' do
 
   scenario 'visit edit course' do
     visit edit_course_path(@course.id)
-    # puts page.html
     expect_edit_fields_with_values(page,
                                    'George',
                                    '555 Xxx Ave.',
@@ -24,7 +22,6 @@ feature 'edit_existing_course' do
 
   scenario 'visit edit course and make sure errors occur' do
     visit edit_course_path(@course.id)
-    # puts page.html
 
     fill_in Label::Course::NAME, with: ''
     fill_in Label::Course::ZIP, with: ''
@@ -38,7 +35,7 @@ feature 'edit_existing_course' do
                                    'Clarksville',
                                    'IN',
                                    '')
-    puts page.html
+
     expect_validation_errors(%w[
                                  course_name
                                  course_address_attributes_zip_code], %w[
@@ -52,7 +49,6 @@ feature 'edit_existing_course' do
 
   scenario 'visit edit course and make sure values are updated' do
     visit edit_course_path(@course.id)
-    # puts page.html
 
     fill_in Label::Course::NAME, with: 'George1'
     fill_in Label::Course::STATE, with: 'AK'

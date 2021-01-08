@@ -1,43 +1,10 @@
 <h1>Show Course</h1>
 
-<%= form_with model: @course do |form| %>
-  <div>
-    <%= form.label :name, Label::Course::NAME %><br>
-    <%= form.text_field :name %>
-  </div>
+<%= render "form", course: @course, form_disabled: true %>
 
-  <%= field_set_tag "Golf Course Address", class: 'fieldset' do %>
-    <div class="fieldset-div">
-      <%= form.fields_for :address do |address_fields| %>
-        <div class="field">
-          <%= address_fields.label :street_1, Label::Course::STREET1 %><br/>
-          <%= address_fields.text_field :street_1 %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :street_2, Label::Course::STREET2 %><br/>
-          <%= address_fields.text_field :street_2 %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :city, Label::Course::CITY %><br/>
-          <%= address_fields.text_field :city %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :state, Label::Course::STATE %><br/>
-          <%= address_fields.text_field :state %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :zip_code, Label::Course::ZIP %><br/>
-          <%= address_fields.text_field :zip_code %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
-  <ul>
-    <li><%= link_to Label::Common::EDIT, edit_course_path(@course) %></li>
-    <li><%= link_to Label::Common::DESTROY, course_path(@course),
-                    method: :delete,
-                    data: { confirm: "Are you sure?" } %></li>
-  </ul>
-<% end %>
-
-
+<ul>
+  <li><%= link_to Label::Common::EDIT, edit_course_path(@course) %></li>
+  <li><%= link_to Label::Common::DESTROY, course_path(@course),
+                  method: :delete,
+                  data: { confirm: "Are you sure?" } %></li>
+</ul>
