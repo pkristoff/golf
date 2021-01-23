@@ -50,7 +50,7 @@ feature 'add a new course' do
 
     click_button('submit-course')
 
-    expect_show_fields_with_values(page, 'Lochmere', '2116 Frissell Ave.', '', 'Apex', 'NC', '27502')
+    expect_edit_fields_with_values(page, 'Lochmere', '2116 Frissell Ave.', '', 'Apex', 'NC', '27502')
 
     expect_validation_errors(%w[], %w[
                                course_name

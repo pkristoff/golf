@@ -6,8 +6,8 @@ class CreateTees < ActiveRecord::Migration[6.0]
   def change
     create_table :tees do |t|
       t.string :color, default: 'White', null: false
-      t.numeric :rating, default: '', null: false
-      t.numeric :slope, default: '', null: false
+      t.numeric :rating, default: 0.0, null: false
+      t.numeric :slope, default: 0.0, null: false
       t.belongs_to :course, index: true
 
       t.timestamps

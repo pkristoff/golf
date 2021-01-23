@@ -93,13 +93,23 @@ class Course < ApplicationRecord
     tee
   end
 
+  # Returns list tees based on color
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> sorted based on tee color
+  #
+  def sorted_tees
+    tees.sort_by(&:color)
+  end
+
   def self.basic_permitted_params
     %i[name id]
   end
 
   private
 
-  # dheck totals for tee if problem raise signal
+  # check totals for tee if problem raise signal
   #
   # === Parameters:
   #

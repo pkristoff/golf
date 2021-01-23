@@ -1,0 +1,21 @@
+
+<% if local_assigns[:tees].empty? %>
+  <p>No tees</p>
+<% else %>
+  <table id="tees" style="width:100%">
+    <tr>
+      <th id="tees-color" class="tee-th">Color</th>
+      <th id="tees-slope" class="tee-th">Slope</th>
+      <th id="tees-rating" class="tee-th">Rating</th>
+      <th id="tees-rating" class="holes-th">Holes</th>
+    </tr>
+    <% local_assigns[:tees].each do |tee| %>
+      <tr id='tee-<%= tee.id %>'>
+        <td id='tee-color-<%= tee.id %>' class="color-cell"><%= tee.color %></td>
+        <td id='tee-slope-<%= tee.id %>' class="slope-cell"><%= tee.slope %></td>
+        <td id='tee-rating-<%= tee.id %>' class="rating-cell"><%= tee.rating %></td>
+      </tr>
+    <% end %>
+  </table>
+
+<% end %>

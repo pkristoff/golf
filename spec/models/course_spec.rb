@@ -72,6 +72,21 @@ describe Course, type: :model do
       expect(Hole.all.size).to eq(0)
     end
   end
+  describe 'Sorting tees' do
+    it 'empty tees' do
+      course = Course.new
+      expect(course.sorted_tees).to be_empty
+    end
+    it 'already sorted tees' do
+      course = FactoryBot.create(:course)
+      sorted_tees = course.sorted_tees
+      expect(sorted_tees.size).to eq(4)
+      expect(sorted_tees[0].color).to eq('Black')
+      expect(sorted_tees[1].color).to eq('Blue')
+      expect(sorted_tees[2].color).to eq('Red')
+      expect(sorted_tees[3].color).to eq('White')
+    end
+  end
 
   def expect_tee(course, color, rating, slope, num_of_holes)
     tee = course.tee(color)
@@ -79,7 +94,7 @@ describe Course, type: :model do
     expect(tee.rating.to_f).to eq(rating)
     expect(tee.slope).to eq(slope)
     expect(tee.holes.size).to eq(num_of_holes)
-    tee.holes.each_with_index do |hole, index|
+    tee.sorted_holes.each_with_index do |hole, index|
       expect(hole.number).to eq(index + 1)
       expect(hole.tee).to be(tee)
     end

@@ -24,11 +24,18 @@ class CoursesController < ApplicationController
   #
   def update
     @course = Course.find(params[:id])
-
-    if @course.update(course_params)
-      redirect_to @course
+    case params[:commit]
+    when 'Create Tee'
+      @course_id = params[:id]
+      @tee = Tee.new
+      render 'tees/new'
     else
-      render :edit, alert: 'Validation error(s).'
+      if @course.update(course_params)
+        redirect_to @course
+      else
+        render :edit, alert: 'Validation error(s).'
+      end
+
     end
   end
 
@@ -46,9 +53,12 @@ class CoursesController < ApplicationController
   #
   def create
     @course = Course.new(course_params)
-
     if @course.save
-      redirect_to @course
+      if @course.tees.empty?
+        render :edit
+      else
+        redirect_to @course
+      end
     else
       render :new, alert: 'Validation error(s).'
     end

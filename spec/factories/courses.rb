@@ -6,6 +6,9 @@ require 'support/tee_hole_info'
 
 FactoryBot.define do
   factory :course do
+    transient do
+      should_fillin_tees { true }
+    end
     name { 'George' }
     after(:build) do |course|
       address = course.address
@@ -15,11 +18,13 @@ FactoryBot.define do
       address.state = 'IN'
       address.zip_code = '47529'
     end
-    after(:create) do |course|
-      course.add_tee(nil, 'Black', 71.6, 139, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
-      course.add_tee(nil, 'Blue', 69.5, 132, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue])
-      course.add_tee(nil, 'White', 67.1, 123, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White])
-      course.add_tee(nil, 'Red', 63.6, 106, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Red])
+    after(:create) do |course, evaluator|
+      if evaluator.should_fillin_tees
+        course.add_tee(nil, 'Black', 71.6, 139, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+        course.add_tee(nil, 'Blue', 69.5, 132, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue])
+        course.add_tee(nil, 'White', 67.1, 123, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White])
+        course.add_tee(nil, 'Red', 63.6, 106, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Red])
+      end
     end
   end
 end
