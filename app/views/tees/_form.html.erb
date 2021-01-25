@@ -1,0 +1,19 @@
+<%= render 'share/error_messages.html.erb', resource: @tee %>
+
+<%=render "tees/tees", tees: @course.sorted_tees %>
+
+<%= form_with model: [@course, @tee], local: true  do |tee_form| %>
+  <p>
+    <%= tee_form.label :color %>
+    <%= tee_form.text_field :color%>
+    <%= tee_form.label :slope %>
+    <%= tee_form.number_field :slope %>
+    <%= tee_form.label :rating %>
+    <%= tee_form.number_field :rating %>
+    <%= label_tag :number_of_holes, 'Number of holes' %>
+    <%= number_field_tag :number_of_holes, 18 %>
+  </p>
+  <%= tee_form.submit %>
+  </p>
+<% end %>
+<%= button_to 'Edit Course', edit_course_path(@course), method: :get %>
