@@ -1,14 +1,5 @@
 <h2>New tee:</h2><%# Rails flash messages styled for Bootstrap 3.0 %>
 
-<% flash.each do |name, msg| %>
-  <% if msg.is_a?(String) %>
-    <div class="alert alert-<%= name.to_s == 'notice' ? 'success' : 'danger' %>">
-      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>
-      <%= content_tag :div, msg, :id => "flash_#{name}" %>
-    </div>
-  <% end %>
-<% end %>
-
 <%= render 'share/error_messages.html.erb', resource: @tee %>
 
 <%=render "tees/tees", tees: @course.sorted_tees %>

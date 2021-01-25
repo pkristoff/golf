@@ -116,4 +116,26 @@ describe Tee, type: :model do
       expect(hole.tee).to eql(tee)
     end
   end
+  describe 'validation' do
+    it 'tee is valid' do
+      course = Course.new
+      tee = Tee.new(color: 'red', slope: 0, rating: 0, course: course)
+      expect(tee.valid?).to be_truthy
+    end
+    it 'presence of color' do
+      course = Course.new
+      tee = Tee.new(color: '', slope: 0, rating: 0, course: course)
+      expect(tee.valid?).to be_falsey
+    end
+    it 'presence of slope' do
+      course = Course.new
+      tee = Tee.new(color: 'red', slope: nil, rating: 0, course: course)
+      expect(tee.valid?).to be_falsey
+    end
+    it 'presence of rating' do
+      course = Course.new
+      tee = Tee.new(color: 'red', slope: 0, rating: nil, course: course)
+      expect(tee.valid?).to be_falsey
+    end
+  end
 end

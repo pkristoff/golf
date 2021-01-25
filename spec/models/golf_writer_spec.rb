@@ -82,7 +82,8 @@ def compare_strokes_row(roo_row, axlsx_row)
   # puts "roo_row=#{roo_row}"
   # puts "axlsx_row=#{axlsx_row.cells.map{|cell| cell.value}}"
   until roo_stroke.nil?
-    expect(roo_stroke).to eq(axlsx_row[stroke_cell_num].value)
+    expect(roo_stroke).to eq(axlsx_row[stroke_cell_num].value),
+                          "stroke mismatch roo_stroke(#{roo_stroke}) to axlsx (#{axlsx_row[stroke_cell_num].value})"
     stroke_cell_num += 1
     roo_stroke = roo_row[stroke_cell_num]
   end

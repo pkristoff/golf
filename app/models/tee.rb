@@ -8,6 +8,9 @@ class Tee < ApplicationRecord
   has_many(:holes, dependent: :destroy)
 
   validates :color, uniqueness: { case_sensitive: false, scope: :course }
+  validates :color, presence: true
+  validates :rating, presence: true
+  validates :slope, presence: true
 
   # Add a hole to tee
   #
