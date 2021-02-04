@@ -1,0 +1,22 @@
+
+<% if local_assigns[:holes].empty? %>
+  <p>No holes</p>
+<% else %>
+  <table id="holes" style="width:100%">
+    <tr>
+      <th id="holes-number" class="hole-th">Number</th>
+      <th id="holes-yardage" class="hole-th">Yardage</th>
+      <th id="holes-par" class="hole-th">Par</th>
+      <th id="holes-hdcp" class="hole-th">HDCP</th>
+    </tr>
+    <% local_assigns[:holes].each do |hole| %>
+      <tr id='hole-<%= hole.id %>'>
+        <td id='hole-number-<%= hole.id %>' class="number-cell"><%= hole.number %></td>
+        <td id='hole-yardage-<%= hole.id %>' class="yardage-cell"><%= hole.yardage %></td>
+        <td id='hole-par-<%= hole.id %>' class="par-cell"><%= hole.par %></td>
+        <td id='hole-hdcp-<%= hole.id %>' class="hdcp-cell"><%= hole.hdcp %></td>
+      </tr>
+    <% end %>
+  </table>
+
+<% end %>

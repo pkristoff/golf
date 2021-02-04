@@ -8,6 +8,7 @@ FactoryBot.define do
   factory :course do
     transient do
       should_fillin_tees { true }
+      should_fillin_holes { true }
     end
     name { 'George' }
     after(:build) do |course|
@@ -20,10 +21,10 @@ FactoryBot.define do
     end
     after(:create) do |course, evaluator|
       if evaluator.should_fillin_tees
-        course.add_tee(nil, 'Black', 71.6, 139, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
-        course.add_tee(nil, 'Blue', 69.5, 132, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue])
-        course.add_tee(nil, 'White', 67.1, 123, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White])
-        course.add_tee(nil, 'Red', 63.6, 106, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Red])
+        course.add_tee(nil, 'Black', 71.6, 139, evaluator.should_fillin_holes ? TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black] : [])
+        course.add_tee(nil, 'Blue', 69.5, 132, evaluator.should_fillin_holes ? TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue] : [])
+        course.add_tee(nil, 'White', 67.1, 123, evaluator.should_fillin_holes ? TeeHoleInfo::HOLE_INFO_LOCHMERE[:White] : [])
+        course.add_tee(nil, 'Red', 63.6, 106, evaluator.should_fillin_holes ? TeeHoleInfo::HOLE_INFO_LOCHMERE[:Red] : [])
       end
     end
   end

@@ -1,0 +1,6 @@
+<h2>New hole:</h2>
+<h3>Course: <%= @course.name %></h3>
+<h3>Tee: <%= @tee.color %></h3>
+
+<%=render "holes/form", holes: @tee.sorted_holes %>
+

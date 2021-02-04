@@ -53,7 +53,6 @@ feature 'edit_existing_course' do
         number_of_holes: '18' }
     )
 
-
     fill_in 'Color', with: 'Black'
     fill_in 'Slope', with: '139'
     fill_in 'Rating', with: '71.6'
@@ -132,4 +131,18 @@ feature 'edit_existing_course' do
     # puts "Edit Course#{page.html}"
     expect(page).to have_selector('h1', text: 'Edit Course')
   end
+
+  # scenario 'Navigate to edit.html.erb on Tee' do
+  #   @course = FactoryBot.create(:course, should_fillin_tees: true, should_fillin_holes: false)
+  #   visit edit_course_path(@course.id)
+  #
+  #   expect_tee_form_fields(
+  #     page,
+  #     @course.tees,
+  #     { color: 'White',
+  #       slope: '0.0',
+  #       rating: '0.0',
+  #       number_of_holes: '18' }
+  #   )
+  # end
 end
