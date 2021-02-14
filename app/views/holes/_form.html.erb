@@ -1,20 +1,20 @@
 <%= render 'share/error_messages.html.erb', resource: @tee %>
 
-<%=render "holes/holes", holes: holes %>
+<%=render "holes/holes", tee:  @tee, holes: holes %>
 
 <%= form_with model: [@course, @tee, @hole], local: true  do |hole_form| %>
   <p>
-    <%= hole_form.label :number %>
+    <%= hole_form.label :number, Label::Hole::NUMBER %>
     <%= hole_form.text_field :number%>
-    <%= hole_form.label :yardage %>
+    <%= hole_form.label :yardage, Label::Hole::YARDAGE %>
     <%= hole_form.number_field :yardage %>
-    <%= hole_form.label :par %>
+    <%= hole_form.label :par, Label::Hole::PAR %>
     <%= hole_form.number_field :par %>
-    <%= hole_form.label :hdcp %>
+    <%= hole_form.label :hdcp, Label::Hole::HDCP %>
     <%= hole_form.number_field :hdcp %>
   </p>
   <%= hole_form.submit %>
   </p>
 <% end %>
-<%= button_to 'Edit Tee', edit_course_tee_path(@course, @tee), method: :get %>
-<%= button_to 'Edit Course', edit_course_path(@course), method: :get %>
+<%= button_to Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get %>
+<%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>

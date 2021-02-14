@@ -4,16 +4,16 @@
 
 <%= form_with model: [@course, @tee], local: true  do |tee_form| %>
   <p>
-    <%= tee_form.label :color %>
+    <%= tee_form.label :color, Label::Tee::COLOR %>
     <%= tee_form.text_field :color%>
-    <%= tee_form.label :slope %>
+    <%= tee_form.label :slope, Label::Tee::SLOPE %>
     <%= tee_form.number_field :slope %>
-    <%= tee_form.label :rating %>
+    <%= tee_form.label :rating, Label::Tee::RATING %>
     <%= tee_form.number_field :rating %>
-    <%= label_tag :number_of_holes, 'Number of holes' %>
+    <%= label_tag :number_of_holes, Label::Tee::NUMBER_OF_HOLES %>
     <%= number_field_tag :number_of_holes, 18 %>
   </p>
   <%= tee_form.submit %>
   </p>
 <% end %>
-<%= button_to 'Edit Course', edit_course_path(@course), method: :get %>
+<%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>

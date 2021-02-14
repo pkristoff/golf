@@ -11,12 +11,12 @@ feature 'edit_existing_course' do
   scenario 'visit edit course' do
     visit edit_course_path(@course.id)
     expect_edit_fields_with_values(page,
-                                   'George',
-                                   '555 Xxx Ave.',
-                                   '<nothing>',
-                                   'Clarksville',
-                                   'IN',
-                                   '47529')
+                                   name: 'George',
+                                   street_1: '555 Xxx Ave.',
+                                   street_2: '<nothing>',
+                                   city: 'Clarksville',
+                                   state: 'IN',
+                                   zip: '47529')
 
   end
 
@@ -29,12 +29,12 @@ feature 'edit_existing_course' do
     click_button('submit-course')
 
     expect_edit_fields_with_values(page,
-                                   '',
-                                   '555 Xxx Ave.',
-                                   '<nothing>',
-                                   'Clarksville',
-                                   'IN',
-                                   '')
+                                   name: '',
+                                   street_1: '555 Xxx Ave.',
+                                   street_2: '<nothing>',
+                                   city: 'Clarksville',
+                                   state: 'IN',
+                                   zip: '')
 
     expect_validation_errors(%w[
                                  course_name

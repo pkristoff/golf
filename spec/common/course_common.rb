@@ -1,13 +1,13 @@
 module CourseCommon
-  def expect_new_fields_with_values(page, name, street1, street2, city, state, zip)
+  def expect_new_fields_with_values(page, values={})
     expect(page).to have_selector('h1', text: 'New Course')
     expect(find_button('submit-course')).to be_truthy
-    expect(find_field(Label::Course::NAME).value).to eq(name)
-    expect(find_field(Label::Course::STREET1).value).to eq(street1)
-    expect(find_field(Label::Course::STREET2).value).to eq(street2)
-    expect(find_field(Label::Course::CITY).value).to eq(city)
-    expect(find_field(Label::Course::STATE).value).to eq(state)
-    expect(find_field(Label::Course::ZIP).value).to eq(zip)
+    expect(find_field(Label::Course::NAME).value).to eq(values[:name])
+    expect(find_field(Label::Course::STREET1).value).to eq(values[:street_1])
+    expect(find_field(Label::Course::STREET2).value).to eq(values[:street_2])
+    expect(find_field(Label::Course::CITY).value).to eq(values[:city])
+    expect(find_field(Label::Course::STATE).value).to eq(values[:state])
+    expect(find_field(Label::Course::ZIP).value).to eq(values[:zip])
   end
 
   def expect_validation_errors(invalid_field_names, valid_field_names)
@@ -19,15 +19,15 @@ module CourseCommon
     end
   end
 
-  def expect_edit_fields_with_values(page, name, street1, street2, city, state, zip)
+  def expect_edit_fields_with_values(page, values={})
     expect(page).to have_selector('h1', text: 'Edit Course')
     expect(find_button('submit-course')).to be_truthy
-    expect(find_field(Label::Course::NAME).value).to eq(name)
-    expect(find_field(Label::Course::STREET1).value).to eq(street1)
-    expect(find_field(Label::Course::STREET2).value).to eq(street2)
-    expect(find_field(Label::Course::CITY).value).to eq(city)
-    expect(find_field(Label::Course::STATE).value).to eq(state)
-    expect(find_field(Label::Course::ZIP).value).to eq(zip)
+    expect(find_field(Label::Course::NAME).value).to eq(values[:name])
+    expect(find_field(Label::Course::STREET1).value).to eq(values[:street_1])
+    expect(find_field(Label::Course::STREET2).value).to eq(values[:street_2])
+    expect(find_field(Label::Course::CITY).value).to eq(values[:city])
+    expect(find_field(Label::Course::STATE).value).to eq(values[:state])
+    expect(find_field(Label::Course::ZIP).value).to eq(values[:zip])
   end
 
   def expect_show_fields_with_values(page, name, street1, street2, city, state, zip)

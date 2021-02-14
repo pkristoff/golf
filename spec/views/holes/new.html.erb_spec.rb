@@ -15,9 +15,9 @@ describe 'holes/new.html.erb', type: :view do
 
     render
 
-    expect(rendered).to have_selector('h2', count: 1, text: 'New hole:')
-    expect(rendered).to have_selector('h3', count: 1, text: 'Course: George')
-    expect(rendered).to have_selector('h3', count: 1, text: 'Tee: Black')
+    expect(rendered).to have_selector('h1', count: 1, text: 'New hole:')
+    expect(rendered).to have_selector('h2', count: 1, text: 'Course: George')
+    expect(rendered).to have_selector('h2', count: 1, text: 'Tee: Black')
 
     expect_hole_form_fields(
       rendered,

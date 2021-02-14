@@ -11,20 +11,20 @@ feature 'add a new course' do
   scenario 'visit new course' do
     visit new_course_path
     # puts page.html
-    expect_new_fields_with_values(page, '...', '', '', '', '', '27502')
+    expect_new_fields_with_values(page, name: '...', street_1: '', street_2: '', city: '', state: '', zip: '27502')
 
   end
 
   scenario 'visit new course fill in invalid values &look for errors' do
     visit new_course_path
-    expect_new_fields_with_values(page, '...', '', '', '', '', '27502')
+    expect_new_fields_with_values(page, name: '...', street_1: '', street_2: '', city: '', state: '', zip: '27502')
 
     fill_in Label::Course::NAME, with: ''
     fill_in Label::Course::ZIP, with: ''
 
     click_button('submit-course')
 
-    expect_new_fields_with_values(page, '', '', '', '', '', '')
+    expect_new_fields_with_values(page, name: '', street_1: '', street_2: '', city: '', state: '', zip: '')
 
     expect_validation_errors(%w[
                                course_name
@@ -38,7 +38,7 @@ feature 'add a new course' do
 
   scenario 'visit new course fill in valid values it should render show.html.erb' do
     visit new_course_path
-    expect_new_fields_with_values(page, '...', '', '', '', '', '27502')
+    expect_new_fields_with_values(page, name: '...', street_1: '', street_2: '', city: '', state: '', zip: '27502')
 
     fill_in Label::Course::NAME, with: 'Lochmere'
 
@@ -50,7 +50,13 @@ feature 'add a new course' do
 
     click_button('submit-course')
 
-    expect_edit_fields_with_values(page, 'Lochmere', '2116 Frissell Ave.', '', 'Apex', 'NC', '27502')
+    expect_edit_fields_with_values(page,
+                                   name: 'Lochmere',
+                                   street_1: '2116 Frissell Ave.',
+                                   street_2: '',
+                                   city: 'Apex',
+                                   state: 'NC',
+                                   zip: '27502')
 
     expect_validation_errors(%w[], %w[
                                course_name

@@ -11,9 +11,10 @@
     </tr>
     <% local_assigns[:tees].each do |tee| %>
       <tr id='tee-<%= tee.id %>'>
-        <td id='tee-color-<%= tee.id %>' class="color-cell"><%= tee.color %></td>
+        <td id='tee-color-<%= tee.id %>' class="color-cell"><%= link_to(tee.color, edit_course_tee_path(@course,tee)) %></td>
         <td id='tee-slope-<%= tee.id %>' class="slope-cell"><%= tee.slope %></td>
         <td id='tee-rating-<%= tee.id %>' class="rating-cell"><%= tee.rating %></td>
+        <td id='tee-holes-<%= tee.id %>' class="holes-cell"> <%=render 'holes/holes', tee: tee, holes: tee.sorted_holes %></td>
       </tr>
     <% end %>
   </table>

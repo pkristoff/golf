@@ -19,7 +19,8 @@ describe 'tees/new.html.erb', type: :view do
       { color: '',
         slope: '',
         rating: '',
-        number_of_holes: '18' }
+        number_of_holes: '18' },
+      'Create'
     )
   end
   it 'initially  show list of tees' do
@@ -35,7 +36,8 @@ describe 'tees/new.html.erb', type: :view do
       { color: '',
         slope: '',
         rating: '',
-        number_of_holes: '18' }
+        number_of_holes: '18' },
+      'Create'
     )
   end
 end

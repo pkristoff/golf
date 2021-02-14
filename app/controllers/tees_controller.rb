@@ -12,7 +12,7 @@ class TeesController < ApplicationController
       flash.now[:alert] = 'Error creating tee'
       render 'tees/new'
     else
-      @tee = Tee.new
+      @tee.add_18_holes
       flash[:notice] = 'tee added'
       render 'tees/edit'
     end
@@ -22,7 +22,7 @@ class TeesController < ApplicationController
   #
   def edit
     @course = Course.find(params[:course_id])
-    @tee = Tee.new
+    @tee = Tee.find(params[:id])
   end
 
   # Creation of a new golf course tee
@@ -32,9 +32,24 @@ class TeesController < ApplicationController
     @tee = Tee.new
   end
 
+  # Update of a new golf course tee
+  #
+  def update
+    @course = Course.find(params[:course_id])
+    @tee = Tee.find(params[:id])
+    @tee.update(tee_params)
+    if @tee.errors.any?
+      flash.now[:alert] = 'Error updating tee'
+      render 'tees/new'
+    else
+      flash[:notice] = 'tee updated'
+      render 'tees/edit'
+    end
+  end
+
   private
 
   def tee_params
-    params.require(:tee).permit(:color, :slope, :rating)
+    params.require(:tee).permit(:id, :color, :slope, :rating)
   end
 end
