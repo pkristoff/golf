@@ -1,8 +1,13 @@
 module TeeCommon
 
-  def expect_tee_form_fields(page_or_rendered, tees, values, uodate_create)
-
+  def expect_tee_form_fields(page_or_rendered, tees, values, update_create)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+
+    new_edit = update_create == 'Update' ? 'Edit' : 'New'
+
+    expect(page_or_rendered).to have_selector('h1', count: 1, text: "#{new_edit} tee:")
+    expect(page_or_rendered).to have_selector('h2', count: 1, text: 'Course: George')
+    expect(page_or_rendered).to have_selector('h2', count: 1, text: "Tee: #{values[:number]}")
 
     if tees.empty?
       expect(page_or_rendered).to have_selector('p', count: 1, text: 'No tees')
@@ -27,7 +32,6 @@ module TeeCommon
       expect(page_or_rendered).to have_field(Label::Tee::SLOPE, disabled: false, text: values[:slope])
       expect(page_or_rendered).to have_field(Label::Tee::RATING, disabled: false, text: values[:rating])
       expect(page_or_rendered).to have_selector("input[id=number_of_holes][value=#{values[:number_of_holes]}]", count: 1)
-      # expect(page_or_rendered).to have_field('Number of holes', disabled: false, text: values[:number_of_holes])
     else
       expect(find_field(Label::Tee::COLOR).value).to eq(values[:color])
       expect(find_field(Label::Tee::SLOPE).value).to eq(values[:slope])
@@ -35,8 +39,9 @@ module TeeCommon
       expect(find_field('Number of holes').value).to eq(values[:number_of_holes])
     end
 
-    expect(page_or_rendered).to have_button("#{uodate_create} Tee")
+    expect(page_or_rendered).to have_button("#{update_create} Tee")
     expect(page_or_rendered).to have_button(Button::Course::EDIT)
+    expect(page_or_rendered).to have_button(Button::Course::SHOW_COURSES)
 
   end
 end

@@ -7,4 +7,5 @@
   <li><%= link_to Label::Common::DESTROY, course_path(@course),
                   method: :delete,
                   data: { confirm: "Are you sure?" } %></li>
+  <%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get %>
 </ul>

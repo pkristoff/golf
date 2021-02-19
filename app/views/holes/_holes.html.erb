@@ -11,7 +11,7 @@
     </tr>
     <% local_assigns[:holes].each do |hole| %>
       <tr id='hole-<%= hole.id %>'>
-        <td id='hole-number-<%= hole.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_hole_path(@course,local_assigns[:tee],hole), id: "hole-number-link-#{hole.id}") %><%= hole.number %></td>
+        <td id='hole-number-<%= hole.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_hole_path(@course,local_assigns[:tee],hole), id: "hole-number-link-#{hole.id}") %></td>
         <td id='hole-yardage-<%= hole.id %>' class="yardage-cell"><%= hole.yardage %></td>
         <td id='hole-par-<%= hole.id %>' class="par-cell"><%= hole.par %></td>
         <td id='hole-hdcp-<%= hole.id %>' class="hdcp-cell"><%= hole.hdcp %></td>

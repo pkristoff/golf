@@ -2,11 +2,13 @@ module HoleCommon
 
   require 'views/helpers'
 
-  def expect_hole_form_fields(page_or_rendered, holes, create_update, values)
+  def expect_hole_form_fields(page_or_rendered, tee, create_update, values)
+    holes = tee.sorted_holes
     new_edit = create_update == 'Update' ? Label::Common::EDIT : Label::Common::NEW
     expect(rendered).to have_selector('h1', count: 1, text: "#{new_edit} hole:")
     expect(rendered).to have_selector('h2', count: 1, text: 'Course: George')
-    expect(rendered).to have_selector('h2', count: 1, text: 'Tee: Black')
+    expect(rendered).to have_selector('h2', count: 1, text: "Tee: #{tee.color}")
+    expect(rendered).to have_selector('h2', count: 1, text: "Hole: #{values[:number]}")
 
     if holes.empty?
       expect(page_or_rendered).to have_selector('p', count: 1, text: 'No holes')
@@ -33,9 +35,6 @@ module HoleCommon
       expect(page_or_rendered).to have_selector("input[id=hole_yardage][value=#{values[:yardage]}]")
       expect(page_or_rendered).to have_selector("input[id=hole_par][value=#{values[:par]}]")
       expect(page_or_rendered).to have_selector("input[id=hole_hdcp][value=#{values[:hdcp]}]")
-      # expect(page_or_rendered).to have_field('Yardage', disabled: false, text: values[:yardage])
-      # expect(page_or_rendered).to have_field('Par', disabled: false, text: values[:par])
-      # expect(page_or_rendered).to have_field('HDCP', disabled: false, text: values[:hdcp])
     else
       expect(find_field(Label::Hole::NUMBER).value).to eq(values[:number])
       expect(find_field(Label::Hole::YARDAGE).value).to eq(values[:yardage])
@@ -43,9 +42,10 @@ module HoleCommon
       expect(find_field(Label::Hole::HDCP).value).to eq(values[:hdcp])
     end
 
-    expect(page_or_rendered).to have_button("#{create_update} Hole")
-    expect(page_or_rendered).to have_button(Button::Tee::EDIT)
-    expect(page_or_rendered).to have_button(Button::Course::EDIT)
+    expect(page_or_rendered).to have_button("#{create_update} Hole", count: 1)
+    expect(page_or_rendered).to have_button(Button::Tee::EDIT, count: 1)
+    expect(page_or_rendered).to have_button(Button::Course::EDIT, count: 1)
+    expect(page_or_rendered).to have_button(Button::Course::SHOW_COURSES, count: 1)
   end
 
   def expect_holes(page_or_rendered, holes, hole_values)

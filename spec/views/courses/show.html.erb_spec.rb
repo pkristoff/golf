@@ -13,6 +13,7 @@ describe 'courses/show.html.erb', type: :view do
 
     expect_form_fields(
       true,
+      Button::Course::UPDATE,
       { course_name: 'George',
         course_address_attributes_street_1: '555 Xxx Ave.',
         course_address_attributes_street_2: '<nothing>',

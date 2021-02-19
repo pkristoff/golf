@@ -21,7 +21,7 @@ feature 'edit_existing_course' do
                                    city: 'Clarksville',
                                    state: 'IN',
                                    zip: '47529')
-    click_button(Button::Tee::CREATE)
+    click_button(Button::Tee::NEW)
 
     expect_tee_form_fields(
       page,
@@ -45,7 +45,7 @@ feature 'edit_existing_course' do
                                    state: 'IN',
                                    zip: '47529')
 
-    click_button(Button::Tee::CREATE)
+    click_button(Button::Tee::NEW)
 
     expect_tee_form_fields(
       page,
@@ -75,9 +75,7 @@ feature 'edit_existing_course' do
                                    state: 'IN',
                                    zip: '47529')
 
-    click_button(Button::Tee::CREATE)
-
-    expect(page).to have_selector('h2', text: 'New tee')
+    click_button(Button::Tee::NEW)
 
     expect_tee_form_fields(
       page,
@@ -94,10 +92,8 @@ feature 'edit_existing_course' do
     fill_in Label::Tee::RATING, with: '71.6'
 
     click_button(Button::Tee::CREATE)
-    # puts "Edit Tee#{page.html}"
-    expect(page).to have_selector('h2', text: 'Edit tee')
+    expect(page).to have_selector('h1', text: 'Edit tee:')
     click_button(Button::Course::EDIT)
-    # puts "Edit Course#{page.html}"
     expect(page).to have_selector('h1', text: 'Edit Course')
   end
 
@@ -112,9 +108,7 @@ feature 'edit_existing_course' do
                                    state: 'IN',
                                    zip: '47529')
 
-    click_button(Button::Tee::CREATE)
-
-    expect(page).to have_selector('h2', text: 'New tee')
+    click_button(Button::Tee::NEW)
 
     expect_tee_form_fields(
       page,
@@ -132,7 +126,7 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::CREATE)
     # puts "Edit Tee#{page.html}"
-    expect(page).to have_selector('h2', text: 'Edit tee')
+    expect(page).to have_selector('h1', text: 'Edit tee:')
     click_button(Button::Course::EDIT)
     # puts "Edit Course#{page.html}"
     expect(page).to have_selector('h1', text: 'Edit Course')

@@ -1,3 +1,5 @@
 <h1>New Course</h1>
 
 <%= render "form", course: @course, form_disabled: false %>
+
+<%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get %>

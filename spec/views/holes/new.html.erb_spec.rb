@@ -21,7 +21,7 @@ describe 'holes/new.html.erb', type: :view do
 
     expect_hole_form_fields(
       rendered,
-      tee.sorted_holes,
+      tee,
       'Create',
       { number: 0,
         yardage: 0,
@@ -39,7 +39,7 @@ describe 'holes/new.html.erb', type: :view do
 
     expect_hole_form_fields(
       rendered,
-      course.tees.first.holes,
+      course.tees.first,
       'Create',
       { number: 1,
         yardage: 234,

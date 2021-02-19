@@ -74,4 +74,13 @@ feature 'edit_existing_course' do
                                ])
 
   end
+
+  scenario 'visit edit course and go to show courses' do
+    visit edit_course_path(@course.id)
+
+    click_button(Button::Course::SHOW_COURSES)
+
+    expect(page).to have_selector('h1', text: 'Courses')
+
+  end
 end

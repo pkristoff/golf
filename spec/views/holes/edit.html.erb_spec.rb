@@ -17,7 +17,7 @@ describe 'holes/edit.html.erb', type: :view do
 
     expect_hole_form_fields(
       rendered,
-      tee.sorted_holes,
+      tee,
       'Update',
       { number: 1,
         yardage: 411,
@@ -28,7 +28,7 @@ describe 'holes/edit.html.erb', type: :view do
   it 'edits 3rd hole' do
     course = FactoryBot.create(:course)
     assign(:course, course)
-    tee = course.tees.first
+    tee = course.tee('Blue')
     assign(:tee, tee)
     assign(:hole, tee.sorted_holes.third)
 
@@ -36,10 +36,10 @@ describe 'holes/edit.html.erb', type: :view do
 
     expect_hole_form_fields(
       rendered,
-      course.tees.first.holes,
+      tee,
       'Update',
       { number: 3,
-        yardage: 198,
+        yardage: 179,
         par: 3,
         hdcp: 11 }
     )

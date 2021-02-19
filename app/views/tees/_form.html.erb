@@ -1,3 +1,6 @@
+<h2>Course: <%= @course.name %></h2>
+<h2>Tee: <%= @tee.color %></h2>
+
 <%= render 'share/error_messages.html.erb', resource: @tee %>
 
 <%=render "tees/tees", tees: @course.sorted_tees %>
@@ -17,3 +20,4 @@
   </p>
 <% end %>
 <%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>
+<%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get %>

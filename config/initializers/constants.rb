@@ -29,10 +29,13 @@ module Button
   module Course
     CREATE = 'Create Course'.freeze
     EDIT = 'Edit Course'.freeze
+    UPDATE = 'Update Course'.freeze
+    SHOW_COURSES = 'Show Courses'.freeze
   end
   module Tee
     CREATE = 'Create Tee'.freeze
     EDIT = 'Edit Tee'.freeze
+    NEW = 'New Tee'.freeze
   end
   module Hole
     EDIT = 'Edit Hole'.freeze
