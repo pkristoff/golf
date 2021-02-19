@@ -48,7 +48,7 @@ module HoleCommon
     expect(page_or_rendered).to have_button(Button::Course::SHOW_COURSES, count: 1)
   end
 
-  def expect_holes(page_or_rendered, holes, hole_values)
+  def expect_holes(page_or_rendered, holes, hole_values, replace_values = [])
     # count = 4 for each tee
     expect(page_or_rendered).to have_selector('p', count: 4, text: 'No holes') if hole_values.empty?
     hole_values.each_with_index do |hole_info, index|
@@ -58,14 +58,26 @@ module HoleCommon
       hole_id = holes[i].id
       hole_number_id = "td[id=hole-number-#{hole_id}]"
       hole_number_link_id = "a[id=hole-number-link-#{hole_id}]"
+      number_text = hole_info[0].to_s
+      yardage_text = hole_info[1]
+      par_text = hole_info[2]
+      hdcp_text = hole_info[3]
+      replace_values.each do |replace_info|
+        yardage_text = replace_info[:yardage] if replace_info[:number] == number_text
+        par_text = replace_info[:par] if replace_info[:number] == number_text
+        hdcp_text = replace_info[:hdcp] if replace_info[:number] == number_text
+      end
       # puts "i=#{i} hole_number_id=#{hole_number_id}"
       # puts "hole_info=#{hole_info} hole_number=#{holes[i].number}"
-      expect(page_or_rendered).to have_selector(hole_number_id, count: 1, text: "#{hole_info[0]}")
-      expect(page_or_rendered).to have_selector(hole_number_link_id, count: 1, text: "#{hole_info[0]}")
+      expect(page_or_rendered).to have_selector(hole_number_id, count: 1, text: "#{number_text}")
+      expect(page_or_rendered).to have_selector(hole_number_link_id, count: 1, text: "#{number_text}")
+      expect(page_or_rendered).to have_selector("td[id=hole-yardage-#{hole_id}]", count: 1, text: "#{yardage_text}")
+      expect(page_or_rendered).to have_selector("td[id=hole-par-#{hole_id}]", count: 1, text: "#{par_text}")
+      expect(page_or_rendered).to have_selector("td[id=hole-hdcp-#{hole_id}]", count: 1, text: "#{hdcp_text}")
     end
   end
 
-  def expect_form_holes(page_or_rendered, values={})
+  def expect_form_holes(page_or_rendered, values = {})
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
