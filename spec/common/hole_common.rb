@@ -15,13 +15,22 @@ module HoleCommon
     else
       # Check table headers
       expect(page_or_rendered).to have_selector('table', count: 1)
-      expect(page_or_rendered).to have_selector('th[id=holes-number]', count: 1, text: 'Number')
-      expect(page_or_rendered).to have_selector('th[id=holes-yardage]', count: 1, text: 'Yardage')
-      expect(page_or_rendered).to have_selector('th[id=holes-par]', count: 1, text: 'Par')
-      expect(page_or_rendered).to have_selector('th[id=holes-hdcp]', count: 1, text: 'HDCP')
+
+      expect(page_or_rendered).to have_selector("td[id=hole-number-heading-#{tee.id}]", count: 1, text: 'Number')
+      expect(page_or_rendered).to have_selector("td[id=hole-yardage-heading-#{tee.id}]", count: 1, text: 'Yardage')
+      expect(page_or_rendered).to have_selector("td[id=hole-par-heading-#{tee.id}]", count: 1, text: 'Par')
+      expect(page_or_rendered).to have_selector("td[id=hole-hdcp-heading-#{tee.id}]", count: 1, text: 'HDCP')
+
+      expect(page_or_rendered).to have_selector("tr[id=hole-number-#{tee.id}]", count: 1)
+      expect(page_or_rendered).to have_selector("tr[id=hole-yardage-#{tee.id}]", count: 1)
+      expect(page_or_rendered).to have_selector("tr[id=hole-par-#{tee.id}]", count: 1)
+      expect(page_or_rendered).to have_selector("tr[id=hole-hdcp-#{tee.id}]", count: 1)
+
+      expect(page_or_rendered).to have_selector("td[id=total-out-yardage-#{tee.id}]", count: 1, text: values[:total_out_yardage])
+      expect(page_or_rendered).to have_selector("td[id=total-in-yardage-#{tee.id}]", count: 1, text: values[:total_in_yardage])
+      expect(page_or_rendered).to have_selector("td[id=total-yardage-#{tee.id}]", count: 1, text: values[:total_yardage])
 
       holes.each do |hole|
-        expect(page_or_rendered).to have_selector("tr[id=hole-#{hole.id}]", count: 1)
         expect(page_or_rendered).to have_selector("td[id=hole-number-#{hole.id}]", count: 1, text: hole.number)
         expect(page_or_rendered).to have_selector("td[id=hole-yardage-#{hole.id}]", count: 1, text: hole.yardage)
         expect(page_or_rendered).to have_selector("td[id=hole-par-#{hole.id}]", count: 1, text: hole.par)

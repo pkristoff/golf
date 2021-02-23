@@ -1,22 +1,70 @@
-
 <% if local_assigns[:holes].empty? %>
   <p>No holes</p>
 <% else %>
   <table id="holes" style="width:100%">
-    <tr>
-      <th id="holes-number" class="hole-th">Number</th>
-      <th id="holes-yardage" class="hole-th">Yardage</th>
-      <th id="holes-par" class="hole-th">Par</th>
-      <th id="holes-hdcp" class="hole-th">HDCP</th>
+    <tr id=<%= "hole-number-#{tee.id}" %>>
+      <td id=<%= "hole-number-heading-#{tee.id}" %> class="heading-cell">Number:</td>
+      <% local_assigns[:holes].each do |hole| %>
+        <td id='hole-number-<%= hole.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_hole_path(@course, local_assigns[:tee], hole), id: "hole-number-link-#{hole.id}") %></td>
+        <% if hole.number == 9 %>
+          <td class="number-cell"> out </td>
+        <% end %>
+        <% if hole.number == 18 %>
+          <td <%= "total-in-#{tee.id}" %> class="number-cell"> in </td>
+          <td class="number-cell"> Tot </td>
+        <% end %>
+      <% end %>
     </tr>
-    <% local_assigns[:holes].each do |hole| %>
-      <tr id='hole-<%= hole.id %>'>
-        <td id='hole-number-<%= hole.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_hole_path(@course,local_assigns[:tee],hole), id: "hole-number-link-#{hole.id}") %></td>
+    <tr id=<%= "hole-yardage-#{tee.id}" %>>
+      <td id=<%= "hole-yardage-heading-#{tee.id}" %> class="heading-cell">Yardage:</td>
+      <% in_out_tot = 0 %>
+      <% total = 0 %>
+      <% local_assigns[:holes].each do |hole| %>
+        <% in_out_tot += hole.yardage %>
+        <% total += hole.yardage %>
         <td id='hole-yardage-<%= hole.id %>' class="yardage-cell"><%= hole.yardage %></td>
+        <% if hole.number == 9 %>
+          <td id=<%= "total-out-yardage-#{tee.id}" %> class="yardage-cell"> <%= in_out_tot %> </td>
+          <% in_out_tot = 0 %>
+        <% end %>
+        <% if hole.number == 18 %>
+          <td id=<%= "total-in-yardage-#{tee.id}" %> class="yardage-cell"> <%= in_out_tot %>  </td>
+          <td id=<%= "total-yardage-#{tee.id}" %> class="yardage-cell"> <%= total %>  </td>
+        <% end %>
+      <% end %>
+    </tr>
+    <tr id=<%= "hole-par-#{tee.id}" %>>
+      <td id=<%= "hole-par-heading-#{tee.id}" %> class="heading-cell">Par:</td>
+      <% in_out_tot = 0 %>
+      <% total = 0 %>
+      <% local_assigns[:holes].each do |hole| %>
+        <% in_out_tot += hole.par %>
+        <% total += hole.par %>
         <td id='hole-par-<%= hole.id %>' class="par-cell"><%= hole.par %></td>
+        <% if hole.number == 9 %>
+          <td class="par-cell"> <%= in_out_tot %> </td>
+          <% in_out_tot = 0 %>
+        <% end %>
+        <% if hole.number == 18 %>
+          <td class="par-cell"> <%= in_out_tot %>  </td>
+          <td class="par-cell"> <%= total %>  </td>
+        <% end %>
+      <% end %>
+    </tr>
+    <tr id=<%= "hole-hdcp-#{tee.id}" %>>
+      <td id=<%= "hole-hdcp-heading-#{tee.id}" %> class="heading-cell">HDCP:</td>
+      <% local_assigns[:holes].each do |hole| %>
         <td id='hole-hdcp-<%= hole.id %>' class="hdcp-cell"><%= hole.hdcp %></td>
-      </tr>
-    <% end %>
+        <% if hole.number == 9 %>
+          <td class="hdcp-cell"></td>
+          <% in_out_tot = 0 %>
+        <% end %>
+        <% if hole.number == 18 %>
+          <td class="hdcp-cell"></td>
+          <td class="hdcp-cell"></td>
+        <% end %>
+      <% end %>
+    </tr>
   </table>
 
 <% end %>

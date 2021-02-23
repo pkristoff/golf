@@ -24,3 +24,31 @@
   border: 1px solid red !important;
 }
 label {font-weight: bold}
+
+.heading-cell {
+  width: 8px;
+  text-align: right;
+  padding-right: 2px;
+  border: 1px solid black
+}
+
+.number-cell {
+  width: 10px;
+  text-align: center;
+  border: 1px solid black
+}
+
+.yardage-cell {
+  text-align: center;
+  border: 1px solid black
+}
+
+.par-cell {
+  text-align: center;
+  border: 1px solid black
+}
+
+.hdcp-cell {
+  text-align: center;
+  border: 1px solid black
+}

@@ -9,7 +9,7 @@
     <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
   </div>
   <%= field_set_tag "Golf Course Tees", class: 'fieldset' do %>
-      <%=render "tees/tees", tees: course.sorted_tees %>
+      <%= render "tees/tees", tees: course.sorted_tees %>
   <% end %>
 
   <%= field_set_tag "Golf Course Address", class: 'fieldset' do %>

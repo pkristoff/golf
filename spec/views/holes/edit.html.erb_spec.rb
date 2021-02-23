@@ -22,7 +22,10 @@ describe 'holes/edit.html.erb', type: :view do
       { number: 1,
         yardage: 411,
         par: 4,
-        hdcp: 9 }
+        hdcp: 9,
+        total_out_yardage: 3366,
+        total_in_yardage: 3261,
+        total_yardage: 6627 }
     )
   end
   it 'edits 3rd hole' do
@@ -41,7 +44,10 @@ describe 'holes/edit.html.erb', type: :view do
       { number: 3,
         yardage: 179,
         par: 3,
-        hdcp: 11 }
+        hdcp: 11,
+        total_out_yardage: 3106,
+        total_in_yardage: 3030,
+        total_yardage: 6136 }
     )
   end
 end

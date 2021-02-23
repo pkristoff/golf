@@ -26,7 +26,10 @@ describe 'holes/new.html.erb', type: :view do
       { number: 0,
         yardage: 0,
         par: 0,
-        hdcp: 0 }
+        hdcp: 0,
+        total_out_yardage: 3106,
+        total_in_yardage: 3030,
+        total_yardage: 6136 }
     )
   end
   it 'has sorted holes for tee' do
@@ -44,7 +47,10 @@ describe 'holes/new.html.erb', type: :view do
       { number: 1,
         yardage: 234,
         par: 3,
-        hdcp: 9 }
+        hdcp: 9,
+        total_out_yardage: 3366,
+        total_in_yardage: 3261,
+        total_yardage: 6627 }
     )
   end
 end

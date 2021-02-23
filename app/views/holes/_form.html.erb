@@ -11,7 +11,7 @@
     <%= hole_form.label :number, Label::Hole::NUMBER %>
     <%= hole_form.text_field :number%>
     <%= hole_form.label :yardage, Label::Hole::YARDAGE %>
-    <%= hole_form.number_field :yardage %>
+    <%= hole_form.number_field :yardage, autofocus: true %>
     <%= hole_form.label :par, Label::Hole::PAR %>
     <%= hole_form.number_field :par %>
     <%= hole_form.label :hdcp, Label::Hole::HDCP %>
