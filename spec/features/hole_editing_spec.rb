@@ -29,7 +29,7 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
-                      number: '5', yardage: '644', par: '5', hdcp: '10')
+                      number: '6', yardage: '331', par: '4', hdcp: '7')
     expect_holes(page,@tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
                  [{number: '5', yardage: '644', par: '5', hdcp: '10'}])
     click_link('7')
@@ -49,7 +49,7 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
-                      number: '7', yardage: '645', par: '5', hdcp: '9')
+                      number: '8', yardage: '375', par: '4', hdcp: '1')
     expect_holes(page,@tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
                  [
                    {number: '5', yardage: '644', par: '5', hdcp: '10'},

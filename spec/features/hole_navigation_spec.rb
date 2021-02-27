@@ -71,6 +71,6 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
-                      number: '1', yardage: '644', par: '5', hdcp: '10')
+                      number: '2', yardage: '360', par: '4', hdcp: '15')
   end
 end

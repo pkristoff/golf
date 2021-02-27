@@ -32,6 +32,25 @@ class Tee < ApplicationRecord
     hole
   end
 
+  # returns the next hole or if at max then returns hole 1.
+  #
+  # === Parameters:
+  #
+  # * <tt>:hole</tt> golf course hole
+  #
+  # === Returns:
+  #
+  # * <tt>Hole</tt> whose number 1 greater than hole.number
+  #
+  def next_hole(hole)
+    next_number = nil
+    num_of_holes = number_of_holes
+    number = hole.number
+    next_number = number + 1 unless number == num_of_holes
+    next_number = 1 if number == num_of_holes
+    Hole.find_by(number: next_number, tee_id: id)
+  end
+
   # returns holes sorted by Hole.number
   #
   # === Returns:

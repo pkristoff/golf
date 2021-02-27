@@ -45,6 +45,7 @@ class HolesController < ApplicationController
       flash.now[:alert] = 'Error updating hole'
     else
       flash[:notice] = 'hole updated'
+      @hole = @tee.next_hole(@hole)
     end
     render 'holes/edit'
   end
