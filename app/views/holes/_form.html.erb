@@ -21,5 +21,6 @@
   </p>
 <% end %>
 <%= button_to Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get %>
+<%= button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get %>
 <%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>
 <%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get %>

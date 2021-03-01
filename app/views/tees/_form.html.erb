@@ -3,7 +3,7 @@
 
 <%= render 'share/error_messages.html.erb', resource: @tee %>
 
-<%=render "tees/tees", tees: @course.sorted_tees %>
+<%=render "tees/tees", tees: tees %>
 
 <%= form_with model: [@course, @tee], local: true  do |tee_form| %>
   <p>
@@ -19,5 +19,6 @@
   <%= tee_form.submit %>
   </p>
 <% end %>
+<%= (button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get) unless new_tee %>
 <%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>
 <%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get %>
