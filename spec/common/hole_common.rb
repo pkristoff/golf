@@ -1,5 +1,6 @@
-module HoleCommon
+# frozen_string_literal: true
 
+module HoleCommon
   require 'views/helpers'
 
   def expect_hole_form_fields(page_or_rendered, tee, create_update, values)
@@ -78,22 +79,20 @@ module HoleCommon
       end
       # puts "i=#{i} hole_number_id=#{hole_number_id}"
       # puts "hole_info=#{hole_info} hole_number=#{holes[i].number}"
-      expect(page_or_rendered).to have_selector(hole_number_id, count: 1, text: "#{number_text}")
-      expect(page_or_rendered).to have_selector(hole_number_link_id, count: 1, text: "#{number_text}")
-      expect(page_or_rendered).to have_selector("td[id=hole-yardage-#{hole_id}]", count: 1, text: "#{yardage_text}")
-      expect(page_or_rendered).to have_selector("td[id=hole-par-#{hole_id}]", count: 1, text: "#{par_text}")
-      expect(page_or_rendered).to have_selector("td[id=hole-hdcp-#{hole_id}]", count: 1, text: "#{hdcp_text}")
+      expect(page_or_rendered).to have_selector(hole_number_id, count: 1, text: number_text)
+      expect(page_or_rendered).to have_selector(hole_number_link_id, count: 1, text: number_text)
+      expect(page_or_rendered).to have_selector("td[id=hole-yardage-#{hole_id}]", count: 1, text: yardage_text)
+      expect(page_or_rendered).to have_selector("td[id=hole-par-#{hole_id}]", count: 1, text: par_text)
+      expect(page_or_rendered).to have_selector("td[id=hole-hdcp-#{hole_id}]", count: 1, text: hdcp_text)
     end
   end
 
-  def expect_form_holes(page_or_rendered, values = {})
-
+  def expect_form_holes(_page_or_rendered, values = {})
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     expect(find_field(Label::Hole::NUMBER).value.to_s).to eq(values[:number])
     expect(find_field(Label::Hole::YARDAGE).value.to_s).to eq(values[:yardage])
     expect(find_field(Label::Hole::PAR).value.to_s).to eq(values[:par])
     expect(find_field(Label::Hole::HDCP).value.to_s).to eq(values[:hdcp])
-
   end
 end

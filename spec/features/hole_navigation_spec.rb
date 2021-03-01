@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'common/tee_common'
 require 'common/hole_common'
 require 'common/course_common'

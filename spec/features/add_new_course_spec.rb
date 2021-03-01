@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'common/course_common'
 feature 'add a new course' do
   include CourseCommon
@@ -12,7 +14,6 @@ feature 'add a new course' do
     visit new_course_path
     # puts page.html
     expect_new_fields_with_values(page, name: '...', street_1: '', street_2: '', city: '', state: '', zip: '27502')
-
   end
 
   scenario 'visit new course fill in invalid values &look for errors' do
@@ -31,7 +32,9 @@ feature 'add a new course' do
                                course_address_attributes_street_1
                                course_address_attributes_city
                                course_address_attributes_state
-                               course_address_attributes_zip_code], %w[
+                               course_address_attributes_zip_code
+                             ],
+                             %w[
                                course_address_attributes_street_2
                              ])
   end

@@ -1,5 +1,6 @@
-module TeeCommon
+# frozen_string_literal: true
 
+module TeeCommon
   def expect_tee_form_fields(page_or_rendered, tees, values, update_create)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
@@ -42,6 +43,5 @@ module TeeCommon
     expect(page_or_rendered).to have_button("#{update_create} Tee")
     expect(page_or_rendered).to have_button(Button::Course::EDIT)
     expect(page_or_rendered).to have_button(Button::Course::SHOW_COURSES)
-
   end
 end

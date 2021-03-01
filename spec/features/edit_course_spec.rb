@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'common/course_common'
 feature 'edit_existing_course' do
   include CourseCommon
@@ -17,7 +19,6 @@ feature 'edit_existing_course' do
                                    city: 'Clarksville',
                                    state: 'IN',
                                    zip: '47529')
-
   end
 
   scenario 'visit edit course and make sure errors occur' do
@@ -37,14 +38,15 @@ feature 'edit_existing_course' do
                                    zip: '')
 
     expect_validation_errors(%w[
-                                 course_name
-                                 course_address_attributes_zip_code], %w[
-                                 course_address_attributes_street_1
-                                 course_address_attributes_city
-                                 course_address_attributes_state
-                                 course_address_attributes_street_2
-                               ])
-
+                               course_name
+                               course_address_attributes_zip_code
+                             ],
+                             %w[
+                               course_address_attributes_street_1
+                               course_address_attributes_city
+                               course_address_attributes_state
+                               course_address_attributes_street_2
+                             ])
   end
 
   scenario 'visit edit course and make sure values are updated' do
@@ -65,14 +67,13 @@ feature 'edit_existing_course' do
 
     expect_validation_errors(%w[],
                              %w[
-                                 course_name
-                                 course_address_attributes_zip_code
-                                 course_address_attributes_street_1
-                                 course_address_attributes_city
-                                 course_address_attributes_state
-                                 course_address_attributes_street_2
-                               ])
-
+                               course_name
+                               course_address_attributes_zip_code
+                               course_address_attributes_street_1
+                               course_address_attributes_city
+                               course_address_attributes_state
+                               course_address_attributes_street_2
+                             ])
   end
 
   scenario 'visit edit course and go to show courses' do
@@ -81,6 +82,5 @@ feature 'edit_existing_course' do
     click_button(Button::Course::SHOW_COURSES)
 
     expect(page).to have_selector('h1', text: 'Courses')
-
   end
 end

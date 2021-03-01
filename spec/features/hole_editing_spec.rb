@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'common/tee_common'
 require 'common/hole_common'
 require 'common/course_common'
@@ -19,7 +21,7 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       number: '5', yardage: '332', par: '4', hdcp: '17')
-    expect_holes(page,@tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White])
+    expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White])
 
     fill_in 'Yardage', with: 644
     fill_in 'Par', with: 5
@@ -30,15 +32,15 @@ feature 'edit_existing_course' do
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
                       number: '6', yardage: '331', par: '4', hdcp: '7')
-    expect_holes(page,@tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
-                 [{number: '5', yardage: '644', par: '5', hdcp: '10'}])
+    expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
+                 [{ number: '5', yardage: '644', par: '5', hdcp: '10' }])
     click_link('7')
 
     expect_form_holes(page,
                       number: '7', yardage: '153', par: '3', hdcp: '13')
-    expect_holes(page,@tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
+    expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
                  [
-                   {number: '5', yardage: '644', par: '5', hdcp: '10'}
+                   { number: '5', yardage: '644', par: '5', hdcp: '10' }
                  ])
 
     fill_in 'Yardage', with: 645
@@ -50,11 +52,10 @@ feature 'edit_existing_course' do
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
                       number: '8', yardage: '375', par: '4', hdcp: '1')
-    expect_holes(page,@tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
+    expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
                  [
-                   {number: '5', yardage: '644', par: '5', hdcp: '10'},
-                   {number: '7', yardage: '645', par: '5', hdcp: '9'}
+                   { number: '5', yardage: '644', par: '5', hdcp: '10' },
+                   { number: '7', yardage: '645', par: '5', hdcp: '9' }
                  ])
   end
-
 end
