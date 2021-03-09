@@ -11,6 +11,8 @@ class Course < ApplicationRecord
 
   validates :name, uniqueness: { case_sensitive: false }, presence: true
 
+  validates :number_of_holes, presence: true, inclusion: [9, 18]
+
   after_initialize :build_associations, if: :new_record?
 
   validates_associated :address
@@ -39,16 +41,6 @@ class Course < ApplicationRecord
     tees.detect { |tee| tee.color == color }
   end
 
-  # number of holes for course
-  #
-  # === Returns:
-  #
-  # * <tt>Integer</tt>
-  #
-  def num_of_holes
-    tees.first.holes.size
-  end
-
   # Create tee if tee is nil
   #
   # === Parameters:
@@ -72,21 +64,26 @@ class Course < ApplicationRecord
       tee.rating = rating
       tee.slope = slope
     end
-    front_nine = nil
-    back_nine = nil
-    eighteen = nil
-    hole_info.each do |info|
-      hole_num = info[0]
-      yardage = info[1]
-      par = info[2]
-      hdcp = info[3].nil? ? 0 : info[3]
-      if hole_num.nil?
-        eighteen = info if eighteen.nil? && !front_nine.nil? && !back_nine.nil?
-        back_nine = info if back_nine.nil? && !front_nine.nil?
-        front_nine = info if front_nine.nil?
-        next
+    if hole_info.empty?
+      tee.add_9_holes if number_of_holes == 9
+      tee.add_18_holes if number_of_holes == 18
+    else
+      front_nine = nil
+      back_nine = nil
+      eighteen = nil
+      hole_info.each do |info|
+        hole_num = info[0]
+        yardage = info[1]
+        par = info[2]
+        hdcp = info[3].nil? ? 0 : info[3]
+        if hole_num.nil?
+          eighteen = info if eighteen.nil? && !front_nine.nil? && !back_nine.nil?
+          back_nine = info if back_nine.nil? && !front_nine.nil?
+          front_nine = info if front_nine.nil?
+          next
+        end
+        tee.add_hole(hole_num, yardage, par, hdcp)
       end
-      tee.add_hole(hole_num, yardage, par, hdcp)
     end
     check_totals(tee, front_nine, back_nine)
     tees.push(tee)
@@ -122,6 +119,14 @@ class Course < ApplicationRecord
   # * <tt>Hole</tt>
   #
   def check_totals(tee, front_nine, back_nine)
+    course = tee.course
+    name = course.name
+    if course.number_of_holes != tee.holes.size
+      # rubocop:disable Layout/LineLength
+      raise "Course: #{name} tee: #{tee.color} number of holes mismatch declared: #{course.number_of_holes} actual: #{tee.holes.size}"
+      # rubocop:enable Layout/LineLength
+    end
+
     check_hdcp(tee)
     unless front_nine.nil?
       yardage = 0
@@ -153,13 +158,12 @@ class Course < ApplicationRecord
   end
 
   def check_hdcp(tee)
-    num_of_holes = tee.holes.size
     hdcps = []
     tee.holes.each do |hole|
       hdcp = hole.hdcp
       next if hdcp.nil?
 
-      raise "hdcp (#{hdcp}) larger than number of holes (#{num_of_holes})" if hdcp > num_of_holes
+      raise "hdcp (#{hdcp}) larger than number of holes (#{number_of_holes})" if hdcp > number_of_holes
 
       raise("hdcp problem hdcp: #{hdcp} already used: #{hdcps}") unless hdcps.find_index(hdcp).nil? || hdcp.zero?
 

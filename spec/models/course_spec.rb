@@ -50,7 +50,7 @@ describe Course, type: :model do
       expect_tee(course, 'Red', 63.6, 106, 18)
     end
   end
-  describe 'dupliate tee colors' do
+  describe 'validation' do
     it 'should raise error if a course has two tees of same color' do
       course = FactoryBot.create(:course)
       tee1 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
@@ -58,6 +58,20 @@ describe Course, type: :model do
       # case insensitive
       tee2 = course.add_tee(nil, 'black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
       expect(tee2.errors[:color][0]).to eq('has already been taken')
+    end
+    it 'should if number_of_holes eq 9 or 18' do
+      course = FactoryBot.create(:course)
+      course.number_of_holes = 9
+      expect(course.valid?).to be_truthy
+      course.number_of_holes = 18
+      expect(course.valid?).to be_truthy
+    end
+    it 'should if number_of_holes eq 0, 1, 8, 10, 17, 19' do
+      course = FactoryBot.create(:course)
+      [0, 1, 8, 10, 17, 19].each do |num|
+        course.number_of_holes = num
+        expect(course.valid?).to be_falsey
+      end
     end
   end
   describe 'destroy' do

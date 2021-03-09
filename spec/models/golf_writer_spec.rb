@@ -152,7 +152,10 @@ def compare_row_cells(axlsx_row, roo_row, for_hdcp: false)
     ac = axlsx_row.cells[index].value unless for_hdcp && axlsx_row.cells[index].value.nil?
     expect(rc).to eq(ac), "tee row not eq roo=#{rc} axlsx=#{ac} index=#{index}"
   end
-  expect(roo_row.size).to eq(axlsx_row.cells.size)
+  puts "roo_row=#{roo_row}" if roo_row.size != axlsx_row.cells.size
+  puts "axlsx_row=#{axlsx_row.cells.map(&:value)}" if roo_row.size != axlsx_row.cells.size
+  expect(roo_row.size).to eq(axlsx_row.cells.size),
+                          "roo_row.size=#{roo_row.size} does not match axlsx_row.cells.size=#{axlsx_row.cells.size}"
 end
 
 def compare_address(roo_address_row, axlsx_address_row)

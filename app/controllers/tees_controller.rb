@@ -12,7 +12,12 @@ class TeesController < ApplicationController
       flash.now[:alert] = 'Error creating tee'
       render 'tees/new'
     else
-      @tee.add_18_holes
+      case @course.number_of_holes
+      when 9
+        @tee.add_9_holes
+      when 18
+        @tee.add_18_holes
+      end
       flash[:notice] = 'tee added'
       render 'tees/edit'
     end

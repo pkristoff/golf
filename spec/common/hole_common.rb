@@ -37,7 +37,6 @@ module HoleCommon
         expect(page_or_rendered).to have_selector("td[id=hole-par-#{hole.id}]", count: 1, text: hole.par)
         expect(page_or_rendered).to have_selector("td[id=hole-hdcp-#{hole.id}]", count: 1, text: hole.hdcp)
       end
-
     end
 
     if page_or_rendered.is_a? String
@@ -61,8 +60,6 @@ module HoleCommon
   end
 
   def expect_holes(page_or_rendered, holes, hole_values, replace_values = [])
-    # count = 4 for each tee
-    expect(page_or_rendered).to have_selector('p', count: 4, text: 'No holes') if hole_values.empty?
     hole_values.each_with_index do |hole_info, index|
       next nil if hole_info[0].nil?
 

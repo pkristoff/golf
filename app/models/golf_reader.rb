@@ -121,10 +121,11 @@ class GolfReader
     par_row_num = (tee_row_num..10).detect { |row| sheet.row(row)[0] == 'Par' }
     hdcp_row_num = par_row_num + 1
     header_row_num = 2
-    course = Course.new(name: sheet_name)
+    header_row = sheet.row(header_row_num)
+    number_of_holes = header_row.find_index { |cell| cell == '18 Total' }.nil? ? 9 : 18
+    course = Course.new(name: sheet_name, number_of_holes: number_of_holes)
     process_address(sheet.row(address_row_num), course)
     course.save!
-    header_row = sheet.row(header_row_num)
     (tee_row_num..par_row_num - 1).each do |row_num|
       process_tee(course, sheet.row(row_num), header_row, sheet.row(par_row_num), sheet.row(hdcp_row_num))
     end
@@ -176,6 +177,7 @@ class GolfReader
         yardage = tee_row[idx]
         # puts "#{header_row[idx]} yardage: #{yardage}"
         par = par_row[idx]
+        hdcp = nil
         hdcp = hdcp_row[idx] unless hdcp_row[idx].nil?
         hdcp = 0 if hdcp_row[idx].nil?
         # puts "[hole_num, yardage, par, hdcp]=#{[hole_num, yardage, par, hdcp]}"

@@ -27,6 +27,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
 
   create_table "courses", force: :cascade do |t|
     t.string "name", default: "", null: false
+    t.integer "number_of_holes", default: 18, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.bigint "address_id"
@@ -46,7 +47,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.date "date", default: "2021-01-18", null: false
+    t.date "date", default: "2021-03-02", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
   end

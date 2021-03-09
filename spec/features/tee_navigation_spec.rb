@@ -158,6 +158,8 @@ feature 'edit_existing_course' do
       'Update'
     )
 
-    expect_holes(page, [], [])
+    @course.tees.each do |tee|
+      expect_holes(page, tee.sorted_holes, TeeHoleInfo::HOLE_INFO_EMPTY_18)
+    end
   end
 end

@@ -156,7 +156,7 @@ class GolfWriter
 
   def add_holes(course, row)
     has_rating = course.rate?
-    num_of_holes = course.num_of_holes
+    num_of_holes = course.number_of_holes
     row.add_cell('Hole')
     row.add_cell('Rate') if has_rating
     row.add_cell('Slope') if has_rating
