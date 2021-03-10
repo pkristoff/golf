@@ -101,7 +101,7 @@ class Course < ApplicationRecord
   end
 
   def self.basic_permitted_params
-    %i[name id]
+    %i[name id number_of_holes]
   end
 
   private

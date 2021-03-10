@@ -6,6 +6,7 @@ module Label
   end
   module Course
     NAME = 'Name'.freeze
+    NUMBER_OF_HOLES = 'Number of holes'
     STREET1 = 'Street 1'.freeze
     STREET2 = 'Street 2'.freeze
     CITY = 'City'.freeze

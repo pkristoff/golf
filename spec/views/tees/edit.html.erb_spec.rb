@@ -18,8 +18,7 @@ describe 'tees/edit.html.erb', type: :view do
       course.tees,
       { color: '',
         slope: '',
-        rating: '',
-        number_of_holes: '18' },
+        rating: '' },
       'Update'
     )
   end
@@ -35,8 +34,7 @@ describe 'tees/edit.html.erb', type: :view do
       course.tees,
       { color: '',
         slope: '',
-        rating: '',
-        number_of_holes: '18' },
+        rating: '' },
       'Update'
     )
   end

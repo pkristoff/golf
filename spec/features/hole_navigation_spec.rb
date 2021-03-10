@@ -32,8 +32,7 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'Black',
         slope: '139.0',
-        rating: '71.6',
-        number_of_holes: '18' },
+        rating: '71.6' },
       'Update'
     )
 
@@ -49,8 +48,7 @@ feature 'edit_existing_course' do
       { expect_messages: [[:flash_notice, 'tee updated']],
         color: 'Black',
         slope: '140.0',
-        rating: '75.0',
-        number_of_holes: '18' },
+        rating: '75.0' },
       'Update'
     )
 

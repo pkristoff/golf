@@ -5,6 +5,7 @@ module CourseCommon
     expect(page).to have_selector('h1', text: 'New Course')
     expect(find_button('submit-course')).to be_truthy
     expect(find_field(Label::Course::NAME).value).to eq(values[:name])
+    expect(find_field(Label::Course::NUMBER_OF_HOLES).value).to eq(values[:number_of_holes])
     expect(find_field(Label::Course::STREET1).value).to eq(values[:street_1])
     expect(find_field(Label::Course::STREET2).value).to eq(values[:street_2])
     expect(find_field(Label::Course::CITY).value).to eq(values[:city])

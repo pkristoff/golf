@@ -32,12 +32,10 @@ module TeeCommon
       expect(page_or_rendered).to have_field(Label::Tee::COLOR, disabled: false, text: values[:color])
       expect(page_or_rendered).to have_field(Label::Tee::SLOPE, disabled: false, text: values[:slope])
       expect(page_or_rendered).to have_field(Label::Tee::RATING, disabled: false, text: values[:rating])
-      expect(page_or_rendered).to have_selector("input[id=number_of_holes][value=#{values[:number_of_holes]}]", count: 1)
     else
       expect(find_field(Label::Tee::COLOR).value).to eq(values[:color])
       expect(find_field(Label::Tee::SLOPE).value).to eq(values[:slope])
       expect(find_field(Label::Tee::RATING).value).to eq(values[:rating])
-      expect(find_field('Number of holes').value).to eq(values[:number_of_holes])
     end
 
     expect(page_or_rendered).to have_button("#{update_create} Tee")

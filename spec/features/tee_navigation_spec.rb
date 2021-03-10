@@ -30,8 +30,7 @@ feature 'edit_existing_course' do
       Course.find_by(id: @course.id).tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0',
-        number_of_holes: '18' },
+        rating: '0.0' },
       'Create'
     )
   end
@@ -54,8 +53,7 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0',
-        number_of_holes: '18' },
+        rating: '0.0' },
       'Create'
     )
 
@@ -84,8 +82,7 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0',
-        number_of_holes: '18' },
+        rating: '0.0' },
       'Create'
     )
 
@@ -117,8 +114,7 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0',
-        number_of_holes: '18' },
+        rating: '0.0' },
       'Create'
     )
 
@@ -153,8 +149,7 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'Black',
         slope: '139.0',
-        rating: '71.6',
-        number_of_holes: '18' },
+        rating: '71.6' },
       'Update'
     )
 

@@ -52,7 +52,7 @@ class CoursesController < ApplicationController
   #   if fails then back to new
   #
   def create
-    @course = Course.new(course_params)
+    @course = Course.create(course_params)
     if @course.save
       if @course.tees.empty?
         render :edit
