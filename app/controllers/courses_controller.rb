@@ -80,6 +80,12 @@ class CoursesController < ApplicationController
     redirect_to root_path
   end
 
+  # Show courses in prep for choosing or creating a round
+  #
+  def rounds_index
+    @courses = Course.all
+  end
+
   private
 
   def course_params

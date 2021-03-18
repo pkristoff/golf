@@ -52,6 +52,13 @@ class TeesController < ApplicationController
     end
   end
 
+  # Show tees in prep for choosing or creating a round
+  #
+  def rounds_tees
+    @course = Course.find(params[:course_id])
+    @tees = @course.sorted_tees
+  end
+
   private
 
   def tee_params

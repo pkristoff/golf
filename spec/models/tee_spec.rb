@@ -3,8 +3,8 @@
 describe Tee, type: :model do
   describe 'basic creation' do
     it 'default values' do
-      tee = Tee.new(color: 'black', slope: 3.4, rating: 5.5)
-      expect(tee.color).to eq('black')
+      tee = Tee.new(color: 'Black', slope: 3.4, rating: 5.5)
+      expect(tee.color).to eq('Black')
       expect(tee.slope).to eq(3.4)
       expect(tee.rating).to eq(5.5)
       expect(tee.holes.size).to eq(0)
@@ -13,8 +13,8 @@ describe Tee, type: :model do
   describe 'holes' do
     describe 'creation' do
       it 'create 9 holes' do
-        tee = Tee.new(color: 'black', slope: 3.4, rating: 5.5)
-        expect(tee.color).to eq('black')
+        tee = Tee.new(color: 'Black', slope: 3.4, rating: 5.5)
+        expect(tee.color).to eq('Black')
         expect(tee.slope).to eq(3.4)
         expect(tee.rating).to eq(5.5)
         tee.add_9_holes
@@ -39,8 +39,8 @@ describe Tee, type: :model do
       it 'should create a factory tee' do
         tee = FactoryBot.create(:tee)
         course = tee.course
-        expect(course.name).to eq('Factory-bot for Tee')
-        expect(tee.color).to eq('black')
+        expect(course.name).to eq('for factorybot tee')
+        expect(tee.color).to eq('Black')
         expect(tee.slope).to eq(62.9)
         expect(tee.rating).to eq(60.7)
         expect(tee.holes.size).to eq(18)

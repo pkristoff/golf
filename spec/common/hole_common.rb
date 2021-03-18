@@ -18,9 +18,9 @@ module HoleCommon
       expect(page_or_rendered).to have_selector('table', count: 1)
 
       expect(page_or_rendered).to have_selector("td[id=hole-number-heading-#{tee.id}]", count: 1, text: 'Number')
-      expect(page_or_rendered).to have_selector("td[id=hole-yardage-heading-#{tee.id}]", count: 1, text: 'Yardage')
-      expect(page_or_rendered).to have_selector("td[id=hole-par-heading-#{tee.id}]", count: 1, text: 'Par')
-      expect(page_or_rendered).to have_selector("td[id=hole-hdcp-heading-#{tee.id}]", count: 1, text: 'HDCP')
+      expect(page_or_rendered).to have_selector("td[id=hole-yardage-heading-#{tee.id}]", count: 1, text: Label::Hole::YARDAGE)
+      expect(page_or_rendered).to have_selector("td[id=hole-par-heading-#{tee.id}]", count: 1, text: Label::Hole::PAR)
+      expect(page_or_rendered).to have_selector("td[id=hole-hdcp-heading-#{tee.id}]", count: 1, text: Label::Hole::HDCP)
 
       expect(page_or_rendered).to have_selector("tr[id=hole-number-#{tee.id}]", count: 1)
       expect(page_or_rendered).to have_selector("tr[id=hole-yardage-#{tee.id}]", count: 1)

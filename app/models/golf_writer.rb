@@ -97,6 +97,8 @@ class GolfWriter
       row.add_cell(front_nine) if !doing_penalties && back_nine.zero?
       row.add_cell(back_nine) if !doing_penalties && !back_nine.zero?
       row.add_cell(front_nine + back_nine) if !doing_penalties && !back_nine.zero?
+      puts "scores=#{round.scores.map(&:strokes)}" if score_accessor == :strokes
+      puts "row=#{row.cells.map(&:value)}" if score_accessor == :strokes
     end
   end
 
@@ -115,7 +117,7 @@ class GolfWriter
   def add_hdcp_rows(tees, sheet)
     tee = tees[0]
     sheet.add_row do |row|
-      row.add_cell('HDCP')
+      row.add_cell(Label::Hole::HDCP)
       row.add_cell(nil) unless tee.rating.zero? # rating
       row.add_cell(nil) unless tee.slope.zero? # slope
       tee.holes_inorder_with_hdcp_totals.each do |hole|
@@ -128,7 +130,7 @@ class GolfWriter
   def add_par_rows(tees, sheet)
     tee = tees[0]
     sheet.add_row do |row|
-      row.add_cell('Par')
+      row.add_cell(Label::Hole::PAR)
       row.add_cell(nil) unless tee.rating.zero? # rating
       row.add_cell(nil) unless tee.slope.zero? # slope
       tee.holes_inorder_with_par_totals.each do |hole|

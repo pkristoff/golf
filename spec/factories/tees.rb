@@ -9,10 +9,12 @@ FactoryBot.define do
     transient do
       tee_hole_info { nil }
     end
-    color { 'black' }
+    color { 'Black' }
     rating { 60.7 }
     slope { 62.9 }
-    course { Course.create(name: 'Factory-bot for Tee') }
+    course do
+      FactoryBot.create(:course, name: 'for factorybot tee', should_fillin_tees: false)
+    end
     after(:create) do |tee, evaluator|
       hole_info = evaluator.tee_hole_info
       if hole_info

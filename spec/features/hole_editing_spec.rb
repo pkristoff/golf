@@ -23,9 +23,9 @@ feature 'edit_existing_course' do
                       number: '5', yardage: '332', par: '4', hdcp: '17')
     expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White])
 
-    fill_in 'Yardage', with: 644
-    fill_in 'Par', with: 5
-    fill_in 'Hdcp', with: 10
+    fill_in Label::Hole::YARDAGE, with: 644
+    fill_in Label::Hole::PAR, with: 5
+    fill_in Label::Hole::HDCP, with: 10
 
     click_button('Update Hole')
 
@@ -43,9 +43,9 @@ feature 'edit_existing_course' do
                    { number: '5', yardage: '644', par: '5', hdcp: '10' }
                  ])
 
-    fill_in 'Yardage', with: 645
-    fill_in 'Par', with: 5
-    fill_in 'Hdcp', with: 9
+    fill_in Label::Hole::YARDAGE, with: 645
+    fill_in Label::Hole::PAR, with: 5
+    fill_in Label::Hole::HDCP, with: 9
 
     click_button('Update Hole')
 

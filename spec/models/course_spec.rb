@@ -10,7 +10,7 @@ describe Course, type: :model do
       expect(course.name).to eq('Lochmere')
     end
     it 'duplicate course name case insensitive' do
-      FactoryBot.create(:course)
+      FactoryBot.create(:course, name: 'george')
       expect(Course.all.size).to eq(1)
       # rubocop:disable Layout/LineLength
       expect { Course.create!(name: 'george') }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken, Address is invalid')
@@ -25,11 +25,11 @@ describe Course, type: :model do
       course.address.state = 'IN'
       course.address.state = '47529'
       course.save!
-      course.add_tee(nil, 'black', 67.3, 70.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
+      course.add_tee(nil, 'Black', 67.3, 70.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
       expect(course.tees.size).to eq(1)
 
       tee = course.tees.first
-      expect(tee.color).to eq('black')
+      expect(tee.color).to eq('Black')
     end
   end
   describe 'Factory create' do
@@ -56,7 +56,7 @@ describe Course, type: :model do
       tee1 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
       expect(tee1.errors[:color][0]).to eq('has already been taken')
       # case insensitive
-      tee2 = course.add_tee(nil, 'black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+      tee2 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
       expect(tee2.errors[:color][0]).to eq('has already been taken')
     end
     it 'should if number_of_holes eq 9 or 18' do

@@ -1,0 +1,15 @@
+<h1>Rounds for <%= @course.name %> and tee <%= @tee.color %></h1>
+<% rounds = @tee.sorted_rounds %>
+<% if rounds.empty? %>
+  <p> <%= Label::Round::NO_ROUNDS %></p>
+<% else %>
+  <ul>
+    <% rounds.each do |round| %>
+      <li id="li-id-<%= round.id %>"><%= link_to round.date, course_tee_round_url(@course, @tee, round) %></li>
+    <% end %>
+  </ul>
+<% end %>
+
+<%= button_to Button::Round::TEES, rounds_tees_course_tees_path(@course), method: :get %>
+
+<%= button_to Button::Round::COURSES, rounds_index_courses_path, method: :get %>

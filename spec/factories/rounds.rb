@@ -5,9 +5,12 @@ require 'support/tee_hole_info'
 FactoryBot.define do
   factory :round do
     date { Time.zone.today }
+    tee do
+      course = FactoryBot.create(:course, name: 'prk')
+      course.tee('Black')
+    end
     after(:create) do |round, _evaluator|
-      course = FactoryBot.create(:course)
-      tee = course.tee('Black')
+      tee = round.tee
       nine_stroke_total = nil
       nine_putt_total = nil
       eighteen_stroke_total = nil

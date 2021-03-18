@@ -6,6 +6,7 @@ class Tee < ApplicationRecord
   belongs_to(:course)
 
   has_many(:holes, dependent: :destroy)
+  has_many(:rounds, dependent: :destroy)
 
   validates :color, uniqueness: { case_sensitive: false, scope: :course }
   validates :color, presence: true
@@ -59,6 +60,17 @@ class Tee < ApplicationRecord
   def sorted_holes
     # puts "sorted=#{holes.sort_by(&:number).map{|h|h.number} }"
     holes.sort_by(&:number)
+  end
+
+  # returns rounds sorted by Round.date
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> rounds sorted by Round.date
+  #
+  def sorted_rounds
+    # puts "sorted=#{holes.sort_by(&:number).map{|h|h.number} }"
+    rounds.sort_by(&:date)
   end
 
   # total number holes normally 9 or 18

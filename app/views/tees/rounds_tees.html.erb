@@ -1,0 +1,11 @@
+<h1>Rounds</h1>
+<h1>Choose Tee for course <%= @course.name %></h1>
+
+<ul>
+  <% @tees.each do |tee| %>
+    <li id="li-id<%= tee.id %>"><%= link_to tee.color, course_tee_rounds_path(@course, tee) %></li>
+  <% end %>
+</ul>
+
+<%= button_to 'Show Round Courses', rounds_index_courses_path, method: :get %>
+

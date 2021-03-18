@@ -75,7 +75,7 @@ class GolfReader
   def process_rounds_for_course(sheet_name)
     sheet = @workbook.sheet(sheet_name)
     course = course(sheet_name)
-    hdcp_row_num = (1..sheet.last_row).detect { |row| sheet.row(row)[0] == 'HDCP' }
+    hdcp_row_num = (1..sheet.last_row).detect { |row| sheet.row(row)[0] == Label::Hole::HDCP }
     round_row_num = find_round_row(sheet, hdcp_row_num + 1)
     until round_row_num.nil?
       @rounds.push(process_round(sheet, course, round_row_num)) unless round_row_num.nil?
@@ -91,8 +91,9 @@ class GolfReader
     tee_color = score_row[0]
     # puts "course.name=#{course.name} tee_color=#{tee_color}"
     tee = course.tee(tee_color)
-    round = Round.create(date: date_cell)
+    round = Round.create(date: date_cell, tee: tee)
     # puts "  round=#{date_cell}"
+    offset = 0
     offset = 1 if tee.slope.zero?
     offset = 3 unless tee.slope.zero?
     tee.holes.each_with_index do |hole, index|
@@ -118,7 +119,7 @@ class GolfReader
     sheet = @workbook.sheet(sheet_name)
     address_row_num = 1
     tee_row_num = 4
-    par_row_num = (tee_row_num..10).detect { |row| sheet.row(row)[0] == 'Par' }
+    par_row_num = (tee_row_num..10).detect { |row| sheet.row(row)[0] == Label::Hole::PAR }
     hdcp_row_num = par_row_num + 1
     header_row_num = 2
     header_row = sheet.row(header_row_num)

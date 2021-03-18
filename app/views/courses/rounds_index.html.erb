@@ -1,0 +1,7 @@
+<h1>Choose Course</h1>
+
+<ul id="courses">
+  <% @courses.each do |course| %>
+    <li id="li-id<%= course.id %>"><%= link_to course.name, rounds_tees_course_tees_path(course) %></li>
+  <% end %>
+</ul>

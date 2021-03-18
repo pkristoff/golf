@@ -4,17 +4,8 @@
 #
 class Round < ApplicationRecord
   has_many(:scores, dependent: :destroy)
+  belongs_to(:tee, validate: false)
   accepts_nested_attributes_for(:scores, allow_destroy: true)
-
-  # Tee for round
-  #
-  # === Returns:
-  #
-  # * <tt>Tee</tt>
-  #
-  def tee
-    scores.first.hole.tee
-  end
 
   # Course the round was played on
   #

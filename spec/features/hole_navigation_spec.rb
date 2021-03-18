@@ -63,9 +63,9 @@ feature 'edit_existing_course' do
                       expect_messages: [[:flash_notice, 'tee updated']],
                       number: '1', yardage: '411', par: '4', hdcp: '9')
 
-    fill_in 'Yardage', with: 644
-    fill_in 'Par', with: 5
-    fill_in 'Hdcp', with: 10
+    fill_in Label::Hole::YARDAGE, with: 644
+    fill_in Label::Hole::PAR, with: 5
+    fill_in Label::Hole::HDCP, with: 10
 
     click_button('Update Hole')
 
