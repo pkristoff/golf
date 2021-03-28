@@ -2,10 +2,7 @@
 
 <%= render "form", course: @course, form_disabled: true %>
 
-<ul>
-  <li><%= link_to Label::Common::EDIT, edit_course_path(@course) %></li>
-  <li><%= link_to Label::Common::DESTROY, course_path(@course),
+  <%= button_to Label::Course::EDIT, edit_course_path(@course) %>
+  <%= button_to Label::Course::DESTROY, course_path(@course),
                   method: :delete,
-                  data: { confirm: "Are you sure?" } %></li>
-  <%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get %>
-</ul>
+                  data: { confirm: "Are you sure?" } %>

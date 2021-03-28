@@ -2,6 +2,8 @@ Rails.application.routes.draw do
   root "welcome#index"
 
   get 'welcome/index'
+  get 'welcome/filein_db'
+  post 'welcome/upload'
 
   resources :courses do
     collection do

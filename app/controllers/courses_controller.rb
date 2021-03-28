@@ -35,7 +35,6 @@ class CoursesController < ApplicationController
       else
         render :edit, alert: 'Validation error(s).'
       end
-
     end
   end
 

@@ -5,6 +5,8 @@ module Label
     NEW = 'New'.freeze
   end
   module Course
+    DESTROY = 'Destroy course'.freeze
+    EDIT = 'Edit course'.freeze
     NAME = 'Name'.freeze
     NUMBER_OF_HOLES = 'Number of holes'
     STREET1 = 'Street 1'.freeze
@@ -52,6 +54,7 @@ module Button
     EDIT = 'Edit Hole'.freeze
   end
   module Round
+    CHOOSE_COURSE = 'Choose Round Course'
     EDIT='Edit Round'.freeze
     NEW='New Round'.freeze
     COURSES = 'Show Round Courses'.freeze

@@ -1,0 +1,9 @@
+<h1>File in DB</h1>
+<h3>...</h3>
+
+
+<%= form_tag welcome_upload_path, multipart: true do %>
+  <label for="file">xlsx file to Upload</label>
+  <%= file_field_tag 'file', accept: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,application/vnd.ms-excel', class: 'upload' %><br>
+  <%= submit_tag %>
+<% end %>

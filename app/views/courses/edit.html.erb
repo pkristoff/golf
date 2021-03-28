@@ -3,5 +3,3 @@
 <%= render "form", course: @course, form_disabled: false %>
 
 <%= button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get %>
-
-<%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get %>

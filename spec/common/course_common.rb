@@ -1,7 +1,12 @@
 # frozen_string_literal: true
 
+require 'common/application_common'
+
 module CourseCommon
+  include AsideCommon
   def expect_new_fields_with_values(page, values = {})
+    expect_aside(page)
+
     expect(page).to have_selector('h1', text: 'New Course')
     expect(find_button('submit-course')).to be_truthy
     expect(find_field(Label::Course::NAME).value).to eq(values[:name])
@@ -27,6 +32,8 @@ module CourseCommon
   end
 
   def expect_edit_fields_with_values(page, values = {})
+    expect_aside(page)
+
     expect(page).to have_selector('h1', text: 'Edit Course')
     expect(find_button('submit-course')).to be_truthy
     expect(find_field(Label::Course::NAME).value).to eq(values[:name])
@@ -40,9 +47,12 @@ module CourseCommon
   end
 
   def expect_show_fields_with_values(page, name, street1, street2, city, state, zip)
+    expect_aside(page)
+
     expect(page).to have_selector('h1', text: 'Show Course')
-    expect(find('a', text: Label::Common::EDIT)).to be_truthy
-    expect(find('a', text: Label::Common::DESTROY)).to be_truthy
+
+    expect(find_button(Label::Common::EDIT)).to be_truthy
+    expect(find_button(Label::Common::DESTROY)).to be_truthy
     expect(find_button(Button::Course::SHOW_COURSES, count: 1)).to be_truthy
     expect(find_field(Label::Course::NAME, disabled: true).value).to eq(name)
     expect(find_field(Label::Course::STREET1, disabled: true).value).to eq(street1)
@@ -53,6 +63,8 @@ module CourseCommon
   end
 
   def expect_form_fields(disabled, button_name, values)
+    # expect_aside(rendered)
+
     expect(rendered).to have_field('course_name', disabled: disabled)
     expect(rendered).to have_selector("input[id=course_name][value='#{values[:course_name]}']")
     expect(rendered).to have_field(Label::Course::STREET1, disabled: disabled)
@@ -72,6 +84,6 @@ module CourseCommon
     expect(rendered).not_to have_button(button_name) if disabled
     expect(rendered).to have_button(Button::Tee::NEW) if !disabled && button_name == Button::Course::UPDATE
     expect(rendered).not_to have_button(Button::Tee::NEW) if disabled && !button_name == Button::Course::UPDATE
-    expect(rendered).to have_button(Button::Course::SHOW_COURSES)
+    expect(rendered).not_to have_button(Button::Course::SHOW_COURSES)
   end
 end

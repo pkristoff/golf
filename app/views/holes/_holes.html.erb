@@ -22,7 +22,7 @@
       <% local_assigns[:holes].each do |hole| %>
         <% in_out_tot += hole.yardage %>
         <% total += hole.yardage %>
-        <td id='hole-yardage-<%= hole.id %>' class="yardage-cell"><%= hole.yardage %>:</td>
+        <td id='hole-yardage-<%= hole.id %>' class="yardage-cell"><%= hole.yardage %></td>
         <% if hole.number == 9 %>
           <td id=<%= "total-out-yardage-#{tee.id}" %> class="yardage-cell"> <%= in_out_tot %> </td>
           <% in_out_tot = 0 %>

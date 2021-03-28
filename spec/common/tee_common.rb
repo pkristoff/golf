@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require 'common/application_common'
+
 module TeeCommon
+  include AsideCommon
   def expect_tee_form_fields(page_or_rendered, tees, values, update_create)
+    expect_aside(page_or_rendered) unless page_or_rendered.is_a?(String)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     new_edit = update_create == 'Update' ? 'Edit' : 'New'
@@ -41,7 +45,5 @@ module TeeCommon
     expect(page_or_rendered).to have_button("#{update_create} Tee")
     expect(page_or_rendered).to have_button(Button::Course::EDIT)
     expect(page_or_rendered).to have_button(Button::Tee::NEW) if update_create == 'Update'
-    expect(page_or_rendered).to have_button(Button::Course::SHOW_COURSES)
-    expect(page_or_rendered).to have_selector('input[type=submit]', count: update_create == 'Update' ? 4 : 3)
   end
 end

@@ -2,7 +2,7 @@
 
 module RoundsCommon
   def expect_rounds_index(courses)
-    expect(rendered).to have_selector('h1', text: 'Choose Course')
+    expect(rendered).to have_selector('h1', text: Button::Round::CHOOSE_COURSE)
     courses.each do |course|
       expect(rendered).to have_link(course.name)
     end
@@ -28,8 +28,8 @@ module RoundsCommon
       end
     end
     expect(rendered).to have_button(Button::Round::TEES, count: 1)
-    expect(rendered).to have_button(Button::Round::COURSES, count: 1)
-    expect(rendered).to have_selector('input[type=submit]', count: 2)
+    expect(rendered).to have_button(Button::Round::COURSES, count: 0)
+    expect(rendered).to have_selector('input[type=submit]', count: 3)
   end
 
   def expect_round_form_fields(page_or_rendered, _tee, values, update_create)

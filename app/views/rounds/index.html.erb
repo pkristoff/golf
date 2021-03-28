@@ -5,11 +5,13 @@
 <% else %>
   <ul>
     <% rounds.each do |round| %>
-      <li id="li-id-<%= round.id %>"><%= link_to round.date, course_tee_round_url(@course, @tee, round) %></li>
+      <li id="li-id-<%= round.id %>"><%= link_to round.date, edit_course_tee_round_path(@course, @tee, round) %></li>
     <% end %>
   </ul>
 <% end %>
 
-<%= button_to Button::Round::TEES, rounds_tees_course_tees_path(@course), method: :get %>
+<%= button_to 'Create Round', rounds_tees_course_tees_path(@course), method: :get %>
 
-<%= button_to Button::Round::COURSES, rounds_index_courses_path, method: :get %>
+<%= button_to 'New Round', new_course_tee_round_path(@course, @tee, Round.new), method: :get %>
+
+<%= button_to Button::Round::TEES, rounds_tees_course_tees_path(@course), method: :get %>

@@ -12,7 +12,7 @@ describe 'rounds/new.html.erb', type: :view do
     assign(:round, Round.new)
 
     render
-    puts rendered
+
     expect_round_form_fields(
       rendered,
       tee,

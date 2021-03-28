@@ -2,9 +2,8 @@
 
 <ul>
   <% @courses.each do |course| %>
-    <li id="li-id"><%= link_to course.name, course, id: "edit_link_#{course.id}"%></li>
+    <li id="li-id"><%= link_to course.name, course, id: "edit_link_#{course.id}" %></li>
   <% end %>
-
-  <%= link_to "Add new Course", new_course_path, id: 'add_new_course' %>
+  <br>
+  <%= button_to "Add new Course", new_course_path, id: 'add_new_course' %>
 </ul>
-

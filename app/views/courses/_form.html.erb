@@ -21,27 +21,21 @@
     <div class="fieldset-div">
       <%= form.fields_for :address do |address_fields| %>
         <div class="field">
-          <%= address_fields.label :street_1, Label::Course::STREET1 %><br/>
+          <%= address_fields.label :street_1, Label::Course::STREET1 %>
           <%= address_fields.text_field :street_1, disabled: form_disabled %>
           <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_1 %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :street_2, Label::Course::STREET2 %><br/>
+          <%= address_fields.label :street_2, Label::Course::STREET2 %>
           <%= address_fields.text_field :street_2, disabled: form_disabled %>
           <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_2 %>
         </div>
         <div class="field">
-          <%= address_fields.label :city, Label::Course::CITY %><br/>
+          <%= address_fields.label :city, Label::Course::CITY %>
           <%= address_fields.text_field :city, disabled: form_disabled %>
           <%= render 'attribute_error', object_with_errors: course.address, attribute: :city %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :state, Label::Course::STATE %><br/>
+          <%= address_fields.label :state, Label::Course::STATE %>
           <%= address_fields.text_field :state, disabled: form_disabled %>
           <%= render 'attribute_error', object_with_errors: course.address, attribute: :state %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :zip_code, Label::Course::ZIP %><br/>
+          <%= address_fields.label :zip_code, Label::Course::ZIP %>
           <%= address_fields.text_field :zip_code, disabled: form_disabled %>
           <%= render 'attribute_error', object_with_errors: course.address, attribute: :zip_code %>
         </div>

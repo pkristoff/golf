@@ -9,7 +9,7 @@ RSpec.describe 'courses/index.html.erb', type: :view do
     render
 
     expect(rendered).to have_selector("li[id='li-id']", count: 0)
-    expect(rendered).to have_selector("a[id='add_new_course']", text: 'Add new Course')
+    expect(rendered).to have_selector("input[id='add_new_course'][type=submit][value='Add new Course']")
   end
 
   it 'index with one course' do
@@ -20,6 +20,7 @@ RSpec.describe 'courses/index.html.erb', type: :view do
 
     expect(rendered).to have_selector("li[id='li-id']", count: 1)
     expect(rendered).to have_selector("a[id='edit_link_#{course.id}']", text: 'George')
-    expect(rendered).to have_selector("a[id='add_new_course']", text: 'Add new Course')
+
+    expect(rendered).to have_selector("input[id='add_new_course'][type=submit][value='Add new Course']")
   end
 end

@@ -55,8 +55,8 @@ module HoleCommon
     expect(page_or_rendered).to have_button(Button::Tee::EDIT, count: 1)
     expect(page_or_rendered).to have_button(Button::Tee::NEW, count: 1)
     expect(page_or_rendered).to have_button(Button::Course::EDIT, count: 1)
-    expect(page_or_rendered).to have_button(Button::Course::SHOW_COURSES, count: 1)
-    expect(page_or_rendered).to have_selector('input[type=submit]', count: 5)
+    expect(page_or_rendered).to have_button(Button::Course::SHOW_COURSES, count: 0)
+    expect(page_or_rendered).to have_selector('input[type=submit]', count: 4)
   end
 
   def expect_holes(page_or_rendered, holes, hole_values, replace_values = [])
