@@ -4,8 +4,10 @@ require 'common/application_common'
 
 module TeeCommon
   include AsideCommon
+  include DatabaseCommon
   def expect_tee_form_fields(page_or_rendered, tees, values, update_create)
-    expect_aside(page_or_rendered) unless page_or_rendered.is_a?(String)
+    expect_aside(page_or_rendered, values[:show_round_tees]) unless page_or_rendered.is_a?(String)
+    expect_database(page_or_rendered) unless page_or_rendered.is_a?(String)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     new_edit = update_create == 'Update' ? 'Edit' : 'New'

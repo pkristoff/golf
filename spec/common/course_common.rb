@@ -4,8 +4,10 @@ require 'common/application_common'
 
 module CourseCommon
   include AsideCommon
+  include DatabaseCommon
   def expect_new_fields_with_values(page, values = {})
-    expect_aside(page)
+    expect_aside(page, values[:show_round_tees])
+    expect_database(page)
 
     expect(page).to have_selector('h1', text: 'New Course')
     expect(find_button('submit-course')).to be_truthy
@@ -32,7 +34,8 @@ module CourseCommon
   end
 
   def expect_edit_fields_with_values(page, values = {})
-    expect_aside(page)
+    expect_aside(page, (values[:show_round_tees]))
+    expect_database(page)
 
     expect(page).to have_selector('h1', text: 'Edit Course')
     expect(find_button('submit-course')).to be_truthy
@@ -46,20 +49,21 @@ module CourseCommon
     expect(find_button(Button::Tee::NEW)).to be_truthy
   end
 
-  def expect_show_fields_with_values(page, name, street1, street2, city, state, zip)
-    expect_aside(page)
+  def expect_show_fields_with_values(page, values = {})
+    expect_aside(page, values[:show_round_tees])
+    expect_database(page)
 
     expect(page).to have_selector('h1', text: 'Show Course')
 
     expect(find_button(Label::Common::EDIT)).to be_truthy
-    expect(find_button(Label::Common::DESTROY)).to be_truthy
+    expect(find_button(Label::Course::DESTROY)).to be_truthy
     expect(find_button(Button::Course::SHOW_COURSES, count: 1)).to be_truthy
-    expect(find_field(Label::Course::NAME, disabled: true).value).to eq(name)
-    expect(find_field(Label::Course::STREET1, disabled: true).value).to eq(street1)
-    expect(find_field(Label::Course::STREET2, disabled: true).value).to eq(street2)
-    expect(find_field(Label::Course::CITY, disabled: true).value).to eq(city)
-    expect(find_field(Label::Course::STATE, disabled: true).value).to eq(state)
-    expect(find_field(Label::Course::ZIP, disabled: true).value).to eq(zip)
+    expect(find_field(Label::Course::NAME, disabled: true).value).to eq(values[:name])
+    expect(find_field(Label::Course::STREET1, disabled: true).value).to eq(values[:street_1])
+    expect(find_field(Label::Course::STREET2, disabled: true).value).to eq(values[:street_2])
+    expect(find_field(Label::Course::CITY, disabled: true).value).to eq(values[:city])
+    expect(find_field(Label::Course::STATE, disabled: true).value).to eq(values[:state])
+    expect(find_field(Label::Course::ZIP, disabled: true).value).to eq(values[:zip])
   end
 
   def expect_form_fields(disabled, button_name, values)

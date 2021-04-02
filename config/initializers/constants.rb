@@ -4,11 +4,16 @@ module Label
     DESTROY = 'Destroy'.freeze
     NEW = 'New'.freeze
   end
+  module Database
+    CLEAR = 'Clear DB'.freeze
+    LOAD_XSXL = 'Load in XSXL File'.freeze
+  end
   module Course
+    COURSE = 'Course'.freeze
     DESTROY = 'Destroy course'.freeze
     EDIT = 'Edit course'.freeze
     NAME = 'Name'.freeze
-    NUMBER_OF_HOLES = 'Number of holes'
+    NUMBER_OF_HOLES = 'Number of holes'.freeze
     STREET1 = 'Street 1'.freeze
     STREET2 = 'Street 2'.freeze
     CITY = 'City'.freeze
@@ -30,6 +35,7 @@ module Label
   module Round
     DATE='Date'.freeze
     NO_ROUNDS='No Rounds'.freeze
+    ROUNDS = 'Rounds'.freeze
   end
   module Score
     HOLE_NUMBER='Hole Number'.freeze

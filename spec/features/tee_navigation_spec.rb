@@ -17,6 +17,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course)
     visit edit_course_path(@course.id)
     expect_edit_fields_with_values(page,
+                                   show_round_tees: true,
                                    name: 'George',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -30,7 +31,8 @@ feature 'edit_existing_course' do
       Course.find_by(id: @course.id).tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0' },
+        rating: '0.0',
+        show_round_tees: true },
       'Create'
     )
   end
@@ -39,6 +41,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     expect_edit_fields_with_values(page,
+                                   show_round_tees: true,
                                    name: 'George',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -53,7 +56,8 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0' },
+        rating: '0.0',
+        show_round_tees: true },
       'Create'
     )
 
@@ -68,6 +72,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     expect_edit_fields_with_values(page,
+                                   show_round_tees: true,
                                    name: 'George',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -82,7 +87,8 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0' },
+        rating: '0.0',
+        show_round_tees: true },
       'Create'
     )
 
@@ -100,6 +106,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     expect_edit_fields_with_values(page,
+                                   show_round_tees: true,
                                    name: 'George',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -114,7 +121,8 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'White',
         slope: '0.0',
-        rating: '0.0' },
+        rating: '0.0',
+        show_round_tees: true },
       'Create'
     )
 
@@ -135,6 +143,7 @@ feature 'edit_existing_course' do
     visit edit_course_path(@course.id)
 
     expect_edit_fields_with_values(page,
+                                   show_round_tees: true,
                                    name: 'George',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -149,7 +158,8 @@ feature 'edit_existing_course' do
       @course.tees,
       { color: 'Black',
         slope: '139.0',
-        rating: '71.6' },
+        rating: '71.6',
+        show_round_tees: true },
       'Update'
     )
 

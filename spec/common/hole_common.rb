@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require 'common/application_common'
+
 module HoleCommon
   require 'views/helpers'
+  include AsideCommon
+  include DatabaseCommon
 
   def expect_hole_form_fields(page_or_rendered, tee, create_update, values)
     holes = tee.sorted_holes
@@ -86,7 +90,10 @@ module HoleCommon
     end
   end
 
-  def expect_form_holes(_page_or_rendered, values = {})
+  def expect_form_holes(page_or_rendered, values = {})
+
+    expect_aside(page_or_rendered, values[:show_round_tees]) unless page_or_rendered.is_a?(String)
+
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     expect(find_field(Label::Hole::NUMBER).value.to_s).to eq(values[:number])

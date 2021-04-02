@@ -1,9 +1,12 @@
 
 <ul id="sidebar" class="flex-md-column flex-row navbar-nav w-100 justify-content-betwe">
+  <li class="nav-item bg-light"><%= Label::Course::COURSE %></li>
   <li class="nav-item">
     <%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get, class: 'nav-link bg-dark pl-0 text-nowrap' %>
   </li>
+  <li class="nav-item bg-light"><%= Label::Round::ROUNDS %></li>
   <li class="nav-item">
     <%= button_to Button::Round::COURSES, rounds_index_courses_path, method: :get, class: 'nav-link bg-dark pl-0 text-nowrap' %>
+    <%= button_to(Button::Round::TEES, rounds_tees_course_tees_path(@course), method: :get, class: 'nav-link bg-dark pl-0 text-nowrap') if @course.present? && !@course.new_record? %>
   </li>
 </ul>

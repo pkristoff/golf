@@ -13,6 +13,7 @@ feature 'edit_existing_course' do
   scenario 'visit edit course' do
     visit edit_course_path(@course.id)
     expect_edit_fields_with_values(page,
+                                   show_round_tees: true,
                                    name: 'George',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -30,6 +31,7 @@ feature 'edit_existing_course' do
     click_button('submit-course')
 
     expect_edit_fields_with_values(page,
+                                   show_round_tees: true,
                                    name: '',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -58,12 +60,13 @@ feature 'edit_existing_course' do
     click_button('submit-course')
 
     expect_show_fields_with_values(page,
-                                   'George1',
-                                   '555 Xxx Ave.',
-                                   '<nothing>',
-                                   'Clarksville',
-                                   'AK',
-                                   '47529')
+                                   show_round_tees: true,
+                                   name: 'George1',
+                                   street_1: '555 Xxx Ave.',
+                                   street_2: '<nothing>',
+                                   city: 'Clarksville',
+                                   state: 'AK',
+                                   zip: '47529')
 
     expect_validation_errors(%w[],
                              %w[

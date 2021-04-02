@@ -99,6 +99,11 @@ class GolfReader
     tee.holes.each_with_index do |hole, index|
       offset += 1 if hole.number == 10
       strokes = score_row[index + offset]
+      if strokes > 19
+        puts "index=#{index}  offset=#{offset}"
+        puts "score_row=#{score_row}"
+        raise("strokes too large=#{strokes}")
+      end
       putts = putts_row[index + offset]
       penalties = penalties_row[index + offset]
       round.add_score(hole, strokes, putts, penalties)

@@ -162,6 +162,10 @@ def expect_lochmere_round(round, score_info)
       expect(hole_score[1]).to eq(front_nine_putts + back_nine_putts)
     else
       score = round.scores[hole_num - 1]
+      unless score.strokes == hole_score[0]
+        puts "round.scores.map(&:score)=#{score_info.map { |xxx| xxx[0] }}"
+        puts "round.scores.map(&:score)=#{round.scores.map(&:score)}"
+      end
       expect(score.strokes).to eq(hole_score[0]),
                                "stroke mismatch stroke=#{score.strokes} expected=#{hole_score[0]} index=#{index}"
       expect(score.putts).to eq(hole_score[1]),

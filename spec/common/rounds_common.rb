@@ -11,11 +11,13 @@ module RoundsCommon
   def expect_rounds_tees(course, tees)
     expect(rendered).to have_selector('h1', text: 'Rounds')
     expect(rendered).to have_selector('h1', text: "Choose Tee for course #{course.name}")
+
     tees.each do |tee|
       expect(rendered).to have_link(tee.color)
     end
-    expect(rendered).to have_button('Show Round Courses', count: 1)
-    expect(rendered).to have_selector('input[type=submit]', count: 1)
+
+    expect(rendered).to have_button(Button::Round::COURSES, count: 0)
+    expect(rendered).to have_selector('input[type=submit]', count: 0)
   end
 
   def expect_rounds(course, tee, rounds)
@@ -38,7 +40,7 @@ module RoundsCommon
     new_edit = update_create == 'Update' ? 'Edit' : 'New'
 
     expect(page_or_rendered).to have_selector('h1', count: 1, text: "#{new_edit} round")
-    expect(page_or_rendered).to have_selector('h2', count: 1, text: 'Course: for factorybot tee')
+    expect(page_or_rendered).to have_selector('h2', count: 1, text: "Course: #{values[:course_name]}")
     expect(page_or_rendered).to have_selector('h2', count: 1, text: 'Tee: Black')
   end
 end
