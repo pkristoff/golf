@@ -13,7 +13,7 @@ describe 'rounds/index.html.erb', type: :view do
 
     render
 
-    expect_rounds(course1, course_tee, course_tee.rounds)
+    expect_rounds(rendered, course1, course_tee, course_tee.rounds, true, true)
   end
   it 'show rounds' do
     round = FactoryBot.create(:round)
@@ -24,6 +24,6 @@ describe 'rounds/index.html.erb', type: :view do
 
     render
 
-    expect_rounds(course, tee, tee.rounds)
+    expect_rounds(rendered, course, tee, tee.rounds, true, true)
   end
 end

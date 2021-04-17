@@ -14,6 +14,7 @@ module Label
     EDIT = 'Edit course'.freeze
     NAME = 'Name'.freeze
     NUMBER_OF_HOLES = 'Number of holes'.freeze
+    SHOW_COURSE = 'Show Course'.freeze
     STREET1 = 'Street 1'.freeze
     STREET2 = 'Street 2'.freeze
     CITY = 'City'.freeze
@@ -36,6 +37,9 @@ module Label
     DATE='Date'.freeze
     NO_ROUNDS='No Rounds'.freeze
     ROUNDS = 'Rounds'.freeze
+    SHOW = 'Show Round'.freeze
+    EDIT = 'Edit round'.freeze
+    NEW = 'New round'.freeze
   end
   module Score
     HOLE_NUMBER='Hole Number'.freeze
@@ -52,6 +56,7 @@ module Button
     SHOW_COURSES = 'Show Courses'.freeze
   end
   module Tee
+    SHOW_TEES = 'Show Tees'.freeze
     CREATE = 'Create Tee'.freeze
     EDIT = 'Edit Tee'.freeze
     NEW = 'New Tee'.freeze
@@ -65,5 +70,7 @@ module Button
     NEW='New Round'.freeze
     COURSES = 'Show Round Courses'.freeze
     TEES = 'Show Tees for Course'.freeze
+    CREATE = 'Create Round'.freeze
+    UPDATE = 'Update Round'.freeze
   end
 end

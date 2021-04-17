@@ -17,10 +17,9 @@ describe 'rounds/edit.html.erb', type: :view do
 
     expect_round_form_fields(
       rendered,
-      tee,
-      { date: '',
+      { date: Time.zone.today.to_s,
         course_name: 'prk' },
-      'Update'
+      Button::Round::UPDATE
     )
   end
   it 'initially show list of rounds' do

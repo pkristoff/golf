@@ -1,0 +1,9 @@
+<h1><%= Label::Round::SHOW %></h1>
+<% puts "@round=#{@round}" %>
+
+<%= render "form", course: @course, tee: @tee, round: @round, form_disabled: true %>
+
+<%= button_to Label::Course::EDIT, edit_course_tee_round_path(@course, @tee, @round) %>
+<%= button_to Label::Course::DESTROY, edit_course_tee_round_path(@course, @tee, @round),
+              method: :delete,
+              data: { confirm: "Are you sure?" } %>

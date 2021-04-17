@@ -10,8 +10,6 @@
   </ul>
 <% end %>
 
-<%= button_to 'Create Round', rounds_tees_course_tees_path(@course), method: :get %>
+<%= button_to Button::Round::CREATE, rounds_tees_course_tees_path(@course), method: :get %>
 
-<%= button_to 'New Round', new_course_tee_round_path(@course, @tee, Round.new), method: :get %>
-
-<%= button_to Button::Round::TEES, rounds_tees_course_tees_path(@course), method: :get %>
+<%= button_to Button::Round::NEW, new_course_tee_round_path(@course, @tee, Round.new), method: :get %>

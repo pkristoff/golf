@@ -65,10 +65,12 @@ def compare_putts_row(roo_row, axlsx_row)
   expect(roo_row[0]).to eq(axlsx_row[0].value) # putts
   putt_cell_num = roo_row[1].nil? ? 3 : 1 # handles when course does not have slope or rating
   roo_putt = roo_row[putt_cell_num]
-  # puts "roo_row=#{roo_row}"
-  # puts "axlsx_row=#{axlsx_row.cells.map{|cell| cell.value}}"
   until roo_putt.nil?
-    expect(roo_putt).to eq(axlsx_row[putt_cell_num].value)
+    axlsx_putt = axlsx_row[putt_cell_num].value
+    # puts "roo_row=#{roo_row}" unless roo_putt == axlsx_putt
+    # puts "axlsx_row=#{axlsx_row.cells.map { |cell| cell.value }}" unless roo_putt == axlsx_putt
+    # puts "putt_cell_num=#{putt_cell_num}"
+    expect(roo_putt).to eq(axlsx_putt)
     putt_cell_num += 1
     roo_putt = roo_row[putt_cell_num]
   end

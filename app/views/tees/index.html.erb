@@ -1,0 +1,3 @@
+<h1>Pick Tee for course: <%= @course.name %></h1>
+
+<%=render "tees/tees", tees: @course.sorted_tees, new_tee: false %>

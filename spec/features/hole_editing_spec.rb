@@ -20,6 +20,7 @@ feature 'edit_existing_course' do
     visit edit_course_tee_hole_path(@course, @tee, @hole)
 
     expect_form_holes(page,
+                      show_course_tees: true,
                       show_round_tees: true,
                       number: '5', yardage: '332', par: '4', hdcp: '17')
     expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White])
@@ -32,6 +33,7 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
+                      show_course_tees: true,
                       show_round_tees: true,
                       number: '6', yardage: '331', par: '4', hdcp: '7')
     expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
@@ -39,6 +41,7 @@ feature 'edit_existing_course' do
     click_link('7')
 
     expect_form_holes(page,
+                      show_course_tees: true,
                       show_round_tees: true,
                       number: '7', yardage: '153', par: '3', hdcp: '13')
     expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
@@ -54,6 +57,7 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
+                      show_course_tees: true,
                       show_round_tees: true,
                       number: '8', yardage: '375', par: '4', hdcp: '1')
     expect_holes(page, @tee.sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],

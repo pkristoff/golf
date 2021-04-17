@@ -6,7 +6,7 @@ module CourseCommon
   include AsideCommon
   include DatabaseCommon
   def expect_new_fields_with_values(page, values = {})
-    expect_aside(page, values[:show_round_tees])
+    expect_aside(page, values[:show_course_tees], values[:show_round_tees])
     expect_database(page)
 
     expect(page).to have_selector('h1', text: 'New Course')
@@ -34,7 +34,7 @@ module CourseCommon
   end
 
   def expect_edit_fields_with_values(page, values = {})
-    expect_aside(page, (values[:show_round_tees]))
+    expect_aside(page, values[:show_course_tees], (values[:show_round_tees]))
     expect_database(page)
 
     expect(page).to have_selector('h1', text: 'Edit Course')
@@ -50,7 +50,7 @@ module CourseCommon
   end
 
   def expect_show_fields_with_values(page, values = {})
-    expect_aside(page, values[:show_round_tees])
+    expect_aside(page, values[:show_course_tees], values[:show_round_tees])
     expect_database(page)
 
     expect(page).to have_selector('h1', text: 'Show Course')

@@ -1,8 +1,8 @@
-<h1>Show Course</h1>
+<h1><%= Label::Course::SHOW_COURSE %></h1>
 
 <%= render "form", course: @course, form_disabled: true %>
 
-  <%= button_to Label::Course::EDIT, edit_course_path(@course) %>
+  <%= button_to Label::Course::EDIT, edit_course_path(@course), method: :get %>
   <%= button_to Label::Course::DESTROY, course_path(@course),
                   method: :delete,
                   data: { confirm: "Are you sure?" } %>

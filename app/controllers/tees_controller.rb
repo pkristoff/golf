@@ -30,6 +30,12 @@ class TeesController < ApplicationController
     @tee = Tee.find(params[:id])
   end
 
+  # Show tees for given @course
+  #
+  def index
+    @course = Course.find(params[:course_id])
+  end
+
   # Creation of a new golf course tee
   #
   def new

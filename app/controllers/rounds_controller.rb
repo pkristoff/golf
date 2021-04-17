@@ -24,14 +24,15 @@ class RoundsController < ApplicationController
   def create
     @course = Course.find(params[:course_id])
     @tee = Tee.find(params[:tee_id])
+    params[:round][:tee_id] = params[:tee_id]
     date = params[:round][:date]
     @round = nil
-    @round = Round.new(round_params) if date.present?
-
+    @round = Round.create(round_params) if date.present?
+    puts "round_params=#{round_params}"
     if date.present? && @round.present? && @round.errors.empty?
-      redirect_to course_tee_rounds_path(@course, @tee), alert: 'Round updated.'
+      redirect_to course_tee_round_path(@course, @tee, @round), alert: 'Round updated.'
     else
-      @round = Round.new
+      # @round = Round.new
       flash.now[:alert] = 'Validation error(s).' if date.present?
       flash.now[:alert] = 'date cannot blank.' if date.blank?
       render :new
@@ -44,6 +45,16 @@ class RoundsController < ApplicationController
   def index
     @course = Course.find(params[:course_id])
     @tee = Tee.find(params[:tee_id])
+  end
+
+  # Show a round for given course and tee
+  #   Set @course for give :course_id
+  #   Set @tee for give :tee_id
+  #
+  def show
+    @course = Course.find(params[:course_id])
+    @tee = Tee.find(params[:tee_id])
+    @round = Round.find(params[:id])
   end
 
   # Show tees in prep for choosing or creating a round
@@ -73,6 +84,6 @@ class RoundsController < ApplicationController
   private
 
   def round_params
-    params.require(:round).permit(:id, :date)
+    params.require(:round).permit(:id, :date, :tee_id)
   end
 end
