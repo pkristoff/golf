@@ -22,7 +22,7 @@ describe Round, type: :model do
       score = @round.score(18)
 
       expect(score).to be_truthy
-      expect(score.hole_number).to eq(18)
+      expect(score.hole.number).to eq(18)
     end
   end
   describe 'tee' do
@@ -45,7 +45,7 @@ describe Round, type: :model do
       hole1 = tee1.holes.first
       tee2 = course.tee('White')
       hole2 = tee2.holes.second
-      round1 = Round.new
+      round1 = Round.new(tee: tee1)
       round1.add_score(hole1, 5, 5, '')
       # rubocop:disable Layout/LineLength
       expect { round1.add_score(hole2, 6, 2, 'OBW') }.to raise_error("Hole from a different tee current tee: '#{tee1.color}' adding hole from tee '#{tee2.color}'")
@@ -58,7 +58,7 @@ describe Round, type: :model do
       course2 = FactoryBot.create(:course, name: 'George3')
       tee2 = course2.tee('Black')
       hole2 = tee2.holes.second
-      round1 = Round.new
+      round1 = Round.new(tee: hole1.tee)
       round1.add_score(hole1, 5, 5, '')
       # rubocop:disable Layout/LineLength
       expect { round1.add_score(hole2, 6, 2, 'OBW') }.to raise_error("Hole from a different course current course: '#{course1.name}' adding hole from '#{course2.name}'")
@@ -104,7 +104,6 @@ def expect_score(round, score_info)
     putts = info[2]
     score = round.score(hole_number)
     expect(score.round).to eql(round)
-    expect(score.hole_number).to eq(hole_number)
     expect(score.hole.number).to eq(hole_number)
     expect(score.hole.number).to eq(hole_number)
     expect(score.strokes).to eq(strokes)

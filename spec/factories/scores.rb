@@ -9,7 +9,7 @@ FactoryBot.define do
     end
     strokes { 4 }
     putts { 2 }
-    hole_number { 1 }
+    penalties { 'W' }
 
     after(:create) do |score, evaluator|
       score.round = FactoryBot.create(:round) if evaluator.round.nil?

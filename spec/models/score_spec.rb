@@ -7,6 +7,6 @@ describe Score, type: :model do
     score = FactoryBot.create(:score)
     expect(score.strokes).to eq(4)
     expect(score.putts).to eq(2)
-    expect(score.hole_number).to eq(1)
+    expect(score.penalties).to eq('W')
   end
 end

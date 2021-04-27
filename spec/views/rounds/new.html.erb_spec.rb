@@ -15,7 +15,7 @@ describe 'rounds/new.html.erb', type: :view do
 
     expect_round_form_fields(
       rendered,
-      { date: '2021-03-13',
+      { date: '2021-04-27',
         course_name: tee.course.name,
         tee_color: tee.color },
       Button::Round::CREATE

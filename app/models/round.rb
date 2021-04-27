@@ -3,9 +3,9 @@
 # Round
 #
 class Round < ApplicationRecord
-  has_many(:scores, dependent: :destroy)
+  has_many(:score_holes, dependent: :destroy)
   belongs_to(:tee, validate: false)
-  accepts_nested_attributes_for(:scores, allow_destroy: true)
+  accepts_nested_attributes_for(:score_holes, allow_destroy: true)
 
   # Course the round was played on
   #
@@ -32,7 +32,7 @@ class Round < ApplicationRecord
     # rubocop:disable Layout/LineLength
     raise("score for hole number:#{hole.number} already exists") if score(hole.number)
 
-    current_tee = scores.empty? ? nil : scores.first.hole.tee
+    current_tee = score_holes.empty? ? nil : tee
     added_tee = hole.tee
     raise("Hole from a different tee current tee: '#{current_tee.color}' adding hole from tee '#{added_tee.color}'") if !current_tee.nil? && (current_tee.color != added_tee.color)
 
@@ -43,10 +43,11 @@ class Round < ApplicationRecord
     # rubocop:enable Layout/LineLength
 
     penalties = '' if penalties.nil?
-    score = Score.create(hole_number: hole.number, strokes: strokes, putts: putts, penalties: penalties)
-    score.hole = hole
-    scores << score
-    score.round = self
+    score = Score.create(round:self, strokes: strokes, putts: putts, penalties: penalties)
+    score_hole = ScoreHole.create(hole: hole, score: score)
+    score_holes << score_hole
+    # scores << score
+    # score.round = self
     score
   end
 
@@ -61,7 +62,10 @@ class Round < ApplicationRecord
   # * <tt>Score</tt>
   #
   def score(hole_number)
-    scores.detect { |score| score.hole.number == hole_number }
+    sh = score_holes.detect { |score_hole| score_hole.hole.number == hole_number }
+    return sh if sh.nil?
+
+    sh.score
   end
 
   # return Rounds with for a given course

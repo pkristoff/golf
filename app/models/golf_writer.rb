@@ -84,7 +84,8 @@ class GolfWriter
       front_nine = 0 unless doing_penalties
       back_nine = 0 unless doing_penalties
       on_back_nine = false unless doing_penalties
-      round.scores.each_with_index do |score, index|
+      round.score_holes.each_with_index do |score_hole, index|
+        score = score_hole.score
         case index
         when 9
           row.add_cell(front_nine) unless doing_penalties
@@ -97,7 +98,7 @@ class GolfWriter
       row.add_cell(front_nine) if !doing_penalties && back_nine.zero?
       row.add_cell(back_nine) if !doing_penalties && !back_nine.zero?
       row.add_cell(front_nine + back_nine) if !doing_penalties && !back_nine.zero?
-      puts "scores=#{round.scores.map(&:strokes)}" if score_accessor == :strokes
+      puts "scores=#{round.score_holes.map{|score_hole| score_hole.score.strokes}}" if score_accessor == :strokes
       puts "row=#{row.cells.map(&:value)}" if score_accessor == :strokes
     end
   end

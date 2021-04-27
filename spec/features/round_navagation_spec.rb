@@ -64,7 +64,7 @@ feature 'edit_existing_course' do
 
     expect_round_form_fields(
       page,
-      { date: '2021-03-13',
+      { date: '2021-04-27',
         course_name: @course.name,
         show_course_tees: true,
         show_round_tees: true },

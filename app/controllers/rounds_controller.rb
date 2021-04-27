@@ -28,7 +28,7 @@ class RoundsController < ApplicationController
     date = params[:round][:date]
     @round = nil
     @round = Round.create(round_params) if date.present?
-    puts "round_params=#{round_params}"
+    # puts "round_params=#{round_params}"
     if date.present? && @round.present? && @round.errors.empty?
       redirect_to course_tee_round_path(@course, @tee, @round), alert: 'Round updated.'
     else
