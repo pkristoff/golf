@@ -67,7 +67,7 @@ module TeeCommon
         expect(page_or_rendered).to have_selector("td[id=hole-yardage-heading-#{tee.id}]", count: 1, text: 'Yardage:')
         expect(page_or_rendered).to have_selector("td[id=hole-par-heading-#{tee.id}]", count: 1, text: 'Par:')
         expect(page_or_rendered).to have_selector("td[id=hole-hdcp-heading-#{tee.id}]", count: 1, text: 'HDCP:')
-        tee.holes.each do |hole|
+        tee.sorted_holes.each do |hole|
           # rubocop:disable Layout/LineLength
           expect(page_or_rendered).to have_selector("tr[id=hole-number-#{tee.id}] td[id=hole-number-#{hole.id}]", count: 1, text: hole.number)
           expect(page_or_rendered).to have_selector("tr[id=hole-yardage-#{tee.id}] td[id=hole-yardage-#{hole.id}]", count: 1, text: hole.yardage)

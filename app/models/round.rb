@@ -43,7 +43,7 @@ class Round < ApplicationRecord
     # rubocop:enable Layout/LineLength
 
     penalties = '' if penalties.nil?
-    score = Score.create(round:self, strokes: strokes, putts: putts, penalties: penalties)
+    score = Score.create(round: self, strokes: strokes, putts: putts, penalties: penalties)
     score_hole = ScoreHole.create(hole: hole, score: score)
     score_holes << score_hole
     # scores << score
@@ -68,6 +68,16 @@ class Round < ApplicationRecord
     sh.score
   end
 
+  # returns holes sorted by Hole.number
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt> holes sorted by Hole.number
+  #
+  def sorted_score_holes
+    score_holes.sort_by { |score_hole| score_hole.hole.number }
+  end
+
   # return Rounds with for a given course
   #
   # === Parameters:
@@ -82,5 +92,28 @@ class Round < ApplicationRecord
     Round.all.select do |round|
       round.course.name == course.name
     end
+  end
+
+  # return Score for next hole given a Score
+  #   if initial Score is for last hole (9 or 18) then return
+  #   Score associated with Hole.number 1.
+  #
+  # === Parameters:
+  #
+  # * <tt>:score</tt> The initial Score
+  #
+  # === Returns:
+  #
+  # * <tt>Score</tt> next Score
+  #
+  def next_score(score)
+    ssh = sorted_score_holes
+    max_holes = ssh.size
+    index = ssh.find_index { |score_hole| score_hole.score == score }
+    next_index = index + 1 unless index == max_holes
+    next_index = 1 if index == max_holes
+    return ssh[next_index].score unless ssh[next_index].nil?
+
+    ssh[0].score
   end
 end

@@ -38,7 +38,7 @@ end
 def compare_worksheets_rounds(roo_worksheet, axlsx_worksheet)
   date_cell_rows = find_roo_start_round_rows(roo_worksheet)
   date_cell_rows.each do |date_cell_row|
-    puts "date_cell_row=#{date_cell_row}"
+    # puts "date_cell_row=#{date_cell_row}"
     # puts "roo date_cell_rows=#{date_cell_rows}"
     compare_date_row(roo_worksheet.row(date_cell_row), axlsx_worksheet.rows[date_cell_row - 1])
     compare_strokes_row(roo_worksheet.row(date_cell_row + 1), axlsx_worksheet.rows[date_cell_row - 0])

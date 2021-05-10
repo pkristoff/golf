@@ -36,15 +36,15 @@ describe Round, type: :model do
     it 'should add a score for hole' do
     end
     it 'should error if score for hole number already exists' do
-      hole = @round.tee.holes.first
+      hole = @round.tee.sorted_holes.first
       expect { @round.add_score(hole, 5, 5, 'OBW') }.to raise_error("score for hole number:#{hole.number} already exists")
     end
     it 'should error if score for hole of another tee' do
       course = FactoryBot.create(:course, name: 'George2')
       tee1 = course.tee('Black')
-      hole1 = tee1.holes.first
+      hole1 = tee1.sorted_holes.first
       tee2 = course.tee('White')
-      hole2 = tee2.holes.second
+      hole2 = tee2.sorted_holes.second
       round1 = Round.new(tee: tee1)
       round1.add_score(hole1, 5, 5, '')
       # rubocop:disable Layout/LineLength
@@ -54,10 +54,10 @@ describe Round, type: :model do
     it 'should error if score for hole of another course' do
       course1 = FactoryBot.create(:course, name: 'George2')
       tee1 = course1.tee('Black')
-      hole1 = tee1.holes.first
+      hole1 = tee1.sorted_holes.first
       course2 = FactoryBot.create(:course, name: 'George3')
       tee2 = course2.tee('Black')
-      hole2 = tee2.holes.second
+      hole2 = tee2.sorted_holes.second
       round1 = Round.new(tee: hole1.tee)
       round1.add_score(hole1, 5, 5, '')
       # rubocop:disable Layout/LineLength
@@ -91,6 +91,20 @@ describe Round, type: :model do
       expect(Course.all.size).to eq(1)
       expect(Tee.all.size).to eq(4)
       expect(Hole.all.size).to eq(72)
+    end
+  end
+  describe 'next_score' do
+    it 'should return the score for hole two given score for hole 1' do
+      ssh = @round.sorted_score_holes
+      expect(@round.next_score(ssh[0].score)).to eq(ssh[1].score)
+    end
+    it 'should return the score for hole ten given score for hole 9' do
+      ssh = @round.sorted_score_holes
+      expect(@round.next_score(ssh[8].score)).to eq(ssh[9].score)
+    end
+    it 'should return the score for hole ten given score for hole 9' do
+      ssh = @round.sorted_score_holes
+      expect(@round.next_score(ssh[17].score)).to eq(ssh[0].score)
     end
   end
 end

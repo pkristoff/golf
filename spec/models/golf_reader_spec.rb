@@ -92,7 +92,7 @@ def expect_tee(course, color, rating, slope, hole_info)
     expect(hole.number).to eq(hole_num)
     expect(hole.tee).to be(tee)
   end
-  expect(tee.holes.size).to eq(hole_info.size - offset)
+  expect(tee.sorted_holes.size).to eq(hole_info.size - offset)
 end
 
 def expect_lochmere(course)

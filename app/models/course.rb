@@ -159,7 +159,7 @@ class Course < ApplicationRecord
 
   def check_hdcp(tee)
     hdcps = []
-    tee.holes.each do |hole|
+    tee.sorted_holes.each do |hole|
       hdcp = hole.hdcp
       next if hdcp.nil?
 

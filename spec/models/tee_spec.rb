@@ -19,7 +19,7 @@ describe Tee, type: :model do
         expect(tee.rating).to eq(5.5)
         tee.add_9_holes
         expect(tee.holes.size).to eq(9)
-        tee.holes.each_with_index do |hole, index|
+        tee.sorted_holes.each_with_index do |hole, index|
           expect(hole.number).to eq(index + 1)
           expect(hole.tee).to be(tee)
         end
@@ -31,7 +31,7 @@ describe Tee, type: :model do
         expect(tee.rating).to eq(0)
         tee.add_18_holes
         expect(tee.holes.size).to eq(18)
-        tee.holes.each_with_index do |hole, index|
+        tee.sorted_holes.each_with_index do |hole, index|
           expect(hole.number).to eq(index + 1)
           expect(hole.tee).to be(tee)
         end
@@ -117,7 +117,7 @@ describe Tee, type: :model do
         expect(tee.slope).to eq(0)
         expect(tee.rating).to eq(0)
         expect(tee.holes.size).to eq(1)
-        expect(tee.holes.first).to eql(hole)
+        expect(tee.sorted_holes.first).to eql(hole)
         expect(hole.tee).to eql(tee)
       end
     end

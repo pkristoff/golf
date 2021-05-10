@@ -17,7 +17,7 @@ Rails.application.routes.draw do
       end
       resources :holes
       resources :rounds do
-        resources :score
+        resources :scores
       end
     end
   end

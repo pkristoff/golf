@@ -7,7 +7,7 @@
       <% local_assigns[:score_holes].each do |score_hole| %>
         <% score = score_hole.score %>
         <% hole = score_hole.hole %>
-        <td id='score-number-<%= score.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_round_score_path(@course, local_assigns[:tee], local_assigns[:round], score), id: "score-number-link-#{score.id}") %></td>
+        <td id='score-number-<%= score.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_round_score_path(@course, local_assigns[:tee], local_assigns[:round], score), id: "score-number-link-#{score.id}", method: :get) %></td>
         <% if hole.number == 9 %>
           <td class="number-cell"> out </td>
         <% end %>
