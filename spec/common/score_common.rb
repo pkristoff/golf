@@ -6,7 +6,7 @@ module ScoreCommon
   include AsideCommon
   include DatabaseCommon
 
-  def expect_edit_score(page_or_rendered, round, _score, values, replace_values = [])
+  def expect_edit_score(page_or_rendered, round, score, values, replace_values = [])
     expect_aside(page_or_rendered, values[:show_course_tees], values[:show_round_tees]) unless page_or_rendered.is_a? String
     expect_database(page_or_rendered) unless page_or_rendered.is_a? String
 
@@ -16,6 +16,7 @@ module ScoreCommon
     expect(page_or_rendered).to have_selector('h2', count: 1, text: "Course: #{round.tee.course.name}")
     expect(page_or_rendered).to have_selector('h2', count: 1, text: "Tee: #{round.tee.color}")
     expect(page_or_rendered).to have_selector('h2', count: 1, text: "Date: #{round.date}")
+    expect(page_or_rendered).to have_selector('h2', count: 1, text: "Hole: #{round.hole(score).number}")
 
     score_holes = round.score_holes
     expect_scores_link(page_or_rendered, score_holes)

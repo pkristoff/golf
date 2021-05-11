@@ -107,13 +107,34 @@ class Round < ApplicationRecord
   # * <tt>Score</tt> next Score
   #
   def next_score(score)
-    ssh = sorted_score_holes
-    max_holes = ssh.size
-    index = ssh.find_index { |score_hole| score_hole.score == score }
-    next_index = index + 1 unless index == max_holes
-    next_index = 1 if index == max_holes
-    return ssh[next_index].score unless ssh[next_index].nil?
+    score_hole = score_hole(score)
+    hole_number = score_hole.hole.number
+    max_holes = tee.course.number_of_holes
+    next_hole_number = 1
+    next_hole_number = hole_number + 1 unless hole_number == max_holes
+    score(next_hole_number)
+  end
 
-    ssh[0].score
+  # return Hole associated with the Score
+  #
+  # === Parameters:
+  #
+  # * <tt>:score</tt> The Score
+  #
+  # === Returns:
+  #
+  # * <tt>Hole</tt> associated with the Score
+  #
+  def hole(score)
+    score_hole = score_holes.detect { |score_hole_assoc| score_hole_assoc.score == score }
+    return nil if score_hole.nil?
+
+    score_hole.hole
+  end
+
+  private
+
+  def score_hole(score)
+    score_holes.detect { |score_hole| score == score_hole.score }
   end
 end
