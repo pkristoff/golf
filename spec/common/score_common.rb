@@ -13,10 +13,6 @@ module ScoreCommon
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
     expect(page_or_rendered).to have_selector('h1', count: 1, text: 'Edit score:')
-    expect(page_or_rendered).to have_selector('h2', count: 1, text: "Course: #{round.tee.course.name}")
-    expect(page_or_rendered).to have_selector('h2', count: 1, text: "Tee: #{round.tee.color}")
-    expect(page_or_rendered).to have_selector('h2', count: 1, text: "Date: #{round.date}")
-    expect(page_or_rendered).to have_selector('h2', count: 1, text: "Hole: #{round.hole(score).number}")
 
     score_holes = round.score_holes
     expect_scores_link(page_or_rendered, score_holes)
@@ -24,15 +20,70 @@ module ScoreCommon
     expect_scores_putts(page_or_rendered, score_holes, replace_values)
     expect_scores_penalties(page_or_rendered, score_holes, replace_values)
 
-    expect(page_or_rendered).to have_field(Label::Score::STROKES, count: 1)
-    expect(page_or_rendered).to have_selector("input[id=score_strokes][value='#{values[:strokes]}']")
-    expect(page_or_rendered).to have_field(Label::Score::PUTTS, count: 1)
-    expect(page_or_rendered).to have_selector("input[id=score_putts][value='#{values[:putts]}']")
-    expect(page_or_rendered).to have_field(Label::Score::PENALTIES, count: 1)
-    expect(page_or_rendered).to have_selector("input[id=score_penalties][value='#{values[:penalties]}']")
+    expect_edit_field_set(page_or_rendered, round, score, values)
+
+    expect_other_buttons(page_or_rendered)
   end
 
   private
+
+  def expect_other_buttons(page_or_rendered)
+    expect_button_within_course_fieldset(page_or_rendered)
+    expect_button_within_round_fieldset(page_or_rendered)
+  end
+
+  def expect_button_within_round_fieldset(page_or_rendered)
+    expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::ROUND_BUTTONS)
+    expect_button_count(page_or_rendered, 'round-div', 1)
+    expect_button_to(page_or_rendered, 'round-div', Button::Round::EDIT)
+  end
+
+  def expect_button_within_course_fieldset(page_or_rendered)
+    expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::COURSE_BUTTONS)
+    expect_button_count(page_or_rendered, 'course-div', 3)
+    expect_button_to(page_or_rendered, 'course-div', Button::Tee::EDIT)
+    expect_button_to(page_or_rendered, 'course-div', Button::Tee::NEW)
+    expect_button_to(page_or_rendered, 'course-div', Button::Course::EDIT)
+  end
+
+  def expect_button_count(page_or_rendered, div_id, num)
+    # rubocop:disable Layout/LineLength
+    expect(page_or_rendered).to have_selector("div[id=#{div_id}][class=fieldset-button-div] form[class=button_to] input[type=submit]", count: num)
+    # rubocop:enable Layout/LineLength
+  end
+
+  def expect_button_to(page_or_rendered, div_id, name)
+    # rubocop:disable Layout/LineLength
+    expect(page_or_rendered).to have_selector("div[id=#{div_id}][class=fieldset-button-div] form[class=button_to] input[type=submit][value='#{name}']", count: 1)
+    # rubocop:enable Layout/LineLength
+  end
+
+  def expect_edit_field_set(page_or_rendered, round, score, values)
+    expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::EDIT)
+    if page_or_rendered.is_a? String
+      expect_within_edit_fieldset(page_or_rendered, round, score, values)
+    else
+      within_fieldset(Fieldset::Round::EDIT) do
+        expect_within_edit_fieldset(page_or_rendered, round, score, values)
+      end
+    end
+  end
+
+  def expect_within_edit_fieldset(page_or_rendered, round, score, values)
+    # rubocop:disable Layout/LineLength
+    expect(page_or_rendered).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Course: #{round.tee.course.name}")
+    expect(page_or_rendered).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Tee: #{round.tee.color}")
+    expect(page_or_rendered).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Date: #{round.date}")
+    expect(page_or_rendered).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Hole: #{round.hole(score).number}")
+
+    expect(page_or_rendered).to have_field(Label::Score::STROKES, count: 1)
+    expect(page_or_rendered).to have_selector("div[id=edit-div][class=fieldset-field-div] input[id=score_strokes][value='#{values[:strokes]}']")
+    expect(page_or_rendered).to have_field(Label::Score::PUTTS, count: 1)
+    expect(page_or_rendered).to have_selector("div[id=edit-div][class=fieldset-field-div] input[id=score_putts][value='#{values[:putts]}']")
+    expect(page_or_rendered).to have_field(Label::Score::PENALTIES, count: 1)
+    expect(page_or_rendered).to have_selector("div[id=edit-div][class=fieldset-field-div] input[id=score_penalties][value='#{values[:penalties]}']")
+    # rubocop:enable Layout/LineLength
+  end
 
   def expect_scores_strokes(page_or_rendered, score_holes, replace_values)
     expect_scores_totals(page_or_rendered, score_holes, 'strokes', :strokes, true, replace_values)

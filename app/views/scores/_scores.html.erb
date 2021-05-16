@@ -1,78 +1,80 @@
-<% if local_assigns[:score_holes].empty? %>
-  <p>No scores</p>
-<% else %>
-  <table id="score_holes" style="width:100%">
-    <tr id=<%= "hole-number-#{@round.id}" %>>
-      <td id=<%= "hole-number-heading-#{@round.id}" %> class="heading-cell">Number:</td>
-      <% local_assigns[:score_holes].each do |score_hole| %>
-        <% hole = score_hole.hole %>
-        <% score = score_hole.score %>
-        <td id='hole-number-<%= hole.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_round_score_path(@course, @tee, @round, score), method: :get, id: "score-link-#{score.id}") %></td>
-        <% if hole.number == 9 %>
-          <td class="number-cell"> Out </td>
+<%= field_set_tag 'Scores', class: 'fieldset' do %>
+  <% if local_assigns[:score_holes].empty? %>
+    <p>No scores</p>
+  <% else %>
+    <table id="score_holes" style="width:100%">
+      <tr id=<%= "hole-number-#{@round.id}" %>>
+        <td id=<%= "hole-number-heading-#{@round.id}" %> class="heading-cell">Number:</td>
+        <% local_assigns[:score_holes].each do |score_hole| %>
+          <% hole = score_hole.hole %>
+          <% score = score_hole.score %>
+          <td id='hole-number-<%= hole.id %>' class="number-cell"><%= link_to(hole.number, edit_course_tee_round_score_path(@course, @tee, @round, score), method: :get, id: "score-link-#{score.id}") %></td>
+          <% if hole.number == 9 %>
+            <td class="number-cell"> Out</td>
+          <% end %>
+          <% if hole.number == 18 %>
+            <td <%= "total-in-#{score.id}" %> class="number-cell"> In</td>
+            <td class="number-cell"> Total</td>
+          <% end %>
         <% end %>
-        <% if hole.number == 18 %>
-          <td <%= "total-in-#{score.id}" %> class="number-cell"> In </td>
-          <td class="number-cell"> Total </td>
+      </tr>
+      <tr id=<%= "hole-strokes-#{@round.id}" %>>
+        <td id=<%= "hole-strokes-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::STROKES %>:</td>
+        <% in_out_tot = 0 %>
+        <% total = 0 %>
+        <% local_assigns[:score_holes].each do |score_hole| %>
+          <% hole = score_hole.hole %>
+          <% score = score_hole.score %>
+          <% in_out_tot += score.strokes %>
+          <% total += score.strokes %>
+          <td id='hole-strokes-<%= score.id %>' class="strokes-cell"><%= score.strokes %></td>
+          <% if hole.number == 9 %>
+            <td id=<%= "total-out-strokes-#{score.id}" %> class="strokes-cell"> <%= in_out_tot %> </td>
+            <% in_out_tot = 0 %>
+          <% end %>
+          <% if hole.number == 18 %>
+            <td id=<%= "total-in-strokes-#{score.id}" %> class="strokes-cell"> <%= in_out_tot %>  </td>
+            <td id=<%= "total-strokes-#{score.id}" %> class="strokes-cell"> <%= total %>  </td>
+          <% end %>
         <% end %>
-      <% end %>
-    </tr>
-    <tr id=<%= "hole-strokes-#{@round.id}" %>>
-      <td id=<%= "hole-strokes-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::STROKES %>:</td>
-      <% in_out_tot = 0 %>
-      <% total = 0 %>
-      <% local_assigns[:score_holes].each do |score_hole| %>
-        <% hole = score_hole.hole %>
-        <% score = score_hole.score %>
-        <% in_out_tot += score.strokes %>
-        <% total += score.strokes %>
-        <td id='hole-strokes-<%= score.id %>' class="strokes-cell"><%= score.strokes %></td>
-        <% if hole.number == 9 %>
-          <td id=<%= "total-out-strokes-#{score.id}" %> class="strokes-cell"> <%= in_out_tot %> </td>
-          <% in_out_tot = 0 %>
+      </tr>
+      <tr id=<%= "hole-putts-#{@round.id}" %>>
+        <td id=<%= "hole-putts-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::PUTTS %>:</td>
+        <% in_out_tot = 0 %>
+        <% total = 0 %>
+        <% local_assigns[:score_holes].each do |score_hole| %>
+          <% hole = score_hole.hole %>
+          <% score = score_hole.score %>
+          <% in_out_tot += score.putts %>
+          <% total += score.putts %>
+          <td id='hole-putts-<%= score.id %>' class="putts-cell"><%= score.putts %></td>
+          <% if hole.number == 9 %>
+            <td id=<%= "total-out-putts-#{score.id}" %>  class="putts-cell"> <%= in_out_tot %> </td>
+            <% in_out_tot = 0 %>
+          <% end %>
+          <% if hole.number == 18 %>
+            <td id=<%= "total-in-putts-#{score.id}" %> class="putts-cell"> <%= in_out_tot %>  </td>
+            <td id=<%= "total-putts-#{score.id}" %> class="putts-cell"> <%= total %>  </td>
+          <% end %>
         <% end %>
-        <% if hole.number == 18 %>
-          <td id=<%= "total-in-strokes-#{score.id}" %> class="strokes-cell"> <%= in_out_tot %>  </td>
-          <td id=<%= "total-strokes-#{score.id}" %> class="strokes-cell"> <%= total %>  </td>
+      </tr>
+      <tr id=<%= "hole-penalties-#{@round.id}" %>>
+        <td id=<%= "hole-penalties-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::PENALTIES %>:</td>
+        <% local_assigns[:score_holes].each do |score_hole| %>
+          <% hole = score_hole.hole %>
+          <% score = score_hole.score %>
+          <td id='hole-penalties-<%= score.id %>' class="penalties-cell"><%= score.penalties %></td>
+          <% if hole.number == 9 %>
+            <td class="penalties-cell"></td>
+            <% in_out_tot = 0 %>
+          <% end %>
+          <% if hole.number == 18 %>
+            <td class="penalties-cell"></td>
+            <td class="penalties-cell"></td>
+          <% end %>
         <% end %>
-      <% end %>
-    </tr>
-    <tr id=<%= "hole-putts-#{@round.id}" %>>
-      <td id=<%= "hole-putts-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::PUTTS %>:</td>
-      <% in_out_tot = 0 %>
-      <% total = 0 %>
-      <% local_assigns[:score_holes].each do |score_hole| %>
-        <% hole = score_hole.hole %>
-        <% score = score_hole.score %>
-        <% in_out_tot += score.putts %>
-        <% total += score.putts %>
-        <td id='hole-putts-<%= score.id %>' class="putts-cell"><%= score.putts %></td>
-        <% if hole.number == 9 %>
-          <td id=<%= "total-out-putts-#{score.id}" %>  class="putts-cell"> <%= in_out_tot %> </td>
-          <% in_out_tot = 0 %>
-        <% end %>
-        <% if hole.number == 18 %>
-          <td id=<%= "total-in-putts-#{score.id}" %> class="putts-cell"> <%= in_out_tot %>  </td>
-          <td id=<%= "total-putts-#{score.id}" %> class="putts-cell"> <%= total %>  </td>
-        <% end %>
-      <% end %>
-    </tr>
-    <tr id=<%= "hole-penalties-#{@round.id}" %>>
-      <td id=<%= "hole-penalties-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::PENALTIES %>:</td>
-      <% local_assigns[:score_holes].each do |score_hole| %>
-        <% hole = score_hole.hole %>
-        <% score = score_hole.score %>
-        <td id='hole-penalties-<%= score.id %>' class="penalties-cell"><%= score.penalties %></td>
-        <% if hole.number == 9 %>
-          <td class="penalties-cell"></td>
-          <% in_out_tot = 0 %>
-        <% end %>
-        <% if hole.number == 18 %>
-          <td class="penalties-cell"></td>
-          <td class="penalties-cell"></td>
-        <% end %>
-      <% end %>
-    </tr>
-  </table>
+      </tr>
+    </table>
 
+  <% end %>
 <% end %>

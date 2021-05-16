@@ -1,24 +1,25 @@
-<h2>Course: <%= @course.name %></h2>
-<h2>Tee: <%= @tee.color %></h2>
-<h2>Date: <%= @round.date %></h2>
-<h2>Hole: <%= @score.hole.number %></h2>
 
 <%= render 'share/error_messages.html.erb', resource: @tee %>
 
-<%=render "scores/scores", score_holes: @round.score_holes %>
+<%= render "scores/scores", score_holes: @round.score_holes %>
 
-<%= form_with model: [@course, @tee, @round, @score], local: true  do |score_form| %>
-  <p>
-    <%= score_form.label :strokes, Label::Score::STROKES %>
-    <%= score_form.number_field :strokes, autofocus: true %>
-    <%= score_form.label :putts, Label::Score::PUTTS %>
-    <%= score_form.number_field :putts %>
-    <%= score_form.label :penalties, Label::Score::PENALTIES %>
-    <%= score_form.number_field :penalties %>
-  </p>
-  <%= score_form.submit %>
+<%= field_set_tag Fieldset::Round::EDIT, class: 'fieldset' do %>
+  <div id="edit-div" class="fieldset-field-div">
+    <h2>Course: <%= @course.name %></h2>
+    <h2>Tee: <%= @tee.color %></h2>
+    <h2>Date: <%= @round.date %></h2>
+    <h2>Hole: <%= @score.hole.number %></h2>
+    <%= form_with model: [@course, @tee, @round, @score], local: true do |score_form| %>
+      <p>
+        <%= score_form.label :strokes, Label::Score::STROKES %>
+        <%= score_form.number_field :strokes, autofocus: true %><br>
+        <%= score_form.label :putts, Label::Score::PUTTS %>
+        <%= score_form.number_field :putts %><br>
+        <%= score_form.label :penalties, Label::Score::PENALTIES %>
+        <%= score_form.number_field :penalties %>
+      </p>
+      <%= score_form.submit %>
 
+    <% end %>
+  </div>
 <% end %>
-<%= button_to Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get %>
-<%= button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get %>
-<%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>

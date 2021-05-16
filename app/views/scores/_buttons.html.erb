@@ -1,0 +1,20 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <%= field_set_tag Fieldset::Round::COURSE_BUTTONS, class: 'fieldset' do %>
+        <div id="course-div" class="fieldset-button-div">
+          <%= button_to Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get %>
+          <%= button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get %>
+          <%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-sm">
+      <%= field_set_tag Fieldset::Round::ROUND_BUTTONS, class: 'fieldset' do %>
+        <div id="round-div" class="fieldset-button-div">
+          <%= button_to Button::Round::EDIT, edit_course_tee_round_path(@course, @tee, @round), method: :get %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

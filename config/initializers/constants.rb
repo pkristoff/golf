@@ -74,3 +74,10 @@ module Button
     UPDATE = 'Update Round'.freeze
   end
 end
+module Fieldset
+  module Round
+    COURSE_BUTTONS = 'Course buttons'.freeze
+    ROUND_BUTTONS = 'Round buttons'.freeze
+    EDIT = 'Edit'.freeze
+  end
+end
