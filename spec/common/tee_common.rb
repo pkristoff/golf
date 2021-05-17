@@ -7,7 +7,7 @@ module TeeCommon
   include DatabaseCommon
 
   def expect_tee_form_fields(page_or_rendered, tees, values, update_create)
-    expect_aside(page_or_rendered, values[:show_course_tees], values[:show_round_tees]) unless page_or_rendered.is_a?(String)
+    expect_aside(page_or_rendered, values[:show_tees]) unless page_or_rendered.is_a?(String)
     expect_database(page_or_rendered) unless page_or_rendered.is_a?(String)
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
@@ -34,10 +34,10 @@ module TeeCommon
     expect(page_or_rendered).to have_button(Button::Tee::NEW) if update_create == 'Update'
   end
 
-  def expect_tees_page(page_or_rendered, course, tees, show_course_tees, show_round_tees)
+  def expect_tees_page(page_or_rendered, course, tees, show_tees)
     include AsideCommon unless page_or_rendered.is_a?(String)
     include DatabaseCommon unless page_or_rendered.is_a?(String)
-    expect_aside(page_or_rendered, show_course_tees, show_round_tees) unless page_or_rendered.is_a?(String)
+    expect_aside(page_or_rendered, show_tees) unless page_or_rendered.is_a?(String)
     expect_database(page_or_rendered) unless page_or_rendered.is_a?(String)
 
     expect(page_or_rendered).to have_selector('h1', count: 1, text: "Pick Tee for course: #{course.name}")

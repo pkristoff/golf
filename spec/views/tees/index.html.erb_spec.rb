@@ -13,7 +13,7 @@ describe 'tees/index.html.erb', type: :view do
 
     render
 
-    expect_tees_page(rendered, course, course.sorted_tees, true, true)
+    expect_tees_page(rendered, course, course.sorted_tees, true)
   end
 
   it 'should show no tees' do
@@ -23,7 +23,7 @@ describe 'tees/index.html.erb', type: :view do
 
     render
 
-    expect_tees_page(rendered, course, course.sorted_tees, true, true)
+    expect_tees_page(rendered, course, course.sorted_tees, true)
   end
 
   it 'should show no holes' do
@@ -33,6 +33,6 @@ describe 'tees/index.html.erb', type: :view do
 
     render
 
-    expect_tees_page(rendered, course, course.sorted_tees, true, true)
+    expect_tees_page(rendered, course, course.sorted_tees, true)
   end
 end

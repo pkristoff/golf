@@ -91,7 +91,7 @@ module HoleCommon
   end
 
   def expect_form_holes(page_or_rendered, values = {})
-    expect_aside(page_or_rendered, values[:show_course_tees], values[:show_round_tees]) unless page_or_rendered.is_a?(String)
+    expect_aside(page_or_rendered, values[:show_tees]) unless page_or_rendered.is_a?(String)
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 

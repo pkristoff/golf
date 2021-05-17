@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 module RoundsCommon
-  def expect_rounds_index(page_or_rendered, courses, show_course_tees, show_round_tees)
-    expect_aside(page, show_course_tees, show_round_tees) unless page_or_rendered.is_a? String
+  def expect_rounds_index(page_or_rendered, courses)
+    expect_aside(page, false) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
 
     expect(page_or_rendered).to have_selector('h1', text: Button::Round::CHOOSE_COURSE)
@@ -11,8 +11,8 @@ module RoundsCommon
     end
   end
 
-  def expect_rounds_tees(page_or_rendered, course, tees, show_course_tees, show_round_tees)
-    expect_aside(page, show_course_tees, show_round_tees) unless page_or_rendered.is_a? String
+  def expect_rounds_tees(page_or_rendered, course, tees)
+    expect_aside(page, true) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
 
     expect(page_or_rendered).to have_selector('h1', text: 'Rounds')
@@ -37,8 +37,8 @@ module RoundsCommon
     # rubocop:enable Layout/LineLength
   end
 
-  def expect_rounds(page_or_rendered, course, tee, rounds, show_course_tees, show_round_tees)
-    expect_aside(page, show_course_tees, show_round_tees) unless page_or_rendered.is_a? String
+  def expect_rounds(page_or_rendered, course, tee, rounds, show_tees)
+    expect_aside(page, show_tees) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
     expect(page_or_rendered).to have_selector('h1', text: "Rounds for #{course.name} and tee #{tee.color}")
     if rounds.empty?
@@ -57,7 +57,7 @@ module RoundsCommon
   end
 
   def expect_round_form_fields(page_or_rendered, values, update_create)
-    expect_aside(page, values[:show_course_tees], values[:show_round_tees]) unless page_or_rendered.is_a? String
+    expect_aside(page, values[:show_tees]) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?

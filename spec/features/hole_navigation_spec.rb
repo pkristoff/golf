@@ -19,8 +19,7 @@ feature 'edit_existing_course' do
     visit edit_course_path(@course.id)
 
     expect_edit_fields_with_values(page,
-                                   show_course_tees: true,
-                                   show_round_tees: true,
+                                   show_tees: true,
                                    name: 'George',
                                    street_1: '555 Xxx Ave.',
                                    street_2: '<nothing>',
@@ -36,8 +35,7 @@ feature 'edit_existing_course' do
       { color: 'Black',
         slope: '139.0',
         rating: '71.6',
-        show_course_tees: true,
-        show_round_tees: true },
+        show_tees: true },
       'Update'
     )
 
@@ -54,8 +52,7 @@ feature 'edit_existing_course' do
         color: 'Black',
         slope: '140.0',
         rating: '75.0',
-        show_course_tees: true,
-        show_round_tees: true },
+        show_tees: true },
       'Update'
     )
 
@@ -68,8 +65,7 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'tee updated']],
-                      show_course_tees: true,
-                      show_round_tees: true,
+                      show_tees: true,
                       number: '1', yardage: '411', par: '4', hdcp: '9')
 
     fill_in Label::Hole::YARDAGE, with: 644
@@ -80,8 +76,7 @@ feature 'edit_existing_course' do
 
     expect_form_holes(page,
                       expect_messages: [[:flash_notice, 'hole updated']],
-                      show_course_tees: true,
-                      show_round_tees: true,
+                      show_tees: true,
                       number: '2', yardage: '360', par: '4', hdcp: '15')
   end
 end

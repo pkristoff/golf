@@ -22,15 +22,15 @@ feature 'edit_existing_course' do
     visit welcome_index_path
     click_button Button::Round::COURSES
 
-    expect_rounds_index(page, [@course], false, false)
+    expect_rounds_index(page, [@course])
 
     click_link(@course.name)
 
-    expect_rounds_tees(page, @course, @course.tees, true, true)
+    expect_rounds_tees(page, @course, @course.tees)
 
     click_link(@tee.color)
 
-    expect_rounds(page, @course, @tee, [], true, true)
+    expect_rounds(page, @course, @tee, [], true)
   end
 
   scenario 'Navigate to a tee with with rounds' do
@@ -41,15 +41,15 @@ feature 'edit_existing_course' do
     visit welcome_index_path
     click_button Button::Round::COURSES
 
-    expect_rounds_index(page, [@course], false, false)
+    expect_rounds_index(page, [@course])
 
     click_link(@course.name)
 
-    expect_rounds_tees(page, @course, @course.tees, true, true)
+    expect_rounds_tees(page, @course, @course.tees)
 
     click_link(@tee.color)
 
-    expect_rounds(page, @course, @tee, [@round], true, true)
+    expect_rounds(page, @course, @tee, [@round], true)
   end
   it 'Create a new round' do
     @round = FactoryBot.create(:round)
@@ -66,8 +66,7 @@ feature 'edit_existing_course' do
       page,
       { date: '2021-04-30',
         course_name: @course.name,
-        show_course_tees: true,
-        show_round_tees: true },
+        show_tees: true },
       Button::Round::CREATE
     )
 

@@ -13,8 +13,7 @@ feature 'add a new course' do
   scenario 'visit new course' do
     visit new_course_path
     expect_new_fields_with_values(page,
-                                  show_course_tees: false,
-                                  show_round_tees: false,
+                                  show_tees: false,
                                   name: '...',
                                   number_of_holes: '18',
                                   street_1: '', street_2: '', city: '', state: '', zip: '27502')
@@ -23,8 +22,7 @@ feature 'add a new course' do
   scenario 'visit new course fill in invalid values &look for errors' do
     visit new_course_path
     expect_new_fields_with_values(page,
-                                  show_course_tees: false,
-                                  show_round_tees: false,
+                                  show_tees: false,
                                   name: '...',
                                   number_of_holes: '18', street_1: '', street_2: '', city: '', state: '', zip: '27502')
 
@@ -35,8 +33,7 @@ feature 'add a new course' do
     click_button('submit-course')
 
     expect_new_fields_with_values(page,
-                                  show_course_tees: false,
-                                  show_round_tees: false,
+                                  show_tees: false,
                                   name: '',
                                   number_of_holes: '0', street_1: '', street_2: '', city: '', state: '', zip: '')
 
@@ -55,8 +52,7 @@ feature 'add a new course' do
   scenario 'visit new course fill in valid values it should render show.html.erb' do
     visit new_course_path
     expect_new_fields_with_values(page,
-                                  show_course_tees: false,
-                                  show_round_tees: false,
+                                  show_tees: false,
                                   name: '...',
                                   number_of_holes: '18', street_1: '', street_2: '', city: '', state: '', zip: '27502')
 
@@ -71,8 +67,7 @@ feature 'add a new course' do
     click_button('submit-course')
 
     expect_edit_fields_with_values(page,
-                                   show_course_tees: true,
-                                   show_round_tees: true,
+                                   show_tees: true,
                                    name: 'Lochmere',
                                    street_1: '2116 Frissell Ave.',
                                    street_2: '',
