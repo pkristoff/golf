@@ -1,7 +1,11 @@
 # frozen_string_literal: true
 
+require 'common/button_to_common'
+
 module RoundsCommon
-  def expect_rounds_index(page_or_rendered, courses)
+  include ButtonToCommon
+
+  def expect_rounds_course_index(page_or_rendered, courses)
     expect_aside(page, false) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
 
@@ -9,6 +13,12 @@ module RoundsCommon
     courses.each do |course|
       expect(page_or_rendered).to have_link(course.name)
     end
+    expect_other_buttons(page_or_rendered)
+  end
+
+  def expect_other_buttons(page_or_rendered)
+    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW])
+    expect_button_within_round_fieldset(page_or_rendered, [])
   end
 
   def expect_rounds_tees(page_or_rendered, course, tees)
@@ -37,7 +47,7 @@ module RoundsCommon
     # rubocop:enable Layout/LineLength
   end
 
-  def expect_rounds(page_or_rendered, course, tee, rounds, show_tees)
+  def expect_rounds_index(page_or_rendered, course, tee, rounds, show_tees)
     expect_aside(page, show_tees) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
     expect(page_or_rendered).to have_selector('h1', text: "Rounds for #{course.name} and tee #{tee.color}")

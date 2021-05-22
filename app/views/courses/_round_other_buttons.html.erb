@@ -1,0 +1,17 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      <%= field_set_tag Fieldset::Course::COURSE_BUTTONS, class: 'fieldset' do %>
+        <div id="course-div" class="fieldset-button-div">
+          <%= button_to Button::Course::NEW, new_course_path, method: :get %>
+        </div>
+      <% end %>
+    </div>
+    <div class="col-sm">
+      <%= field_set_tag Fieldset::Round::ROUND_BUTTONS, class: 'fieldset' do %>
+        <div id="round-div" class="fieldset-button-div">
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

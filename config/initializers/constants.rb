@@ -34,23 +34,24 @@ module Label
     YARDAGE = 'Yardage'.freeze
   end
   module Round
-    DATE='Date'.freeze
-    NO_ROUNDS='No Rounds'.freeze
+    DATE = 'Date'.freeze
+    NO_ROUNDS = 'No Rounds'.freeze
     ROUNDS = 'Rounds'.freeze
     SHOW = 'Show Round'.freeze
     EDIT = 'Edit round'.freeze
     NEW = 'New round'.freeze
   end
   module Score
-    HOLE_NUMBER='Hole Number'.freeze
-    STROKES='Strokes'.freeze
-    PUTTS='Putts'.freeze
-    PENALTIES='Penalties'.freeze
+    HOLE_NUMBER = 'Hole Number'.freeze
+    STROKES = 'Strokes'.freeze
+    PUTTS = 'Putts'.freeze
+    PENALTIES = 'Penalties'.freeze
   end
 end
 module Button
   module Course
     CREATE = 'Create Course'.freeze
+    NEW = 'New Course'.freeze
     EDIT = 'Edit Course'.freeze
     UPDATE = 'Update Course'.freeze
     SHOW_COURSES = 'Show Courses'.freeze
@@ -66,8 +67,8 @@ module Button
   end
   module Round
     CHOOSE_COURSE = 'Choose Round Course'
-    EDIT='Edit Round'.freeze
-    NEW='New Round'.freeze
+    EDIT = 'Edit Round'.freeze
+    NEW = 'New Round'.freeze
     COURSES = 'Show Round Courses'.freeze
     TEES = 'Show Tees for Course'.freeze
     CREATE = 'Create Round'.freeze
@@ -75,8 +76,10 @@ module Button
   end
 end
 module Fieldset
-  module Round
+  module Course
     COURSE_BUTTONS = 'Course buttons'.freeze
+  end
+  module Round
     ROUND_BUTTONS = 'Round buttons'.freeze
     EDIT = 'Edit'.freeze
   end

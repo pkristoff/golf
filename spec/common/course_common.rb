@@ -1,10 +1,31 @@
 # frozen_string_literal: true
 
 require 'common/application_common'
+require 'common/button_to_common'
 
 module CourseCommon
   include AsideCommon
   include DatabaseCommon
+  include ButtonToCommon
+
+  def expect_course_index(page_or_rendered, courses)
+    expect(page_or_rendered).to have_selector('h1', text: 'Courses')
+    expect(rendered).to have_selector("li[id='li-id']", count: courses.size)
+    if courses.empty?
+      expect(page_or_rendered).to have_selector('h2', text: 'No courses')
+    else
+      courses.each do |course|
+        expect(rendered).to have_selector("a[id='edit_link_#{course.id}']", text: course.name)
+      end
+    end
+    expect_other_buttons(page_or_rendered)
+  end
+
+  def expect_other_buttons(page_or_rendered)
+    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW])
+    expect_button_within_round_fieldset(page_or_rendered, [])
+  end
+
   def expect_new_fields_with_values(page, values = {})
     expect_aside(page, values[:show_tees])
     expect_database(page)

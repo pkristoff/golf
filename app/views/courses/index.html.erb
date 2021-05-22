@@ -1,9 +1,13 @@
 <h1>Courses</h1>
 
-<ul>
-  <% @courses.each do |course| %>
-    <li id="li-id"><%= link_to course.name, course, id: "edit_link_#{course.id}" %></li>
-  <% end %>
-  <br>
-  <%= button_to "Add new Course", new_course_path, id: 'add_new_course' %>
-</ul>
+<% if @courses.empty? %>
+  <h2>No courses</h2>
+<% else %>
+  <ul>
+    <% @courses.each do |course| %>
+      <li id="li-id"><%= link_to course.name, course, id: "edit_link_#{course.id}" %></li>
+    <% end %>
+    <br>
+  </ul>
+<% end %>
+<%= render "courses/round_other_buttons" %>

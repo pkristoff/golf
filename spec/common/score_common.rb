@@ -1,10 +1,12 @@
 # frozen_string_literal: true
 
 require 'common/application_common'
+require 'common/button_to_common'
 
 module ScoreCommon
   include AsideCommon
   include DatabaseCommon
+  include ButtonToCommon
 
   def expect_edit_score(page_or_rendered, round, score, values, replace_values = [])
     expect_aside(page_or_rendered, values[:show_tees]) unless page_or_rendered.is_a? String
@@ -39,23 +41,11 @@ module ScoreCommon
   end
 
   def expect_button_within_course_fieldset(page_or_rendered)
-    expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::COURSE_BUTTONS)
+    expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Course::COURSE_BUTTONS)
     expect_button_count(page_or_rendered, 'course-div', 3)
     expect_button_to(page_or_rendered, 'course-div', Button::Tee::EDIT)
     expect_button_to(page_or_rendered, 'course-div', Button::Tee::NEW)
     expect_button_to(page_or_rendered, 'course-div', Button::Course::EDIT)
-  end
-
-  def expect_button_count(page_or_rendered, div_id, num)
-    # rubocop:disable Layout/LineLength
-    expect(page_or_rendered).to have_selector("div[id=#{div_id}][class=fieldset-button-div] form[class=button_to] input[type=submit]", count: num)
-    # rubocop:enable Layout/LineLength
-  end
-
-  def expect_button_to(page_or_rendered, div_id, name)
-    # rubocop:disable Layout/LineLength
-    expect(page_or_rendered).to have_selector("div[id=#{div_id}][class=fieldset-button-div] form[class=button_to] input[type=submit][value='#{name}']", count: 1)
-    # rubocop:enable Layout/LineLength
   end
 
   def expect_edit_field_set(page_or_rendered, round, score, values)

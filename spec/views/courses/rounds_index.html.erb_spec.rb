@@ -12,6 +12,6 @@ describe 'courses/rounds_index.html.erb', type: :view do
 
     render
 
-    expect_rounds_index(rendered, Course.all)
+    expect_rounds_course_index(rendered, Course.all)
   end
 end
