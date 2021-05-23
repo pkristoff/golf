@@ -32,19 +32,12 @@ module RoundsCommon
       expect(page_or_rendered).to have_link(tee.color)
     end
 
-    expect(page_or_rendered).to have_button(Button::Round::COURSES, count: 0) if page_or_rendered.is_a? String
-    expect(page_or_rendered).to have_button(Button::Round::COURSES, count: 1) unless page_or_rendered.is_a? String
+    expect_tees_round_other_buttons(page_or_rendered)
+  end
 
-    # rubocop:disable Layout/LineLength
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Course::SHOW_COURSES}']", count: 0) if page_or_rendered.is_a? String
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Course::SHOW_COURSES}']", count: 1) unless page_or_rendered.is_a? String
-
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Round::COURSES}']", count: 0) if page_or_rendered.is_a? String
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Round::COURSES}']", count: 1) unless page_or_rendered.is_a? String
-
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Round::TEES}']", count: 0) if page_or_rendered.is_a? String
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Round::TEES}']", count: 1) unless page_or_rendered.is_a? String
-    # rubocop:enable Layout/LineLength
+  def expect_tees_round_other_buttons(page_or_rendered)
+    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW])
+    expect_button_within_round_fieldset(page_or_rendered, [])
   end
 
   def expect_rounds_index(page_or_rendered, course, tee, rounds, show_tees)
