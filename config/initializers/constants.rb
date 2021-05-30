@@ -1,7 +1,6 @@
 module Label
   module Common
     EDIT = 'Edit'.freeze
-    DESTROY = 'Destroy'.freeze
     NEW = 'New'.freeze
   end
   module Database
@@ -51,6 +50,7 @@ end
 module Button
   module Course
     CREATE = 'Create Course'.freeze
+    DESTROY = 'Destroy'.freeze
     NEW = 'New Course'.freeze
     EDIT = 'Edit Course'.freeze
     UPDATE = 'Update Course'.freeze

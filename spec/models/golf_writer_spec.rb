@@ -41,7 +41,7 @@ def compare_worksheets_rounds(roo_worksheet, axlsx_worksheet)
     # puts "date_cell_row=#{date_cell_row}"
     # puts "roo date_cell_rows=#{date_cell_rows}"
     compare_date_row(roo_worksheet.row(date_cell_row), axlsx_worksheet.rows[date_cell_row - 1])
-    compare_strokes_row(roo_worksheet.row(date_cell_row + 1), axlsx_worksheet.rows[date_cell_row - 0])
+    compare_strokes_row(roo_worksheet.row(date_cell_row + 1), axlsx_worksheet.rows[date_cell_row - 0], date_cell_row)
     compare_putts_row(roo_worksheet.row(date_cell_row + 2), axlsx_worksheet.rows[date_cell_row + 1])
     compare_penalties_row(roo_worksheet.row(date_cell_row + 3), axlsx_worksheet.rows[date_cell_row + 2])
   end
@@ -77,7 +77,7 @@ def compare_putts_row(roo_row, axlsx_row)
   end
 end
 
-def compare_strokes_row(roo_row, axlsx_row)
+def compare_strokes_row(roo_row, axlsx_row, date_cell_row)
   # puts "strokes roo_row=#{roo_row}"
   expect(roo_row[0]).to eq(axlsx_row[0].value) # tee color
   stroke_cell_num = roo_row[1].nil? ? 3 : 1 # handles when course does not have slope or rating
@@ -86,6 +86,8 @@ def compare_strokes_row(roo_row, axlsx_row)
   # puts "axlsx_row=#{axlsx_row.cells.map{|cell| cell.value}}"
   until roo_stroke.nil?
     unless roo_stroke == axlsx_row[stroke_cell_num].value
+      puts "date_cell_row=#{date_cell_row}"
+      puts "roo date_cell_rows=#{date_cell_row}"
       puts "stroke_cell_num=#{stroke_cell_num}"
       puts "roo_row=#{roo_row}"
       puts "axlsx_row=#{axlsx_row.cells.map(&:value)}"

@@ -16,11 +16,6 @@ module RoundsCommon
     expect_other_buttons(page_or_rendered)
   end
 
-  def expect_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
-  end
-
   def expect_rounds_tees(page_or_rendered, course, tees)
     expect_aside(page, true) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
@@ -35,11 +30,6 @@ module RoundsCommon
     expect_tees_round_other_buttons(page_or_rendered)
   end
 
-  def expect_tees_round_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
-  end
-
   def expect_rounds_index(page_or_rendered, course, tee, rounds, show_tees)
     expect_aside(page, show_tees) unless page_or_rendered.is_a? String
     expect_database(page) unless page_or_rendered.is_a? String
@@ -51,12 +41,7 @@ module RoundsCommon
         expect(page_or_rendered).to have_link(round.date.to_s)
       end
     end
-    expect(page_or_rendered).to have_button(Button::Round::TEES, count: 1) unless page_or_rendered.is_a? String
-    expect(page_or_rendered).to have_button(Button::Round::COURSES, count: 0) if page_or_rendered.is_a? String
-    expect(page_or_rendered).to have_button(Button::Round::COURSES, count: 1) unless page_or_rendered.is_a? String
-
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Round::NEW}']", count: 1)
-    expect(page_or_rendered).to have_selector("input[type=submit][value='#{Button::Round::CREATE}']", count: 1)
+    expect_round_other_buttons(page_or_rendered)
   end
 
   def expect_round_form_fields(page_or_rendered, values, update_create)
@@ -85,5 +70,28 @@ module RoundsCommon
     expect(page_or_rendered).to have_selector("input[type=date][id=round_date][value='#{values[:date]}']", count: 1) unless disabled
     expect(page_or_rendered).to have_selector("input[type=date][id=round_date][disabled=disabled][value='#{values[:date]}']", count: 1) if disabled
     # rubocop:enable Layout/LineLength
+  end
+
+  private
+
+  def expect_other_buttons(page_or_rendered)
+    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW])
+    expect_button_within_round_fieldset(page_or_rendered, [])
+  end
+
+  def expect_tees_round_other_buttons(page_or_rendered)
+    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW])
+    expect_button_within_round_fieldset(page_or_rendered, [])
+  end
+
+  def expect_round_other_buttons(page_or_rendered)
+    expect_button_within_course_fieldset(
+      page_or_rendered,
+      [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW, Button::Tee::EDIT]
+    )
+    expect_button_within_round_fieldset(page_or_rendered,
+                                        [
+                                          Button::Round::NEW
+                                        ])
   end
 end

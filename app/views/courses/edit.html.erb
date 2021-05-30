@@ -2,4 +2,7 @@
 
 <%= render "form", course: @course, form_disabled: false %>
 
-<%= button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get %>
+<%= render "layouts/other_buttons", courses:
+  [button_to(Button::Course::NEW, new_course_path(@course), method: :get),
+   button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get)],
+           rounds: [] %>

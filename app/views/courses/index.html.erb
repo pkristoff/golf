@@ -10,4 +10,7 @@
     <br>
   </ul>
 <% end %>
-<%= render "courses/round_other_buttons" %>
+
+<%= render "layouts/other_buttons", courses:
+  [button_to(Button::Course::NEW, new_course_path, method: :get)],
+           rounds: [] %>
