@@ -164,7 +164,12 @@ feature 'edit_existing_course' do
     )
 
     @course.tees.each do |tee|
-      expect_holes(page, tee.sorted_holes, TeeHoleInfo::HOLE_INFO_EMPTY_18)
+      expect_holes_list(page, tee, { hole_values: TeeHoleInfo::HOLE_INFO_EMPTY_18,
+                                     total_out_yardage: 0,
+                                     total_in_yardage: 0,
+                                     total_yardage: 0 })
+
+      # expect_holes(page, tee.sorted_holes, TeeHoleInfo::HOLE_INFO_EMPTY_18)
     end
   end
 end

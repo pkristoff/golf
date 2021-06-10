@@ -1,7 +1,7 @@
 <% if local_assigns[:holes].empty? %>
   <p>No holes</p>
 <% else %>
-  <table id="holes" style="width:100%">
+  <table id=<%= "holes-#{tee.id}" %> style="width:100%">
     <tr id=<%= "hole-number-#{tee.id}" %>>
       <td id=<%= "hole-number-heading-#{tee.id}" %> class="heading-cell">Number:</td>
       <% local_assigns[:holes].each do |hole| %>

@@ -4,22 +4,22 @@
 
 <%= render 'share/error_messages.html.erb', resource: @tee %>
 
-<%=render "holes/holes", tee:  @tee, holes: holes %>
+<%= render "holes/holes", tee: @tee, holes: holes %>
 
-<%= form_with model: [@course, @tee, @hole], local: true  do |hole_form| %>
-  <p>
+<% is_new = @hole.new_record? %>
+
+<%= field_set_tag Fieldset::Holes::HOLE, class: 'fieldset' do %>
+  <%= form_with model: [@course, @tee, @hole], local: true do |hole_form| %>
     <%= hole_form.label :number, Label::Hole::NUMBER %>
-    <%= hole_form.text_field :number%>
+    <%= hole_form.text_field :number, disabled: true %>
     <%= hole_form.label :yardage, Label::Hole::YARDAGE %>
-    <%= hole_form.number_field :yardage, autofocus: true %>
+    <%= hole_form.number_field :yardage, disabled: @hole.new_record? , autofocus: true %>
     <%= hole_form.label :par, Label::Hole::PAR %>
-    <%= hole_form.number_field :par %>
+    <%= hole_form.number_field :par, disabled: @hole.new_record? %>
     <%= hole_form.label :hdcp, Label::Hole::HDCP %>
-    <%= hole_form.number_field :hdcp %>
-  </p>
-  <%= hole_form.submit %>
+    <%= hole_form.number_field :hdcp, disabled: @hole.new_record? %>
+
+    <%= hole_form.submit unless is_new %>
+  <% end %>
 
 <% end %>
-<%= button_to Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get %>
-<%= button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get %>
-<%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>

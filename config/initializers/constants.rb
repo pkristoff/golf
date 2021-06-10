@@ -83,4 +83,7 @@ module Fieldset
     ROUND_BUTTONS = 'Round buttons'.freeze
     EDIT = 'Edit'.freeze
   end
+  module Holes
+    HOLE = 'Golf Course Hole'.freeze
+  end
 end

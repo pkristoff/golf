@@ -15,18 +15,17 @@ describe 'holes/edit.html.erb', type: :view do
 
     render
 
-    expect_hole_form_fields(
-      rendered,
-      tee,
-      'Update',
-      { number: 1,
-        yardage: 411,
-        par: 4,
-        hdcp: 9,
-        total_out_yardage: 3366,
-        total_in_yardage: 3261,
-        total_yardage: 6627 }
-    )
+    expect_edit_hole(rendered,
+                     tee,
+                     { course_name: 'George',
+                       tee_color: 'Black',
+                       number: 1,
+                       yardage: 411,
+                       par: 4,
+                       hdcp: 9,
+                       total_out_yardage: 3366,
+                       total_in_yardage: 3261,
+                       total_yardage: 6627 })
   end
   it 'edits 3rd hole' do
     course = FactoryBot.create(:course)
@@ -37,17 +36,16 @@ describe 'holes/edit.html.erb', type: :view do
 
     render
 
-    expect_hole_form_fields(
-      rendered,
-      tee,
-      'Update',
-      { number: 3,
-        yardage: 179,
-        par: 3,
-        hdcp: 11,
-        total_out_yardage: 3106,
-        total_in_yardage: 3030,
-        total_yardage: 6136 }
-    )
+    expect_edit_hole(rendered,
+                     tee,
+                     { course_name: 'George',
+                       tee_color: 'Blue',
+                       number: 3,
+                       yardage: 179,
+                       par: 3,
+                       hdcp: 11,
+                       total_out_yardage: 3106,
+                       total_in_yardage: 3030,
+                       total_yardage: 6136 })
   end
 end
