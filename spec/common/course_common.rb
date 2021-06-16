@@ -22,8 +22,8 @@ module CourseCommon
   end
 
   def expect_new_fields_with_values(page, values = {})
-    expect_aside(page, values[:show_tees])
-    expect_database(page)
+    AsideCommon.expect_aside(page, values[:show_tees])
+    DatabaseCommon.expect_database(page)
 
     expect(page).to have_selector('h1', text: 'New Course')
     expect(find_button('submit-course')).to be_truthy
@@ -46,8 +46,8 @@ module CourseCommon
   end
 
   def expect_edit_fields_with_values(page, values = {})
-    expect_aside(page, values[:show_tees])
-    expect_database(page)
+    AsideCommon.expect_aside(page, values[:show_tees])
+    DatabaseCommon.expect_database(page)
 
     expect(page).to have_selector('h1', text: 'Edit Course')
     expect(find_button('submit-course')).to be_truthy
@@ -60,8 +60,8 @@ module CourseCommon
   end
 
   def expect_show_fields_with_values(page, values = {})
-    expect_aside(page, values[:show_tees])
-    expect_database(page)
+    AsideCommon.expect_aside(page, values[:show_tees])
+    DatabaseCommon.expect_database(page)
 
     expect(page).to have_selector('h1', text: 'Show Course')
 
@@ -73,8 +73,6 @@ module CourseCommon
   end
 
   def expect_form_fields(disabled, button_name, values)
-    # expect_aside(rendered)
-
     expect(rendered).to have_field('course_name', disabled: disabled)
     expect(rendered).to have_selector("input[id=course_name][value='#{values[:course_name]}']")
 

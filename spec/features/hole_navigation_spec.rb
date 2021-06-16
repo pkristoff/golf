@@ -55,11 +55,10 @@ feature 'edit_existing_course' do
         show_tees: true },
       'Update'
     )
-    expect_holes_list(page, @course.tee('Black'), { hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
-                                                    total_out_yardage: 3366,
-                                                    total_in_yardage: 3261,
-                                                    total_yardage: 6627 })
-    # expect_holes(page, @course.tee('Black').sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+    HoleCommon.expect_holes_list(page, @course.tee('Black'), { hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
+                                                               total_out_yardage: 3366,
+                                                               total_in_yardage: 3261,
+                                                               total_yardage: 6627 })
 
     hole_id = @course.tee('Black').sorted_holes.first.id
     click_link("hole-number-link-#{hole_id}")
@@ -67,24 +66,17 @@ feature 'edit_existing_course' do
     @course = Course.find(@course.id)
     @tee = @course.tee('Black')
 
-    expect_edit_hole(page,
-                     @tee,
-                     { course_name: @course.name,
-                       tee_color: @tee.color,
-                       show_tees: true,
-                       expect_messages: [[:flash_notice, 'tee updated']],
-                       hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
-                       number: '1', yardage: '411', par: '4', hdcp: '9',
-                       total_out_yardage: 3366,
-                       total_in_yardage: 3261,
-                       total_yardage: 6627 })
-
-    # expect_holes(page, @course.tee('Black').sorted_holes, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
-    #
-    # expect_form_holes(page, false,
-    #                   expect_messages: [[:flash_notice, 'tee updated']],
-    #                   show_tees: true,
-    #                   number: '1', yardage: '411', par: '4', hdcp: '9')
+    HoleCommon.expect_edit_hole(page,
+                                @tee,
+                                { course_name: @course.name,
+                                  tee_color: @tee.color,
+                                  show_tees: true,
+                                  expect_messages: [[:flash_notice, 'tee updated']],
+                                  hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
+                                  number: '1', yardage: '411', par: '4', hdcp: '9',
+                                  total_out_yardage: 3366,
+                                  total_in_yardage: 3261,
+                                  total_yardage: 6627 })
 
     fill_in Label::Hole::YARDAGE, with: 644
     fill_in Label::Hole::PAR, with: 5
@@ -92,22 +84,17 @@ feature 'edit_existing_course' do
 
     click_button('Update Hole')
 
-    expect_edit_hole(page,
-                     @tee,
-                     { course_name: @course.name,
-                       tee_color: @tee.color,
-                       show_tees: true,
-                       expect_messages: [[:flash_notice, 'hole updated']],
-                       hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
-                       replace_values: [{ number: 1, yardage: 644, par: 5, hdcp: 10 }],
-                       number: '2', yardage: '360', par: '4', hdcp: '15',
-                       total_out_yardage: 3599,
-                       total_in_yardage: 3261,
-                       total_yardage: 6860 })
-
-    # expect_form_holes(page, false,
-    #                   expect_messages: [[:flash_notice, 'hole updated']],
-    #                   show_tees: true,
-    #                   number: '2', yardage: '360', par: '4', hdcp: '15')
+    HoleCommon.expect_edit_hole(page,
+                                @tee,
+                                { course_name: @course.name,
+                                  tee_color: @tee.color,
+                                  show_tees: true,
+                                  expect_messages: [[:flash_notice, 'hole updated']],
+                                  hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
+                                  replace_values: [{ number: 1, yardage: 644, par: 5, hdcp: 10 }],
+                                  number: '2', yardage: '360', par: '4', hdcp: '15',
+                                  total_out_yardage: 3599,
+                                  total_in_yardage: 3261,
+                                  total_yardage: 6860 })
   end
 end

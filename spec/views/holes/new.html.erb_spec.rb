@@ -15,17 +15,17 @@ describe 'holes/new.html.erb', type: :view do
 
     render
 
-    expect_new_hole(rendered,
-                    tee,
-                    { course_name: 'George',
-                      tee_color: 'Black',
-                      number: 0,
-                      yardage: 0,
-                      par: 0,
-                      hdcp: 0,
-                      total_out_yardage: 0,
-                      total_in_yardage: 0,
-                      total_yardage: 0 })
+    HoleCommon.expect_new_hole(rendered,
+                               tee,
+                               { course_name: 'George',
+                                 tee_color: 'Black',
+                                 number: 0,
+                                 yardage: 0,
+                                 par: 0,
+                                 hdcp: 0,
+                                 total_out_yardage: 0,
+                                 total_in_yardage: 0,
+                                 total_yardage: 0 })
   end
   it 'has sorted holes for tee' do
     course = FactoryBot.create(:course)
@@ -34,17 +34,17 @@ describe 'holes/new.html.erb', type: :view do
     assign(:hole, Hole.new(number: 1, yardage: 234, par: 3, hdcp: 9))
 
     render
-    puts rendered
-    expect_new_hole(rendered,
-                    course.tees.first,
-                    { course_name: 'George',
-                      tee_color: 'Black',
-                      number: 1,
-                      yardage: 234,
-                      par: 3,
-                      hdcp: 9,
-                      total_out_yardage: 3366,
-                      total_in_yardage: 3261,
-                      total_yardage: 6627 })
+
+    HoleCommon.expect_new_hole(rendered,
+                               course.tees.first,
+                               { course_name: 'George',
+                                 tee_color: 'Black',
+                                 number: 1,
+                                 yardage: 234,
+                                 par: 3,
+                                 hdcp: 9,
+                                 total_out_yardage: 3366,
+                                 total_in_yardage: 3261,
+                                 total_yardage: 6627 })
   end
 end

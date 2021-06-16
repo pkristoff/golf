@@ -9,8 +9,8 @@ module ScoreCommon
   include ButtonToCommon
 
   def expect_edit_score(page_or_rendered, round, score, values, replace_values = [])
-    expect_aside(page_or_rendered, values[:show_tees]) unless page_or_rendered.is_a? String
-    expect_database(page_or_rendered) unless page_or_rendered.is_a? String
+    AsideCommon.expect_aside(page_or_rendered, values[:show_tees]) unless page_or_rendered.is_a? String
+    DatabaseCommon.expect_database(page_or_rendered) unless page_or_rendered.is_a? String
 
     expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
