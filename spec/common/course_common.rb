@@ -89,27 +89,32 @@ module CourseCommon
   private
 
   def expect_edit_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered,
-                                         [Button::Course::NEW, Button::Tee::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
+    ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+                                                        [Button::Course::NEW, Button::Tee::NEW])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
   end
 
   def expect_index_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered,
-                                         [Button::Course::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
+    ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+                                                        [Button::Course::NEW])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
   end
 
   def expect_new_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered,
-                                         [Button::Course::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
+    ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+                                                        [Button::Course::NEW])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
   end
 
   def expect_show_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered,
-                                         [Button::Course::EDIT, Button::Course::DESTROY, Button::Course::NEW, Button::Tee::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
+    ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+                                                        [
+                                                          Button::Course::EDIT,
+                                                          Button::Course::DESTROY,
+                                                          Button::Course::NEW,
+                                                          Button::Tee::NEW
+                                                        ])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
   end
 
   def expect_address_fields(values, disabled)

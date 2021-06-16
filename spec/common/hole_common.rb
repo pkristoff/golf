@@ -128,9 +128,14 @@ module HoleCommon
     end
 
     def expect_hole_edit_other_buttons(page_or_rendered)
-      expect_button_within_course_fieldset(page_or_rendered,
-                                           [Button::Course::EDIT, Button::Course::NEW, Button::Tee::NEW, Button::Tee::EDIT])
-      expect_button_within_round_fieldset(page_or_rendered, [])
+      ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+                                                          [
+                                                            Button::Course::EDIT,
+                                                            Button::Course::NEW,
+                                                            Button::Tee::NEW,
+                                                            Button::Tee::EDIT
+                                                          ])
+      ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
     end
 
     def expect_edit_hole_fields(page_or_rendered, is_disabled, values)

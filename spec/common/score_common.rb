@@ -30,23 +30,26 @@ module ScoreCommon
   private
 
   def expect_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered)
-    expect_button_within_round_fieldset(page_or_rendered)
+    ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+                                                        [
+                                                          Button::Tee::EDIT, Button::Tee::NEW, Button::Course::EDIT
+                                                        ])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [Button::Round::EDIT])
   end
 
-  def expect_button_within_round_fieldset(page_or_rendered)
-    expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::ROUND_BUTTONS)
-    expect_button_count(page_or_rendered, 'round-div', 1)
-    expect_button_to(page_or_rendered, 'round-div', Button::Round::EDIT)
-  end
+  # def expect_button_within_round_fieldset(page_or_rendered)
+  #   expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::ROUND_BUTTONS)
+  #   ButtonToCommon.expect_button_count(page_or_rendered, 'round-div', 1)
+  #   ButtonToCommon.expect_button_to(page_or_rendered, 'round-div', Button::Round::EDIT)
+  # end
 
-  def expect_button_within_course_fieldset(page_or_rendered)
-    expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Course::COURSE_BUTTONS)
-    expect_button_count(page_or_rendered, 'course-div', 3)
-    expect_button_to(page_or_rendered, 'course-div', Button::Tee::EDIT)
-    expect_button_to(page_or_rendered, 'course-div', Button::Tee::NEW)
-    expect_button_to(page_or_rendered, 'course-div', Button::Course::EDIT)
-  end
+  # def expect_button_within_course_fieldset(page_or_rendered)
+  #   expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Course::COURSE_BUTTONS)
+  #   ButtonToCommon.expect_button_count(page_or_rendered, 'course-div', 3)
+  #   ButtonToCommon.expect_button_to(page_or_rendered, 'course-div', Button::Tee::EDIT)
+  #   ButtonToCommon.expect_button_to(page_or_rendered, 'course-div', Button::Tee::NEW)
+  #   ButtonToCommon.expect_button_to(page_or_rendered, 'course-div', Button::Course::EDIT)
+  # end
 
   def expect_edit_field_set(page_or_rendered, round, score, values)
     expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::EDIT)

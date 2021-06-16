@@ -75,23 +75,25 @@ module RoundsCommon
   private
 
   def expect_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
+    ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
   end
 
   def expect_tees_round_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW])
-    expect_button_within_round_fieldset(page_or_rendered, [])
+    # rubocop:disable Layout/LineLength
+    ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered, [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
+    # rubocop:enable Layout/LineLength
   end
 
   def expect_round_other_buttons(page_or_rendered)
-    expect_button_within_course_fieldset(
+    ButtonToCommon.expect_button_within_course_fieldset(
       page_or_rendered,
       [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW, Button::Tee::EDIT]
     )
-    expect_button_within_round_fieldset(page_or_rendered,
-                                        [
-                                          Button::Round::NEW
-                                        ])
+    ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered,
+                                                       [
+                                                         Button::Round::NEW
+                                                       ])
   end
 end
