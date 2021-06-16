@@ -7,16 +7,21 @@ module ButtonToCommon
     include Capybara::Node::Finders
     def expect_button_within_round_fieldset(page_or_rendered, names)
       expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::ROUND_BUTTONS)
-      ButtonToCommon.expect_button_count(page_or_rendered, 'round-div', names.size)
+      expect_button_count(page_or_rendered, 'round-div', names.size)
+      names.each do |name|
+        expect_button_to(page_or_rendered, 'round-div', name)
+      end
     end
 
     def expect_button_within_course_fieldset(page_or_rendered, names)
       expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Course::COURSE_BUTTONS)
-      ButtonToCommon.expect_button_count(page_or_rendered, 'course-div', names.size)
+      expect_button_count(page_or_rendered, 'course-div', names.size)
       names.each do |name|
-        ButtonToCommon.expect_button_to(page_or_rendered, 'course-div', name)
+        expect_button_to(page_or_rendered, 'course-div', name)
       end
     end
+
+    private
 
     def expect_button_count(page_or_rendered, div_id, num)
       # rubocop:disable Layout/LineLength
