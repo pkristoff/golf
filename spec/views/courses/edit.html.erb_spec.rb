@@ -11,15 +11,17 @@ describe 'courses/edit.html.erb', type: :view do
 
     render
 
-    expect_form_fields(
+    CourseCommon.expect_form_fields(
+      rendered,
       false,
       Button::Course::UPDATE,
       { course_name: 'George',
-        course_address_attributes_street_1: '555 Xxx Ave.',
-        course_address_attributes_street_2: '<nothing>',
-        course_address_attributes_city: 'Clarksville',
-        course_address_attributes_state: 'IN',
-        course_address_attributes_zip_code: '47529' }
+        number_of_holes: 18,
+        street_1: '555 Xxx Ave.',
+        street_2: '<nothing>',
+        city: 'Clarksville',
+        state: 'IN',
+        zip_code: '47529' }
     )
   end
 end

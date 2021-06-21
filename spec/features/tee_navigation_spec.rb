@@ -16,14 +16,15 @@ feature 'edit_existing_course' do
   scenario 'Navigate to new.html.erb on Tee' do
     @course = FactoryBot.create(:course)
     visit edit_course_path(@course.id)
-    expect_edit_fields_with_values(page,
-                                   show_tees: true,
-                                   name: 'George',
-                                   street_1: '555 Xxx Ave.',
-                                   street_2: '<nothing>',
-                                   city: 'Clarksville',
-                                   state: 'IN',
-                                   zip: '47529')
+    CourseCommon.expect_edit_fields_with_values(page,
+                                                show_tees: true,
+                                                course_name: 'George',
+                                                number_of_holes: 18,
+                                                street_1: '555 Xxx Ave.',
+                                                street_2: '<nothing>',
+                                                city: 'Clarksville',
+                                                state: 'IN',
+                                                zip_code: '47529')
     click_button(Button::Tee::NEW)
 
     expect_tee_form_fields(
@@ -40,14 +41,15 @@ feature 'edit_existing_course' do
   scenario 'create a new Tee for course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
-    expect_edit_fields_with_values(page,
-                                   show_tees: true,
-                                   name: 'George',
-                                   street_1: '555 Xxx Ave.',
-                                   street_2: '<nothing>',
-                                   city: 'Clarksville',
-                                   state: 'IN',
-                                   zip: '47529')
+    CourseCommon.expect_edit_fields_with_values(page,
+                                                show_tees: true,
+                                                course_name: 'George',
+                                                number_of_holes: 18,
+                                                street_1: '555 Xxx Ave.',
+                                                street_2: '<nothing>',
+                                                city: 'Clarksville',
+                                                state: 'IN',
+                                                zip_code: '47529')
 
     click_button(Button::Tee::NEW)
 
@@ -71,14 +73,15 @@ feature 'edit_existing_course' do
   scenario 'create a new Tee for course and back to edit course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
-    expect_edit_fields_with_values(page,
-                                   show_tees: true,
-                                   name: 'George',
-                                   street_1: '555 Xxx Ave.',
-                                   street_2: '<nothing>',
-                                   city: 'Clarksville',
-                                   state: 'IN',
-                                   zip: '47529')
+    CourseCommon.expect_edit_fields_with_values(page,
+                                                show_tees: true,
+                                                course_name: 'George',
+                                                number_of_holes: 18,
+                                                street_1: '555 Xxx Ave.',
+                                                street_2: '<nothing>',
+                                                city: 'Clarksville',
+                                                state: 'IN',
+                                                zip_code: '47529')
 
     click_button(Button::Tee::NEW)
 
@@ -105,14 +108,15 @@ feature 'edit_existing_course' do
   scenario 'create a new Tee for course with a validation error' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
-    expect_edit_fields_with_values(page,
-                                   show_tees: true,
-                                   name: 'George',
-                                   street_1: '555 Xxx Ave.',
-                                   street_2: '<nothing>',
-                                   city: 'Clarksville',
-                                   state: 'IN',
-                                   zip: '47529')
+    CourseCommon.expect_edit_fields_with_values(page,
+                                                show_tees: true,
+                                                course_name: 'George',
+                                                number_of_holes: 18,
+                                                street_1: '555 Xxx Ave.',
+                                                street_2: '<nothing>',
+                                                city: 'Clarksville',
+                                                state: 'IN',
+                                                zip_code: '47529')
 
     click_button(Button::Tee::NEW)
 
@@ -142,14 +146,15 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: true, should_fillin_holes: false)
     visit edit_course_path(@course.id)
 
-    expect_edit_fields_with_values(page,
-                                   show_tees: true,
-                                   name: 'George',
-                                   street_1: '555 Xxx Ave.',
-                                   street_2: '<nothing>',
-                                   city: 'Clarksville',
-                                   state: 'IN',
-                                   zip: '47529')
+    CourseCommon.expect_edit_fields_with_values(page,
+                                                show_tees: true,
+                                                course_name: 'George',
+                                                number_of_holes: 18,
+                                                street_1: '555 Xxx Ave.',
+                                                street_2: '<nothing>',
+                                                city: 'Clarksville',
+                                                state: 'IN',
+                                                zip_code: '47529')
 
     click_link('Black')
 

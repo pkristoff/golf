@@ -10,7 +10,7 @@ RSpec.describe 'courses/index.html.erb', type: :view do
 
     render
 
-    expect_course_index(rendered, [])
+    CourseCommon.expect_course_index(rendered, [])
   end
 
   it 'index with one course' do
@@ -19,6 +19,6 @@ RSpec.describe 'courses/index.html.erb', type: :view do
 
     render
 
-    expect_course_index(rendered, [course])
+    CourseCommon.expect_course_index(rendered, [course])
   end
 end

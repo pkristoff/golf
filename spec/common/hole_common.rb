@@ -8,7 +8,6 @@ module HoleCommon
     include RSpec::Matchers
     include Capybara::RSpecMatchers
     include Capybara::Node::Finders
-    # include Capybara::Queries::TextQuery
     require 'views/helpers'
     include AsideCommon
     include DatabaseCommon

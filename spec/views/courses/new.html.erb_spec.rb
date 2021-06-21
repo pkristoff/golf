@@ -10,15 +10,17 @@ describe 'courses/new.html.erb', type: :view do
 
     render
 
-    expect_form_fields(
+    CourseCommon.expect_form_fields(
+      rendered,
       false,
       Button::Course::CREATE,
       { course_name: '',
-        course_address_attributes_street_1: '',
-        course_address_attributes_street_2: '',
-        course_address_attributes_city: '',
-        course_address_attributes_state: '',
-        course_address_attributes_zip_code: '27502' }
+        number_of_holes: 18,
+        street_1: '',
+        street_2: '',
+        city: '',
+        state: '',
+        zip_code: '27502' }
     )
   end
 end

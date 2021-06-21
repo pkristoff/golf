@@ -21,12 +21,24 @@ module ButtonToCommon
       end
     end
 
+    def expect_have_field_text(page, field_name, field_id, value, disabled)
+      expect(page).to have_field(field_name, disabled: disabled, count: 1)
+      expect(page).to have_selector("input[type=text][id=#{field_id}][value='#{value}']")
+    end
+
+    def expect_have_field_num(page, field_name, field_id, value, disabled)
+      expect(page).to have_field(field_name, disabled: disabled, count: 1)
+      expect(page).to have_selector("input[type=number][id=#{field_id}][value=#{value}]")
+    end
+
     private
 
     def expect_button_count(page_or_rendered, div_id, num)
-      # rubocop:disable Layout/LineLength
-      expect(page_or_rendered).to have_selector("div[id=#{div_id}][class=fieldset-button-div] form[class=button_to] input[type=submit]", count: num)
-      # rubocop:enable Layout/LineLength
+      expect(page_or_rendered).to have_selector(button_count_selector(div_id), count: num)
+    end
+
+    def button_count_selector(id)
+      "div[id=#{id}][class=fieldset-button-div] form[class=button_to] input[type=submit]"
     end
 
     def expect_button_to(page_or_rendered, div_id, name)
