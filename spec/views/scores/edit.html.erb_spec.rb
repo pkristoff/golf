@@ -19,9 +19,9 @@ describe 'scores/edit.html.erb', type: :view do
 
     render
 
-    expect_edit_score(rendered, round, score, { strokes: 5,
-                                                putts: 2,
-                                                penalties: '' })
+    ScoreCommon.expect_edit_score(rendered, round, score, { strokes: 5,
+                                                            putts: 2,
+                                                            penalties: '' })
   end
 
   it 'edits 3rd hole' do
@@ -37,8 +37,8 @@ describe 'scores/edit.html.erb', type: :view do
 
     render
 
-    expect_edit_score(rendered, round, score, { strokes: 4,
-                                                putts: 2,
-                                                penalties: '' })
+    ScoreCommon.expect_edit_score(rendered, round, score, { strokes: 4,
+                                                            putts: 2,
+                                                            penalties: '' })
   end
 end
