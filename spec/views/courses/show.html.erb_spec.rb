@@ -14,6 +14,7 @@ describe 'courses/show.html.erb', type: :view do
     CourseCommon.expect_form_fields(
       rendered,
       true,
+      course.tees,
       Button::Course::UPDATE,
       { course_name: 'George',
         number_of_holes: 18,

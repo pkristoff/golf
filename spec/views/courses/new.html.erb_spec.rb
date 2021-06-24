@@ -6,13 +6,15 @@ require 'common/course_common'
 describe 'courses/new.html.erb', type: :view do
   include CourseCommon
   it 'has  readonly fields' do
-    assign(:course, Course.new)
+    course = Course.new
+    assign(:course, course)
 
     render
 
     CourseCommon.expect_form_fields(
       rendered,
       false,
+      course.tees,
       Button::Course::CREATE,
       { course_name: '',
         number_of_holes: 18,

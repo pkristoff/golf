@@ -30,7 +30,9 @@ class CoursesController < ApplicationController
       @tee = Tee.new
       render 'tees/new'
     else
+      old_number_of_holes = @course.number_of_holes
       if @course.update(course_params)
+        @course.update_number_of_holes unless old_number_of_holes == @course.number_of_holes
         redirect_to @course
       else
         render :edit, alert: 'Validation error(s).'

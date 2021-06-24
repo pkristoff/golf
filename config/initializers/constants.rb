@@ -53,6 +53,7 @@ module Button
     DESTROY = 'Destroy'.freeze
     NEW = 'New Course'.freeze
     EDIT = 'Edit Course'.freeze
+    SUBMIT = 'submit-course'.freeze
     UPDATE = 'Update Course'.freeze
     SHOW_COURSES = 'Show Courses'.freeze
   end
@@ -77,7 +78,9 @@ module Button
 end
 module Fieldset
   module Course
+    ADDRESS = 'Golf Course Address'.freeze
     COURSE_BUTTONS = 'Course buttons'.freeze
+    TEES = 'Golf Course Tees'.freeze
   end
   module Round
     ROUND_BUTTONS = 'Round buttons'.freeze
@@ -85,5 +88,8 @@ module Fieldset
   end
   module Holes
     HOLE = 'Golf Course Hole'.freeze
+  end
+  module Tees
+    TEES = 'Tees'.freeze
   end
 end

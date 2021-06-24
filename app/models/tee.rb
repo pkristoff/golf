@@ -83,21 +83,28 @@ class Tee < ApplicationRecord
     holes.size
   end
 
+  # The number of holes for the course has been changed
+  # so need to adjust the holes.
+  #
+  def adjust_number_of_holes
+    num_of_holes = course.number_of_holes
+    return if num_of_holes == number_of_holes
+
+    add_back_nine if num_of_holes == 18 && number_of_holes == 9
+    remove_back_nine if num_of_holes == 9 && number_of_holes == 18
+  end
+
   # Add 18 Holes numbered 1-18
   #
   def add_18_holes
-    (1...19).each do |num|
-      add_hole(num, 0, 0, 0)
-    end
+    (1...19).each(&method(:add_empty_hole))
     # pprint 'add_18_holes'
   end
 
   # Add 9 Holes numbered 1-9
   #
   def add_9_holes
-    (1...10).each do |num|
-      add_hole(num, 0, 0, 0)
-    end
+    (1...10).each(&method(:add_empty_hole))
     # pprint 'add_9_holes'
   end
 
@@ -149,6 +156,19 @@ class Tee < ApplicationRecord
   end
 
   private
+
+  def add_empty_hole(num)
+    add_hole(num, 0, 0, 0)
+  end
+
+  def add_back_nine
+    (10...19).each(&method(:add_empty_hole))
+  end
+
+  def remove_back_nine
+    sorted_holes = holes.sort { |hole1, hole2| hole1.number <=> hole2.number }
+    self.holes = sorted_holes[0..8]
+  end
 
   # Returns sorted array of holes and integers(representing totals for yardage, par or hdcp)
   #

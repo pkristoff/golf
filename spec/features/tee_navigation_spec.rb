@@ -27,7 +27,7 @@ feature 'edit_existing_course' do
                                                 zip_code: '47529')
     click_button(Button::Tee::NEW)
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       page,
       Course.find_by(id: @course.id).tees,
       { color: 'White',
@@ -53,7 +53,7 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::NEW)
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       page,
       @course.tees,
       { color: 'White',
@@ -85,7 +85,7 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::NEW)
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       page,
       @course.tees,
       { color: 'White',
@@ -120,7 +120,7 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::NEW)
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       page,
       @course.tees,
       { color: 'White',
@@ -158,7 +158,7 @@ feature 'edit_existing_course' do
 
     click_link('Black')
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       page,
       @course.tees,
       { color: 'Black',

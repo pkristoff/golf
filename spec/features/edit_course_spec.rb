@@ -29,7 +29,7 @@ feature 'edit_existing_course' do
     fill_in Label::Course::NAME, with: ''
     fill_in Label::Course::ZIP, with: ''
 
-    click_button('submit-course')
+    click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_edit_fields_with_values(page,
                                                 show_tees: true,
@@ -59,9 +59,14 @@ feature 'edit_existing_course' do
     fill_in Label::Course::NAME, with: 'Pete'
     fill_in Label::Course::NUMBER_OF_HOLES, with: 9
 
-    click_button('submit-course')
+    click_button(Button::Course::SUBMIT)
 
+    tees = Course.find_by(id: @course.id).tees
+    tees.each do |tee|
+      expect(tee.holes.size).to eq(9)
+    end
     CourseCommon.expect_show_fields_with_values(page,
+                                                tees,
                                                 show_tees: true,
                                                 course_name: 'Pete',
                                                 number_of_holes: 9,
@@ -78,9 +83,10 @@ feature 'edit_existing_course' do
     fill_in Label::Course::NAME, with: 'George1'
     fill_in Label::Course::STATE, with: 'AK'
 
-    click_button('submit-course')
+    click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_show_fields_with_values(page,
+                                                @course.tees,
                                                 show_tees: true,
                                                 course_name: 'George1',
                                                 number_of_holes: 18,

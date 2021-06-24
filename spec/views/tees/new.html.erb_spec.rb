@@ -13,7 +13,7 @@ describe 'tees/new.html.erb', type: :view do
 
     render
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       rendered,
       course.tees,
       { color: '',
@@ -29,7 +29,7 @@ describe 'tees/new.html.erb', type: :view do
 
     render
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       rendered,
       course.tees,
       { color: '',

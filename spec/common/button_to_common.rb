@@ -5,6 +5,7 @@ module ButtonToCommon
     include RSpec::Matchers
     include Capybara::RSpecMatchers
     include Capybara::Node::Finders
+
     def expect_button_within_round_fieldset(page_or_rendered, names)
       expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Round::ROUND_BUTTONS)
       expect_button_count(page_or_rendered, 'round-div', names.size)
@@ -21,9 +22,9 @@ module ButtonToCommon
       end
     end
 
-    def expect_have_field_text(page, field_name, field_id, value, disabled)
+    def expect_have_field_text(page, field_name, field_id, value, disabled, pre_selector = '')
       expect(page).to have_field(field_name, disabled: disabled, count: 1)
-      expect(page).to have_selector("input[type=text][id=#{field_id}][value='#{value}']")
+      expect(page).to have_selector("#{pre_selector}input[type=text][id=#{field_id}][value='#{value}']")
     end
 
     def expect_have_field_num(page, field_name, field_id, value, disabled)

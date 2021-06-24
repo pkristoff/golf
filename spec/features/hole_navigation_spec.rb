@@ -30,7 +30,7 @@ feature 'edit_existing_course' do
 
     click_link('Black')
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       page,
       @course.tees,
       { color: 'Black',
@@ -46,7 +46,7 @@ feature 'edit_existing_course' do
 
     @course = Course.find(@course.id)
 
-    expect_tee_form_fields(
+    TeeCommon.expect_tee_form_fields(
       page,
       @course.tees,
       { expect_messages: [[:flash_notice, 'tee updated']],

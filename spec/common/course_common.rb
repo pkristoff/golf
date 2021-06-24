@@ -2,6 +2,7 @@
 
 require 'common/application_common'
 require 'common/button_to_common'
+require 'common/tee_common'
 
 module CourseCommon
   class << self
@@ -11,6 +12,7 @@ module CourseCommon
     include AsideCommon
     include DatabaseCommon
     include ButtonToCommon
+    include TeeCommon
 
     def expect_course_index(page_or_rendered, courses)
       expect(page_or_rendered).to have_selector('h1', text: 'Courses')
@@ -30,7 +32,7 @@ module CourseCommon
       DatabaseCommon.expect_database(page)
 
       expect(page).to have_selector('h1', text: 'New Course')
-      expect(page).to have_button('submit-course', count: 1)
+      expect(page).to have_button(Button::Course::SUBMIT, count: 1)
       expect_course_values(page, values, false)
       expect_address_fields(page, values, false)
       expect(page).to have_button(Button::Course::CREATE, count: 1)
@@ -50,7 +52,7 @@ module CourseCommon
       DatabaseCommon.expect_database(page)
 
       expect(page).to have_selector('h1', text: 'Edit Course')
-      expect(page).to have_button('submit-course', count: 1)
+      expect(page).to have_button(Button::Course::SUBMIT, count: 1)
 
       expect_course_values(page, values, false)
 
@@ -61,11 +63,12 @@ module CourseCommon
       expect_edit_other_buttons(page)
     end
 
-    def expect_show_fields_with_values(page, values = {})
+    def expect_show_fields_with_values(page, tees, values = {})
       AsideCommon.expect_aside(page, values[:show_tees])
       DatabaseCommon.expect_database(page)
 
       expect(page).to have_selector('h1', text: 'Show Course')
+      TeeCommon.expect_tees(page, tees)
       expect_course_values(page, values, true)
 
       expect_address_fields(page, values, true)
@@ -73,7 +76,8 @@ module CourseCommon
       expect_show_other_buttons(page)
     end
 
-    def expect_form_fields(rendered, disabled, button_name, values)
+    def expect_form_fields(rendered, disabled, tees, button_name, values)
+      expect_tees(rendered, tees)
       expect_course_values(rendered, values, disabled)
 
       expect_address_fields(rendered, values, disabled)
@@ -127,16 +131,43 @@ module CourseCommon
     end
 
     def expect_address_fields(rendered_or_page, values, disabled)
-      expect(rendered_or_page).to have_field(Label::Course::STREET1, disabled: disabled, count: 1)
-      expect(rendered_or_page).to have_selector("input[id=course_address_attributes_street_1][value='#{values[:street_1]}']")
-      expect(rendered_or_page).to have_field(Label::Course::STREET2, disabled: disabled, count: 1)
-      expect(rendered_or_page).to have_selector("input[id=course_address_attributes_street_2][value='#{values[:street_2]}']")
-      expect(rendered_or_page).to have_field(Label::Course::CITY, disabled: disabled, count: 1)
-      expect(rendered_or_page).to have_selector("input[id=course_address_attributes_city][value='#{values[:city]}']")
-      expect(rendered_or_page).to have_field(Label::Course::STATE, disabled: disabled, count: 1)
-      expect(rendered_or_page).to have_selector("input[id=course_address_attributes_state][value='#{values[:state]}']")
-      expect(rendered_or_page).to have_field(Label::Course::ZIP, disabled: disabled, count: 1)
-      expect(rendered_or_page).to have_selector("input[id=course_address_attributes_zip_code][value='#{values[:zip_code]}']")
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Course::ADDRESS)
+      fieldset_locator = 'div[id=address-div][class=fieldset-field-div] '
+      ButtonToCommon.expect_have_field_text(rendered_or_page,
+                                            Label::Course::STREET1,
+                                            'course_address_attributes_street_1',
+                                            values[:street_1],
+                                            disabled,
+                                            fieldset_locator)
+      ButtonToCommon.expect_have_field_text(rendered_or_page,
+                                            Label::Course::STREET2,
+                                            'course_address_attributes_street_2',
+                                            values[:street_2],
+                                            disabled,
+                                            fieldset_locator)
+      ButtonToCommon.expect_have_field_text(rendered_or_page,
+                                            Label::Course::CITY,
+                                            'course_address_attributes_city',
+                                            values[:city],
+                                            disabled,
+                                            fieldset_locator)
+      ButtonToCommon.expect_have_field_text(rendered_or_page,
+                                            Label::Course::STATE,
+                                            'course_address_attributes_state',
+                                            values[:state],
+                                            disabled,
+                                            fieldset_locator)
+      ButtonToCommon.expect_have_field_text(rendered_or_page,
+                                            Label::Course::ZIP,
+                                            'course_address_attributes_zip_code',
+                                            values[:zip_code],
+                                            disabled,
+                                            fieldset_locator)
+    end
+
+    def expect_address_field_set(page_or_rendered, round, score, values)
+      expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Course::ADDRESS)
+      expect_within_edit_fieldset(page_or_rendered, round, score, values)
     end
   end
 end

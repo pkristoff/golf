@@ -100,6 +100,13 @@ class Course < ApplicationRecord
     tees.sort_by(&:color)
   end
 
+  # The number of holes may have changed
+  # so adding or removing holes as needed
+  #
+  def update_number_of_holes
+    tees.each(&:adjust_number_of_holes)
+  end
+
   def self.basic_permitted_params
     %i[name id number_of_holes]
   end

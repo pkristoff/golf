@@ -142,6 +142,31 @@ describe Tee, type: :model do
       end
     end
   end
+  describe 'adjust_number_of_holes' do
+    it 'should remove back nine' do
+      tee = FactoryBot.create(:tee, tee_hole_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue])
+      course = tee.course
+      expect(Hole.all.size).to eq(18)
+      tee.adjust_number_of_holes
+      expect(tee.number_of_holes).to eq(18)
+      course.number_of_holes = 9
+      tee.adjust_number_of_holes
+      expect(tee.number_of_holes).to eq(9)
+      expect(Hole.all.size).to eq(9)
+    end
+    it 'should add back nine' do
+      tee = FactoryBot.create(:tee, tee_hole_info: TeeHoleInfo::HOLE_INFO_KN_1_9[:Black])
+      course = tee.course
+      expect(Hole.all.size).to eq(9)
+      # no adjustment neded
+      tee.adjust_number_of_holes
+      expect(tee.number_of_holes).to eq(9)
+      course.number_of_holes = 18
+      tee.adjust_number_of_holes
+      expect(tee.number_of_holes).to eq(18)
+      expect(Hole.all.size).to eq(18)
+    end
+  end
   describe 'validation' do
     it 'tee is valid' do
       course = Course.new

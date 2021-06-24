@@ -1,24 +1,24 @@
-
 <%= form_with model: course, local: true do |form| %>
 
   <%= render 'share/error_messages.html.erb', resource: course %>
 
-  <div>
-    <%= form.label :name, Label::Course::NAME %><br>
-    <%= form.text_field :name, disabled: form_disabled %>
-    <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
-  </div>
-  <div>
-    <%= form.label :number_of_holes, Label::Course::NUMBER_OF_HOLES %><br>
-    <%= form.number_field :number_of_holes, in: [9,18], disabled: form_disabled %>
-    <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
-  </div>
-  <%= field_set_tag "Golf Course Tees", class: 'fieldset' do %>
-      <%= render "tees/tees", tees: course.sorted_tees %>
+  <%= field_set_tag Fieldset::Round::EDIT, class: 'fieldset' do %>
+    <div>
+      <%= form.label :name, Label::Course::NAME %><br>
+      <%= form.text_field :name, disabled: form_disabled %>
+      <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
+    </div>
+    <div>
+      <%= form.label :number_of_holes, Label::Course::NUMBER_OF_HOLES %><br>
+      <%= form.number_field :number_of_holes, in: [9, 18], disabled: form_disabled %>
+      <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
+    </div>
   <% end %>
 
-  <%= field_set_tag "Golf Course Address", class: 'fieldset' do %>
-    <div class="fieldset-div">
+  <%= render "tees/tees", tees: course.sorted_tees %>
+
+  <%= field_set_tag Fieldset::Course::ADDRESS, class: 'fieldset' do %>
+    <div id="address-div" class="fieldset-field-div">
       <%= form.fields_for :address do |address_fields| %>
         <div class="field">
           <%= address_fields.label :street_1, Label::Course::STREET1 %>
@@ -45,7 +45,7 @@
   <% unless form_disabled
        # doing Show.html.erb %>
     <div>
-      <%= form.submit(id: 'submit-course') %>
+      <%= form.submit(id: Button::Course::SUBMIT) %>
     </div>
   <% end %>
 <% end %>

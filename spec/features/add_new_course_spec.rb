@@ -31,7 +31,7 @@ feature 'add a new course' do
     fill_in Label::Course::NUMBER_OF_HOLES, with: 0
     fill_in Label::Course::ZIP, with: ''
 
-    click_button('submit-course')
+    click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_new_fields_with_values(page,
                                                show_tees: false,
@@ -65,7 +65,7 @@ feature 'add a new course' do
     fill_in Label::Course::STATE, with: 'NC'
     fill_in Label::Course::ZIP, with: '27502'
 
-    click_button('submit-course')
+    click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_edit_fields_with_values(page,
                                                 show_tees: true,
