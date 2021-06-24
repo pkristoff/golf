@@ -77,7 +77,7 @@ module CourseCommon
     end
 
     def expect_form_fields(rendered, disabled, tees, button_name, values)
-      expect_tees(rendered, tees)
+      TeeCommon.expect_tees(rendered, tees)
       expect_course_values(rendered, values, disabled)
 
       expect_address_fields(rendered, values, disabled)

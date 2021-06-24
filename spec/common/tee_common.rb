@@ -1,19 +1,21 @@
 # frozen_string_literal: true
 
 require 'common/application_common'
+require 'common/button_to_common'
 
 module TeeCommon
   class << self
     include RSpec::Matchers
     include Capybara::RSpecMatchers
-    include Capybara::Node::Findersa
+    include Capybara::Node::Finders
     include AsideCommon
     include DatabaseCommon
+    include ButtonToCommon
 
     def expect_tee_form_fields(page_or_rendered, tees, values, update_create)
       AsideCommon.expect_aside(page_or_rendered, values[:show_tees]) unless page_or_rendered.is_a?(String)
       DatabaseCommon.expect_database(page_or_rendered) unless page_or_rendered.is_a?(String)
-      expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+      expect_messages(values[:expect_messages], page_or_rendered) unless values[:expect_messages].nil?
 
       new_edit = update_create == 'Update' ? 'Edit' : 'New'
 
@@ -23,15 +25,9 @@ module TeeCommon
 
       expect_tees(page_or_rendered, tees)
 
-      if page_or_rendered.is_a? String
-        expect(page_or_rendered).to have_field(Label::Tee::COLOR, disabled: false, text: values[:color])
-        expect(page_or_rendered).to have_field(Label::Tee::SLOPE, disabled: false, text: values[:slope])
-        expect(page_or_rendered).to have_field(Label::Tee::RATING, disabled: false, text: values[:rating])
-      else
-        expect(find_field(Label::Tee::COLOR).value).to eq(values[:color])
-        expect(find_field(Label::Tee::SLOPE).value).to eq(values[:slope])
-        expect(find_field(Label::Tee::RATING).value).to eq(values[:rating])
-      end
+      ButtonToCommon.expect_have_field_text(page_or_rendered, Label::Tee::COLOR, 'tee_color', values[:color], false)
+      ButtonToCommon.expect_have_field_num(page_or_rendered, Label::Tee::SLOPE, 'tee_slope', "'#{values[:slope]}'", false)
+      ButtonToCommon.expect_have_field_num(page_or_rendered, Label::Tee::RATING, 'tee_rating', "'#{values[:rating]}'", false)
 
       expect(page_or_rendered).to have_button("#{update_create} Tee")
       expect(page_or_rendered).to have_button(Button::Course::EDIT)
@@ -48,8 +44,6 @@ module TeeCommon
 
       expect_tees(page_or_rendered, tees)
     end
-
-    private
 
     def expect_tees(page_or_rendered, tees)
       expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Tees::TEES)

@@ -16,9 +16,9 @@ describe 'tees/edit.html.erb', type: :view do
     TeeCommon.expect_tee_form_fields(
       rendered,
       course.tees,
-      { color: '',
-        slope: '',
-        rating: '' },
+      { color: 'Black',
+        slope: '139.0',
+        rating: '71.6' },
       'Update'
     )
   end
@@ -32,9 +32,9 @@ describe 'tees/edit.html.erb', type: :view do
     TeeCommon.expect_tee_form_fields(
       rendered,
       course.tees,
-      { color: '',
-        slope: '',
-        rating: '' },
+      { color: 'Blue',
+        slope: '132.0',
+        rating: '69.5' },
       'Update'
     )
   end
