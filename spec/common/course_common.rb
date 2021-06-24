@@ -14,17 +14,17 @@ module CourseCommon
     include ButtonToCommon
     include TeeCommon
 
-    def expect_course_index(page_or_rendered, courses)
-      expect(page_or_rendered).to have_selector('h1', text: 'Courses')
-      expect(page_or_rendered).to have_selector("li[id='li-id']", count: courses.size)
+    def expect_course_index(rendered_or_page, courses)
+      expect(rendered_or_page).to have_selector('h1', text: 'Courses')
+      expect(rendered_or_page).to have_selector("li[id='li-id']", count: courses.size)
       if courses.empty?
-        expect(page_or_rendered).to have_selector('h2', text: 'No courses')
+        expect(rendered_or_page).to have_selector('h2', text: 'No courses')
       else
         courses.each do |course|
-          expect(page_or_rendered).to have_selector("a[id='edit_link_#{course.id}']", text: course.name)
+          expect(rendered_or_page).to have_selector("a[id='edit_link_#{course.id}']", text: course.name)
         end
       end
-      expect_index_other_buttons(page_or_rendered)
+      expect_index_other_buttons(rendered_or_page)
     end
 
     def expect_new_fields_with_values(page, values = {})
@@ -101,33 +101,33 @@ module CourseCommon
                                            disabled)
     end
 
-    def expect_edit_other_buttons(page_or_rendered)
-      ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+    def expect_edit_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
                                                           [Button::Course::NEW, Button::Tee::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
     end
 
-    def expect_index_other_buttons(page_or_rendered)
-      ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+    def expect_index_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
                                                           [Button::Course::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
     end
 
-    def expect_new_other_buttons(page_or_rendered)
-      ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+    def expect_new_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
                                                           [Button::Course::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
     end
 
-    def expect_show_other_buttons(page_or_rendered)
-      ButtonToCommon.expect_button_within_course_fieldset(page_or_rendered,
+    def expect_show_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
                                                           [
                                                             Button::Course::EDIT,
                                                             Button::Course::DESTROY,
                                                             Button::Course::NEW,
                                                             Button::Tee::NEW
                                                           ])
-      ButtonToCommon.expect_button_within_round_fieldset(page_or_rendered, [])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
     end
 
     def expect_address_fields(rendered_or_page, values, disabled)
@@ -165,9 +165,9 @@ module CourseCommon
                                             fieldset_locator)
     end
 
-    def expect_address_field_set(page_or_rendered, round, score, values)
-      expect(page_or_rendered).to have_selector('fieldset', count: 1, text: Fieldset::Course::ADDRESS)
-      expect_within_edit_fieldset(page_or_rendered, round, score, values)
+    def expect_address_field_set(rendered_or_page, round, score, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Course::ADDRESS)
+      expect_within_edit_fieldset(rendered_or_page, round, score, values)
     end
   end
 end
