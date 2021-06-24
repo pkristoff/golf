@@ -13,6 +13,6 @@ describe 'tees/rounds_tees.html.erb', type: :view do
 
     render
 
-    expect_rounds_tees(rendered, course1, course1.sorted_tees)
+    RoundsCommon.expect_rounds_tees(rendered, course1, course1.sorted_tees)
   end
 end
