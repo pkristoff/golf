@@ -17,6 +17,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_fields_with_values(page,
+                                                @course.tees,
                                                 show_tees: true,
                                                 course_name: 'George',
                                                 number_of_holes: 18,
@@ -42,6 +43,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_fields_with_values(page,
+                                                @course.tees,
                                                 show_tees: true,
                                                 course_name: 'George',
                                                 number_of_holes: 18,
@@ -74,6 +76,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_fields_with_values(page,
+                                                @course.tees,
                                                 show_tees: true,
                                                 course_name: 'George',
                                                 number_of_holes: 18,
@@ -100,15 +103,17 @@ feature 'edit_existing_course' do
     fill_in Label::Tee::RATING, with: '71.6'
 
     click_button(Button::Tee::CREATE)
-    expect(page).to have_selector('h1', text: 'Edit tee:')
+    # expect heading
+    expect(page).to have_selector('h1', text: Heading::Tee::EDIT_TEE)
     click_button(Button::Course::EDIT)
-    expect(page).to have_selector('h1', text: 'Edit Course')
+    expect(page).to have_selector('h1', text: Heading::Course::EDIT_COURSE)
   end
 
   scenario 'create a new Tee for course with a validation error' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_fields_with_values(page,
+                                                @course.tees,
                                                 show_tees: true,
                                                 course_name: 'George',
                                                 number_of_holes: 18,
@@ -136,10 +141,10 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::CREATE)
     # puts "Edit Tee#{page.html}"
-    expect(page).to have_selector('h1', text: 'Edit tee:')
+    expect(page).to have_selector('h1', text: Heading::Tee::EDIT_TEE)
     click_button(Button::Course::EDIT)
     # puts "Edit Course#{page.html}"
-    expect(page).to have_selector('h1', text: 'Edit Course')
+    expect(page).to have_selector('h1', text: Heading::Course::EDIT_COURSE)
   end
 
   scenario 'Navigate to edit.html.erb on Tee with no holes' do
@@ -147,6 +152,7 @@ feature 'edit_existing_course' do
     visit edit_course_path(@course.id)
 
     CourseCommon.expect_edit_fields_with_values(page,
+                                                @course.tees,
                                                 show_tees: true,
                                                 course_name: 'George',
                                                 number_of_holes: 18,

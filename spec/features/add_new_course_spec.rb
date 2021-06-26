@@ -67,7 +67,12 @@ feature 'add a new course' do
 
     click_button(Button::Course::SUBMIT)
 
+    expect(Course.all.size).to eq(1)
+
+    course = Course.all.first
+    # no tees defined so go to edit
     CourseCommon.expect_edit_fields_with_values(page,
+                                                course.tees,
                                                 show_tees: true,
                                                 course_name: 'Lochmere',
                                                 number_of_holes: '18',
@@ -89,5 +94,41 @@ feature 'add a new course' do
         course_address_attributes_zip_code
       ]
     )
+
+    click_button(Button::Tee::NEW)
+
+    expect(Course.all.size).to eq(1)
+
+    course = Course.all.first
+
+    TeeCommon.expect_tee_form_fields(
+      page,
+      course.tees,
+      { color: 'White',
+        slope: '0.0',
+        rating: '0.0',
+        show_tees: true },
+      'Create'
+    )
+
+    fill_in 'Slope', with: 140.0
+    fill_in('Rating', with: 75.0)
+
+    click_button(Button::Tee::CREATE)
+
+    click_button(Button::Course::EDIT)
+
+    click_button(Button::Course::UPDATE)
+
+    CourseCommon.expect_show_fields_with_values(page,
+                                                course.tees,
+                                                show_tees: true,
+                                                course_name: 'Lochmere',
+                                                number_of_holes: '18',
+                                                street_1: '2116 Frissell Ave.',
+                                                street_2: '',
+                                                city: 'Apex',
+                                                state: 'NC',
+                                                zip_code: '27502')
   end
 end

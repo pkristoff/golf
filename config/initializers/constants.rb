@@ -13,7 +13,6 @@ module Label
     EDIT = 'Edit course'.freeze
     NAME = 'Name'.freeze
     NUMBER_OF_HOLES = 'Number of holes'.freeze
-    SHOW_COURSE = 'Show Course'.freeze
     STREET1 = 'Street 1'.freeze
     STREET2 = 'Street 2'.freeze
     CITY = 'City'.freeze
@@ -80,6 +79,7 @@ module Fieldset
   module Course
     ADDRESS = 'Golf Course Address'.freeze
     COURSE_BUTTONS = 'Course buttons'.freeze
+    EDIT = 'Edit'.freeze
     TEES = 'Golf Course Tees'.freeze
   end
   module Round
@@ -91,5 +91,18 @@ module Fieldset
   end
   module Tees
     TEES = 'Tees'.freeze
+  end
+end
+module Heading
+  module Course
+    COURSES = 'CoursesTT'.freeze
+    EDIT_COURSE = 'Edit CourseTT'.freeze
+    NEW_COURSE = 'New CourseTT'.freeze
+    NO_COURSES = 'No coursesTT'.freeze
+    SHOW_COURSE = 'Show CourseTT'.freeze
+  end
+  module Tee
+    EDIT_TEE = 'Edit teeTT'.freeze
+    NEW_TEE = 'New teeTT'.freeze
   end
 end

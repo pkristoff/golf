@@ -2,46 +2,12 @@
 
   <%= render 'share/error_messages.html.erb', resource: course %>
 
-  <%= field_set_tag Fieldset::Round::EDIT, class: 'fieldset' do %>
-    <div>
-      <%= form.label :name, Label::Course::NAME %><br>
-      <%= form.text_field :name, disabled: form_disabled %>
-      <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
-    </div>
-    <div>
-      <%= form.label :number_of_holes, Label::Course::NUMBER_OF_HOLES %><br>
-      <%= form.number_field :number_of_holes, in: [9, 18], disabled: form_disabled %>
-      <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
-    </div>
-  <% end %>
+  <%= render 'courses/editable_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
 
   <%= render "tees/tees", tees: course.sorted_tees %>
 
-  <%= field_set_tag Fieldset::Course::ADDRESS, class: 'fieldset' do %>
-    <div id="address-div" class="fieldset-field-div">
-      <%= form.fields_for :address do |address_fields| %>
-        <div class="field">
-          <%= address_fields.label :street_1, Label::Course::STREET1 %>
-          <%= address_fields.text_field :street_1, disabled: form_disabled %>
-          <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_1 %>
-          <%= address_fields.label :street_2, Label::Course::STREET2 %>
-          <%= address_fields.text_field :street_2, disabled: form_disabled %>
-          <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_2 %>
-        </div>
-        <div class="field">
-          <%= address_fields.label :city, Label::Course::CITY %>
-          <%= address_fields.text_field :city, disabled: form_disabled %>
-          <%= render 'attribute_error', object_with_errors: course.address, attribute: :city %>
-          <%= address_fields.label :state, Label::Course::STATE %>
-          <%= address_fields.text_field :state, disabled: form_disabled %>
-          <%= render 'attribute_error', object_with_errors: course.address, attribute: :state %>
-          <%= address_fields.label :zip_code, Label::Course::ZIP %>
-          <%= address_fields.text_field :zip_code, disabled: form_disabled %>
-          <%= render 'attribute_error', object_with_errors: course.address, attribute: :zip_code %>
-        </div>
-      <% end %>
-    </div>
-  <% end %>
+  <%= render 'courses/editable_address_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
+
   <% unless form_disabled
        # doing Show.html.erb %>
     <div>

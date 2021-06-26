@@ -19,6 +19,7 @@ feature 'edit_existing_course' do
     visit edit_course_path(@course.id)
 
     CourseCommon.expect_edit_fields_with_values(page,
+                                                @course.tees,
                                                 show_tees: true,
                                                 course_name: 'George',
                                                 number_of_holes: 18,

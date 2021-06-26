@@ -1,7 +1,7 @@
-<h1>Courses</h1>
+<h1><%= Heading::Course::COURSES %></h1>
 
 <% if @courses.empty? %>
-  <h2>No courses</h2>
+  <h2><%= Heading::Course::NO_COURSES %></h2>
 <% else %>
   <ul>
     <% @courses.each do |course| %>

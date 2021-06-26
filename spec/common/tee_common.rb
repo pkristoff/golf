@@ -17,10 +17,10 @@ module TeeCommon
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
       expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
 
-      new_edit = update_create == 'Update' ? 'Edit' : 'New'
+      new_edit = update_create == 'Update' ? Heading::Tee::EDIT_TEE : Heading::Tee::NEW_TEE
 
-      expect(rendered_or_page).to have_selector('h1', count: 1, text: "#{new_edit} tee:")
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: 'Course: George')
+      expect(rendered_or_page).to have_selector('h1', count: 1, text: new_edit)
+      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Course: #{values[:course_name]}")
       expect(rendered_or_page).to have_selector('h2', count: 1, text: "Tee: #{values[:number]}")
 
       expect_tees(rendered_or_page, tees)
