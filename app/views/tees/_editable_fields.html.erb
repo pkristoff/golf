@@ -1,0 +1,9 @@
+
+  <%= field_set_tag Fieldset::Course::EDIT, class: 'fieldset' do %>
+    <%= form.label :color, Label::Tee::COLOR %>
+    <%= form.text_field :color%>
+    <%= form.label :slope, Label::Tee::SLOPE %>
+    <%= form.number_field :slope %>
+    <%= form.label :rating, Label::Tee::RATING %>
+    <%= form.number_field :rating, step: 0.1 %>
+  <% end %>

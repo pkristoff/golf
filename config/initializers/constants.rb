@@ -104,5 +104,6 @@ module Heading
   module Tee
     EDIT_TEE = 'Edit teeTT'.freeze
     NEW_TEE = 'New teeTT'.freeze
+    PICK = 'Pick Tee for courseTT:'.freeze
   end
 end

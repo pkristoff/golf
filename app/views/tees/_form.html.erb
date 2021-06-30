@@ -1,20 +1,12 @@
-<h2>Course: <%= @course.name %></h2>
-<h2>Tee: <%= @tee.color %></h2>
+<%= form_with model: [@course, @tee], local: true do |form| %>
 
-<%= render 'share/error_messages.html.erb', resource: @tee %>
+  <%= render 'tees/subheading', course: @course, tee: @tee %>
 
-<%=render "tees/tees", tees: tees %>
+  <%= render 'share/error_messages.html.erb', resource: @tee %>
 
-<%= form_with model: [@course, @tee], local: true  do |tee_form| %>
-  <p>
-    <%= tee_form.label :color, Label::Tee::COLOR %>
-    <%= tee_form.text_field :color%>
-    <%= tee_form.label :slope, Label::Tee::SLOPE %>
-    <%= tee_form.number_field :slope %>
-    <%= tee_form.label :rating, Label::Tee::RATING %>
-    <%= tee_form.number_field :rating, step: 0.1 %>
-  </p>
-  <%= tee_form.submit %>
+  <%= render "tees/tees", tees: tees %>
+
+  <%= render 'tees/editable_fields.html.erb', form: form %>
+
+  <%= form.submit %>
 <% end %>
-<%= (button_to Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get) unless new_tee %>
-<%= button_to Button::Course::EDIT, edit_course_path(@course), method: :get %>

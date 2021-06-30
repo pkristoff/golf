@@ -22,16 +22,6 @@ module ButtonToCommon
       end
     end
 
-    def expect_have_field_text(page, field_name, field_id, value, disabled, pre_selector = '')
-      expect(page).to have_field(field_name, disabled: disabled, count: 1)
-      expect(page).to have_selector("#{pre_selector}input[type=text][id=#{field_id}][value='#{value}']")
-    end
-
-    def expect_have_field_num(page, field_name, field_id, value, disabled)
-      expect(page).to have_field(field_name, disabled: disabled, count: 1)
-      expect(page).to have_selector("input[type=number][id=#{field_id}][value=#{value}]")
-    end
-
     private
 
     def expect_button_count(rendered_or_page, div_id, num)

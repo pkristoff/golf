@@ -31,15 +31,12 @@ feature 'edit_existing_course' do
 
     click_link('Black')
 
-    TeeCommon.expect_tee_form_fields(
-      page,
-      @course.tees,
-      { color: 'Black',
-        slope: '139.0',
-        rating: '71.6',
-        show_tees: true },
-      'Update'
-    )
+    TeeCommon.expect_edit_fields_with_values(page,
+                                             @course.tees,
+                                             { color: 'Black',
+                                               slope: '139.0',
+                                               rating: '71.6',
+                                               show_tees: true })
 
     fill_in 'Slope', with: 140.0
     fill_in('Rating', with: 75.0)
@@ -47,16 +44,14 @@ feature 'edit_existing_course' do
 
     @course = Course.find(@course.id)
 
-    TeeCommon.expect_tee_form_fields(
-      page,
-      @course.tees,
-      { expect_messages: [[:flash_notice, 'tee updated']],
-        color: 'Black',
-        slope: '140.0',
-        rating: '75.0',
-        show_tees: true },
-      'Update'
-    )
+    TeeCommon.expect_edit_fields_with_values(page,
+                                             @course.tees,
+                                             { expect_messages: [[:flash_notice, 'tee updated']],
+                                               color: 'Black',
+                                               slope: '140.0',
+                                               rating: '75.0',
+                                               show_tees: true })
+
     HoleCommon.expect_holes_list(page, @course.tee('Black'), { hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
                                                                total_out_yardage: 3366,
                                                                total_in_yardage: 3261,

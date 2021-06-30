@@ -28,15 +28,12 @@ feature 'edit_existing_course' do
                                                 zip_code: '47529')
     click_button(Button::Tee::NEW)
 
-    TeeCommon.expect_tee_form_fields(
-      page,
-      Course.find_by(id: @course.id).tees,
-      { color: 'White',
-        slope: '0.0',
-        rating: '0.0',
-        show_tees: true },
-      'Create'
-    )
+    TeeCommon.expect_new_fields_with_values(page,
+                                            Course.find_by(id: @course.id).tees,
+                                            { color: 'White',
+                                              slope: '0.0',
+                                              rating: '0.0',
+                                              show_tees: true })
   end
 
   scenario 'create a new Tee for course' do
@@ -55,15 +52,12 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::NEW)
 
-    TeeCommon.expect_tee_form_fields(
-      page,
-      @course.tees,
-      { color: 'White',
-        slope: '0.0',
-        rating: '0.0',
-        show_tees: true },
-      'Create'
-    )
+    TeeCommon.expect_new_fields_with_values(page,
+                                            @course.tees,
+                                            { color: 'White',
+                                              slope: '0.0',
+                                              rating: '0.0',
+                                              show_tees: true })
 
     fill_in Label::Tee::COLOR, with: 'Black'
     fill_in Label::Tee::SLOPE, with: '139'
@@ -88,15 +82,12 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::NEW)
 
-    TeeCommon.expect_tee_form_fields(
-      page,
-      @course.tees,
-      { color: 'White',
-        slope: '0.0',
-        rating: '0.0',
-        show_tees: true },
-      'Create'
-    )
+    TeeCommon.expect_new_fields_with_values(page,
+                                            @course.tees,
+                                            { color: 'White',
+                                              slope: '0.0',
+                                              rating: '0.0',
+                                              show_tees: true })
 
     fill_in Label::Tee::COLOR, with: 'Black'
     fill_in Label::Tee::SLOPE, with: '139'
@@ -125,15 +116,12 @@ feature 'edit_existing_course' do
 
     click_button(Button::Tee::NEW)
 
-    TeeCommon.expect_tee_form_fields(
-      page,
-      @course.tees,
-      { color: 'White',
-        slope: '0.0',
-        rating: '0.0',
-        show_tees: true },
-      'Create'
-    )
+    TeeCommon.expect_new_fields_with_values(page,
+                                            @course.tees,
+                                            { color: 'White',
+                                              slope: '0.0',
+                                              rating: '0.0',
+                                              show_tees: true })
 
     fill_in Label::Tee::COLOR, with: 'Black'
     fill_in Label::Tee::SLOPE, with: 0.0
@@ -164,15 +152,12 @@ feature 'edit_existing_course' do
 
     click_link('Black')
 
-    TeeCommon.expect_tee_form_fields(
-      page,
-      @course.tees,
-      { color: 'Black',
-        slope: '139.0',
-        rating: '71.6',
-        show_tees: true },
-      'Update'
-    )
+    TeeCommon.expect_edit_fields_with_values(page,
+                                             @course.tees,
+                                             { color: 'Black',
+                                               slope: '139.0',
+                                               rating: '71.6',
+                                               show_tees: true })
 
     @course.tees.each do |tee|
       HoleCommon.expect_holes_list(page, tee, { hole_values: TeeHoleInfo::HOLE_INFO_EMPTY_18,

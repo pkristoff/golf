@@ -1,3 +1,5 @@
-<h1>Pick Tee for course: <%= @course.name %></h1>
+<h1><%= Heading::Tee::PICK %> <%= @course.name %></h1>
 
 <%=render "tees/tees", tees: @course.sorted_tees, new_tee: false %>
+
+<%= render 'tees/index_other_buttons.html.erb' %>

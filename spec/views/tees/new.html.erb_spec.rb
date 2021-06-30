@@ -13,14 +13,12 @@ describe 'tees/new.html.erb', type: :view do
 
     render
 
-    TeeCommon.expect_tee_form_fields(
-      rendered,
-      course.tees,
-      { color: 'White',
-        slope: '0.0',
-        rating: '0.0' },
-      'Create'
-    )
+    TeeCommon.expect_new_fields_with_values(rendered,
+                                            course.tees,
+                                            { color: 'White',
+                                              slope: '0.0',
+                                              rating: '0.0',
+                                              show_tees: true })
   end
   it 'initially  show list of tees' do
     course = FactoryBot.create(:course)
@@ -29,13 +27,11 @@ describe 'tees/new.html.erb', type: :view do
 
     render
 
-    TeeCommon.expect_tee_form_fields(
-      rendered,
-      course.tees,
-      { color: 'White',
-        slope: '0.0',
-        rating: '0.0' },
-      'Create'
-    )
+    TeeCommon.expect_new_fields_with_values(rendered,
+                                            course.tees,
+                                            { color: 'White',
+                                              slope: '0.0',
+                                              rating: '0.0',
+                                              show_tees: true })
   end
 end

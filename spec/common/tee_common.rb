@@ -2,6 +2,7 @@
 
 require 'common/application_common'
 require 'common/button_to_common'
+require 'common/method_common'
 
 module TeeCommon
   class << self
@@ -11,38 +12,37 @@ module TeeCommon
     include AsideCommon
     include DatabaseCommon
     include ButtonToCommon
+    include MethodCommon
 
-    def expect_tee_form_fields(rendered_or_page, tees, values, update_create)
-      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
-      expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
-
-      new_edit = update_create == 'Update' ? Heading::Tee::EDIT_TEE : Heading::Tee::NEW_TEE
-
-      expect(rendered_or_page).to have_selector('h1', count: 1, text: new_edit)
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Course: #{values[:course_name]}")
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Tee: #{values[:number]}")
-
-      expect_tees(rendered_or_page, tees)
-
-      ButtonToCommon.expect_have_field_text(rendered_or_page, Label::Tee::COLOR, 'tee_color', values[:color], false)
-      ButtonToCommon.expect_have_field_num(rendered_or_page, Label::Tee::SLOPE, 'tee_slope', "'#{values[:slope]}'", false)
-      ButtonToCommon.expect_have_field_num(rendered_or_page, Label::Tee::RATING, 'tee_rating', "'#{values[:rating]}'", false)
-
-      expect(rendered_or_page).to have_button("#{update_create} Tee")
-      expect(rendered_or_page).to have_button(Button::Course::EDIT)
-      expect(rendered_or_page).to have_button(Button::Tee::NEW) if update_create == 'Update'
+    def expect_new_fields_with_values(rendered_or_page, tees, values = {})
+      expect_tee_form_fields(
+        rendered_or_page,
+        tees,
+        values,
+        'Create'
+      )
     end
 
-    def expect_tees_page(rendered_or_page, course, tees, show_tees)
+    def expect_edit_fields_with_values(rendered_or_page, tees, values = {})
+      expect_tee_form_fields(
+        rendered_or_page,
+        tees,
+        values,
+        'Update'
+      )
+    end
+
+    def expect_index_tees(rendered_or_page, course, tees, show_tees)
       include AsideCommon unless rendered_or_page.is_a?(String)
       include DatabaseCommon unless rendered_or_page.is_a?(String)
       AsideCommon.expect_aside(rendered_or_page, show_tees) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      expect(rendered_or_page).to have_selector('h1', count: 1, text: "Pick Tee for course: #{course.name}")
+      MethodCommon.expect_heading(rendered_or_page, "#{Heading::Tee::PICK} #{course.name}")
 
       expect_tees(rendered_or_page, tees)
+
+      expect_index_other_buttons(rendered_or_page)
     end
 
     def expect_tees(rendered_or_page, tees)
@@ -78,6 +78,75 @@ module TeeCommon
         end
 
       end
+    end
+
+    private
+
+    def expect_tee_form_fields(rendered_or_page, tees, values, update_create)
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
+
+      new_edit = update_create == 'Update' ? Heading::Tee::EDIT_TEE : Heading::Tee::NEW_TEE
+
+      MethodCommon.expect_heading(rendered_or_page, new_edit)
+      expect_subheadings(rendered_or_page, new_edit, values)
+
+      expect_tees(rendered_or_page, tees)
+
+      expect_editable_field_values(rendered_or_page, values)
+
+      expect(rendered_or_page).to have_button("#{update_create} Tee", count: 1)
+
+      expect_new_other_buttons(rendered_or_page) unless update_create == 'Update'
+      expect_edit_other_buttons(rendered_or_page) if update_create == 'Update'
+    end
+
+    def expect_new_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
+                                                          [Button::Course::EDIT])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
+    end
+
+    def expect_edit_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
+                                                          [Button::Course::EDIT,
+                                                           Button::Tee::NEW])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
+    end
+
+    def expect_index_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
+                                                          [Button::Course::EDIT,
+                                                           Button::Tee::NEW])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
+    end
+
+    def expect_editable_field_values(rendered_or_page, values)
+      MethodCommon.expect_have_field_text(rendered_or_page, Label::Tee::COLOR, 'tee_color', values[:color], false)
+      MethodCommon.expect_have_field_num(rendered_or_page, Label::Tee::SLOPE, 'tee_slope', "'#{values[:slope]}'", false)
+      MethodCommon.expect_have_field_num(rendered_or_page, Label::Tee::RATING, 'tee_rating', "'#{values[:rating]}'", false)
+    end
+
+    def expect_subheadings(rendered_or_page, new_edit, values)
+      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Course: #{values[:course_name]}")
+      # rubocop:disable Layout/LineLength
+      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Tee: #{values[:number]}") unless new_edit == Heading::Tee::NEW_TEE
+      # rubocop:enable Layout/LineLength
+    end
+
+    def expect_course_values(page, values, disabled)
+      MethodCommon.expect_have_field_text(page, Label::Tee::COLOR, 'tee_color', values[:color], disabled)
+      MethodCommon.expect_have_field_num(page,
+                                         Label::Tee::SLOPE,
+                                         'tee_slope',
+                                         values[:slope],
+                                         disabled)
+      MethodCommon.expect_have_field_num(page,
+                                         Label::Tee::RATING,
+                                         'tee_rating',
+                                         values[:rating],
+                                         disabled)
     end
   end
 end
