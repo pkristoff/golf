@@ -16,17 +16,21 @@ module CourseCommon
     include TeeCommon
     include MethodCommon
 
-    def expect_course_index(rendered_or_page, courses)
-      MethodCommon.expect_heading(rendered_or_page, Heading::Course::COURSES)
-      expect_number_of_courses(rendered_or_page, courses)
-      if courses.empty?
-        expect(rendered_or_page).to have_selector('h2', text: Heading::Course::NO_COURSES)
-      else
-        courses.each do |course|
-          expect(rendered_or_page).to have_selector("a[id='edit_link_#{course.id}']", text: course.name)
-        end
-      end
-      expect_index_other_buttons(rendered_or_page)
+    def expect_edit_fields_with_values(page, tees, values = {})
+      AsideCommon.expect_aside(page, values[:show_tees])
+      DatabaseCommon.expect_database(page)
+
+      MethodCommon.expect_heading(page, Heading::Course::EDIT_COURSE)
+
+      TeeCommon.expect_tees(page, tees)
+
+      expect_course_values(page, values, false)
+
+      expect_address_fields(page, values, false)
+
+      expect(page).to have_button(Button::Course::UPDATE, count: 1)
+
+      expect_edit_other_buttons(page)
     end
 
     def expect_new_fields_with_values(page, values = {})
@@ -44,6 +48,19 @@ module CourseCommon
       expect_new_other_buttons(page)
     end
 
+    def expect_course_index(rendered_or_page, courses)
+      MethodCommon.expect_heading(rendered_or_page, Heading::Course::COURSES)
+      expect_number_of_courses(rendered_or_page, courses)
+      if courses.empty?
+        expect(rendered_or_page).to have_selector('h2', text: Heading::Course::NO_COURSES)
+      else
+        courses.each do |course|
+          expect(rendered_or_page).to have_selector("a[id='edit_link_#{course.id}']", text: course.name)
+        end
+      end
+      expect_index_other_buttons(rendered_or_page)
+    end
+
     def expect_validation_errors(page, invalid_field_names, valid_field_names)
       invalid_field_names.each do |field_name|
         expect(page).to have_selector("div[class=field_with_errors] input[id=#{field_name}]")
@@ -51,23 +68,6 @@ module CourseCommon
       valid_field_names.each do |field_name|
         expect(page).not_to have_selector("div[class=field_with_errors] input[id=#{field_name}]")
       end
-    end
-
-    def expect_edit_fields_with_values(page, tees, values = {})
-      AsideCommon.expect_aside(page, values[:show_tees])
-      DatabaseCommon.expect_database(page)
-
-      MethodCommon.expect_heading(page, Heading::Course::EDIT_COURSE)
-
-      TeeCommon.expect_tees(page, tees)
-
-      expect_course_values(page, values, false)
-
-      expect_address_fields(page, values, false)
-
-      expect(page).to have_button(Button::Course::UPDATE, count: 1)
-
-      expect_edit_other_buttons(page)
     end
 
     def expect_show_fields_with_values(page, tees, values = {})

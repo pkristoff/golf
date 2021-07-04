@@ -15,21 +15,42 @@ module TeeCommon
     include MethodCommon
 
     def expect_new_fields_with_values(rendered_or_page, tees, values = {})
-      expect_tee_form_fields(
-        rendered_or_page,
-        tees,
-        values,
-        'Create'
-      )
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+
+      expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
+
+      MethodCommon.expect_heading(rendered_or_page, Heading::Tee::NEW_TEE)
+
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}")
+
+      expect_tees(rendered_or_page, tees)
+
+      expect_editable_field_values(rendered_or_page, values)
+
+      expect(rendered_or_page).to have_button('Create Tee', count: 1)
+
+      expect_new_other_buttons(rendered_or_page)
     end
 
     def expect_edit_fields_with_values(rendered_or_page, tees, values = {})
-      expect_tee_form_fields(
-        rendered_or_page,
-        tees,
-        values,
-        'Update'
-      )
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+
+      expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
+
+      MethodCommon.expect_heading(rendered_or_page, Heading::Tee::EDIT_TEE)
+
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}")
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:number]}")
+
+      expect_tees(rendered_or_page, tees)
+
+      expect_editable_field_values(rendered_or_page, values)
+
+      expect(rendered_or_page).to have_button('Update Tee', count: 1)
+
+      expect_edit_other_buttons(rendered_or_page)
     end
 
     def expect_index_tees(rendered_or_page, course, tees, show_tees)
@@ -81,26 +102,6 @@ module TeeCommon
     end
 
     private
-
-    def expect_tee_form_fields(rendered_or_page, tees, values, update_create)
-      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
-      expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
-
-      new_edit = update_create == 'Update' ? Heading::Tee::EDIT_TEE : Heading::Tee::NEW_TEE
-
-      MethodCommon.expect_heading(rendered_or_page, new_edit)
-      expect_subheadings(rendered_or_page, new_edit, values)
-
-      expect_tees(rendered_or_page, tees)
-
-      expect_editable_field_values(rendered_or_page, values)
-
-      expect(rendered_or_page).to have_button("#{update_create} Tee", count: 1)
-
-      expect_new_other_buttons(rendered_or_page) unless update_create == 'Update'
-      expect_edit_other_buttons(rendered_or_page) if update_create == 'Update'
-    end
 
     def expect_new_other_buttons(rendered_or_page)
       ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,

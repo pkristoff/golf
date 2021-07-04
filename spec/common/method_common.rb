@@ -19,5 +19,9 @@ module MethodCommon
     def expect_heading(rendered_or_page, heading)
       expect(rendered_or_page).to have_selector('h1', count: 1, text: heading)
     end
+
+    def expect_subheading(rendered_or_page, heading, fieldset = '')
+      expect(rendered_or_page).to have_selector("#{fieldset}h2", count: 1, text: heading)
+    end
   end
 end

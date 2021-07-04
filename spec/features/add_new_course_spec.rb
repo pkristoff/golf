@@ -108,16 +108,6 @@ feature 'add a new course' do
                                               rating: '0.0',
                                               show_tees: true })
 
-    # TeeCommon.expect_tee_form_fields(
-    #   page,
-    #   course.tees,
-    #   { color: 'White',
-    #     slope: '0.0',
-    #     rating: '0.0',
-    #     show_tees: true },
-    #   'Create'
-    # )
-
     fill_in 'Slope', with: 140.0
     fill_in('Rating', with: 75.0)
 
