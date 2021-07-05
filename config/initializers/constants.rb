@@ -86,11 +86,12 @@ module Fieldset
     ROUND_BUTTONS = 'Round buttons'.freeze
     EDIT = 'Edit'.freeze
   end
-  module Holes
+  module Hole
     HOLE = 'Golf Course Hole'.freeze
   end
-  module Tees
+  module Tee
     TEES = 'Tees'.freeze
+    EDIT = 'Edit'.freeze
   end
 end
 module Heading

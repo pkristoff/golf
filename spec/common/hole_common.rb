@@ -139,7 +139,7 @@ module HoleCommon
 
     def expect_edit_hole_fields(rendered_or_page, is_disabled, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Holes::HOLE)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Hole::HOLE)
       disabled = is_disabled ? '[disabled=disabled]' : ''
       # rubocop:disable Layout/LineLength
       expect(rendered_or_page).to have_selector("fieldset input[id=hole_number][disabled=disabled][value=#{values[:number]}]", count: 1)

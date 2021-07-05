@@ -22,11 +22,9 @@ module TeeCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Tee::NEW_TEE)
 
-      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}")
-
       expect_tees(rendered_or_page, tees)
 
-      expect_editable_field_values(rendered_or_page, values)
+      expect_new_fieldset(rendered_or_page, values)
 
       expect(rendered_or_page).to have_button('Create Tee', count: 1)
 
@@ -41,12 +39,9 @@ module TeeCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Tee::EDIT_TEE)
 
-      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}")
-      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:number]}")
-
       expect_tees(rendered_or_page, tees)
 
-      expect_editable_field_values(rendered_or_page, values)
+      expect_edit_fieldset(rendered_or_page, values)
 
       expect(rendered_or_page).to have_button('Update Tee', count: 1)
 
@@ -67,7 +62,7 @@ module TeeCommon
     end
 
     def expect_tees(rendered_or_page, tees)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tees::TEES)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::TEES)
       fieldset_locator = 'div[id=tees-div][class=fieldset-field-div]'
       if tees.empty?
         expect(rendered_or_page).to have_selector("#{fieldset_locator} p", count: 1, text: 'No tees')
@@ -97,11 +92,27 @@ module TeeCommon
             # rubocop:enable Layout/LineLength
           end
         end
-
       end
     end
 
     private
+
+    def expect_edit_fieldset(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::EDIT)
+      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:number]}", fieldset_subheading)
+      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+      expect_editable_field_values(rendered_or_page, values, fieldset_edit)
+    end
+
+    def expect_new_fieldset(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::EDIT)
+      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
+      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+      expect_editable_field_values(rendered_or_page, values, fieldset_edit)
+    end
 
     def expect_new_other_buttons(rendered_or_page)
       ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
@@ -123,10 +134,20 @@ module TeeCommon
       ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
     end
 
-    def expect_editable_field_values(rendered_or_page, values)
-      MethodCommon.expect_have_field_text(rendered_or_page, Label::Tee::COLOR, 'tee_color', values[:color], false)
-      MethodCommon.expect_have_field_num(rendered_or_page, Label::Tee::SLOPE, 'tee_slope', "'#{values[:slope]}'", false)
-      MethodCommon.expect_have_field_num(rendered_or_page, Label::Tee::RATING, 'tee_rating', "'#{values[:rating]}'", false)
+    def expect_editable_field_values(rendered_or_page, values, fieldset_edit)
+      MethodCommon.expect_have_field_text(rendered_or_page, Label::Tee::COLOR, 'tee_color', values[:color], false, fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Tee::SLOPE,
+                                         'tee_slope',
+                                         "'#{values[:slope]}'",
+                                         false,
+                                         fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Tee::RATING,
+                                         'tee_rating',
+                                         "'#{values[:rating]}'",
+                                         false,
+                                         fieldset_edit)
     end
 
     def expect_subheadings(rendered_or_page, new_edit, values)

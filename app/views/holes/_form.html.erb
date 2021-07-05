@@ -8,7 +8,7 @@
 
 <% is_new = @hole.new_record? %>
 
-<%= field_set_tag Fieldset::Holes::HOLE, class: 'fieldset' do %>
+<%= field_set_tag Fieldset::Hole::HOLE, class: 'fieldset' do %>
   <%= form_with model: [@course, @tee, @hole], local: true do |hole_form| %>
     <%= hole_form.label :number, Label::Hole::NUMBER %>
     <%= hole_form.text_field :number, disabled: true %>

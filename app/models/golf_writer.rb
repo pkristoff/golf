@@ -84,7 +84,7 @@ class GolfWriter
       front_nine = 0 unless doing_penalties
       back_nine = 0 unless doing_penalties
       on_back_nine = false unless doing_penalties
-      round.score_holes.each_with_index do |score_hole, index|
+      round.sorted_score_holes.each_with_index do |score_hole, index|
         score = score_hole.score
         case index
         when 9

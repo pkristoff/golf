@@ -20,7 +20,7 @@ module ScoreCommon
 
       expect(rendered_or_page).to have_selector('h1', count: 1, text: 'Edit score:')
 
-      score_holes = round.score_holes
+      score_holes = round.sorted_score_holes
       expect_scores_link(rendered_or_page, score_holes)
       expect_scores_strokes(rendered_or_page, score_holes, replace_values)
       expect_scores_putts(rendered_or_page, score_holes, replace_values)

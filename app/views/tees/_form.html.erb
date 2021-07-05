@@ -1,7 +1,5 @@
 <%= form_with model: [@course, @tee], local: true do |form| %>
 
-  <%= render 'tees/subheading', course: @course, tee: @tee %>
-
   <%= render 'share/error_messages.html.erb', resource: @tee %>
 
   <%= render "tees/tees", tees: tees %>
