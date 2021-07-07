@@ -2,6 +2,7 @@
 
 require 'common/application_common'
 require 'common/button_to_common'
+require 'common/method_common'
 
 module HoleCommon
   class << self
@@ -12,18 +13,17 @@ module HoleCommon
     include AsideCommon
     include DatabaseCommon
     include ButtonToCommon
+    include MethodCommon
 
     def expect_edit_hole(rendered_or_page, tee, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      expect_hole_heading(rendered_or_page, 'Edit hole:', values[:course_name], values[:tee_color], values[:number])
+      expect_holes_list(rendered_or_page, tee, values)
 
-      HoleCommon.expect_holes_list(rendered_or_page, tee, values)
+      expect_edit_hole_fields(rendered_or_page, false, false, values)
 
-      expect_edit_hole_fields(rendered_or_page, false, values)
-
-      expect(rendered_or_page).to have_button('Update Hole', count: 1)
+      expect(rendered_or_page).to have_button(Button::Hole::UPDATE, count: 1)
 
       expect_hole_edit_other_buttons(rendered_or_page)
     end
@@ -31,12 +31,12 @@ module HoleCommon
     def expect_new_hole(rendered_or_page, tee, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
-      expect_hole_heading(rendered_or_page, 'New hole:', values[:course_name], values[:tee_color], values[:number])
 
-      HoleCommon.expect_holes_list(rendered_or_page, tee, values)
+      expect_holes_list(rendered_or_page, tee, values)
 
-      expect_edit_hole_fields(rendered_or_page, true, values)
-      expect(rendered_or_page).not_to have_button('Create Hole')
+      expect_edit_hole_fields(rendered_or_page, true, true, values)
+      # New holes are created automatically.  So should not be able to get to this page.
+      expect(rendered_or_page).not_to have_button(Button::Hole::CREATE)
 
       expect_hole_edit_other_buttons(rendered_or_page)
     end
@@ -137,28 +137,21 @@ module HoleCommon
       ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
     end
 
-    def expect_edit_hole_fields(rendered_or_page, is_disabled, values)
+    def expect_edit_hole_fields(rendered_or_page, is_disabled, is_new, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Hole::HOLE)
-      disabled = is_disabled ? '[disabled=disabled]' : ''
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Hole::EDIT)
+      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:tee_color]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Hole: #{values[:number]}", fieldset_subheading) unless is_new
       # rubocop:disable Layout/LineLength
-      expect(rendered_or_page).to have_selector("fieldset input[id=hole_number][disabled=disabled][value=#{values[:number]}]", count: 1)
-      expect(rendered_or_page).to have_selector("fieldset input[id=hole_yardage]#{disabled}[value=#{values[:yardage]}]", count: 1)
-      expect(rendered_or_page).to have_selector("fieldset input[id=hole_par]#{disabled}[value=#{values[:par]}]", count: 1)
-      expect(rendered_or_page).to have_selector("fieldset input[id=hole_hdcp]#{disabled}[value=#{values[:hdcp]}]", count: 1)
 
-      expect(rendered_or_page).to have_field(Label::Hole::NUMBER, disabled: true, count: 1) unless rendered_or_page.is_a? String
-      expect(rendered_or_page).to have_field(Label::Hole::YARDAGE, disabled: is_disabled, count: 1) unless rendered_or_page.is_a? String
-      expect(rendered_or_page).to have_field(Label::Hole::PAR, disabled: is_disabled, count: 1) unless rendered_or_page.is_a? String
-      expect(rendered_or_page).to have_field(Label::Hole::HDCP, disabled: is_disabled, count: 1) unless rendered_or_page.is_a? String
+      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::NUMBER, 'hole_number', values[:number], true, fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::YARDAGE, 'hole_yardage', values[:yardage], is_disabled, fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::PAR, 'hole_par', values[:par], is_disabled, fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::HDCP, 'hole_hdcp', values[:hdcp], is_disabled, fieldset_edit)
       # rubocop:enable Layout/LineLength
-    end
-
-    def expect_hole_heading(rendered_or_page, page_heading, course_name, tee_color, number)
-      expect(rendered_or_page).to have_selector('h1', count: 1, text: page_heading)
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Course: #{course_name}")
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Tee: #{tee_color}")
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Hole: #{number}")
     end
   end
 end

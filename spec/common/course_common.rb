@@ -148,7 +148,6 @@ module CourseCommon
     end
 
     def expect_address_fields(rendered_or_page, values, disabled)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Course::ADDRESS)
       fieldset_locator = 'div[id=address-div][class=fieldset-field-div] '
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::STREET1,

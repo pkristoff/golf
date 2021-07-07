@@ -63,7 +63,9 @@ module Button
     NEW = 'New Tee'.freeze
   end
   module Hole
-    EDIT = 'Edit Hole'.freeze
+    CREATE = 'Create Hole'.freeze
+    EDIT = 'Edit HoleTT'.freeze
+    UPDATE = 'Update Hole'.freeze
   end
   module Round
     CHOOSE_COURSE = 'Choose Round Course'
@@ -88,6 +90,7 @@ module Fieldset
   end
   module Hole
     HOLE = 'Golf Course Hole'.freeze
+    EDIT = 'EditTT'.freeze
   end
   module Tee
     TEES = 'Tees'.freeze
@@ -106,5 +109,9 @@ module Heading
     EDIT_TEE = 'Edit teeTT'.freeze
     NEW_TEE = 'New teeTT'.freeze
     PICK = 'Pick Tee for courseTT:'.freeze
+  end
+  module Hole
+    EDIT = 'Edit holeTT'.freeze
+    NEW = 'New holeTT'.freeze
   end
 end

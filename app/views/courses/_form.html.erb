@@ -6,8 +6,6 @@
 
   <%= render "tees/tees", tees: course.sorted_tees %>
 
-  <%= render 'courses/editable_address_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
-
   <% unless form_disabled
        # doing Show.html.erb %>
     <div>

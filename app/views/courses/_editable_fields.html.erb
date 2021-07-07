@@ -1,4 +1,5 @@
 <%= field_set_tag Fieldset::Course::EDIT, class: 'fieldset' do %>
+  <div id="edit-div" class="fieldset-field-div">
     <div>
       <%= form.label :name, Label::Course::NAME %><br>
       <%= form.text_field :name, disabled: form_disabled %>
@@ -9,4 +10,7 @@
       <%= form.number_field :number_of_holes, in: [9, 18], disabled: form_disabled %>
       <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
     </div>
-  <% end %>
+  </div>
+  <h3>Address</h3>
+  <%= render 'courses/editable_address_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
+<% end %>
