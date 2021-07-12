@@ -1,14 +1,8 @@
 
-<h2>Course: <%= course.name %></h2>
-<h2>Tee: <%= tee.color %></h2>
+
+<%= render "rounds/editable_fields", course: @course, tee: @tee, round: @round, form_disabled: form_disabled %>
 
 <%= render 'share/error_messages.html.erb', resource: @round %>
 
 <%= render "rounds/scores", round: @round, tee: tee, score_holes: @round.score_holes, form_disabled: form_disabled %>
-
-<%= form_with model: [@course, @tee, @round], local: true do |round_form| %>
-  <%= round_form.label :date, Label::Round::DATE %>
-  <%= round_form.date_field :date, disabled: form_disabled %>
-  <%= round_form.submit disabled: form_disabled %>
-<% end %>
 

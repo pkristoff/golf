@@ -1,8 +1,8 @@
 <%= render 'share/error_messages.html.erb', resource: @tee %>
 
-<%= render "holes/holes", tee: @tee, holes: holes %>
-
 <% is_new = @hole.new_record? %>
 
 <%= render "holes/editable_fields", course: @course, tee: @tee, hole: @hole, is_new: is_new %>
+
+<%= render "holes/holes", tee: @tee, holes: holes %>
 

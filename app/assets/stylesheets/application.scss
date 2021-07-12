@@ -55,6 +55,21 @@ label {font-weight: bold}
   border: 1px solid black
 }
 
+.strokes-cell {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.putts-cell {
+  border: 1px solid black;
+  text-align: center;
+}
+
+.penalties-cell {
+  border: 1px solid black;
+  text-align: center;
+}
+
 .fieldset {
   border-style: solid;
   border-width: 2px;

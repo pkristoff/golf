@@ -62,24 +62,23 @@ feature 'edit_existing_course' do
     click_link(@tee.color)
     click_button Button::Round::NEW
 
-    RoundsCommon.expect_round_form_fields(
+    RoundsCommon.expect_new_fields_with_values(
       page,
       { date: '2021-04-30',
         course_name: @course.name,
-        show_tees: true },
-      Button::Round::CREATE
+        show_tees: true }
     )
 
     fill_in Label::Round::DATE, with: '2021-04-01'
 
     click_button Button::Round::CREATE
 
-    RoundsCommon.expect_show_round_form_fields(
+    RoundsCommon.expect_show_fields_with_values(
       page,
       { date: '2021-04-01',
         course_name: @course.name,
         color: @tee.color,
-        disabled: true }
+        show_tees: true }
     )
   end
 end

@@ -1,3 +1,5 @@
-<h1>New round</h1>
+<h1><%= Heading::Round::NEW %></h1>
 
 <%= render "rounds/form", course: @course, tee: @tee, round: @round, form_disabled: false %>
+
+<%= render "rounds/new_other_buttons", course: @course, tee: @tee, round: @round %>

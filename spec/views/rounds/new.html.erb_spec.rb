@@ -13,12 +13,11 @@ describe 'rounds/new.html.erb', type: :view do
 
     render
 
-    RoundsCommon.expect_round_form_fields(
+    RoundsCommon.expect_new_fields_with_values(
       rendered,
       { date: '2021-04-30',
         course_name: tee.course.name,
-        tee_color: tee.color },
-      Button::Round::CREATE
+        tee_color: tee.color }
     )
   end
   it 'initially show list of rounds' do

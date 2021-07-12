@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'common/button_to_common'
+require 'common/method_common'
 
 module RoundsCommon
   class << self
@@ -8,6 +9,7 @@ module RoundsCommon
     include Capybara::RSpecMatchers
     include Capybara::Node::Finders
     include ButtonToCommon
+    include MethodCommon
 
     def expect_rounds_course_index(rendered_or_page, courses)
       AsideCommon.expect_aside(rendered_or_page, false) unless rendered_or_page.is_a? String
@@ -48,35 +50,100 @@ module RoundsCommon
       expect_round_other_buttons(rendered_or_page)
     end
 
-    def expect_round_form_fields(rendered_or_page, values, update_create)
+    def expect_edit_fields_with_values(rendered_or_page, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      new_edit = update_create == Button::Round::UPDATE ? Label::Round::EDIT : Label::Round::NEW
+      MethodCommon.expect_heading(rendered_or_page, Heading::Round::EDIT)
 
-      expect(rendered_or_page).to have_selector('h1', count: 1, text: new_edit)
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Course: #{values[:course_name]}")
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Tee: #{values[:tee_color]}")
-      expect(rendered_or_page).to have_selector("input[type=date][id=round_date][value='#{values[:date]}']", count: 1)
-      expect(rendered_or_page).to have_button(update_create, count: 1)
+      expect_edit_fieldset(rendered_or_page, false, values)
+
+      expect(rendered_or_page).to have_button(Button::Round::UPDATE, count: 1)
+
+      expect_edit_other_buttons(rendered_or_page)
     end
 
-    def expect_show_round_form_fields(rendered_or_page, values)
-      disabled = values[:disabled].nil? ? false : values[:disabled]
+    def expect_new_fields_with_values(rendered_or_page, values = {})
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      expect(rendered_or_page).to have_selector('h1', count: 1, text: Label::Round::SHOW)
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Course: #{values[:course_name]}")
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: values[:color])
-      # rubocop:disable Layout/LineLength
-      expect(rendered_or_page).to have_selector("input[type=date][id=round_date][value='#{values[:date]}']", count: 1) unless disabled
-      expect(rendered_or_page).to have_selector("input[type=date][id=round_date][disabled=disabled][value='#{values[:date]}']", count: 1) if disabled
-      # rubocop:enable Layout/LineLength
+      MethodCommon.expect_heading(rendered_or_page, Heading::Round::NEW)
+
+      expect_edit_fieldset(rendered_or_page, false, values)
+
+      expect(rendered_or_page).to have_button(Button::Round::CREATE, count: 1)
+
+      expect_new_other_buttons(rendered_or_page)
+    end
+
+    def expect_show_fields_with_values(rendered_or_page, values = {})
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+
+      expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
+
+      MethodCommon.expect_heading(rendered_or_page, Heading::Round::SHOW)
+
+      expect_edit_fieldset(rendered_or_page, true, values)
+
+      expect(rendered_or_page).not_to have_button(Button::Round::CREATE, count: 1)
+      expect(rendered_or_page).not_to have_button(Button::Round::UPDATE, count: 1)
+
+      expect_show_other_buttons(rendered_or_page)
     end
 
     private
+
+    def expect_show_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
+                                                          [Button::Course::NEW,
+                                                           Button::Course::EDIT,
+                                                           Button::Tee::EDIT,
+                                                           Button::Tee::NEW])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
+                                                         [Button::Round::EDIT,
+                                                          Button::Round::DESTROY,
+                                                          Button::Round::NEW])
+    end
+
+    def expect_edit_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
+                                                          [Button::Course::NEW,
+                                                           Button::Course::EDIT,
+                                                           Button::Tee::EDIT,
+                                                           Button::Tee::NEW])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
+                                                         [Button::Round::EDIT,
+                                                          Button::Round::NEW])
+    end
+
+    def expect_new_other_buttons(rendered_or_page)
+      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
+                                                          [Button::Course::NEW,
+                                                           Button::Course::EDIT,
+                                                           Button::Tee::EDIT,
+                                                           Button::Tee::NEW])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
+                                                         [Button::Round::NEW])
+    end
+
+    def expect_edit_fieldset(rendered_or_page, disabled, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Round::EDIT)
+      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:number]}", fieldset_subheading)
+      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+      MethodCommon.expect_have_field_date(rendered_or_page,
+                                          Label::Round::DATE,
+                                          'round_date',
+                                          values[:date],
+                                          disabled,
+                                          fieldset_edit)
+    end
 
     def expect_other_buttons(rendered_or_page)
       ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page, [Button::Course::NEW])

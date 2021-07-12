@@ -1,8 +1,5 @@
-<h1><%= Label::Round::SHOW %></h1>
+<h1><%= Heading::Round::SHOW %></h1>
 
 <%= render "form", course: @course, tee: @tee, round: @round, form_disabled: true %>
 
-<%= button_to Label::Course::EDIT, edit_course_tee_round_path(@course, @tee, @round) %>
-<%= button_to Label::Course::DESTROY, edit_course_tee_round_path(@course, @tee, @round),
-              method: :delete,
-              data: { confirm: "Are you sure?" } %>
+<%= render "rounds/show_other_buttons", course: @course, tee: @tee, round: @round %>

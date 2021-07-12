@@ -4,12 +4,12 @@
 
   <%= render 'courses/editable_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
 
-  <%= render "tees/tees", tees: course.sorted_tees %>
-
   <% unless form_disabled
        # doing Show.html.erb %>
     <div>
       <%= form.submit(id: Button::Course::SUBMIT) %>
     </div>
   <% end %>
+
+  <%= render "tees/tees", tees: course.sorted_tees %>
 <% end %>

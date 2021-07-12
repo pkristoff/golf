@@ -68,11 +68,12 @@ module Button
     UPDATE = 'Update Hole'.freeze
   end
   module Round
-    CHOOSE_COURSE = 'Choose Round Course'
-    EDIT = 'Edit Round'.freeze
-    NEW = 'New Round'.freeze
-    COURSES = 'Show Round Courses'.freeze
-    TEES = 'Show Tees for Course'.freeze
+    CHOOSE_COURSE = 'Choose Round CourseTT'.freeze
+    EDIT = 'Edit RoundTT'.freeze
+    NEW = 'New RoundTT'.freeze
+    COURSES = 'Show Round CoursesTT'.freeze
+    DESTROY = 'Destroy roundTT'.freeze
+    TEES = 'Show Tees for CourseTT'.freeze
     CREATE = 'Create Round'.freeze
     UPDATE = 'Update Round'.freeze
   end
@@ -113,5 +114,10 @@ module Heading
   module Hole
     EDIT = 'Edit holeTT'.freeze
     NEW = 'New holeTT'.freeze
+  end
+  module Round
+    EDIT = 'Edit roundTT'.freeze
+    NEW = 'New roundTT'.freeze
+    SHOW = 'Show roundTT'.freeze
   end
 end

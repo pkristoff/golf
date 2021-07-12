@@ -2,11 +2,11 @@
 
 require 'rails_helper'
 require 'common/rounds_common'
+require 'common/method_common'
 
 describe 'rounds/edit.html.erb', type: :view do
   include RoundsCommon
   it 'has fields' do
-    # tee = FactoryBot.create(:tee)
     round = FactoryBot.create(:round)
     tee = round.tee
     assign(:course, tee.course)
@@ -15,11 +15,10 @@ describe 'rounds/edit.html.erb', type: :view do
 
     render
 
-    RoundsCommon.expect_round_form_fields(
+    RoundsCommon.expect_edit_fields_with_values(
       rendered,
       { date: Time.zone.today.to_s,
-        course_name: 'prk' },
-      Button::Round::UPDATE
+        course_name: 'prk' }
     )
   end
   it 'initially show list of rounds' do
