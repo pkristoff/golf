@@ -138,7 +138,6 @@ module HoleCommon
     end
 
     def expect_edit_hole_fields(rendered_or_page, is_disabled, is_new, values)
-      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Hole::EDIT)
       fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
       MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)

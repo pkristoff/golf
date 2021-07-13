@@ -30,7 +30,7 @@ feature 'edit_existing_course' do
 
     TeeCommon.expect_new_fields_with_values(page,
                                             Course.find_by(id: @course.id).tees,
-                                            { color: 'White',
+                                            { tee_color: 'White',
                                               slope: '0.0',
                                               rating: '0.0',
                                               show_tees: true })
@@ -54,7 +54,7 @@ feature 'edit_existing_course' do
 
     TeeCommon.expect_new_fields_with_values(page,
                                             @course.tees,
-                                            { color: 'White',
+                                            { tee_color: 'White',
                                               slope: '0.0',
                                               rating: '0.0',
                                               show_tees: true })
@@ -84,7 +84,7 @@ feature 'edit_existing_course' do
 
     TeeCommon.expect_new_fields_with_values(page,
                                             @course.tees,
-                                            { color: 'White',
+                                            { tee_color: 'White',
                                               slope: '0.0',
                                               rating: '0.0',
                                               show_tees: true })
@@ -118,7 +118,7 @@ feature 'edit_existing_course' do
 
     TeeCommon.expect_new_fields_with_values(page,
                                             @course.tees,
-                                            { color: 'White',
+                                            { tee_color: 'White',
                                               slope: '0.0',
                                               rating: '0.0',
                                               show_tees: true })
@@ -154,7 +154,7 @@ feature 'edit_existing_course' do
 
     TeeCommon.expect_edit_fields_with_values(page,
                                              @course.tees,
-                                             { color: 'Black',
+                                             { tee_color: 'Black',
                                                slope: '139.0',
                                                rating: '71.6',
                                                show_tees: true })

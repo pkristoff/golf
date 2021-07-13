@@ -101,7 +101,7 @@ module TeeCommon
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::EDIT)
       fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
       MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
-      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:number]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:tee_color]}", fieldset_subheading)
       fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
       expect_editable_field_values(rendered_or_page, values, fieldset_edit)
     end
@@ -135,17 +135,26 @@ module TeeCommon
     end
 
     def expect_editable_field_values(rendered_or_page, values, fieldset_edit)
-      MethodCommon.expect_have_field_text(rendered_or_page, Label::Tee::COLOR, 'tee_color', values[:color], false, fieldset_edit)
+      tee_color = values[:tee_color]
+      raise('tee_color not set') if tee_color.nil?
+
+      MethodCommon.expect_have_field_text(rendered_or_page, Label::Tee::COLOR, 'tee_color', tee_color, false, fieldset_edit)
+      slope = values[:slope]
+      raise('slope not set') if slope.nil?
+
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Tee::SLOPE,
                                          'tee_slope',
-                                         "'#{values[:slope]}'",
+                                         "'#{slope}'",
                                          false,
                                          fieldset_edit)
+      rating = values[:rating]
+      raise('rating not set') if rating.nil?
+
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Tee::RATING,
                                          'tee_rating',
-                                         "'#{values[:rating]}'",
+                                         "'#{rating}'",
                                          false,
                                          fieldset_edit)
     end
@@ -153,7 +162,7 @@ module TeeCommon
     def expect_subheadings(rendered_or_page, new_edit, values)
       expect(rendered_or_page).to have_selector('h2', count: 1, text: "Course: #{values[:course_name]}")
       # rubocop:disable Layout/LineLength
-      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Tee: #{values[:number]}") unless new_edit == Heading::Tee::NEW_TEE
+      expect(rendered_or_page).to have_selector('h2', count: 1, text: "Tee: #{values[:tee_color]}") unless new_edit == Heading::Tee::NEW_TEE
       # rubocop:enable Layout/LineLength
     end
 

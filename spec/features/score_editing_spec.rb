@@ -27,7 +27,12 @@ feature 'edit_existing_course' do
     click_link(@round.date.to_s)
     click_link('1')
 
-    ScoreCommon.expect_edit_score(page, @round, @score, { show_tees: true, strokes: '5', putts: 2, penalties: '' })
+    ScoreCommon.expect_edit_score(page, @round, { show_tees: true,
+                                                  strokes: '5', putts: 2, penalties: '',
+                                                  course_name: @course.name,
+                                                  tee_color: @round.tee.color,
+                                                  round_date: @round.date,
+                                                  hole_number: @score.hole.number })
 
     fill_in Label::Score::STROKES, with: '10'
     fill_in Label::Score::PUTTS, with: '3'
@@ -36,7 +41,11 @@ feature 'edit_existing_course' do
     click_button('Update Score')
 
     ScoreCommon.expect_edit_score(
-      page, @round, @round.next_score(@score), { show_tees: true, strokes: '5', putts: 2, penalties: '' },
+      page, @round, { show_tees: true, strokes: '5', putts: 2, penalties: '',
+                      course_name: @course.name,
+                      tee_color: @round.tee.color,
+                      round_date: @round.date,
+                      hole_number: @round.next_score(@score).hole.number },
       [{ number: 1, strokes: 10, putts: 3, penaties: 'WW' }]
     )
   end

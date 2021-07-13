@@ -33,7 +33,7 @@ feature 'edit_existing_course' do
 
     TeeCommon.expect_edit_fields_with_values(page,
                                              @course.tees,
-                                             { color: 'Black',
+                                             { tee_color: 'Black',
                                                slope: '139.0',
                                                rating: '71.6',
                                                show_tees: true })
@@ -47,7 +47,7 @@ feature 'edit_existing_course' do
     TeeCommon.expect_edit_fields_with_values(page,
                                              @course.tees,
                                              { expect_messages: [[:flash_notice, 'tee updated']],
-                                               color: 'Black',
+                                               tee_color: 'Black',
                                                slope: '140.0',
                                                rating: '75.0',
                                                show_tees: true })

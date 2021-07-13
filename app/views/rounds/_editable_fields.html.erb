@@ -5,8 +5,8 @@
   <div id="edit-div" class="fieldset-field-div">
       <%= form_with model: [@course, @tee, @round], local: true do |round_form| %>
         <%= round_form.label :date, Label::Round::DATE %>
-        <%= round_form.date_field :date, disabled: form_disabled %>
-        <%= round_form.submit disabled: form_disabled %><br>
+        <%= round_form.date_field :date, disabled: form_disabled %><br>
+        <%= round_form.submit disabled: form_disabled %>
     <% end %>
   </div>
 <% end %>

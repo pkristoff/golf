@@ -181,9 +181,9 @@ module CourseCommon
                                           fieldset_locator)
     end
 
-    def expect_address_field_set(rendered_or_page, round, score, values)
+    def expect_address_field_set(rendered_or_page, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Course::ADDRESS)
-      expect_within_edit_fieldset(rendered_or_page, round, score, values)
+      expect_within_edit_fieldset(rendered_or_page, values)
     end
   end
 end

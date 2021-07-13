@@ -135,12 +135,15 @@ module RoundsCommon
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Round::EDIT)
       fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
       MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
-      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:number]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:tee_color]}", fieldset_subheading)
       fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+      date = values[:date]
+      raise('date not set') if date.nil?
+
       MethodCommon.expect_have_field_date(rendered_or_page,
                                           Label::Round::DATE,
                                           'round_date',
-                                          values[:date],
+                                          date,
                                           disabled,
                                           fieldset_edit)
     end

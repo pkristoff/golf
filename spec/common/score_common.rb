@@ -2,6 +2,7 @@
 
 require 'common/application_common'
 require 'common/button_to_common'
+require 'common/method_common'
 
 module ScoreCommon
   class << self
@@ -11,8 +12,9 @@ module ScoreCommon
     include AsideCommon
     include DatabaseCommon
     include ButtonToCommon
+    include MethodCommon
 
-    def expect_edit_score(rendered_or_page, round, score, values, replace_values = [])
+    def expect_edit_score(rendered_or_page, round, values, replace_values = [])
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -26,7 +28,7 @@ module ScoreCommon
       expect_scores_putts(rendered_or_page, score_holes, replace_values)
       expect_scores_penalties(rendered_or_page, score_holes, replace_values)
 
-      expect_edit_field_set(rendered_or_page, round, score, values)
+      expect_edit_field_set(rendered_or_page, values)
 
       expect_other_buttons(rendered_or_page)
     end
@@ -36,30 +38,61 @@ module ScoreCommon
     def expect_other_buttons(rendered_or_page)
       ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
                                                           [
-                                                            Button::Tee::EDIT, Button::Tee::NEW, Button::Course::EDIT
+                                                            Button::Tee::EDIT,
+                                                            Button::Tee::NEW,
+                                                            Button::Course::EDIT,
+                                                            Button::Course::NEW
                                                           ])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [Button::Round::EDIT])
+      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
+                                                         [
+                                                           Button::Round::EDIT,
+                                                           Button::Round::NEW
+                                                         ])
     end
 
-    def expect_edit_field_set(rendered_or_page, round, score, values)
+    def expect_edit_field_set(rendered_or_page, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Round::EDIT)
-      expect_within_edit_fieldset(rendered_or_page, round, score, values)
+      expect_within_edit_fieldset(rendered_or_page, values)
     end
 
-    def expect_within_edit_fieldset(rendered_or_page, round, score, values)
-      # rubocop:disable Layout/LineLength
-      expect(rendered_or_page).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Course: #{round.tee.course.name}")
-      expect(rendered_or_page).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Tee: #{round.tee.color}")
-      expect(rendered_or_page).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Date: #{round.date}")
-      expect(rendered_or_page).to have_selector('div[id=edit-div][class=fieldset-field-div] h2', count: 1, text: "Hole: #{round.hole(score).number}")
+    def expect_within_edit_fieldset(rendered_or_page, values)
+      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
+      course_name = values[:course_name]
+      raise('course_name not set') if course_name.nil?
 
-      expect(rendered_or_page).to have_field(Label::Score::STROKES, count: 1)
-      expect(rendered_or_page).to have_selector("div[id=edit-div][class=fieldset-field-div] input[id=score_strokes][value='#{values[:strokes]}']")
-      expect(rendered_or_page).to have_field(Label::Score::PUTTS, count: 1)
-      expect(rendered_or_page).to have_selector("div[id=edit-div][class=fieldset-field-div] input[id=score_putts][value='#{values[:putts]}']")
-      expect(rendered_or_page).to have_field(Label::Score::PENALTIES, count: 1)
-      expect(rendered_or_page).to have_selector("div[id=edit-div][class=fieldset-field-div] input[id=score_penalties][value='#{values[:penalties]}']")
-      # rubocop:enable Layout/LineLength
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{course_name}", fieldset_subheading)
+      tee_color = values[:tee_color]
+      raise('course_name not set') if course_name.nil?
+
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[tee_color]}", fieldset_subheading)
+      round_date = values[:round_date]
+      raise('round_date not set') if round_date.nil?
+
+      MethodCommon.expect_subheading(rendered_or_page, "Date: #{values[round_date]}", fieldset_subheading)
+      hole_number = values[:hole_number]
+      raise('hole_number not set') if hole_number.nil?
+
+      MethodCommon.expect_subheading(rendered_or_page, "Hole: #{values[hole_number]}", fieldset_subheading)
+
+      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Score::STROKES,
+                                         'score_strokes',
+                                         values[:strokes],
+                                         false,
+                                         fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Score::PUTTS,
+                                         'score_putts',
+                                         values[:putts],
+                                         false,
+                                         fieldset_edit)
+      MethodCommon.expect_have_field_text(rendered_or_page,
+                                          Label::Score::PENALTIES,
+                                          'score_penalties',
+                                          values[:penalties],
+                                          false,
+                                          fieldset_edit)
     end
 
     def expect_scores_strokes(rendered_or_page, score_holes, replace_values)

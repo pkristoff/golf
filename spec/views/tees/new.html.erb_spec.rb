@@ -15,7 +15,7 @@ describe 'tees/new.html.erb', type: :view do
 
     TeeCommon.expect_new_fields_with_values(rendered,
                                             course.tees,
-                                            { color: 'White',
+                                            { tee_color: 'White',
                                               slope: '0.0',
                                               rating: '0.0',
                                               show_tees: true })
@@ -29,7 +29,7 @@ describe 'tees/new.html.erb', type: :view do
 
     TeeCommon.expect_new_fields_with_values(rendered,
                                             course.tees,
-                                            { color: 'White',
+                                            { tee_color: 'White',
                                               slope: '0.0',
                                               rating: '0.0',
                                               show_tees: true })
