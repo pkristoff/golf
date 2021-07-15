@@ -46,7 +46,7 @@ feature 'edit_existing_course' do
                       tee_color: @round.tee.color,
                       round_date: @round.date,
                       hole_number: @round.next_score(@score).hole.number },
-      [{ number: 1, strokes: 10, putts: 3, penaties: 'WW' }]
+      [{ hole_number: 1, strokes: 10, putts: 3, penaties: 'WW' }]
     )
   end
 end

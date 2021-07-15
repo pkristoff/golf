@@ -33,9 +33,10 @@ feature 'edit_existing_course' do
 
     TeeCommon.expect_edit_fields_with_values(page,
                                              @course.tees,
-                                             { tee_color: 'Black',
-                                               slope: '139.0',
-                                               rating: '71.6',
+                                             { course_name: @course.name,
+                                               tee_color: 'Black',
+                                               tee_slope: '139.0',
+                                               tee_rating: '71.6',
                                                show_tees: true })
 
     fill_in 'Slope', with: 140.0
@@ -47,9 +48,10 @@ feature 'edit_existing_course' do
     TeeCommon.expect_edit_fields_with_values(page,
                                              @course.tees,
                                              { expect_messages: [[:flash_notice, 'tee updated']],
+                                               course_name: @course.name,
                                                tee_color: 'Black',
-                                               slope: '140.0',
-                                               rating: '75.0',
+                                               tee_slope: '140.0',
+                                               tee_rating: '75.0',
                                                show_tees: true })
 
     HoleCommon.expect_holes_list(page, @course.tee('Black'), { hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
@@ -70,7 +72,7 @@ feature 'edit_existing_course' do
                                   show_tees: true,
                                   expect_messages: [[:flash_notice, 'tee updated']],
                                   hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
-                                  number: '1', yardage: '411', par: '4', hdcp: '9',
+                                  hole_number: '1', yardage: '411', par: '4', hdcp: '9',
                                   total_out_yardage: 3366,
                                   total_in_yardage: 3261,
                                   total_yardage: 6627 })
@@ -88,8 +90,8 @@ feature 'edit_existing_course' do
                                   show_tees: true,
                                   expect_messages: [[:flash_notice, 'hole updated']],
                                   hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black],
-                                  replace_values: [{ number: 1, yardage: 644, par: 5, hdcp: 10 }],
-                                  number: '2', yardage: '360', par: '4', hdcp: '15',
+                                  replace_values: [{ hole_number: 1, yardage: 644, par: 5, hdcp: 10 }],
+                                  hole_number: '2', yardage: '360', par: '4', hdcp: '15',
                                   total_out_yardage: 3599,
                                   total_in_yardage: 3261,
                                   total_yardage: 6860 })

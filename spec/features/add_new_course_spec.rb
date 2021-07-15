@@ -103,9 +103,10 @@ feature 'add a new course' do
 
     TeeCommon.expect_new_fields_with_values(page,
                                             course.tees,
-                                            { tee_color: 'White',
-                                              slope: '0.0',
-                                              rating: '0.0',
+                                            { course_name: course.name,
+                                              tee_color: 'White',
+                                              tee_slope: '0.0',
+                                              tee_rating: '0.0',
                                               show_tees: true })
 
     fill_in 'Slope', with: 140.0

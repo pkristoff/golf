@@ -16,8 +16,9 @@ describe 'tees/new.html.erb', type: :view do
     TeeCommon.expect_new_fields_with_values(rendered,
                                             course.tees,
                                             { tee_color: 'White',
-                                              slope: '0.0',
-                                              rating: '0.0',
+                                              course_name: course.name,
+                                              tee_slope: '0.0',
+                                              tee_rating: '0.0',
                                               show_tees: true })
   end
   it 'initially  show list of tees' do
@@ -30,8 +31,9 @@ describe 'tees/new.html.erb', type: :view do
     TeeCommon.expect_new_fields_with_values(rendered,
                                             course.tees,
                                             { tee_color: 'White',
-                                              slope: '0.0',
-                                              rating: '0.0',
+                                              course_name: course.name,
+                                              tee_slope: '0.0',
+                                              tee_rating: '0.0',
                                               show_tees: true })
   end
 end

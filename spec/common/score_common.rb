@@ -57,22 +57,11 @@ module ScoreCommon
 
     def expect_within_edit_fieldset(rendered_or_page, values)
       fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
-      course_name = values[:course_name]
-      raise('course_name not set') if course_name.nil?
 
-      MethodCommon.expect_subheading(rendered_or_page, "Course: #{course_name}", fieldset_subheading)
-      tee_color = values[:tee_color]
-      raise('course_name not set') if course_name.nil?
-
-      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[tee_color]}", fieldset_subheading)
-      round_date = values[:round_date]
-      raise('round_date not set') if round_date.nil?
-
-      MethodCommon.expect_subheading(rendered_or_page, "Date: #{values[round_date]}", fieldset_subheading)
-      hole_number = values[:hole_number]
-      raise('hole_number not set') if hole_number.nil?
-
-      MethodCommon.expect_subheading(rendered_or_page, "Hole: #{values[hole_number]}", fieldset_subheading)
+      MethodCommon.expect_subheading_course_name(rendered_or_page, values[:course_name], fieldset_subheading)
+      MethodCommon.expect_subheading_tee_color(rendered_or_page, values[:tee_color], fieldset_subheading)
+      MethodCommon.expect_subheading_round_date(rendered_or_page, values[:round_date], fieldset_subheading)
+      MethodCommon.expect_subheading_hole_number(rendered_or_page, values[:hole_number], fieldset_subheading)
 
       fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
       MethodCommon.expect_have_field_num(rendered_or_page,
@@ -115,7 +104,7 @@ module ScoreCommon
         hole = score_hole.hole
         value = score.send(method_name)
         replace_values.each do |replace_info|
-          value = replace_info[method_name] if hole.number == replace_info[:number]
+          value = replace_info[method_name] if hole.number == replace_info[:hole_number]
         end
         in_out_tot += value if keep_totals
         total += value if keep_totals

@@ -25,7 +25,7 @@ describe 'scores/edit.html.erb', type: :view do
                                                      tee_color: tee.color,
                                                      course_name: course.name,
                                                      round_date: round.date,
-                                                     hole_number: score.hole })
+                                                     hole_number: score.hole.number })
   end
 
   it 'edits 3rd hole' do
@@ -47,6 +47,6 @@ describe 'scores/edit.html.erb', type: :view do
                                                      tee_color: tee.color,
                                                      course_name: course.name,
                                                      round_date: round.date,
-                                                     hole_number: score.hole })
+                                                     hole_number: score.hole.number })
   end
 end
