@@ -1,9 +1,0 @@
-<%= render 'layouts/other_buttons',
-           courses: [(button_to Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get),
-                     button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-                     button_to(Button::Course::EDIT, edit_course_path(@course), method: :get),
-                     button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)
-           ], rounds: [button_to(Button::Round::NEW, new_course_tee_round_path(@course, @tee, Round.new), method: :get),
-                       button_to(Button::Round::EDIT, new_course_tee_round_path(@course, @tee, @round), method: :get)
-  ]
-%>
