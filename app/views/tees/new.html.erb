@@ -2,5 +2,9 @@
 
 <%=render "tees/form", tees: @course.sorted_tees, new_tee: true %>
 
-<%= render 'tees/new_other_buttons.html.erb' %>
+<%= render 'layouts/other_buttons',
+           courses: [button_to(Button::Course::EDIT, edit_course_path(@course), method: :get)
+           ], rounds: []
+%>
+
 

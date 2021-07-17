@@ -1,6 +1,6 @@
 <h1><%= Heading::Course::NEW_COURSE %></h1>
 
-<%= render "form", course: @course, form_disabled: false %>
+<%= render "courses/form", course: @course, form_disabled: false %>
 
 <%= render "layouts/other_buttons", courses:
   [button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)],

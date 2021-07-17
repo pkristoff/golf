@@ -86,11 +86,11 @@ def expect_tee(course, color, rating, slope, hole_info)
 
     hole = tee.hole(hole_num)
     expect(hole.yardage).to eq(yardage), "Yardage mismatch expected: #{yardage} got: #{hole.yardage} for hole:#{hole.number}, tee: #{tee.color}, course: #{course.name}"
-    # rubocop:enable Layout/LineLength
     expect(hole.par).to eq(par)
-    expect(hole.hdcp).to eq(hdcp)
+    expect(hole.hdcp).to eq(hdcp), "HDCP mismatch expected: #{hdcp} got: #{hole.hdcp} for hole:#{hole.number}, tee: #{tee.color}, course: #{course.name}"
     expect(hole.number).to eq(hole_num)
     expect(hole.tee).to be(tee)
+    # rubocop:enable Layout/LineLength
   end
   expect(tee.sorted_holes.size).to eq(hole_info.size - offset)
 end
@@ -110,9 +110,9 @@ def expect_knights_play_course(course, name, hole_info)
   expect(course).to be_truthy, "Course not found: #{name}"
   expect_address(course, TeeHoleInfo::KNIGHTS_PLAY_ADDRESS)
 
-  expect_tee(course, 'Black', 0, 0, hole_info[:Black])
-  expect_tee(course, 'White', 0, 0, hole_info[:White])
-  expect_tee(course, 'Blue', 0, 0, hole_info[:Blue])
+  expect_tee(course, 'Black', 71.6, 139, hole_info[:Black])
+  expect_tee(course, 'White', 54, 126, hole_info[:White])
+  expect_tee(course, 'Blue', 27, 113, hole_info[:Blue])
 end
 
 def expect_knights_play_round(round, score_info)

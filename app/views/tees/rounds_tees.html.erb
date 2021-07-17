@@ -5,8 +5,13 @@
   <% @tees.each do |tee| %>
     <li id="li-id<%= tee.id %>"><%= link_to tee.color, course_tee_rounds_path(@course, tee) %></li>
   <% end %>
-
-  <%= render "tees/round_other_buttons" %>
 </ul>
+<%= render 'layouts/other_buttons',
+           courses: [button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
+                     button_to(Button::Course::EDIT, edit_course_path(@course), method: :get),
+                     button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)
+           ], rounds: []
+%>
+
 
 
