@@ -3,11 +3,16 @@
     <%= render 'tees/subheading', course: @course, tee: @tee %>
   </div>
   <div id="edit-div" class="fieldset-field-div">
-    <%= form.label :color, Label::Tee::COLOR %>
-    <%= form.text_field :color %>
-    <%= form.label :slope, Label::Tee::SLOPE %>
-    <%= form.number_field :slope %>
-    <%= form.label :rating, Label::Tee::RATING %>
-    <%= form.number_field :rating, step: 0.1 %>
+    <%= form_with model: [@course, @tee], local: true do |form| %>
+
+      <%= form.label :color, Label::Tee::COLOR %>
+      <%= form.text_field :color %>
+      <%= form.label :slope, Label::Tee::SLOPE %>
+      <%= form.number_field :slope %>
+      <%= form.label :rating, Label::Tee::RATING %>
+      <%= form.number_field :rating, step: 0.1 %>
+
+      <%= form.submit %>
+    <% end # form %>
   </div>
-<% end %>
+<% end # field_set %>

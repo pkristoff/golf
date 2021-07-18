@@ -1,3 +1,5 @@
+<% is_new = hole.new_record? %>
+
 <%= field_set_tag Fieldset::Hole::EDIT, class: 'fieldset' do %>
   <div id="subheading-div" class="fieldset-field-div">
     <%= render 'holes/subheading', course: course, tee: tee, hole: hole, is_new: is_new %>
@@ -14,7 +16,6 @@
       <%= hole_form.number_field :hdcp, disabled: is_new %>
 
       <%= hole_form.submit unless is_new %>
-    <% end %>
+    <% end # form %>
   </div>
-
-<% end %>
+<% end # field_set %>

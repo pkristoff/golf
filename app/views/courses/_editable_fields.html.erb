@@ -1,16 +1,27 @@
 <%= field_set_tag Fieldset::Course::EDIT, class: 'fieldset' do %>
-  <div id="edit-div" class="fieldset-field-div">
-    <div>
-      <%= form.label :name, Label::Course::NAME %><br>
-      <%= form.text_field :name, disabled: form_disabled %>
-      <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
-    </div>
-    <div>
-      <%= form.label :number_of_holes, Label::Course::NUMBER_OF_HOLES %><br>
-      <%= form.number_field :number_of_holes, in: [9, 18], disabled: form_disabled %>
-      <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
-    </div>
+  <div id="subheading-div" class="fieldset-field-div">
+    <%= render 'courses/subheading', course: @course %>
   </div>
-  <h3>Address</h3>
-  <%= render 'courses/editable_address_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
-<% end %>
+  <div id="edit-div" class="fieldset-field-div">
+    <%= form_with model: course, local: true do |form| %>
+      <div id="line-one" class="field">
+        <%= form.label :name, Label::Course::NAME %><br>
+        <%= form.text_field :name, disabled: form_disabled %>
+        <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
+      </div>
+      <div id="line-two" class="field">
+        <%= form.label :number_of_holes, Label::Course::NUMBER_OF_HOLES %><br>
+        <%= form.number_field :number_of_holes, in: [9, 18], disabled: form_disabled %>
+        <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
+      </div>
+      <%= render 'courses/editable_address_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
+
+      <% unless form_disabled
+           # doing Show.html.erb %>
+        <div>
+          <%= form.submit(id: Button::Course::SUBMIT) %>
+        </div>
+      <% end %>
+    <% end # form %>
+  </div>
+<% end # field_set %>

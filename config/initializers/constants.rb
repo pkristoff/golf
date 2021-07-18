@@ -97,6 +97,9 @@ module Fieldset
     TEES = 'Tees'.freeze
     EDIT = 'Edit'.freeze
   end
+  module Score
+    EDIT = 'Edit'.freeze
+  end
 end
 module Heading
   module Course

@@ -1,10 +1,5 @@
-<%= form_with model: [@course, @tee], local: true do |form| %>
+<%= render 'share/error_messages.html.erb', resource: @tee %>
 
-  <%= render 'share/error_messages.html.erb', resource: @tee %>
+<%= render 'tees/editable_fields.html.erb' %>
 
-  <%= render 'tees/editable_fields.html.erb', form: form %>
-
-  <%= form.submit %>
-
-  <%= render "tees/tees", tees: tees %>
-<% end %>
+<%= render "tees/tees", tees: tees %>

@@ -1,15 +1,5 @@
-<%= form_with model: course, local: true do |form| %>
+<%= render 'share/error_messages.html.erb', resource: course %>
 
-  <%= render 'share/error_messages.html.erb', resource: course %>
+<%= render 'courses/editable_fields.html.erb', form_disabled: form_disabled, course: course %>
 
-  <%= render 'courses/editable_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
-
-  <% unless form_disabled
-       # doing Show.html.erb %>
-    <div>
-      <%= form.submit(id: Button::Course::SUBMIT) %>
-    </div>
-  <% end %>
-
-  <%= render "tees/tees", tees: course.sorted_tees %>
-<% end %>
+<%= render "tees/tees", tees: course.sorted_tees %>

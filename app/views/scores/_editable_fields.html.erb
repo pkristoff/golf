@@ -1,0 +1,17 @@
+<%= field_set_tag Fieldset::Score::EDIT, class: 'fieldset' do %>
+  <div id="subheading-div" class="fieldset-field-div">
+    <%= render 'scores/subheading', round: @round, course: @course, tee: @tee, score: @score %>
+  </div>
+  <div id="edit-div" class="fieldset-field-div">
+    <%= form_with model: [@course, @tee, @round, @score], local: true do |form| %>
+      <%= form.label :strokes, Label::Score::STROKES %>
+      <%= form.number_field :strokes, autofocus: true %><br>
+      <%= form.label :putts, Label::Score::PUTTS %>
+      <%= form.number_field :putts %><br>
+      <%= form.label :penalties, Label::Score::PENALTIES %>
+      <%= form.text_field :penalties %>
+
+      <%= form.submit %>
+    <% end # form %>
+  </div>
+<% end # field_set %>
