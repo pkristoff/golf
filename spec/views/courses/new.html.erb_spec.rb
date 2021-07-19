@@ -11,11 +11,8 @@ describe 'courses/new.html.erb', type: :view do
 
     render
 
-    CourseCommon.expect_form_fields(
+    CourseCommon.expect_new_fields_with_values(
       rendered,
-      false,
-      course.tees,
-      Button::Course::CREATE,
       { course_name: '',
         number_of_holes: 18,
         street_1: '',

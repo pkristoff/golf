@@ -16,36 +16,36 @@ module CourseCommon
     include TeeCommon
     include MethodCommon
 
-    def expect_edit_fields_with_values(page, tees, values = {})
-      AsideCommon.expect_aside(page, values[:show_tees])
-      DatabaseCommon.expect_database(page)
+    def expect_edit_fields_with_values(rendered_or_page, tees, values = {})
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(page, Heading::Course::EDIT_COURSE)
+      MethodCommon.expect_heading(rendered_or_page, Heading::Course::EDIT_COURSE)
 
-      TeeCommon.expect_tees(page, tees)
+      TeeCommon.expect_tees(rendered_or_page, tees)
 
-      expect_course_values(page, values, false)
+      expect_course_values(rendered_or_page, values, false)
 
-      expect_address_fields(page, values, false)
+      expect_address_fields(rendered_or_page, values, false)
 
-      expect(page).to have_button(Button::Course::UPDATE, count: 1)
+      expect(rendered_or_page).to have_button(Button::Course::UPDATE, count: 1)
 
-      expect_edit_other_buttons(page)
+      expect_edit_other_buttons(rendered_or_page)
     end
 
-    def expect_new_fields_with_values(page, values = {})
-      AsideCommon.expect_aside(page, values[:show_tees])
-      DatabaseCommon.expect_database(page)
+    def expect_new_fields_with_values(rendered_or_page, values = {})
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(page, Heading::Course::NEW_COURSE)
+      MethodCommon.expect_heading(rendered_or_page, Heading::Course::NEW_COURSE)
 
-      expect(page).to have_button(Button::Course::SUBMIT, count: 1)
-      TeeCommon.expect_tees(page, [])
-      expect_course_values(page, values, false)
-      expect_address_fields(page, values, false)
-      expect(page).to have_button(Button::Course::CREATE, count: 1)
+      expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 1)
+      TeeCommon.expect_tees(rendered_or_page, [])
+      expect_course_values(rendered_or_page, values, false)
+      expect_address_fields(rendered_or_page, values, false)
+      expect(rendered_or_page).to have_button(Button::Course::CREATE, count: 1)
 
-      expect_new_other_buttons(page)
+      expect_new_other_buttons(rendered_or_page)
     end
 
     def expect_course_index(rendered_or_page, courses)
@@ -70,36 +70,22 @@ module CourseCommon
       end
     end
 
-    def expect_show_fields_with_values(page, tees, values = {})
-      AsideCommon.expect_aside(page, values[:show_tees])
-      DatabaseCommon.expect_database(page)
+    def expect_show_fields_with_values(rendered_or_page, tees, values = {})
+      AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(page, Heading::Course::SHOW_COURSE)
+      MethodCommon.expect_heading(rendered_or_page, Heading::Course::SHOW_COURSE)
 
-      TeeCommon.expect_tees(page, tees)
+      TeeCommon.expect_tees(rendered_or_page, tees)
 
-      expect_course_values(page, values, true)
+      expect_course_values(rendered_or_page, values, true)
 
-      expect_address_fields(page, values, true)
+      expect_address_fields(rendered_or_page, values, true)
 
-      expect(page).to have_button(Button::Course::SUBMIT, count: 0)
-      expect(page).to have_button(Button::Course::UPDATE, count: 0)
+      expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 0)
+      expect(rendered_or_page).to have_button(Button::Course::UPDATE, count: 0)
 
-      expect_show_other_buttons(page)
-    end
-
-    def expect_form_fields(rendered, disabled, tees, button_name, values)
-      TeeCommon.expect_tees(rendered, tees)
-      expect_course_values(rendered, values, disabled)
-
-      expect_address_fields(rendered, values, disabled)
-
-      expect(rendered).to have_button(button_name) unless disabled
-      expect(rendered).not_to have_button(button_name) if disabled
-
-      expect_new_other_buttons(rendered) if button_name == Button::Course::CREATE && !disabled
-      expect_edit_other_buttons(rendered) if button_name == Button::Course::UPDATE && !disabled
-      expect_show_other_buttons(rendered) if disabled
+      expect_show_other_buttons(rendered_or_page)
     end
 
     private

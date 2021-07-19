@@ -11,11 +11,9 @@ describe 'courses/edit.html.erb', type: :view do
 
     render
 
-    CourseCommon.expect_form_fields(
+    CourseCommon.expect_edit_fields_with_values(
       rendered,
-      false,
       course.tees,
-      Button::Course::UPDATE,
       { course_name: 'George',
         number_of_holes: 18,
         street_1: '555 Xxx Ave.',
