@@ -11,7 +11,7 @@ describe 'courses/new.html.erb', type: :view do
 
     render
 
-    CourseCommon.expect_new_fields_with_values(
+    CourseCommon.expect_new_course(
       rendered,
       { course_name: '',
         number_of_holes: 18,

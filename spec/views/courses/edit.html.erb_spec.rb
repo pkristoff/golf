@@ -11,7 +11,7 @@ describe 'courses/edit.html.erb', type: :view do
 
     render
 
-    CourseCommon.expect_edit_fields_with_values(
+    CourseCommon.expect_edit_course(
       rendered,
       course.tees,
       { course_name: 'George',

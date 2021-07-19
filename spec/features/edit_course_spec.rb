@@ -12,16 +12,16 @@ feature 'edit_existing_course' do
 
   scenario 'visit edit course' do
     visit edit_course_path(@course.id)
-    CourseCommon.expect_edit_fields_with_values(page,
-                                                @course.tees,
-                                                show_tees: true,
-                                                course_name: 'George',
-                                                number_of_holes: 18,
-                                                street_1: '555 Xxx Ave.',
-                                                street_2: '<nothing>',
-                                                city: 'Clarksville',
-                                                state: 'IN',
-                                                zip_code: '47529')
+    CourseCommon.expect_edit_course(page,
+                                    @course.tees,
+                                    show_tees: true,
+                                    course_name: 'George',
+                                    number_of_holes: 18,
+                                    street_1: '555 Xxx Ave.',
+                                    street_2: '<nothing>',
+                                    city: 'Clarksville',
+                                    state: 'IN',
+                                    zip_code: '47529')
   end
 
   scenario 'visit edit course and make sure errors occur' do
@@ -32,16 +32,16 @@ feature 'edit_existing_course' do
 
     click_button(Button::Course::SUBMIT)
 
-    CourseCommon.expect_edit_fields_with_values(page,
-                                                @course.tees,
-                                                show_tees: true,
-                                                name: '',
-                                                number_of_holes: 18,
-                                                street_1: '555 Xxx Ave.',
-                                                street_2: '<nothing>',
-                                                city: 'Clarksville',
-                                                state: 'IN',
-                                                zip_code: '')
+    CourseCommon.expect_edit_course(page,
+                                    @course.tees,
+                                    show_tees: true,
+                                    name: '',
+                                    number_of_holes: 18,
+                                    street_1: '555 Xxx Ave.',
+                                    street_2: '<nothing>',
+                                    city: 'Clarksville',
+                                    state: 'IN',
+                                    zip_code: '')
 
     CourseCommon.expect_validation_errors(page, %w[
                                             course_name
@@ -67,16 +67,16 @@ feature 'edit_existing_course' do
     tees.each do |tee|
       expect(tee.holes.size).to eq(9)
     end
-    CourseCommon.expect_show_fields_with_values(page,
-                                                tees,
-                                                show_tees: true,
-                                                course_name: 'Pete',
-                                                number_of_holes: 9,
-                                                street_1: '555 Xxx Ave.',
-                                                street_2: '<nothing>',
-                                                city: 'Clarksville',
-                                                state: 'IN',
-                                                zip_code: '47529')
+    CourseCommon.expect_show_course(page,
+                                    tees,
+                                    show_tees: true,
+                                    course_name: 'Pete',
+                                    number_of_holes: 9,
+                                    street_1: '555 Xxx Ave.',
+                                    street_2: '<nothing>',
+                                    city: 'Clarksville',
+                                    state: 'IN',
+                                    zip_code: '47529')
   end
 
   scenario 'visit edit course and make sure values are updated' do
@@ -87,16 +87,16 @@ feature 'edit_existing_course' do
 
     click_button(Button::Course::SUBMIT)
 
-    CourseCommon.expect_show_fields_with_values(page,
-                                                @course.tees,
-                                                show_tees: true,
-                                                course_name: 'George1',
-                                                number_of_holes: 18,
-                                                street_1: '555 Xxx Ave.',
-                                                street_2: '<nothing>',
-                                                city: 'Clarksville',
-                                                state: 'AK',
-                                                zip_code: '47529')
+    CourseCommon.expect_show_course(page,
+                                    @course.tees,
+                                    show_tees: true,
+                                    course_name: 'George1',
+                                    number_of_holes: 18,
+                                    street_1: '555 Xxx Ave.',
+                                    street_2: '<nothing>',
+                                    city: 'Clarksville',
+                                    state: 'AK',
+                                    zip_code: '47529')
 
     CourseCommon.expect_validation_errors(
       page,

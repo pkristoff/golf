@@ -11,7 +11,7 @@ describe 'courses/show.html.erb', type: :view do
 
     render
 
-    CourseCommon.expect_show_fields_with_values(
+    CourseCommon.expect_show_course(
       rendered,
       course.tees,
       { course_name: 'George',
