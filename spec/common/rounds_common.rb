@@ -99,36 +99,43 @@ module RoundsCommon
     private
 
     def expect_show_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
-                                                          [Button::Course::NEW,
-                                                           Button::Course::EDIT,
-                                                           Button::Tee::EDIT,
-                                                           Button::Tee::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
-                                                         [Button::Round::EDIT,
-                                                          Button::Round::DESTROY,
-                                                          Button::Round::NEW])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Course::NEW,
+                                            Button::Tee::NEW,
+                                            Button::Tee::EDIT
+                                          ],
+                                          [
+                                            Button::Round::EDIT,
+                                            Button::Round::DESTROY,
+                                            Button::Round::NEW
+                                          ])
     end
 
     def expect_edit_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
-                                                          [Button::Course::NEW,
-                                                           Button::Course::EDIT,
-                                                           Button::Tee::EDIT,
-                                                           Button::Tee::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
-                                                         [Button::Round::EDIT,
-                                                          Button::Round::NEW])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Course::NEW,
+                                            Button::Tee::NEW,
+                                            Button::Tee::EDIT
+                                          ],
+                                          [
+                                            Button::Round::EDIT,
+                                            Button::Round::NEW
+                                          ])
     end
 
     def expect_new_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
-                                                          [Button::Course::NEW,
-                                                           Button::Course::EDIT,
-                                                           Button::Tee::EDIT,
-                                                           Button::Tee::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
-                                                         [Button::Round::NEW])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Course::NEW,
+                                            Button::Tee::NEW,
+                                            Button::Tee::EDIT
+                                          ],
+                                          [Button::Round::NEW])
     end
 
     def expect_edit_fieldset(rendered_or_page, disabled, values)
@@ -149,26 +156,32 @@ module RoundsCommon
     end
 
     def expect_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page, [Button::Course::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::NEW
+                                          ],
+                                          [])
     end
 
     def expect_tees_round_other_buttons(rendered_or_page)
-      # rubocop:disable Layout/LineLength
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page, [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
-      # rubocop:enable Layout/LineLength
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Course::NEW,
+                                            Button::Tee::NEW
+                                          ],
+                                          [])
     end
 
     def expect_round_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(
-        rendered_or_page,
-        [Button::Course::NEW, Button::Course::EDIT, Button::Tee::NEW, Button::Tee::EDIT]
-      )
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
-                                                         [
-                                                           Button::Round::NEW
-                                                         ])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Course::NEW,
+                                            Button::Tee::NEW,
+                                            Button::Tee::EDIT
+                                          ],
+                                          [Button::Round::NEW])
     end
   end
 end

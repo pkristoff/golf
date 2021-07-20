@@ -36,18 +36,17 @@ module ScoreCommon
     private
 
     def expect_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
-                                                          [
-                                                            Button::Tee::EDIT,
-                                                            Button::Tee::NEW,
-                                                            Button::Course::EDIT,
-                                                            Button::Course::NEW
-                                                          ])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page,
-                                                         [
-                                                           Button::Round::EDIT,
-                                                           Button::Round::NEW
-                                                         ])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Course::NEW,
+                                            Button::Tee::NEW,
+                                            Button::Tee::EDIT
+                                          ],
+                                          [
+                                            Button::Round::NEW,
+                                            Button::Round::EDIT
+                                          ])
     end
 
     def expect_edit_field_set(rendered_or_page, values)

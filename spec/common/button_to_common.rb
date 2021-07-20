@@ -6,6 +6,13 @@ module ButtonToCommon
     include Capybara::RSpecMatchers
     include Capybara::Node::Finders
 
+    def expect_other_buttons(rendered_or_page, course_names, round_names)
+      expect_button_within_course_fieldset(rendered_or_page, course_names)
+      expect_button_within_round_fieldset(rendered_or_page, round_names)
+    end
+
+    private
+
     def expect_button_within_round_fieldset(rendered_or_page, names)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Round::ROUND_BUTTONS)
       expect_button_count(rendered_or_page, 'round-div', names.size)
@@ -21,8 +28,6 @@ module ButtonToCommon
         expect_button_to(rendered_or_page, 'course-div', name)
       end
     end
-
-    private
 
     def expect_button_count(rendered_or_page, div_id, num)
       expect(rendered_or_page).to have_selector(button_count_selector(div_id), count: num)

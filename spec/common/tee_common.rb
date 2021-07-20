@@ -114,23 +114,29 @@ module TeeCommon
     end
 
     def expect_new_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
-                                                          [Button::Course::EDIT])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT
+                                          ],
+                                          [])
     end
 
     def expect_edit_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
-                                                          [Button::Course::EDIT,
-                                                           Button::Tee::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Tee::NEW
+                                          ],
+                                          [])
     end
 
     def expect_index_other_buttons(rendered_or_page)
-      ButtonToCommon.expect_button_within_course_fieldset(rendered_or_page,
-                                                          [Button::Course::EDIT,
-                                                           Button::Tee::NEW])
-      ButtonToCommon.expect_button_within_round_fieldset(rendered_or_page, [])
+      ButtonToCommon.expect_other_buttons(rendered_or_page,
+                                          [
+                                            Button::Course::EDIT,
+                                            Button::Tee::NEW
+                                          ],
+                                          [])
     end
 
     def expect_editable_field_values(rendered_or_page, values, fieldset_edit)
