@@ -48,7 +48,7 @@ module CourseCommon
       expect_new_other_buttons(rendered_or_page)
     end
 
-    def expect_course_index(rendered_or_page, courses)
+    def expect_index_course(rendered_or_page, courses)
       MethodCommon.expect_heading(rendered_or_page, Heading::Course::COURSES)
       expect_number_of_courses(rendered_or_page, courses)
       if courses.empty?

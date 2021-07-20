@@ -14,7 +14,7 @@ module TeeCommon
     include ButtonToCommon
     include MethodCommon
 
-    def expect_new_fields_with_values(rendered_or_page, tees, values = {})
+    def expect_new_tee(rendered_or_page, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
@@ -31,7 +31,7 @@ module TeeCommon
       expect_new_other_buttons(rendered_or_page)
     end
 
-    def expect_edit_fields_with_values(rendered_or_page, tees, values = {})
+    def expect_edit_tee(rendered_or_page, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 

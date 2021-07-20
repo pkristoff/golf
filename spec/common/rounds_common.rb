@@ -11,7 +11,7 @@ module RoundsCommon
     include ButtonToCommon
     include MethodCommon
 
-    def expect_rounds_course_index(rendered_or_page, courses)
+    def expect_index_rounds_course(rendered_or_page, courses)
       AsideCommon.expect_aside(rendered_or_page, false) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -36,7 +36,7 @@ module RoundsCommon
       expect_tees_round_other_buttons(rendered_or_page)
     end
 
-    def expect_rounds_index(rendered_or_page, course, tee, rounds, show_tees)
+    def expect_index_rounds(rendered_or_page, course, tee, rounds, show_tees)
       AsideCommon.expect_aside(rendered_or_page, show_tees) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
       expect(rendered_or_page).to have_selector('h1', text: "Rounds for #{course.name} and tee #{tee.color}")
@@ -50,7 +50,7 @@ module RoundsCommon
       expect_round_other_buttons(rendered_or_page)
     end
 
-    def expect_edit_fields_with_values(rendered_or_page, values = {})
+    def expect_edit_round(rendered_or_page, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -65,7 +65,7 @@ module RoundsCommon
       expect_edit_other_buttons(rendered_or_page)
     end
 
-    def expect_new_fields_with_values(rendered_or_page, values = {})
+    def expect_new_round(rendered_or_page, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -80,7 +80,7 @@ module RoundsCommon
       expect_new_other_buttons(rendered_or_page)
     end
 
-    def expect_show_fields_with_values(rendered_or_page, values = {})
+    def expect_show_round(rendered_or_page, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 

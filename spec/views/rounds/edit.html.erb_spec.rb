@@ -15,7 +15,7 @@ describe 'rounds/edit.html.erb', type: :view do
 
     render
 
-    RoundsCommon.expect_edit_fields_with_values(
+    RoundsCommon.expect_edit_round(
       rendered,
       { date: Time.zone.today.to_s,
         course_name: 'prk' }

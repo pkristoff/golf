@@ -101,13 +101,13 @@ feature 'add a new course' do
 
     course = Course.all.first
 
-    TeeCommon.expect_new_fields_with_values(page,
-                                            course.tees,
-                                            { course_name: course.name,
-                                              tee_color: 'White',
-                                              tee_slope: '0.0',
-                                              tee_rating: '0.0',
-                                              show_tees: true })
+    TeeCommon.expect_new_tee(page,
+                             course.tees,
+                             { course_name: course.name,
+                               tee_color: 'White',
+                               tee_slope: '0.0',
+                               tee_rating: '0.0',
+                               show_tees: true })
 
     fill_in 'Slope', with: 140.0
     fill_in('Rating', with: 75.0)

@@ -13,7 +13,7 @@ describe 'rounds/index.html.erb', type: :view do
 
     render
 
-    RoundsCommon.expect_rounds_index(rendered, course1, course_tee, course_tee.rounds, false)
+    RoundsCommon.expect_index_rounds(rendered, course1, course_tee, course_tee.rounds, false)
   end
 
   it 'show rounds' do
@@ -25,6 +25,6 @@ describe 'rounds/index.html.erb', type: :view do
 
     render
 
-    RoundsCommon.expect_rounds_index(rendered, course, course_tee, course_tee.rounds, false)
+    RoundsCommon.expect_index_rounds(rendered, course, course_tee, course_tee.rounds, false)
   end
 end

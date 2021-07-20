@@ -13,7 +13,7 @@ describe 'rounds/new.html.erb', type: :view do
 
     render
 
-    RoundsCommon.expect_new_fields_with_values(
+    RoundsCommon.expect_new_round(
       rendered,
       { date: '2021-04-30',
         course_name: tee.course.name,
