@@ -79,26 +79,27 @@ module Button
   end
 end
 module Fieldset
+  module Edit
+    HEADING = 'Edit'.freeze
+    SUBHEADING = 'div[id=subheading-div][class=fieldset-field-div] '.freeze
+    EDIT = 'div[id=edit-div][class=fieldset-field-div] '.freeze
+    ADDRESS = 'div[id=address-div][class=fieldset-field-div] '.freeze
+  end
   module Course
     ADDRESS = 'Golf Course Address'.freeze
     COURSE_BUTTONS = 'Course buttons'.freeze
-    EDIT = 'Edit'.freeze
     TEES = 'Golf Course Tees'.freeze
   end
   module Round
     ROUND_BUTTONS = 'Round buttons'.freeze
-    EDIT = 'Edit'.freeze
   end
   module Hole
     HOLE = 'Golf Course Hole'.freeze
-    EDIT = 'EditTT'.freeze
   end
   module Tee
     TEES = 'Tees'.freeze
-    EDIT = 'Edit'.freeze
   end
   module Score
-    EDIT = 'Edit'.freeze
   end
 end
 module Heading
@@ -108,6 +109,9 @@ module Heading
     NEW_COURSE = 'New CourseTT'.freeze
     NO_COURSES = 'No coursesTT'.freeze
     SHOW_COURSE = 'Show CourseTT'.freeze
+  end
+  module Score
+    EDIT_SCORE = 'Edit score'.freeze
   end
   module Tee
     EDIT_TEE = 'Edit teeTT'.freeze

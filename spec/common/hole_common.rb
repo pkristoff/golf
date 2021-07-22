@@ -21,7 +21,7 @@ module HoleCommon
 
       expect_holes_list(rendered_or_page, tee, values)
 
-      expect_edit_hole_fields(rendered_or_page, false, false, values)
+      expect_edit_fieldset_hole(rendered_or_page, false, values)
 
       expect(rendered_or_page).to have_button(Button::Hole::UPDATE, count: 1)
 
@@ -34,7 +34,7 @@ module HoleCommon
 
       expect_holes_list(rendered_or_page, tee, values)
 
-      expect_edit_hole_fields(rendered_or_page, true, true, values)
+      expect_new_fieldset_hole(rendered_or_page, true, values)
       # New holes are created automatically.  So should not be able to get to this page.
       expect(rendered_or_page).not_to have_button(Button::Hole::CREATE)
 
@@ -137,20 +137,53 @@ module HoleCommon
                                           [])
     end
 
-    def expect_edit_hole_fields(rendered_or_page, is_disabled, is_new, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Hole::EDIT)
-      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
+    def expect_new_subheadings(rendered_or_page, values, fieldset_subheading)
       MethodCommon.expect_subheading_course_name(rendered_or_page, values[:course_name], fieldset_subheading)
       MethodCommon.expect_subheading_tee_color(rendered_or_page, values[:tee_color], fieldset_subheading)
-      MethodCommon.expect_subheading_hole_number(rendered_or_page, values[:hole_number], fieldset_subheading) unless is_new
-      # rubocop:disable Layout/LineLength
+    end
 
-      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
-      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::NUMBER, 'hole_number', values[:hole_number], true, fieldset_edit)
-      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::YARDAGE, 'hole_yardage', values[:yardage], is_disabled, fieldset_edit)
-      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::PAR, 'hole_par', values[:par], is_disabled, fieldset_edit)
-      MethodCommon.expect_have_field_num(rendered_or_page, Label::Hole::HDCP, 'hole_hdcp', values[:hdcp], is_disabled, fieldset_edit)
-      # rubocop:enable Layout/LineLength
+    def expect_edit_subheadings(rendered_or_page, values, fieldset_subheading)
+      MethodCommon.expect_subheading_course_name(rendered_or_page, values[:course_name], fieldset_subheading)
+      MethodCommon.expect_subheading_tee_color(rendered_or_page, values[:tee_color], fieldset_subheading)
+      MethodCommon.expect_subheading_hole_number(rendered_or_page, values[:hole_number], fieldset_subheading)
+    end
+
+    def expect_new_fieldset_hole(rendered_or_page, is_disabled, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_editable_field_values(rendered_or_page, is_disabled, values, Fieldset::Edit::EDIT)
+    end
+
+    def expect_edit_fieldset_hole(rendered_or_page, is_disabled, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_editable_field_values(rendered_or_page, is_disabled, values, Fieldset::Edit::EDIT)
+    end
+
+    def expect_editable_field_values(rendered_or_page, is_disabled, values, fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Hole::NUMBER,
+                                         'hole_number',
+                                         values[:hole_number],
+                                         true,
+                                         fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Hole::YARDAGE,
+                                         'hole_yardage',
+                                         values[:yardage],
+                                         is_disabled, fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Hole::PAR,
+                                         'hole_par',
+                                         values[:par],
+                                         is_disabled,
+                                         fieldset_edit)
+      MethodCommon.expect_have_field_num(rendered_or_page,
+                                         Label::Hole::HDCP,
+                                         'hole_hdcp',
+                                         values[:hdcp],
+                                         is_disabled,
+                                         fieldset_edit)
     end
   end
 end

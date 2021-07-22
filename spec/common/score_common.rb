@@ -20,22 +20,26 @@ module ScoreCommon
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      expect(rendered_or_page).to have_selector('h1', count: 1, text: 'Edit score:')
+      MethodCommon.expect_heading(rendered_or_page, Heading::Score::EDIT_SCORE)
 
+      expect_scores_list(rendered_or_page, replace_values, round)
+
+      expect_edit_fieldset_round(rendered_or_page, values)
+
+      expect_edit_other_buttons(rendered_or_page)
+    end
+
+    private
+
+    def expect_scores_list(rendered_or_page, replace_values, round)
       score_holes = round.sorted_score_holes
       expect_scores_link(rendered_or_page, score_holes)
       expect_scores_strokes(rendered_or_page, score_holes, replace_values)
       expect_scores_putts(rendered_or_page, score_holes, replace_values)
       expect_scores_penalties(rendered_or_page, score_holes, replace_values)
-
-      expect_edit_field_set(rendered_or_page, values)
-
-      expect_other_buttons(rendered_or_page)
     end
 
-    private
-
-    def expect_other_buttons(rendered_or_page)
+    def expect_edit_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
                                             Button::Course::EDIT,
@@ -49,20 +53,20 @@ module ScoreCommon
                                           ])
     end
 
-    def expect_edit_field_set(rendered_or_page, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Round::EDIT)
-      expect_within_edit_fieldset(rendered_or_page, values)
+    def expect_edit_fieldset_round(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_editable_field_values(rendered_or_page, values, Fieldset::Edit::EDIT)
     end
 
-    def expect_within_edit_fieldset(rendered_or_page, values)
-      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
-
+    def expect_edit_subheadings(rendered_or_page, values, fieldset_subheading)
       MethodCommon.expect_subheading_course_name(rendered_or_page, values[:course_name], fieldset_subheading)
       MethodCommon.expect_subheading_tee_color(rendered_or_page, values[:tee_color], fieldset_subheading)
       MethodCommon.expect_subheading_round_date(rendered_or_page, values[:round_date], fieldset_subheading)
       MethodCommon.expect_subheading_hole_number(rendered_or_page, values[:hole_number], fieldset_subheading)
+    end
 
-      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+    def expect_editable_field_values(rendered_or_page, values, fieldset_edit)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Score::STROKES,
                                          'score_strokes',

@@ -58,7 +58,7 @@ module RoundsCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::EDIT)
 
-      expect_edit_fieldset(rendered_or_page, false, values)
+      expect_edit_fieldset_round(rendered_or_page, false, values)
 
       expect(rendered_or_page).to have_button(Button::Round::UPDATE, count: 1)
 
@@ -73,7 +73,7 @@ module RoundsCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::NEW)
 
-      expect_edit_fieldset(rendered_or_page, false, values)
+      expect_new_fieldset_round(rendered_or_page, false, values)
 
       expect(rendered_or_page).to have_button(Button::Round::CREATE, count: 1)
 
@@ -88,7 +88,7 @@ module RoundsCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::SHOW)
 
-      expect_edit_fieldset(rendered_or_page, true, values)
+      expect_show_fieldset_round(rendered_or_page, true, values)
 
       expect(rendered_or_page).not_to have_button(Button::Round::CREATE, count: 1)
       expect(rendered_or_page).not_to have_button(Button::Round::UPDATE, count: 1)
@@ -138,12 +138,29 @@ module RoundsCommon
                                           [Button::Round::NEW])
     end
 
-    def expect_edit_fieldset(rendered_or_page, disabled, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Round::EDIT)
-      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
-      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
-      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:tee_color]}", fieldset_subheading)
-      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
+    def expect_new_fieldset_round(rendered_or_page, disabled, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      fieldset_subheading = Fieldset::Edit::SUBHEADING
+      expect_new_subheading(rendered_or_page, values, fieldset_subheading)
+      fieldset_edit = Fieldset::Edit::EDIT
+      expect_editable_field_values(rendered_or_page, disabled, values, fieldset_edit)
+    end
+
+    def expect_edit_fieldset_round(rendered_or_page, disabled, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      fieldset_subheading = Fieldset::Edit::SUBHEADING
+      expect_edit_subheading(rendered_or_page, values, fieldset_subheading)
+      fieldset_edit = Fieldset::Edit::EDIT
+      expect_editable_field_values(rendered_or_page, disabled, values, fieldset_edit)
+    end
+
+    def expect_show_fieldset_round(rendered_or_page, disabled, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_show_subheading(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_editable_field_values(rendered_or_page, disabled, values, Fieldset::Edit::EDIT)
+    end
+
+    def expect_editable_field_values(rendered_or_page, disabled, values, fieldset_edit)
       date = values[:date]
       raise('date not set') if date.nil?
 
@@ -153,6 +170,21 @@ module RoundsCommon
                                           date,
                                           disabled,
                                           fieldset_edit)
+    end
+
+    def expect_show_subheading(rendered_or_page, values, fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:tee_color]}", fieldset_subheading)
+    end
+
+    def expect_new_subheading(rendered_or_page, values, fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:tee_color]}", fieldset_subheading)
+    end
+
+    def expect_edit_subheading(rendered_or_page, values, fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Course: #{values[:course_name]}", fieldset_subheading)
+      MethodCommon.expect_subheading(rendered_or_page, "Tee: #{values[:tee_color]}", fieldset_subheading)
     end
 
     def expect_other_buttons(rendered_or_page)

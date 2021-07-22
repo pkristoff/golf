@@ -24,9 +24,7 @@ module CourseCommon
 
       TeeCommon.expect_tees(rendered_or_page, tees)
 
-      expect_course_values(rendered_or_page, values, false)
-
-      expect_address_fields(rendered_or_page, values, false)
+      expect_edit_fieldset_course(rendered_or_page, values)
 
       expect(rendered_or_page).to have_button(Button::Course::UPDATE, count: 1)
 
@@ -41,8 +39,7 @@ module CourseCommon
 
       expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 1)
       TeeCommon.expect_tees(rendered_or_page, [])
-      expect_course_values(rendered_or_page, values, false)
-      expect_address_fields(rendered_or_page, values, false)
+      expect_new_fieldset_course(rendered_or_page, values)
       expect(rendered_or_page).to have_button(Button::Course::CREATE, count: 1)
 
       expect_new_other_buttons(rendered_or_page)
@@ -78,9 +75,7 @@ module CourseCommon
 
       TeeCommon.expect_tees(rendered_or_page, tees)
 
-      expect_course_values(rendered_or_page, values, true)
-
-      expect_address_fields(rendered_or_page, values, true)
+      expect_show_fieldset_course(rendered_or_page, values)
 
       expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 0)
       expect(rendered_or_page).to have_button(Button::Course::UPDATE, count: 0)
@@ -90,17 +85,50 @@ module CourseCommon
 
     private
 
+    def expect_new_fieldset_course(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_course_values(rendered_or_page, values, false, Fieldset::Edit::EDIT)
+      expect_address_fields(rendered_or_page, values, false, Fieldset::Edit::ADDRESS)
+    end
+
+    def expect_edit_fieldset_course(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_course_values(rendered_or_page, values, false, Fieldset::Edit::EDIT)
+      expect_address_fields(rendered_or_page, values, false, Fieldset::Edit::ADDRESS)
+    end
+
+    def expect_show_fieldset_course(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_show_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_course_values(rendered_or_page, values, true, Fieldset::Edit::EDIT)
+      expect_address_fields(rendered_or_page, values, true, Fieldset::Edit::ADDRESS)
+    end
+
+    def expect_edit_subheadings(rendered_or_page, values, fieldset_subheading); end
+
+    def expect_new_subheadings(rendered_or_page, values, fieldset_subheading); end
+
+    def expect_show_subheadings(rendered_or_page, values, fieldset_subheading); end
+
     def expect_number_of_courses(rendered_or_page, courses)
       expect(rendered_or_page).to have_selector("li[id='li-id']", count: courses.size)
     end
 
-    def expect_course_values(page, values, disabled)
-      MethodCommon.expect_have_field_text(page, Label::Course::NAME, 'course_name', values[:course_name], disabled)
+    def expect_course_values(page, values, disabled, fieldset_subheading = '')
+      MethodCommon.expect_have_field_text(page,
+                                          Label::Course::NAME,
+                                          'course_name',
+                                          values[:course_name],
+                                          disabled,
+                                          fieldset_subheading)
       MethodCommon.expect_have_field_num(page,
                                          Label::Course::NUMBER_OF_HOLES,
                                          'course_number_of_holes',
                                          values[:number_of_holes],
-                                         disabled)
+                                         disabled,
+                                         fieldset_subheading)
     end
 
     def expect_edit_other_buttons(rendered_or_page)
@@ -132,43 +160,37 @@ module CourseCommon
                                           [])
     end
 
-    def expect_address_fields(rendered_or_page, values, disabled)
-      fieldset_locator = 'div[id=address-div][class=fieldset-field-div] '
+    def expect_address_fields(rendered_or_page, values, disabled, fieldset_address = '')
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::STREET1,
                                           'course_address_attributes_street_1',
                                           values[:street_1],
                                           disabled,
-                                          fieldset_locator)
+                                          fieldset_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::STREET2,
                                           'course_address_attributes_street_2',
                                           values[:street_2],
                                           disabled,
-                                          fieldset_locator)
+                                          fieldset_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::CITY,
                                           'course_address_attributes_city',
                                           values[:city],
                                           disabled,
-                                          fieldset_locator)
+                                          fieldset_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::STATE,
                                           'course_address_attributes_state',
                                           values[:state],
                                           disabled,
-                                          fieldset_locator)
+                                          fieldset_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::ZIP,
                                           'course_address_attributes_zip_code',
                                           values[:zip_code],
                                           disabled,
-                                          fieldset_locator)
-    end
-
-    def expect_address_field_set(rendered_or_page, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Course::ADDRESS)
-      expect_within_edit_fieldset(rendered_or_page, values)
+                                          fieldset_address)
     end
   end
 end

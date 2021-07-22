@@ -24,7 +24,7 @@ module TeeCommon
 
       expect_tees(rendered_or_page, tees)
 
-      expect_new_fieldset(rendered_or_page, values)
+      expect_new_fieldset_tee(rendered_or_page, values)
 
       expect(rendered_or_page).to have_button('Create Tee', count: 1)
 
@@ -41,7 +41,7 @@ module TeeCommon
 
       expect_tees(rendered_or_page, tees)
 
-      expect_edit_fieldset(rendered_or_page, values)
+      expect_edit_fieldset_tee(rendered_or_page, values)
 
       expect(rendered_or_page).to have_button('Update Tee', count: 1)
 
@@ -97,20 +97,16 @@ module TeeCommon
 
     private
 
-    def expect_edit_fieldset(rendered_or_page, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::EDIT)
-      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
-      expect_edit_subheadings(rendered_or_page, values, fieldset_subheading)
-      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
-      expect_editable_field_values(rendered_or_page, values, fieldset_edit)
+    def expect_edit_fieldset_tee(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_editable_field_values(rendered_or_page, values, Fieldset::Edit::EDIT)
     end
 
-    def expect_new_fieldset(rendered_or_page, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::EDIT)
-      fieldset_subheading = 'div[id=subheading-div][class=fieldset-field-div] '
-      expect_new_subheadings(rendered_or_page, values, fieldset_subheading)
-      fieldset_edit = 'div[id=edit-div][class=fieldset-field-div] '
-      expect_editable_field_values(rendered_or_page, values, fieldset_edit)
+    def expect_new_fieldset_tee(rendered_or_page, values)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
+      expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect_editable_field_values(rendered_or_page, values, Fieldset::Edit::EDIT)
     end
 
     def expect_new_other_buttons(rendered_or_page)
@@ -171,20 +167,6 @@ module TeeCommon
 
     def expect_new_subheadings(rendered_or_page, values, fieldset_subheading)
       MethodCommon.expect_subheading_course_name(rendered_or_page, values[:course_name], fieldset_subheading)
-    end
-
-    def expect_course_values(page, values, disabled)
-      MethodCommon.expect_have_field_text(page, Label::Tee::COLOR, 'tee_color', values[:color], disabled)
-      MethodCommon.expect_have_field_num(page,
-                                         Label::Tee::SLOPE,
-                                         'tee_slope',
-                                         values[:tee_slope],
-                                         disabled)
-      MethodCommon.expect_have_field_num(page,
-                                         Label::Tee::RATING,
-                                         'tee_rating',
-                                         values[:tee_rating],
-                                         disabled)
     end
   end
 end
