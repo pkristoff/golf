@@ -72,6 +72,7 @@ feature 'add a new course' do
     course = Course.all.first
     # no tees defined so go to edit
     CourseCommon.expect_edit_course(page,
+                                    course,
                                     course.tees,
                                     show_tees: true,
                                     course_name: 'Lochmere',
@@ -102,6 +103,7 @@ feature 'add a new course' do
     course = Course.all.first
 
     TeeCommon.expect_new_tee(page,
+                             course,
                              course.tees,
                              { course_name: course.name,
                                tee_color: 'White',
@@ -119,6 +121,7 @@ feature 'add a new course' do
     click_button(Button::Course::UPDATE)
 
     CourseCommon.expect_show_course(page,
+                                    course,
                                     course.tees,
                                     show_tees: true,
                                     course_name: 'Lochmere',

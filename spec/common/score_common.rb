@@ -14,7 +14,7 @@ module ScoreCommon
     include ButtonToCommon
     include MethodCommon
 
-    def expect_edit_score(rendered_or_page, round, values, replace_values = [])
+    def expect_edit_score(rendered_or_page, score, values, replace_values = [])
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -22,9 +22,15 @@ module ScoreCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Score::EDIT_SCORE)
 
+      round = score.round
       expect_scores_list(rendered_or_page, replace_values, round)
 
-      expect_edit_fieldset_round(rendered_or_page, values)
+      tee = round.tee
+      expect_edit_fieldset_score(
+        rendered_or_page,
+        " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds/#{round.id}/scores/#{score.id}'] ",
+        values
+      )
 
       expect_edit_other_buttons(rendered_or_page)
     end
@@ -53,10 +59,10 @@ module ScoreCommon
                                           ])
     end
 
-    def expect_edit_fieldset_round(rendered_or_page, values)
+    def expect_edit_fieldset_score(rendered_or_page, form_txt, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_editable_field_values(rendered_or_page, values, Fieldset::Edit::EDIT)
+      expect_editable_field_values_score(rendered_or_page, values, Fieldset::Edit::EDIT + form_txt)
     end
 
     def expect_edit_subheadings(rendered_or_page, values, fieldset_subheading)
@@ -66,7 +72,7 @@ module ScoreCommon
       MethodCommon.expect_subheading_hole_number(rendered_or_page, values[:hole_number], fieldset_subheading)
     end
 
-    def expect_editable_field_values(rendered_or_page, values, fieldset_edit)
+    def expect_editable_field_values_score(rendered_or_page, values, fieldset_edit)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Score::STROKES,
                                          'score_strokes',

@@ -64,6 +64,7 @@ feature 'edit_existing_course' do
 
     RoundsCommon.expect_new_round(
       page,
+      @tee,
       { date: '2021-04-30',
         course_name: @course.name,
         show_tees: true }
@@ -73,8 +74,11 @@ feature 'edit_existing_course' do
 
     click_button Button::Round::CREATE
 
+    round = Round.find_by(date: '2021-04-01')
+
     RoundsCommon.expect_show_round(
       page,
+      round,
       { date: '2021-04-01',
         course_name: @course.name,
         color: @tee.color,

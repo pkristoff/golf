@@ -11,12 +11,14 @@ describe 'holes/edit.html.erb', type: :view do
     assign(:form_disabled, false)
     tee = course.tees.first
     assign(:tee, tee)
-    assign(:hole, tee.sorted_holes.first)
+    hole = tee.sorted_holes.first
+    assign(:hole, hole)
 
     render
 
     HoleCommon.expect_edit_hole(rendered,
                                 tee,
+                                hole,
                                 { course_name: 'George',
                                   tee_color: 'Black',
                                   hole_number: 1,
@@ -32,12 +34,14 @@ describe 'holes/edit.html.erb', type: :view do
     assign(:course, course)
     tee = course.tee('Blue')
     assign(:tee, tee)
+    hole = tee.sorted_holes.third
     assign(:hole, tee.sorted_holes.third)
 
     render
 
     HoleCommon.expect_edit_hole(rendered,
                                 tee,
+                                hole,
                                 { course_name: 'George',
                                   tee_color: 'Blue',
                                   hole_number: 3,

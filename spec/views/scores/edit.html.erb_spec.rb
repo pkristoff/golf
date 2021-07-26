@@ -19,7 +19,7 @@ describe 'scores/edit.html.erb', type: :view do
 
     render
 
-    ScoreCommon.expect_edit_score(rendered, round, { strokes: 5,
+    ScoreCommon.expect_edit_score(rendered, score, { strokes: 5,
                                                      putts: 2,
                                                      penalties: '',
                                                      tee_color: tee.color,
@@ -41,7 +41,7 @@ describe 'scores/edit.html.erb', type: :view do
 
     render
 
-    ScoreCommon.expect_edit_score(rendered, round, { strokes: 4,
+    ScoreCommon.expect_edit_score(rendered, score, { strokes: 4,
                                                      putts: 2,
                                                      penalties: '',
                                                      tee_color: tee.color,

@@ -21,6 +21,7 @@ feature 'edit_existing_course' do
 
     HoleCommon.expect_edit_hole(page,
                                 @tee,
+                                @hole,
                                 { course_name: @course.name,
                                   tee_color: @tee.color,
                                   show_tees: true,
@@ -42,6 +43,7 @@ feature 'edit_existing_course' do
 
     HoleCommon.expect_edit_hole(page,
                                 @tee,
+                                @tee.hole(6),
                                 { course_name: @course.name,
                                   tee_color: @tee.color,
                                   show_tees: true,
@@ -60,6 +62,7 @@ feature 'edit_existing_course' do
 
     HoleCommon.expect_edit_hole(page,
                                 @tee,
+                                @tee.hole(7),
                                 { course_name: @course.name,
                                   tee_color: @tee.color,
                                   show_tees: true,
@@ -78,6 +81,7 @@ feature 'edit_existing_course' do
 
     HoleCommon.expect_edit_hole(page,
                                 @tee,
+                                @tee.hole(8),
                                 { course_name: @course.name,
                                   tee_color: @tee.color,
                                   show_tees: true,

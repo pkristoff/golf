@@ -13,6 +13,7 @@ feature 'edit_existing_course' do
   scenario 'visit edit course' do
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George',
@@ -33,6 +34,7 @@ feature 'edit_existing_course' do
     click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     name: '',
@@ -68,6 +70,7 @@ feature 'edit_existing_course' do
       expect(tee.holes.size).to eq(9)
     end
     CourseCommon.expect_show_course(page,
+                                    @course,
                                     tees,
                                     show_tees: true,
                                     course_name: 'Pete',
@@ -88,6 +91,7 @@ feature 'edit_existing_course' do
     click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_show_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George1',

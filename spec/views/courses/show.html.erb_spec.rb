@@ -13,6 +13,7 @@ describe 'courses/show.html.erb', type: :view do
 
     CourseCommon.expect_show_course(
       rendered,
+      course,
       course.tees,
       { course_name: 'George',
         number_of_holes: 18,

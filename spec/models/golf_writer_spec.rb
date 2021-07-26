@@ -111,6 +111,7 @@ def find_roo_start_round_rows(roo_worksheet)
   until roo_worksheet.row(date_cell_row)[0].nil?
     date_cell_rows << date_cell_row
     date_cell_row += 5
+    date_cell_row += 2 if roo_worksheet.row(date_cell_row)[0] == '80 <'
   end
   date_cell_rows
 end

@@ -9,11 +9,13 @@ describe 'tees/edit.html.erb', type: :view do
     course = FactoryBot.create(:course, should_fillin_tees: true)
     assign(:course, course)
     assign(:form_disabled, false)
-    assign(:tee, course.tee('Black'))
+    tee = course.tee('Black')
+    assign(:tee, tee)
 
     render
 
     TeeCommon.expect_edit_tee(rendered,
+                              tee,
                               course.tees,
                               { tee_color: 'Black',
                                 course_name: course.name,
@@ -23,11 +25,13 @@ describe 'tees/edit.html.erb', type: :view do
   it 'initially  show list of tees' do
     course = FactoryBot.create(:course)
     assign(:course, course)
-    assign(:tee, course.tee('Blue'))
+    tee = course.tee('Blue')
+    assign(:tee, tee)
 
     render
 
     TeeCommon.expect_edit_tee(rendered,
+                              tee,
                               course.tees,
                               { tee_color: 'Blue',
                                 course_name: course.name,

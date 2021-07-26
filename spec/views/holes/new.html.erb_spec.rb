@@ -16,6 +16,7 @@ describe 'holes/new.html.erb', type: :view do
     render
 
     HoleCommon.expect_new_hole(rendered,
+                               course,
                                tee,
                                { course_name: 'George',
                                  tee_color: 'Black',
@@ -36,6 +37,7 @@ describe 'holes/new.html.erb', type: :view do
     render
 
     HoleCommon.expect_new_hole(rendered,
+                               course,
                                course.tees.first,
                                { course_name: 'George',
                                  tee_color: 'Black',

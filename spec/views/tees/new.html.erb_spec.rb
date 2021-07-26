@@ -14,6 +14,7 @@ describe 'tees/new.html.erb', type: :view do
     render
 
     TeeCommon.expect_new_tee(rendered,
+                             course,
                              course.tees,
                              { tee_color: 'White',
                                course_name: course.name,
@@ -29,6 +30,7 @@ describe 'tees/new.html.erb', type: :view do
     render
 
     TeeCommon.expect_new_tee(rendered,
+                             course,
                              course.tees,
                              { tee_color: 'White',
                                course_name: course.name,

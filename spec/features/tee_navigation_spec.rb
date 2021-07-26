@@ -17,6 +17,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George',
@@ -30,6 +31,7 @@ feature 'edit_existing_course' do
 
     course = Course.find_by(id: @course.id)
     TeeCommon.expect_new_tee(page,
+                             course,
                              course.tees,
                              { course_name: course.name,
                                tee_color: 'White',
@@ -42,6 +44,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George',
@@ -55,6 +58,7 @@ feature 'edit_existing_course' do
     click_button(Button::Tee::NEW)
 
     TeeCommon.expect_new_tee(page,
+                             @course,
                              @course.tees,
                              { tee_color: 'White',
                                course_name: @course.name,
@@ -73,6 +77,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George',
@@ -86,6 +91,7 @@ feature 'edit_existing_course' do
     click_button(Button::Tee::NEW)
 
     TeeCommon.expect_new_tee(page,
+                             @course,
                              @course.tees,
                              { tee_color: 'White',
                                course_name: @course.name,
@@ -108,6 +114,7 @@ feature 'edit_existing_course' do
     @course = FactoryBot.create(:course, should_fillin_tees: false)
     visit edit_course_path(@course.id)
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George',
@@ -121,6 +128,7 @@ feature 'edit_existing_course' do
     click_button(Button::Tee::NEW)
 
     TeeCommon.expect_new_tee(page,
+                             @course,
                              @course.tees,
                              { tee_color: 'White',
                                course_name: @course.name,
@@ -145,6 +153,7 @@ feature 'edit_existing_course' do
     visit edit_course_path(@course.id)
 
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George',
@@ -158,6 +167,7 @@ feature 'edit_existing_course' do
     click_link('Black')
 
     TeeCommon.expect_edit_tee(page,
+                              @course.tee('Black'),
                               @course.tees,
                               { tee_color: 'Black',
                                 course_name: @course.name,

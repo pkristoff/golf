@@ -16,7 +16,7 @@ module CourseCommon
     include TeeCommon
     include MethodCommon
 
-    def expect_edit_course(rendered_or_page, tees, values = {})
+    def expect_edit_course(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
@@ -24,7 +24,7 @@ module CourseCommon
 
       TeeCommon.expect_tees(rendered_or_page, tees)
 
-      expect_edit_fieldset_course(rendered_or_page, values)
+      expect_edit_fieldset_course(rendered_or_page, " form[action='/courses/#{course.id}'] ", values)
 
       expect(rendered_or_page).to have_button(Button::Course::UPDATE, count: 1)
 
@@ -39,7 +39,7 @@ module CourseCommon
 
       expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 1)
       TeeCommon.expect_tees(rendered_or_page, [])
-      expect_new_fieldset_course(rendered_or_page, values)
+      expect_new_fieldset_course(rendered_or_page, " form[action='/courses'] ", values)
       expect(rendered_or_page).to have_button(Button::Course::CREATE, count: 1)
 
       expect_new_other_buttons(rendered_or_page)
@@ -67,7 +67,7 @@ module CourseCommon
       end
     end
 
-    def expect_show_course(rendered_or_page, tees, values = {})
+    def expect_show_course(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
@@ -75,7 +75,7 @@ module CourseCommon
 
       TeeCommon.expect_tees(rendered_or_page, tees)
 
-      expect_show_fieldset_course(rendered_or_page, values)
+      expect_show_fieldset_course(rendered_or_page, " form[action='/courses/#{course.id}'] ", values)
 
       expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 0)
       expect(rendered_or_page).to have_button(Button::Course::UPDATE, count: 0)
@@ -85,25 +85,25 @@ module CourseCommon
 
     private
 
-    def expect_new_fieldset_course(rendered_or_page, values)
+    def expect_new_fieldset_course(rendered_or_page, form_txt, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_course_values(rendered_or_page, values, false, Fieldset::Edit::EDIT)
-      expect_address_fields(rendered_or_page, values, false, Fieldset::Edit::ADDRESS)
+      expect_course_values(rendered_or_page, values, false, Fieldset::Edit::EDIT + form_txt)
+      expect_address_fields(rendered_or_page, values, false, form_txt + Fieldset::Edit::ADDRESS)
     end
 
-    def expect_edit_fieldset_course(rendered_or_page, values)
+    def expect_edit_fieldset_course(rendered_or_page, form_txt, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_course_values(rendered_or_page, values, false, Fieldset::Edit::EDIT)
-      expect_address_fields(rendered_or_page, values, false, Fieldset::Edit::ADDRESS)
+      expect_course_values(rendered_or_page, values, false, Fieldset::Edit::EDIT + form_txt)
+      expect_address_fields(rendered_or_page, values, false, form_txt + Fieldset::Edit::ADDRESS)
     end
 
-    def expect_show_fieldset_course(rendered_or_page, values)
+    def expect_show_fieldset_course(rendered_or_page, form_txt, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_show_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_course_values(rendered_or_page, values, true, Fieldset::Edit::EDIT)
-      expect_address_fields(rendered_or_page, values, true, Fieldset::Edit::ADDRESS)
+      expect_course_values(rendered_or_page, values, true, Fieldset::Edit::EDIT + form_txt)
+      expect_address_fields(rendered_or_page, values, true, form_txt + Fieldset::Edit::ADDRESS)
     end
 
     def expect_edit_subheadings(rendered_or_page, values, fieldset_subheading); end

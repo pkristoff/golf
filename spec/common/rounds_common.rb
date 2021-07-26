@@ -50,7 +50,7 @@ module RoundsCommon
       expect_round_other_buttons(rendered_or_page)
     end
 
-    def expect_edit_round(rendered_or_page, values = {})
+    def expect_edit_round(rendered_or_page, round, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -58,14 +58,17 @@ module RoundsCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::EDIT)
 
-      expect_edit_fieldset_round(rendered_or_page, false, values)
+      expect_edit_fieldset_round(rendered_or_page,
+                                 false,
+                                 " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] ",
+                                 values)
 
       expect(rendered_or_page).to have_button(Button::Round::UPDATE, count: 1)
-
+      
       expect_edit_other_buttons(rendered_or_page)
     end
 
-    def expect_new_round(rendered_or_page, values = {})
+    def expect_new_round(rendered_or_page, tee, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -73,14 +76,17 @@ module RoundsCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::NEW)
 
-      expect_new_fieldset_round(rendered_or_page, false, values)
+      expect_new_fieldset_round(rendered_or_page,
+                                false,
+                                " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds'] ",
+                                values)
 
       expect(rendered_or_page).to have_button(Button::Round::CREATE, count: 1)
 
       expect_new_other_buttons(rendered_or_page)
     end
 
-    def expect_show_round(rendered_or_page, values = {})
+    def expect_show_round(rendered_or_page, round, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
 
@@ -88,7 +94,10 @@ module RoundsCommon
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::SHOW)
 
-      expect_show_fieldset_round(rendered_or_page, true, values)
+      expect_show_fieldset_round(rendered_or_page,
+                                 true,
+                                 " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] ",
+                                 values)
 
       expect(rendered_or_page).not_to have_button(Button::Round::CREATE, count: 1)
       expect(rendered_or_page).not_to have_button(Button::Round::UPDATE, count: 1)
@@ -138,29 +147,29 @@ module RoundsCommon
                                           [Button::Round::NEW])
     end
 
-    def expect_new_fieldset_round(rendered_or_page, disabled, values)
+    def expect_new_fieldset_round(rendered_or_page, disabled, form_txt, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       fieldset_subheading = Fieldset::Edit::SUBHEADING
       expect_new_subheading(rendered_or_page, values, fieldset_subheading)
-      fieldset_edit = Fieldset::Edit::EDIT
-      expect_editable_field_values(rendered_or_page, disabled, values, fieldset_edit)
+      fieldset_edit = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_edit)
     end
 
-    def expect_edit_fieldset_round(rendered_or_page, disabled, values)
+    def expect_edit_fieldset_round(rendered_or_page, disabled, form_txt, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       fieldset_subheading = Fieldset::Edit::SUBHEADING
       expect_edit_subheading(rendered_or_page, values, fieldset_subheading)
-      fieldset_edit = Fieldset::Edit::EDIT
-      expect_editable_field_values(rendered_or_page, disabled, values, fieldset_edit)
+      fieldset_edit = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_edit)
     end
 
-    def expect_show_fieldset_round(rendered_or_page, disabled, values)
+    def expect_show_fieldset_round(rendered_or_page, disabled, form_txt, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_show_subheading(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_editable_field_values(rendered_or_page, disabled, values, Fieldset::Edit::EDIT)
+      expect_editable_field_values_round(rendered_or_page, disabled, values, Fieldset::Edit::EDIT + form_txt)
     end
 
-    def expect_editable_field_values(rendered_or_page, disabled, values, fieldset_edit)
+    def expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_edit)
       date = values[:date]
       raise('date not set') if date.nil?
 

@@ -19,6 +19,7 @@ feature 'edit_existing_course' do
     visit edit_course_path(@course.id)
 
     CourseCommon.expect_edit_course(page,
+                                    @course,
                                     @course.tees,
                                     show_tees: true,
                                     course_name: 'George',
@@ -32,6 +33,7 @@ feature 'edit_existing_course' do
     click_link('Black')
 
     TeeCommon.expect_edit_tee(page,
+                              @course.tee('Black'),
                               @course.tees,
                               { course_name: @course.name,
                                 tee_color: 'Black',
@@ -46,6 +48,7 @@ feature 'edit_existing_course' do
     @course = Course.find(@course.id)
 
     TeeCommon.expect_edit_tee(page,
+                              @course.tee('Black'),
                               @course.tees,
                               { expect_messages: [[:flash_notice, 'tee updated']],
                                 course_name: @course.name,
@@ -59,14 +62,15 @@ feature 'edit_existing_course' do
                                                                total_in_yardage: 3261,
                                                                total_yardage: 6627 })
 
-    hole_id = @course.tee('Black').sorted_holes.first.id
-    click_link("hole-number-link-#{hole_id}")
+    hole = @course.tee('Black').sorted_holes.first
+    click_link("hole-number-link-#{hole.id}")
 
     @course = Course.find(@course.id)
     @tee = @course.tee('Black')
 
     HoleCommon.expect_edit_hole(page,
                                 @tee,
+                                hole,
                                 { course_name: @course.name,
                                   tee_color: @tee.color,
                                   show_tees: true,
@@ -85,6 +89,7 @@ feature 'edit_existing_course' do
 
     HoleCommon.expect_edit_hole(page,
                                 @tee,
+                                @course.tee('Black').sorted_holes.second,
                                 { course_name: @course.name,
                                   tee_color: @tee.color,
                                   show_tees: true,
