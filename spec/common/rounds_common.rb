@@ -59,12 +59,10 @@ module RoundsCommon
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::EDIT)
 
       expect_edit_fieldset_round(rendered_or_page,
+                                 round,
                                  false,
-                                 " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] ",
                                  values)
 
-      expect(rendered_or_page).to have_button(Button::Round::UPDATE, count: 1)
-      
       expect_edit_other_buttons(rendered_or_page)
     end
 
@@ -77,8 +75,8 @@ module RoundsCommon
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::NEW)
 
       expect_new_fieldset_round(rendered_or_page,
+                                tee,
                                 false,
-                                " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds'] ",
                                 values)
 
       expect(rendered_or_page).to have_button(Button::Round::CREATE, count: 1)
@@ -95,8 +93,8 @@ module RoundsCommon
       MethodCommon.expect_heading(rendered_or_page, Heading::Round::SHOW)
 
       expect_show_fieldset_round(rendered_or_page,
+                                 round,
                                  true,
-                                 " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] ",
                                  values)
 
       expect(rendered_or_page).not_to have_button(Button::Round::CREATE, count: 1)
@@ -147,29 +145,39 @@ module RoundsCommon
                                           [Button::Round::NEW])
     end
 
-    def expect_new_fieldset_round(rendered_or_page, disabled, form_txt, values)
+    def expect_new_fieldset_round(rendered_or_page, tee, disabled, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       fieldset_subheading = Fieldset::Edit::SUBHEADING
       expect_new_subheading(rendered_or_page, values, fieldset_subheading)
-      fieldset_edit = Fieldset::Edit::EDIT + form_txt
-      expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_edit)
+      form_txt = " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds'] "
+      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
+
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Round::CREATE)
     end
 
-    def expect_edit_fieldset_round(rendered_or_page, disabled, form_txt, values)
+    def expect_edit_fieldset_round(rendered_or_page, round, disabled, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       fieldset_subheading = Fieldset::Edit::SUBHEADING
       expect_edit_subheading(rendered_or_page, values, fieldset_subheading)
-      fieldset_edit = Fieldset::Edit::EDIT + form_txt
-      expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_edit)
+      form_txt = " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] "
+      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
+
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Round::UPDATE)
     end
 
-    def expect_show_fieldset_round(rendered_or_page, disabled, form_txt, values)
+    def expect_show_fieldset_round(rendered_or_page, round, disabled, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_show_subheading(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_editable_field_values_round(rendered_or_page, disabled, values, Fieldset::Edit::EDIT + form_txt)
+      form_txt = " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] "
+      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
+
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, true, Button::Round::UPDATE)
     end
 
-    def expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_edit)
+    def expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
       date = values[:date]
       raise('date not set') if date.nil?
 
@@ -178,7 +186,7 @@ module RoundsCommon
                                           'round_date',
                                           date,
                                           disabled,
-                                          fieldset_edit)
+                                          fieldset_form_txt)
     end
 
     def expect_show_subheading(rendered_or_page, values, fieldset_subheading)

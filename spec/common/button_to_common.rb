@@ -11,6 +11,22 @@ module ButtonToCommon
       expect_button_within_round_fieldset(rendered_or_page, round_names)
     end
 
+    def expect_submit_button(rendered_or_page, fieldset_form_txt, disabled, button_name)
+      disabled_txt = ''
+      disabled_txt = '[disabled = disabled]' if disabled
+
+      # rubocop:disable Layout/LineLength
+      # Make sure button exists
+      expect(rendered_or_page).to have_selector("input[type=submit][value='#{button_name}']", count: 1)
+      # then with form inside the edit fieldset.
+      expect(rendered_or_page).to have_selector("#{fieldset_form_txt} input[type=submit]#{disabled_txt}[value='#{button_name}']", count: 1)
+      # rubocop:enable Layout/LineLength
+    end
+
+    def expect_no_submit_button(rendered_or_page, button_name)
+      expect(rendered_or_page).not_to have_selector("input[type=submit][value='#{button_name}']", count: 1)
+    end
+
     private
 
     def expect_button_within_round_fieldset(rendered_or_page, names)

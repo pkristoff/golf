@@ -19,13 +19,11 @@ module HoleCommon
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      course = tee.course
-
       expect_holes_list(rendered_or_page, tee, values)
 
       expect_edit_fieldset_hole(rendered_or_page,
+                                hole,
                                 false,
-                                " form[action='/courses/#{course.id}/tees/#{tee.id}/holes/#{hole.id}'] ",
                                 values)
 
       expect(rendered_or_page).to have_button(Button::Hole::UPDATE, count: 1)
@@ -33,15 +31,15 @@ module HoleCommon
       expect_hole_edit_other_buttons(rendered_or_page)
     end
 
-    def expect_new_hole(rendered_or_page, course, tee, values)
+    def expect_new_hole(rendered_or_page, tee, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       expect_holes_list(rendered_or_page, tee, values)
 
       expect_new_fieldset_hole(rendered_or_page,
+                               tee,
                                true,
-                               " form[action='/courses/#{course.id}/tees/#{tee.id}/holes'] ",
                                values)
       # New holes are created automatically.  So should not be able to get to this page.
       expect(rendered_or_page).not_to have_button(Button::Hole::CREATE)
@@ -156,42 +154,50 @@ module HoleCommon
       MethodCommon.expect_subheading_hole_number(rendered_or_page, values[:hole_number], fieldset_subheading)
     end
 
-    def expect_new_fieldset_hole(rendered_or_page, is_disabled, form_txt, values)
+    def expect_new_fieldset_hole(rendered_or_page, tee, is_disabled, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_editable_field_values_hole(rendered_or_page, is_disabled, values, Fieldset::Edit::EDIT + form_txt)
+      form_txt = " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/holes'] "
+      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_hole(rendered_or_page, is_disabled, values, fieldset_form_txt)
+
+      ButtonToCommon.expect_no_submit_button(rendered_or_page, Button::Hole::CREATE)
     end
 
-    def expect_edit_fieldset_hole(rendered_or_page, is_disabled, form_txt, values)
+    def expect_edit_fieldset_hole(rendered_or_page, hole, is_disabled, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_editable_field_values_hole(rendered_or_page, is_disabled, values, Fieldset::Edit::EDIT + form_txt)
+      form_txt = " form[action='/courses/#{hole.tee.course.id}/tees/#{hole.tee.id}/holes/#{hole.id}'] "
+      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_hole(rendered_or_page, is_disabled, values, fieldset_form_txt)
+
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Hole::UPDATE)
     end
 
-    def expect_editable_field_values_hole(rendered_or_page, is_disabled, values, fieldset_edit)
+    def expect_editable_field_values_hole(rendered_or_page, is_disabled, values, fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Hole::NUMBER,
                                          'hole_number',
                                          values[:hole_number],
                                          true,
-                                         fieldset_edit)
+                                         fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Hole::YARDAGE,
                                          'hole_yardage',
                                          values[:yardage],
-                                         is_disabled, fieldset_edit)
+                                         is_disabled, fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Hole::PAR,
                                          'hole_par',
                                          values[:par],
                                          is_disabled,
-                                         fieldset_edit)
+                                         fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Hole::HDCP,
                                          'hole_hdcp',
                                          values[:hdcp],
                                          is_disabled,
-                                         fieldset_edit)
+                                         fieldset_form_txt)
     end
   end
 end

@@ -25,10 +25,9 @@ module ScoreCommon
       round = score.round
       expect_scores_list(rendered_or_page, replace_values, round)
 
-      tee = round.tee
       expect_edit_fieldset_score(
         rendered_or_page,
-        " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds/#{round.id}/scores/#{score.id}'] ",
+        score,
         values
       )
 
@@ -59,10 +58,15 @@ module ScoreCommon
                                           ])
     end
 
-    def expect_edit_fieldset_score(rendered_or_page, form_txt, values)
+    def expect_edit_fieldset_score(rendered_or_page, score, values)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
       expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      expect_editable_field_values_score(rendered_or_page, values, Fieldset::Edit::EDIT + form_txt)
+      tee = score.round.tee
+      form_txt = " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds/#{score.round.id}/scores/#{score.id}'] "
+      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect_editable_field_values_score(rendered_or_page, values, fieldset_form_txt)
+
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, 'Update Score')
     end
 
     def expect_edit_subheadings(rendered_or_page, values, fieldset_subheading)
@@ -72,25 +76,25 @@ module ScoreCommon
       MethodCommon.expect_subheading_hole_number(rendered_or_page, values[:hole_number], fieldset_subheading)
     end
 
-    def expect_editable_field_values_score(rendered_or_page, values, fieldset_edit)
+    def expect_editable_field_values_score(rendered_or_page, values, fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Score::STROKES,
                                          'score_strokes',
                                          values[:strokes],
                                          false,
-                                         fieldset_edit)
+                                         fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Score::PUTTS,
                                          'score_putts',
                                          values[:putts],
                                          false,
-                                         fieldset_edit)
+                                         fieldset_form_txt)
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Score::PENALTIES,
                                           'score_penalties',
                                           values[:penalties],
                                           false,
-                                          fieldset_edit)
+                                          fieldset_form_txt)
     end
 
     def expect_scores_strokes(rendered_or_page, score_holes, replace_values)

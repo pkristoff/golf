@@ -16,7 +16,6 @@ describe 'holes/new.html.erb', type: :view do
     render
 
     HoleCommon.expect_new_hole(rendered,
-                               course,
                                tee,
                                { course_name: 'George',
                                  tee_color: 'Black',
@@ -28,6 +27,7 @@ describe 'holes/new.html.erb', type: :view do
                                  total_in_yardage: 0,
                                  total_yardage: 0 })
   end
+
   it 'has sorted holes for tee' do
     course = FactoryBot.create(:course)
     assign(:course, course)
@@ -37,7 +37,6 @@ describe 'holes/new.html.erb', type: :view do
     render
 
     HoleCommon.expect_new_hole(rendered,
-                               course,
                                course.tees.first,
                                { course_name: 'George',
                                  tee_color: 'Black',
