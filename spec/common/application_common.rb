@@ -21,14 +21,13 @@ module DatabaseCommon
     include RSpec::Matchers
 
     def expect_database(rendered_or_page)
-      # rubocop:disable Layout/LineLength
       expect(rendered_or_page).to have_selector('a[id=navbardrop]', text: Label::Database::DATABASE, count: 1)
-      expect(rendered_or_page).to have_selector('ul[class=dropdown-menu] a[id=clear_db]', text: Label::Database::CLEAR, count: 1)
-      expect(rendered_or_page).to have_selector('ul[class=dropdown-menu] a[id=load_in_xsxl_file]', text: Label::Database::LOAD_XSXL, count: 1)
-      # rubocop:enable Layout/LineLength
-
-      expect(rendered_or_page).to have_button(Button::Course::SHOW_COURSES, count: 1)
-      expect(rendered_or_page).to have_button(Button::Round::COURSES, count: 1)
+      expect(rendered_or_page).to have_selector('ul[class=dropdown-menu] a[id=clear_db]',
+                                                text: Label::Database::CLEAR,
+                                                count: 1)
+      expect(rendered_or_page).to have_selector('ul[class=dropdown-menu] a[id=load_in_xsxl_file]',
+                                                text: Label::Database::LOAD_XSXL,
+                                                count: 1)
     end
   end
 end

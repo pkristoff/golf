@@ -12,7 +12,7 @@ module ButtonToCommon
     end
 
     def expect_side_bar_button(rendered_or_page, button_name)
-      fieldset_form_txt = 'aside[id=aside] ul[id=sidebar] li[class=nav-item] form[class=button_to] '.freeze
+      fieldset_form_txt = 'aside[id=aside] ul[id=sidebar] li[class=nav-item] form[class=button_to] '
       expect_submit_button(rendered_or_page, fieldset_form_txt, false, button_name)
     end
 
