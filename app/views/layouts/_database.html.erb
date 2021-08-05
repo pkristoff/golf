@@ -4,7 +4,7 @@
   <!-- Dropdown -->
   <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-      Database
+      <%= Label::Database::DATABASE %>
     </a>
     <ul class="dropdown-menu">
       <li><%= link_to(Label::Database::CLEAR, welcome_clear_db_path, id: 'clear_db') %></li>

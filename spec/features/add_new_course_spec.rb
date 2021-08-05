@@ -12,6 +12,7 @@ feature 'add a new course' do
 
   scenario 'visit new course' do
     visit new_course_path
+
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
                                    course_name: '...',

@@ -5,6 +5,7 @@ module Label
   end
   module Database
     CLEAR = 'Clear DB'.freeze
+    DATABASE = 'DatabaseTT'.freeze
     LOAD_XSXL = 'Load in XSXL File'.freeze
   end
   module Course

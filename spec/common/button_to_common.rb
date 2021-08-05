@@ -11,6 +11,15 @@ module ButtonToCommon
       expect_button_within_round_fieldset(rendered_or_page, round_names)
     end
 
+    def expect_side_bar_button(rendered_or_page, button_name)
+      fieldset_form_txt = 'aside[id=aside] ul[id=sidebar] li[class=nav-item] form[class=button_to] '.freeze
+      expect_submit_button(rendered_or_page, fieldset_form_txt, false, button_name)
+    end
+
+    def expect_no_side_bar_button(rendered_or_page, button_name)
+      expect_no_submit_button(rendered_or_page, button_name)
+    end
+
     def expect_submit_button(rendered_or_page, fieldset_form_txt, disabled, button_name)
       disabled_txt = ''
       disabled_txt = '[disabled = disabled]' if disabled
