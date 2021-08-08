@@ -36,15 +36,30 @@ def compare_excel(roo_workbook, axlsx_workbook)
 end
 
 def compare_worksheets_rounds(roo_worksheet, axlsx_worksheet)
-  date_cell_rows = find_roo_start_round_rows(roo_worksheet)
-  date_cell_rows.each do |date_cell_row|
-    # puts "date_cell_row=#{date_cell_row}"
-    # puts "roo date_cell_rows=#{date_cell_rows}"
-    compare_date_row(roo_worksheet.row(date_cell_row), axlsx_worksheet.rows[date_cell_row - 1])
-    compare_strokes_row(roo_worksheet.row(date_cell_row + 1), axlsx_worksheet.rows[date_cell_row - 0], date_cell_row)
-    compare_putts_row(roo_worksheet.row(date_cell_row + 2), axlsx_worksheet.rows[date_cell_row + 1])
-    compare_penalties_row(roo_worksheet.row(date_cell_row + 3), axlsx_worksheet.rows[date_cell_row + 2])
+  roo_date_cell_rows = find_roo_start_round_rows(roo_worksheet)
+  axlsx_date_cell_rows = find_axlsx_start_row(axlsx_worksheet)
+  roo_date_cell_rows.each_with_index do |date_cell_row, index|
+    axlsx_date_cell_row = axlsx_date_cell_rows[index]
+    compare_date_row(roo_worksheet.row(date_cell_row), axlsx_worksheet.rows[axlsx_date_cell_row])
+    compare_strokes_row(roo_worksheet.row(date_cell_row + 1), axlsx_worksheet.rows[axlsx_date_cell_row + 1], date_cell_row)
+    compare_putts_row(roo_worksheet.row(date_cell_row + 2), axlsx_worksheet.rows[axlsx_date_cell_row + 2])
+    compare_penalties_row(roo_worksheet.row(date_cell_row + 3), axlsx_worksheet.rows[axlsx_date_cell_row + 3])
   end
+end
+
+def find_axlsx_start_row(axlsx_worksheet)
+  first_nil = false
+  second_nil = false
+  axlsx_date_cell_rows = []
+  axlsx_worksheet.rows.each_with_index do |row, index|
+    if second_nil
+      axlsx_date_cell_rows << index
+      second_nil = false
+    end
+    second_nil = true if row[0].nil? && first_nil && !second_nil
+    first_nil = true if row[0].nil? && !first_nil
+  end
+  axlsx_date_cell_rows
 end
 
 def compare_penalties_row(roo_row, axlsx_row)
@@ -100,7 +115,7 @@ def compare_strokes_row(roo_row, axlsx_row, date_cell_row)
 end
 
 def compare_date_row(roo_row, axlsx_row)
-  expect(roo_row[0]).to eq(axlsx_row[0].value)
+  expect(roo_row[0]).to eq(axlsx_row[0].value), "roo_row[0]=#{roo_row[0]} axlsx_row[0].value=#{axlsx_row[0].value}"
 end
 
 HDCP_ROW = 8
@@ -110,8 +125,9 @@ def find_roo_start_round_rows(roo_worksheet)
   date_cell_rows = []
   until roo_worksheet.row(date_cell_row)[0].nil?
     date_cell_rows << date_cell_row
-    date_cell_row += 5
-    date_cell_row += 2 if roo_worksheet.row(date_cell_row)[0] == '80 <'
+    x = date_cell_row + 1
+    x += 1 until roo_worksheet.row(x)[0].nil?
+    date_cell_row = x + 1
   end
   date_cell_rows
 end

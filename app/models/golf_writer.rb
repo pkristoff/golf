@@ -75,7 +75,9 @@ class GolfWriter
   end
 
   def add_score_row(round, cell0, sheet, score_accessor)
-    doing_penalties = cell0 == 'penalties'
+    non_number_cells = %w[penalties Fairways\ Hit]
+    doing_penalties = non_number_cells.include? cell0
+
     sheet.add_row do |row|
       tee = round.tee
       row.add_cell(cell0)
