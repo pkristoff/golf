@@ -10,6 +10,8 @@ describe Round, type: :model do
   it 'create factory' do
     round = @round
     expect(round).to be_truthy
+    expect(round.tee.rounds.size).to eq(1)
+    expect(round.tee.rounds[0]).to eq(round)
     expect(round.date).to eq(Time.zone.today)
     expect_score(round, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
     expect(round.tee.color).to eq('Black')

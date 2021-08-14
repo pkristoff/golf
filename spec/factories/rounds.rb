@@ -5,11 +5,14 @@ require 'support/tee_hole_info'
 FactoryBot.define do
   factory :round do
     date { Time.zone.today }
-    tee do
-      course = FactoryBot.create(:course, name: 'prk')
-      course.tee('Black')
+    transient do
+      round_score_info { TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO] }
     end
-    after(:create) do |round, _evaluator|
+    tee do
+      course = FactoryBot.create(:course, name: 'prk') if instance.tee.nil?
+      course.tee('Black') if instance.tee.nil?
+    end
+    after(:create) do |round, evaluator|
       tee = round.tee
       nine_stroke_total = nil
       nine_putt_total = nil
@@ -17,7 +20,8 @@ FactoryBot.define do
       eighteen_putt_total = nil
       total_stroke_total = nil
       total_putt_total = nil
-      TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO].each do |score_info|
+      scores_info = evaluator.round_score_info
+      scores_info.each do |score_info|
         hole_number = score_info[0]
         strokes = score_info[1]
         putts = score_info[2]
