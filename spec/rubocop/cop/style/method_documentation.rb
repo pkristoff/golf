@@ -35,7 +35,7 @@ module RuboCop
         def on_def(node)
           # puts("start-#{node.children.first.to_s}")
           check(node)
-          # puts 'end-on_def'
+          # puts("end-#{node.children.first.to_s}")
         end
 
         private

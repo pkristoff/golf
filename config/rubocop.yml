@@ -202,17 +202,27 @@ Style/MixinUsage:
     - './spec/views/candidates/registrations/edit.html.erb_spec.rb'
 
 # An extension cop that will cause the build to be broken if
-# the right documentation is not proesent.
+# the right documentation is not present.
 Style/PublicMethodDocumentation:
   Description: 'Document public class methods.'
   Enabled: true
   Include:
     # make sure you don't include app/controllers/spec
     - 'app/controllers/*.rb'
-    - 'app/controllers/dev/*.rb'
     - 'app/helpers/*.rb'
     - 'app/mailers/*.rb'
     - 'app/models/*.rb'
+    - 'app/performance/*.rb'
+#    - 'spec/common/*.rb'
+#    - 'spec/controllers/*.rb'
+#    - 'spec/factories/*.rb'
+#    - 'spec/features/*.rb'
+#    - 'spec/helpers/*.rb'
+#    - 'spec/models/*.rb'
+#    - 'spec/performance/*.rb'
+#    - 'spec/requests/*.rb'
+#    - 'spec/rubocop/cop/style/*.rb'
+#    - 'spec/support/*.rb'
 
 Style/SymbolArray:
   Enabled: true

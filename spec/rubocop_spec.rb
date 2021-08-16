@@ -20,6 +20,10 @@ describe 'Internal' do
       expect(system('rubocop app/models')).to eq(true)
     end
 
+    it 'should pass performance' do
+      expect(system('rubocop app/performance')).to eq(true)
+    end
+
     it 'should pass  views' do
       expect(system('rubocop app/views')).to eq(true)
     end
