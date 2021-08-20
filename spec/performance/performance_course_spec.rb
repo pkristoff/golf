@@ -62,7 +62,6 @@ describe 'PerformanceCourse' do
       pc = PerformanceCourse.new(tee.rounds, course.number_of_holes)
       pc_average_putts = pc.average_putts_with_totals
       expect(pc_average_putts.size).to eq(21)
-      puts "pc_average_putts=#{pc_average_putts}"
       TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO].each_with_index do |score_info, index|
         expect(pc_average_putts[index]).to eq(score_info[2])
       end

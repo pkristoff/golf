@@ -28,10 +28,16 @@ module RuboCop
         include DocumentationComment
         include DefNode
 
-        #
         # def_node_matcher :constant_definition?, '{class module}'
         # def_node_search :outer_module, '(const (const nil? _) _)'
 
+        # Checks def nodes to see if public has documentation
+        #   if documentation is missing or incorrect then calls add_offense
+        #
+        # === Parameters:
+        #
+        # * <tt>:node</tt>
+        #
         def on_def(node)
           # puts("start-#{node.children.first.to_s}")
           check(node)

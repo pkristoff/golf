@@ -102,6 +102,16 @@ describe Course, type: :model do
     end
   end
 
+  # expect tee info
+  #
+  # === Parameters:
+  #
+  # * <tt>:course</tt> Course
+  # * <tt>:color</tt> color of tee
+  # * <tt>:rating</tt> Number rating
+  # * <tt>:slope</tt> Number slope
+  # * <tt>:num_of_holes</tt> number of holes of course
+  #
   def expect_tee(course, color, rating, slope, num_of_holes)
     tee = course.tee(color)
     expect(tee).to be_truthy

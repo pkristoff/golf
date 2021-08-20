@@ -6,24 +6,54 @@ module ButtonToCommon
     include Capybara::RSpecMatchers
     include Capybara::Node::Finders
 
+    # expect other buttons
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:course_names</tt> Array o button names
+    # * <tt>:round_names</tt> Array o button names
+    #
     def expect_other_buttons(rendered_or_page, course_names, round_names)
       expect_button_within_course_fieldset(rendered_or_page, course_names)
       expect_button_within_round_fieldset(rendered_or_page, round_names)
     end
 
+    # expect a sidebar button
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:button_name</tt> button name
+    #
     def expect_side_bar_button(rendered_or_page, button_name)
       fieldset_form_txt = 'aside[id=aside] ul[id=sidebar] li[class=nav-item] form[class=button_to] '
       expect_submit_button(rendered_or_page, fieldset_form_txt, false, button_name)
     end
 
+    # expect a no sidebar button
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:button_name</tt> button name
+    #
     def expect_no_side_bar_button(rendered_or_page, button_name)
       expect_no_submit_button(rendered_or_page, button_name)
     end
 
+    # expect a submit button
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:fieldset_form_txt</tt> location in html
+    # * <tt>:disabled</tt> button should disables
+    # * <tt>:button_name</tt> button name
+    #
     def expect_submit_button(rendered_or_page, fieldset_form_txt, disabled, button_name)
       disabled_txt = ''
       disabled_txt = '[disabled = disabled]' if disabled
-
       # rubocop:disable Layout/LineLength
       # Make sure button exists
       expect(rendered_or_page).to have_selector("input[type=submit][value='#{button_name}']", count: 1)
@@ -32,6 +62,13 @@ module ButtonToCommon
       # rubocop:enable Layout/LineLength
     end
 
+    # expect no submit button
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:button_name</tt> button name
+    #
     def expect_no_submit_button(rendered_or_page, button_name)
       expect(rendered_or_page).not_to have_selector("input[type=submit][value='#{button_name}']", count: 1)
     end

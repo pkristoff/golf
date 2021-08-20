@@ -14,6 +14,15 @@ module TeeCommon
     include ButtonToCommon
     include MethodCommon
 
+    # expect new tee
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:course</tt> course for new tee
+    # * <tt>:tees</tt> list of tees o course
+    # * <tt>:values</tt> Hash of symbol value pairs
+    #
     def expect_new_tee(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
@@ -29,6 +38,15 @@ module TeeCommon
       expect_new_other_buttons(rendered_or_page)
     end
 
+    # expect edit tee
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:tee</tt> expecting to edit
+    # * <tt>:tees</tt> list of tees o course
+    # * <tt>:values</tt> Hash of symbol value pairs
+    #
     def expect_edit_tee(rendered_or_page, tee, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
@@ -44,6 +62,15 @@ module TeeCommon
       expect_edit_other_buttons(rendered_or_page)
     end
 
+    # expect a list of tees
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:course</tt> course
+    # * <tt>:tees</tt> list of tees o course
+    # * <tt>:show_tees</tt> show tees for course if true
+    #
     def expect_index_tees(rendered_or_page, course, tees, show_tees)
       include AsideCommon unless rendered_or_page.is_a?(String)
       include DatabaseCommon unless rendered_or_page.is_a?(String)
@@ -57,6 +84,13 @@ module TeeCommon
       expect_index_other_buttons(rendered_or_page)
     end
 
+    # Are tees shown
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:tees</tt> list of tees
+    #
     def expect_tees(rendered_or_page, tees)
       expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::TEES)
       fieldset_locator = 'div[id=tees-div][class=fieldset-field-div]'

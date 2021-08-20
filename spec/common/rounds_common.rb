@@ -11,6 +11,13 @@ module RoundsCommon
     include ButtonToCommon
     include MethodCommon
 
+    # expect list of courses to get rounds
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:courses</tt> list of courses
+    #
     def expect_index_rounds_course(rendered_or_page, courses)
       AsideCommon.expect_aside(rendered_or_page, false) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
@@ -22,6 +29,14 @@ module RoundsCommon
       expect_other_buttons(rendered_or_page)
     end
 
+    # expect rounds and tees
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:course</tt> chosen Course
+    # * <tt>:tees</tt> tees for course
+    #
     def expect_rounds_tees(rendered_or_page, course, tees)
       AsideCommon.expect_aside(rendered_or_page, true) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
@@ -36,6 +51,16 @@ module RoundsCommon
       expect_tees_round_other_buttons(rendered_or_page)
     end
 
+    # expect list of rounds choose one
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:course</tt> score being edited
+    # * <tt>:tee</tt> tee of course
+    # * <tt>:rounds</tt> list of rounds for course & tee
+    # * <tt>:show_tees</tt> show tee button in the aside
+    #
     def expect_index_rounds(rendered_or_page, course, tee, rounds, show_tees)
       AsideCommon.expect_aside(rendered_or_page, show_tees) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
@@ -50,6 +75,14 @@ module RoundsCommon
       expect_round_other_buttons(rendered_or_page)
     end
 
+    # expect edit round
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:round</tt> round being edited
+    # * <tt>:values</tt> Hash of symbol value pairs
+    #
     def expect_edit_round(rendered_or_page, round, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
@@ -66,6 +99,14 @@ module RoundsCommon
       expect_edit_other_buttons(rendered_or_page)
     end
 
+    # expect new round
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:tee</tt> score being edited
+    # * <tt>:values</tt> Hash of symbol value pairs
+    #
     def expect_new_round(rendered_or_page, tee, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
@@ -84,6 +125,14 @@ module RoundsCommon
       expect_new_other_buttons(rendered_or_page)
     end
 
+    # expect show round
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:round</tt> round bbeing shown
+    # * <tt>:values</tt> Hash of symbol value pairs
+    #
     def expect_show_round(rendered_or_page, round, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String

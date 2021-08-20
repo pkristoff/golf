@@ -16,6 +16,15 @@ module CourseCommon
     include TeeCommon
     include MethodCommon
 
+    # expect edit course
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:course</tt> course being shown
+    # * <tt>:tees</tt> tees for course
+    # * <tt>:values</tt> expected values
+    #
     def expect_edit_course(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
@@ -29,6 +38,13 @@ module CourseCommon
       expect_edit_other_buttons(rendered_or_page)
     end
 
+    # expect edit course
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:values</tt> expected values
+    #
     def expect_new_course(rendered_or_page, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
@@ -42,6 +58,13 @@ module CourseCommon
       expect_new_other_buttons(rendered_or_page)
     end
 
+    # expect new hole should not be generated
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:courses</tt> list of courses
+    #
     def expect_index_course(rendered_or_page, courses)
       MethodCommon.expect_heading(rendered_or_page, Heading::Course::COURSES)
       expect_number_of_courses(rendered_or_page, courses)
@@ -55,15 +78,32 @@ module CourseCommon
       expect_index_other_buttons(rendered_or_page)
     end
 
-    def expect_validation_errors(page, invalid_field_names, valid_field_names)
+    # check validation errors
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:invalid_field_names</tt> course being shown
+    # * <tt>:valid_field_names</tt> tees for course
+    #
+    def expect_validation_errors(rendered_or_page, invalid_field_names, valid_field_names)
       invalid_field_names.each do |field_name|
-        expect(page).to have_selector("div[class=field_with_errors] input[id=#{field_name}]")
+        expect(rendered_or_page).to have_selector("div[class=field_with_errors] input[id=#{field_name}]")
       end
       valid_field_names.each do |field_name|
-        expect(page).not_to have_selector("div[class=field_with_errors] input[id=#{field_name}]")
+        expect(rendered_or_page).not_to have_selector("div[class=field_with_errors] input[id=#{field_name}]")
       end
     end
 
+    # expect show course
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:course</tt> course being shown
+    # * <tt>:tees</tt> tees for course
+    # * <tt>:values</tt> expected values
+    #
     def expect_show_course(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)

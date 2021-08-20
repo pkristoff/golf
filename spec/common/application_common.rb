@@ -2,8 +2,15 @@
 
 module AsideCommon
   class << self
-    include RSpec::Matchers
-    # enable_expect
+    include RSpec::Matchers # enable_expect
+
+    # expect buttons in a sidebar
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:show_tees</tt> whether to show Button::Round::TEES button.
+    #
     def expect_aside(rendered_or_page, show_tees)
       raise('show_round_tees not set') if show_tees.nil?
       raise('show_course_tees not set') if show_tees.nil?
@@ -20,6 +27,12 @@ module DatabaseCommon
   class << self
     include RSpec::Matchers
 
+    # expect menu for importing data & clear db
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    #
     def expect_database(rendered_or_page)
       expect(rendered_or_page).to have_selector('a[id=navbardrop]', text: Label::Database::DATABASE, count: 1)
       expect(rendered_or_page).to have_selector('ul[class=dropdown-menu] a[id=clear_db]',

@@ -15,6 +15,15 @@ module HoleCommon
     include ButtonToCommon
     include MethodCommon
 
+    # expect edit hole
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:tee</tt> hole for tee
+    # * <tt>:hole</tt> hole being editted
+    # * <tt>:values</tt> expected values
+    #
     def expect_edit_hole(rendered_or_page, tee, hole, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
@@ -31,6 +40,14 @@ module HoleCommon
       expect_hole_edit_other_buttons(rendered_or_page)
     end
 
+    # expect new hole should not be generated
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:tee</tt> hole for tee
+    # * <tt>:values</tt> expected values
+    #
     def expect_new_hole(rendered_or_page, tee, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
@@ -47,6 +64,14 @@ module HoleCommon
       expect_hole_edit_other_buttons(rendered_or_page)
     end
 
+    # expect hole list
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:tee</tt> hole for tee
+    # * <tt>:values</tt> expected values
+    #
     def expect_holes_list(rendered_or_page, tee, values)
       holes = tee.sorted_holes
       if holes.empty?

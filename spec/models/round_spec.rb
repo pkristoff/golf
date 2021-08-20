@@ -111,6 +111,13 @@ describe Round, type: :model do
   end
 end
 
+# Checks whether round has right strokes & putts
+#
+# === Parameters:
+#
+# * <tt>:round</tt> Round
+# * <tt>:score_info</tt> Array of Array [hole_number, strokes, putts]
+#
 def expect_score(round, score_info)
   score_info.each do |info|
     hole_number = info[0]

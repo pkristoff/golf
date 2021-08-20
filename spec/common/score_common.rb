@@ -14,6 +14,15 @@ module ScoreCommon
     include ButtonToCommon
     include MethodCommon
 
+    # expect edit score
+    #
+    # === Parameters:
+    #
+    # * <tt>:rendered_or_page</tt> html
+    # * <tt>:score</tt> score being edited
+    # * <tt>:values</tt> Hash of symbol value pairs
+    # * <tt>:replace_values</tt> Hash of symbol value pairs to replace
+    #
     def expect_edit_score(rendered_or_page, score, values, replace_values = [])
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String

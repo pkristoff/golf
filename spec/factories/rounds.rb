@@ -45,6 +45,23 @@ FactoryBot.define do
   end
 end
 
+# generate error message for round
+#
+# === Parameters:
+#
+# * <tt>:round</tt> with error
+# * <tt>:expected</tt> expected total
+# * <tt>:sum</tt> hole total
+# * <tt>:type</tt> what has error
+#
+def generate_error_message(round, expected, sum, type)
+  # rubocop:disable Layout/LineLength
+  "Round #{round.date} at Course: #{round.course.name} tee: #{round.tee.color} #{type} sum problem: expected total=#{expected} hole total=#{sum}"
+  # rubocop:enable Layout/LineLength
+end
+
+private
+
 def check_totals(round, front_nine_strokes, front_nine_putts,
                  back_nine_strokes, back_nine_putts,
                  stroke_total, putt_total)
@@ -78,9 +95,5 @@ def check_totals(round, front_nine_strokes, front_nine_putts,
   raise generate_error_message(round, stroke_total, sum_strokes, 'total strokes') unless sum_strokes == stroke_total
 
   raise generate_error_message(round, putt_total, sum_putts, 'total putts') unless sum_putts == putt_total
-end
-
-def generate_error_message(round, expected, sum, type)
-  "Round #{round.date} at Course: #{round.course.name} tee: #{round.tee.color} #{type} sum problem: expected total=#{expected} hole total=#{sum}"
   # rubocop:enable Layout/LineLength
 end
