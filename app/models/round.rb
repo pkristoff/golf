@@ -46,8 +46,8 @@ class Round < ApplicationRecord
     score = Score.create(round: self, strokes: strokes, putts: putts, penalties: penalties)
     score_hole = ScoreHole.create(hole: hole, score: score)
     score_holes << score_hole
-    # scores << score
-    # score.round = self
+    score.calculate_green_in_regulation(hole)
+    score.save
     score
   end
 

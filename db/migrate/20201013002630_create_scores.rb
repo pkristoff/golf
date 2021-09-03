@@ -8,6 +8,9 @@ class CreateScores < ActiveRecord::Migration[6.0]
       t.integer :strokes, default: 0, null: false
       t.integer :putts, default: 0, null: false
       t.string :penalties, default: '', null: false
+      t.boolean :green_in_regulation, default: false, null: true
+      t.boolean :fairway_hit, default: false, null: true
+      t.integer :strokes_under80, default: -1, null: false
       t.belongs_to :round, index: true
 
       t.timestamps

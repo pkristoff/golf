@@ -27,6 +27,8 @@ class ScoresController < ApplicationController
     if @score.errors.any?
       flash.now[:alert] = 'Error updating score'
     else
+      @score.calculate_green_in_regulation(@score.hole)
+      @score.save
       flash[:notice] = 'score updated'
       @score = @round.next_score(@score)
     end

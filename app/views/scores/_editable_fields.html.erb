@@ -5,7 +5,7 @@
   <div id="edit-div" class="fieldset-field-div">
     <%= form_with model: [@course, @tee, @round, @score], local: true do |form| %>
       <%= form.label :strokes, Label::Score::STROKES %>
-      <%= form.number_field :strokes, autofocus: true %><br>
+      <%= form.number_field :strokes, autofocus: true, class: "strokes-cell-#{form.object.green_in_regulation}"%><br>
       <%= form.label :putts, Label::Score::PUTTS %>
       <%= form.number_field :putts %><br>
       <%= form.label :penalties, Label::Score::PENALTIES %>

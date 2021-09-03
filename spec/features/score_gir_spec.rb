@@ -15,7 +15,7 @@ feature 'edit_existing_course' do
   after(:each) do
   end
 
-  scenario 'edit a score' do
+  scenario 'edit a score - gir' do
     @round = FactoryBot.create(:round)
     @tee = @round.tee
     @course = @tee.course
@@ -29,25 +29,28 @@ feature 'edit_existing_course' do
 
     ScoreCommon.expect_edit_score(page, @score, { show_tees: true,
                                                   strokes: '5', putts: 2, penalties: '',
+                                                  gir: false,
                                                   course_name: @course.name,
                                                   tee_color: @round.tee.color,
                                                   round_date: @round.date,
                                                   hole_number: @score.hole.number })
 
     fill_in Label::Score::STROKES, with: '10'
-    fill_in Label::Score::PUTTS, with: '3'
-    fill_in Label::Score::PENALTIES, with: 'WW'
+    fill_in Label::Score::PUTTS, with: '8'
+    fill_in Label::Score::PENALTIES, with: ''
 
     click_button('Update Score')
 
     next_score = @round.next_score(@score)
+
     ScoreCommon.expect_edit_score(
       page, next_score, { show_tees: true, strokes: '5', putts: 2, penalties: '',
+                          gir: false,
                           course_name: @course.name,
                           tee_color: @round.tee.color,
                           round_date: @round.date,
                           hole_number: next_score.hole.number },
-      [{ hole_number: 1, strokes: 10, putts: 3, penaties: 'WW' }]
+      [{ hole_number: 1, strokes: 10, putts: 8, penaties: '', gir: true }]
     )
   end
 end

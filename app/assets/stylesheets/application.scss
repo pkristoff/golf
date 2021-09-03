@@ -55,9 +55,17 @@ label {font-weight: bold}
   border: 1px solid black
 }
 
-.strokes-cell {
+.strokes-cell-true, .strokes-cell-false {
   border: 1px solid black;
   text-align: center;
+}
+
+.strokes-cell-false {
+  background-color: red;
+}
+
+.strokes-cell-true {
+  background-color: green;
 }
 
 .putts-cell {

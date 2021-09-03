@@ -26,7 +26,7 @@
         <% hole = score_hole.hole %>
         <% in_out_tot += score.strokes %>
         <% total += score.strokes %>
-        <td id='score-strokes-<%= score.id %>' class="strokes-cell"><%= score.strokes %></td>
+        <td id='score-strokes-<%= score.id %>' class="strokes-cell-<%= score.green_in_regulation %>"><%= score.strokes %></td>
         <% if hole.number == 9 %>
           <td id=<%= "total-out-strokes-#{tee.id}" %> class="strokes-cell"> <%= in_out_tot %> </td>
           <% in_out_tot = 0 %>

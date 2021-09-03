@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.date "date", default: "2021-04-30", null: false
+    t.date "date", default: "2021-08-21", null: false
     t.bigint "tee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -69,6 +69,9 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
     t.integer "strokes", default: 0, null: false
     t.integer "putts", default: 0, null: false
     t.string "penalties", default: "", null: false
+    t.boolean "green_in_regulation", default: false
+    t.boolean "fairway_hit", default: false
+    t.integer "strokes_under80", default: -1, null: false
     t.bigint "round_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

@@ -63,7 +63,8 @@ describe 'PerformanceCourse' do
       pc_average_putts = pc.average_putts_with_totals
       expect(pc_average_putts.size).to eq(21)
       TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO].each_with_index do |score_info, index|
-        expect(pc_average_putts[index]).to eq(score_info[2])
+        expect(pc_average_putts[index]).to eq(score_info[2]),
+                                           "Average putts incorrect index=#{index} pc_average_putts[index]=#{pc_average_putts[index]} score_info[2]=#{score_info[2]}"
       end
     end
     it 'Returns avg putts round for two round' do

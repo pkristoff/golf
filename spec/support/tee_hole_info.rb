@@ -338,6 +338,7 @@ module TeeHoleInfo
     ],
 
     BLACK_SCORE_INFO: [
+      # [hole, strokes, putts, penalties, Fairways, strokes inside 80]
       [1, 5, 2],
       [2, 5, 2],
       [3, 4, 2],

@@ -91,7 +91,8 @@ module ScoreCommon
                                          'score_strokes',
                                          values[:strokes],
                                          false,
-                                         fieldset_form_txt)
+                                         fieldset_form_txt,
+                                         values[:gir].nil? ? nil : "strokes-cell-#{values[:gir]}")
       MethodCommon.expect_have_field_num(rendered_or_page,
                                          Label::Score::PUTTS,
                                          'score_putts',
@@ -125,12 +126,16 @@ module ScoreCommon
         score = score_hole.score
         hole = score_hole.hole
         value = score.send(method_name)
+        clazz = "#{id_string}-cell"
+        clazz = "#{id_string}-cell-#{score.green_in_regulation}" if id_string == 'strokes'
         replace_values.each do |replace_info|
           value = replace_info[method_name] if hole.number == replace_info[:hole_number]
+          replace_gir = hole.number == replace_info[:hole_number] && method_name == :strokes && !replace_info[:gir].nil?
+          clazz = "#{id_string}-cell-#{replace_info[:gir]}" if replace_gir
         end
         in_out_tot += value if keep_totals
         total += value if keep_totals
-        expect(rendered_or_page).to have_selector("td[id=hole-#{id_string}-#{score.id}]", count: 1, text: value)
+        expect(rendered_or_page).to have_selector("td[id=hole-#{id_string}-#{score.id}][class='#{clazz}']", count: 1, text: value)
         case hole.number
         when 9
           # rubocop:disable Layout/LineLength
