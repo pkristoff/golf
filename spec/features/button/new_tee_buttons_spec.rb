@@ -20,8 +20,8 @@ feature 'new tee buttons' do
                                     show_tees: true,
                                     course_name: 'George',
                                     number_of_holes: 18,
-                                    street_1: '555 Xxx Ave.',
-                                    street_2: '<nothing>',
+                                    street1: '555 Xxx Ave.',
+                                    street2: '<nothing>',
                                     city: 'Clarksville',
                                     state: 'IN',
                                     zip_code: '47529')

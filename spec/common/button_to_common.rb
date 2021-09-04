@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# ButtonToCommon
+#
 module ButtonToCommon
   class << self
     include RSpec::Matchers

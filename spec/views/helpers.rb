@@ -2,6 +2,11 @@
 
 # expect messages
 #
+# === Parameters:
+#
+# * <tt>:messages</tt> array of expected messages
+# * <tt>:rendered_page</tt> html
+#
 def expect_messages(messages, rendered_page = page)
   ids = messages.map { |mp| mp[0] }
   %i[flash_alert flash_notice error_explanation].each do |my_id|

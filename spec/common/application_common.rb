@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+# AsideCommon - stuff on the side of the screen
+#
 module AsideCommon
   class << self
     include RSpec::Matchers # enable_expect
@@ -23,6 +25,8 @@ module AsideCommon
   end
 end
 
+# DatabaseCommon - menu dropdown
+#
 module DatabaseCommon
   class << self
     include RSpec::Matchers

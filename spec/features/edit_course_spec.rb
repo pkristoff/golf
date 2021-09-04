@@ -18,8 +18,8 @@ feature 'edit_existing_course' do
                                     show_tees: true,
                                     course_name: 'George',
                                     number_of_holes: 18,
-                                    street_1: '555 Xxx Ave.',
-                                    street_2: '<nothing>',
+                                    street1: '555 Xxx Ave.',
+                                    street2: '<nothing>',
                                     city: 'Clarksville',
                                     state: 'IN',
                                     zip_code: '47529')
@@ -39,8 +39,8 @@ feature 'edit_existing_course' do
                                     show_tees: true,
                                     name: '',
                                     number_of_holes: 18,
-                                    street_1: '555 Xxx Ave.',
-                                    street_2: '<nothing>',
+                                    street1: '555 Xxx Ave.',
+                                    street2: '<nothing>',
                                     city: 'Clarksville',
                                     state: 'IN',
                                     zip_code: '')
@@ -50,10 +50,10 @@ feature 'edit_existing_course' do
                                             course_address_attributes_zip_code
                                           ],
                                           %w[
-                                            course_address_attributes_street_1
+                                            course_address_attributes_street1
                                             course_address_attributes_city
                                             course_address_attributes_state
-                                            course_address_attributes_street_2
+                                            course_address_attributes_street2
                                           ])
   end
 
@@ -75,8 +75,8 @@ feature 'edit_existing_course' do
                                     show_tees: true,
                                     course_name: 'Pete',
                                     number_of_holes: 9,
-                                    street_1: '555 Xxx Ave.',
-                                    street_2: '<nothing>',
+                                    street1: '555 Xxx Ave.',
+                                    street2: '<nothing>',
                                     city: 'Clarksville',
                                     state: 'IN',
                                     zip_code: '47529')
@@ -96,8 +96,8 @@ feature 'edit_existing_course' do
                                     show_tees: true,
                                     course_name: 'George1',
                                     number_of_holes: 18,
-                                    street_1: '555 Xxx Ave.',
-                                    street_2: '<nothing>',
+                                    street1: '555 Xxx Ave.',
+                                    street2: '<nothing>',
                                     city: 'Clarksville',
                                     state: 'AK',
                                     zip_code: '47529')
@@ -108,10 +108,10 @@ feature 'edit_existing_course' do
       %w[
         course_name
         course_address_attributes_zip_code
-        course_address_attributes_street_1
+        course_address_attributes_street1
         course_address_attributes_city
         course_address_attributes_state
-        course_address_attributes_street_2
+        course_address_attributes_street2
       ]
     )
   end

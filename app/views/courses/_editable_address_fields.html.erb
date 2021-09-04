@@ -2,12 +2,12 @@
   <h3>Address</h3>
   <%= form.fields_for :address do |address_fields| %>
     <div id="address-one" class="field">
-      <%= address_fields.label :street_1, Label::Course::STREET1 %>
-      <%= address_fields.text_field :street_1, disabled: form_disabled %>
-      <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_1 %>
-      <%= address_fields.label :street_2, Label::Course::STREET2 %>
-      <%= address_fields.text_field :street_2, disabled: form_disabled %>
-      <%= render 'attribute_error', object_with_errors: course.address, attribute: :street_2 %>
+      <%= address_fields.label :street1, Label::Course::STREET1 %>
+      <%= address_fields.text_field :street1, disabled: form_disabled %>
+      <%= render 'attribute_error', object_with_errors: course.address, attribute: :street1 %>
+      <%= address_fields.label :street2, Label::Course::STREET2 %>
+      <%= address_fields.text_field :street2, disabled: form_disabled %>
+      <%= render 'attribute_error', object_with_errors: course.address, attribute: :street2 %>
     </div>
     <div id="address-two" class="field">
       <%= address_fields.label :city, Label::Course::CITY %>

@@ -5,6 +5,8 @@ require 'common/button_to_common'
 require 'common/tee_common'
 require 'common/method_common'
 
+# CourseCommon
+#
 module CourseCommon
   class << self
     include RSpec::Matchers
@@ -215,14 +217,14 @@ module CourseCommon
     def expect_address_fields(rendered_or_page, values, disabled, form_txt_address = '')
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::STREET1,
-                                          'course_address_attributes_street_1',
-                                          values[:street_1],
+                                          'course_address_attributes_street1',
+                                          values[:street1],
                                           disabled,
                                           form_txt_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
                                           Label::Course::STREET2,
-                                          'course_address_attributes_street_2',
-                                          values[:street_2],
+                                          'course_address_attributes_street2',
+                                          values[:street2],
                                           disabled,
                                           form_txt_address)
       MethodCommon.expect_have_field_text(rendered_or_page,

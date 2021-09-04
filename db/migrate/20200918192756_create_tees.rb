@@ -3,6 +3,8 @@
 # create Tee
 #
 class CreateTees < ActiveRecord::Migration[6.0]
+  # change
+  #
   def change
     create_table :tees do |t|
       t.string :color, default: 'White', null: false

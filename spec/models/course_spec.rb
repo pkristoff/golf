@@ -20,7 +20,7 @@ describe Course, type: :model do
     end
     it 'tees' do
       course = Course.new(name: 'Lochmere')
-      course.address.street_1 = '555 Xxx Ave.'
+      course.address.street1 = '555 Xxx Ave.'
       course.address.city = 'Clarksville'
       course.address.state = 'IN'
       course.address.state = '47529'
@@ -36,8 +36,8 @@ describe Course, type: :model do
     it 'address' do
       course = FactoryBot.create(:course)
       address = course.address
-      expect(address.street_1).to eq('555 Xxx Ave.')
-      expect(address.street_2).to eq('<nothing>')
+      expect(address.street1).to eq('555 Xxx Ave.')
+      expect(address.street2).to eq('<nothing>')
       expect(address.city).to eq('Clarksville')
       expect(address.state).to eq('IN')
       expect(address.zip_code).to eq('47529')

@@ -3,6 +3,8 @@
 # create Hole
 #
 class CreateHoles < ActiveRecord::Migration[6.0]
+  # change
+  #
   def change
     create_table :holes do |t|
       t.integer :number, default: 0, null: false

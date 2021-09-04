@@ -22,7 +22,8 @@ describe GolfWriter, type: :model do
     end
   end
 end
-
+# compare read (roo) workbook vs write ()axlsx) workbook
+#
 class CompareWorkbook
   include RSpec::Matchers
   include Capybara::RSpecMatchers

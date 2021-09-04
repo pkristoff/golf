@@ -24,8 +24,8 @@ feature 'new round buttons' do
                                     show_tees: true,
                                     course_name: @course.name,
                                     number_of_holes: 18,
-                                    street_1: '555 Xxx Ave.',
-                                    street_2: '<nothing>',
+                                    street1: '555 Xxx Ave.',
+                                    street2: '<nothing>',
                                     city: 'Clarksville',
                                     state: 'IN',
                                     zip_code: '47529')
@@ -38,7 +38,7 @@ feature 'new round buttons' do
                                    show_tees: false,
                                    course_name: '...',
                                    number_of_holes: '18',
-                                   street_1: '', street_2: '', city: '', state: '', zip_code: '27502')
+                                   street1: '', street2: '', city: '', state: '', zip_code: '27502')
   end
 
   scenario 'click Button::Tee::NEW' do
@@ -73,7 +73,7 @@ feature 'new round buttons' do
     RoundsCommon.expect_new_round(
       page,
       @tee,
-      { date: '2021-08-21',
+      { date: '2021-09-04',
         course_name: @course.name,
         show_tees: true }
     )

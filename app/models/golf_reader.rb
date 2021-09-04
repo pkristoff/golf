@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # A GolfReader
+#
 class GolfReader
   attr_accessor :path, :workbook
 
@@ -142,8 +143,8 @@ class GolfReader
   end
 
   def process_address(address_row, course)
-    course.address.street_1 = address_row[1].nil? ? '' : address_row[1]
-    course.address.street_2 = address_row[2].nil? ? '' : address_row[2]
+    course.address.street1 = address_row[1].nil? ? '' : address_row[1]
+    course.address.street2 = address_row[2].nil? ? '' : address_row[2]
     course.address.city = address_row[3].nil? ? '' : address_row[3]
     course.address.state = address_row[4].nil? ? '' : address_row[4]
     course.address.zip_code = address_row[5].nil? ? '' : address_row[5]

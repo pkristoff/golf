@@ -107,6 +107,12 @@ class Course < ApplicationRecord
     tees.each(&:adjust_number_of_holes)
   end
 
+  # legal attributes for Course
+  #
+  # === Returns:
+  #
+  # * <tt>Array</tt>
+  #
   def self.basic_permitted_params
     %i[name id number_of_holes]
   end

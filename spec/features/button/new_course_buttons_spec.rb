@@ -20,6 +20,6 @@ feature 'new course buttons' do
                                    show_tees: false,
                                    course_name: '...',
                                    number_of_holes: '18',
-                                   street_1: '', street_2: '', city: '', state: '', zip_code: '27502')
+                                   street1: '', street2: '', city: '', state: '', zip_code: '27502')
   end
 end

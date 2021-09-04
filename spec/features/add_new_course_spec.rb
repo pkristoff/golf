@@ -17,7 +17,7 @@ feature 'add a new course' do
                                    show_tees: false,
                                    course_name: '...',
                                    number_of_holes: '18',
-                                   street_1: '', street_2: '', city: '', state: '', zip_code: '27502')
+                                   street1: '', street2: '', city: '', state: '', zip_code: '27502')
   end
 
   scenario 'visit new course fill in invalid values &look for errors' do
@@ -25,7 +25,7 @@ feature 'add a new course' do
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
                                    course_name: '...',
-                                   number_of_holes: '18', street_1: '', street_2: '',
+                                   number_of_holes: '18', street1: '', street2: '',
                                    city: '', state: '', zip_code: '27502')
 
     fill_in Label::Course::NAME, with: ''
@@ -37,17 +37,17 @@ feature 'add a new course' do
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
                                    course_name: '',
-                                   number_of_holes: '0', street_1: '', street_2: '', city: '', state: '', zip: '')
+                                   number_of_holes: '0', street1: '', street2: '', city: '', state: '', zip: '')
 
     CourseCommon.expect_validation_errors(page, %w[
                                             course_name
-                                            course_address_attributes_street_1
+                                            course_address_attributes_street1
                                             course_address_attributes_city
                                             course_address_attributes_state
                                             course_address_attributes_zip_code
                                           ],
                                           %w[
-                                            course_address_attributes_street_2
+                                            course_address_attributes_street2
                                           ])
   end
 
@@ -56,7 +56,7 @@ feature 'add a new course' do
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
                                    course_name: '...', number_of_holes: '18',
-                                   street_1: '', street_2: '', city: '', state: '', zip_code: '27502')
+                                   street1: '', street2: '', city: '', state: '', zip_code: '27502')
 
     fill_in Label::Course::NAME, with: 'Lochmere'
 
@@ -78,8 +78,8 @@ feature 'add a new course' do
                                     show_tees: true,
                                     course_name: 'Lochmere',
                                     number_of_holes: '18',
-                                    street_1: '2116 Frissell Ave.',
-                                    street_2: '',
+                                    street1: '2116 Frissell Ave.',
+                                    street2: '',
                                     city: 'Apex',
                                     state: 'NC',
                                     zip_code: '27502')
@@ -89,8 +89,8 @@ feature 'add a new course' do
       %w[],
       %w[
         course_name
-        course_address_attributes_street_1
-        course_address_attributes_street_2
+        course_address_attributes_street1
+        course_address_attributes_street2
         course_address_attributes_city
         course_address_attributes_state
         course_address_attributes_zip_code
@@ -127,8 +127,8 @@ feature 'add a new course' do
                                     show_tees: true,
                                     course_name: 'Lochmere',
                                     number_of_holes: '18',
-                                    street_1: '2116 Frissell Ave.',
-                                    street_2: '',
+                                    street1: '2116 Frissell Ave.',
+                                    street2: '',
                                     city: 'Apex',
                                     state: 'NC',
                                     zip_code: '27502')

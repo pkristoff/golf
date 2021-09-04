@@ -3,6 +3,8 @@
 # Create Score
 #
 class CreateScores < ActiveRecord::Migration[6.0]
+  # change
+  #
   def change
     create_table :scores do |t|
       t.integer :strokes, default: 0, null: false

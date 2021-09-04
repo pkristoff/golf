@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # 1st page
+#
 class WelcomeController < ApplicationController
   # show page for upload .xslx
   #

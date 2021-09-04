@@ -3,6 +3,8 @@
 # create Course
 #
 class CreateCourses < ActiveRecord::Migration[6.0]
+  # change
+  #
   def change
     create_table :courses do |t|
       t.string :name, default: '', null: false

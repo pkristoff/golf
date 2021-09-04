@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # A GolfWriter
+#
 class GolfWriter
   attr_accessor :write_path, :package
 
@@ -75,7 +76,7 @@ class GolfWriter
   end
 
   def add_score_row(round, cell0, sheet, score_accessor)
-    non_number_cells = %w[penalties Fairways\ Hit]
+    non_number_cells = ['penalties', 'Fairways Hit'].freeze
     doing_penalties = non_number_cells.include? cell0
 
     sheet.add_row do |row|
@@ -175,8 +176,8 @@ class GolfWriter
   def add_address(course, row)
     address = course.address
     row.add_cell('Address')
-    row.add_cell(address.street_1)
-    row.add_cell(address.street_2)
+    row.add_cell(address.street1)
+    row.add_cell(address.street2)
     row.add_cell(address.city)
     row.add_cell(address.state)
     row.add_cell(address.zip_code)

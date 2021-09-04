@@ -74,7 +74,7 @@ class PerformanceCourse
     out_total_strokes = 0
     in_total_strokes = 0
     @rounds.each do |round|
-      round.score_holes.each_with_index do |score_hole, index|
+      round.sorted_score_holes.each_with_index do |score_hole, index|
         strokes = score_hole.score.strokes
         out_total_strokes += strokes if index < 9
         in_total_strokes += strokes if index >= 9

@@ -4,6 +4,8 @@ require 'common/application_common'
 require 'common/button_to_common'
 require 'common/method_common'
 
+# TeeCommon
+#
 module TeeCommon
   class << self
     include RSpec::Matchers

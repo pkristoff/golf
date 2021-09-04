@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 # A Hole
+#
 class Hole < ApplicationRecord
   belongs_to(:tee)
   has_many :score_holes, dependent: :destroy

@@ -13,8 +13,8 @@ FactoryBot.define do
     name { 'George' }
     after(:build) do |course|
       address = course.address
-      address.street_1 = '555 Xxx Ave.'
-      address.street_2 = '<nothing>'
+      address.street1 = '555 Xxx Ave.'
+      address.street2 = '<nothing>'
       address.city = 'Clarksville'
       address.state = 'IN'
       address.zip_code = '47529'

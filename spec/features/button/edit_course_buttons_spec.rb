@@ -18,7 +18,7 @@ feature 'edit course buttons' do
                                    show_tees: false,
                                    course_name: '...',
                                    number_of_holes: '18',
-                                   street_1: '', street_2: '', city: '', state: '', zip_code: '27502')
+                                   street1: '', street22: '', city: '', state: '', zip_code: '27502')
   end
 
   scenario 'click Button::Course::NEW' do

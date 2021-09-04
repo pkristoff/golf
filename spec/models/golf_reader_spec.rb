@@ -65,6 +65,8 @@ describe GolfReader, type: :model do
   end
 end
 
+# test GolfReader
+#
 class GolfReaderSpec
   include RSpec::Matchers
   include Capybara::RSpecMatchers
@@ -187,8 +189,8 @@ class GolfReaderSpec
   private
 
   def expect_address(course, expected_address)
-    expect(course.address.street_1).to eq(expected_address[0])
-    expect(course.address.street_2).to eq(expected_address[1])
+    expect(course.address.street1).to eq(expected_address[0])
+    expect(course.address.street2).to eq(expected_address[1])
     expect(course.address.city).to eq(expected_address[2])
     expect(course.address.state).to eq(expected_address[3])
     expect(course.address.zip_code).to eq(expected_address[4])

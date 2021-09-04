@@ -65,21 +65,21 @@ feature 'edit_existing_course' do
     RoundsCommon.expect_new_round(
       page,
       @tee,
-      { date: '2021-08-21',
+      { date: '2021-09-04',
         course_name: @course.name,
         show_tees: true }
     )
 
-    fill_in Label::Round::DATE, with: '2021-08-20'
+    fill_in Label::Round::DATE, with: '2021-09-03'
 
     click_button Button::Round::CREATE
 
-    round = Round.find_by(date: '2021-08-20')
+    round = Round.find_by(date: '2021-09-03')
 
     RoundsCommon.expect_show_round(
       page,
       round,
-      { date: '2021-08-20',
+      { date: '2021-09-03',
         course_name: @course.name,
         color: @tee.color,
         show_tees: true }
