@@ -2,11 +2,13 @@
 <% rounds = @tee.sorted_rounds %>
 <% if rounds.empty? %>
   <p> <%= Label::Round::NO_ROUNDS %></p>
+  <p> <%= Label::Round::NO_ROUNDS_TO_ANALYZE %></p>
 <% else %>
   <ul>
     <% rounds.each do |round| %>
       <li id="li-id-<%= round.id %>"><%= link_to round.date, edit_course_tee_round_path(@course, @tee, round) %></li>
     <% end %>
+    <li id="li-id-<%= @tee.id %>"><%= link_to 'show analysis of tee', course_tee_performances_path(@course, @tee) %></li>
   </ul>
 <% end %>
 

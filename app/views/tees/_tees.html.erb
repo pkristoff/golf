@@ -6,6 +6,7 @@
       <table id="tees" style="width:100%">
         <tr>
           <th id="tees-color" class="tee-th">Color</th>
+          <th id="tees-analyze" class="tee-th">Analyze</th>
           <th id="tees-slope" class="tee-th">Slope</th>
           <th id="tees-rating" class="tee-th">Rating</th>
           <th id="tees-rating" class="holes-th">Holes</th>
@@ -13,6 +14,7 @@
         <% local_assigns[:tees].each do |tee| %>
           <tr id='tee-<%= tee.id %>'>
             <td id='tee-color-<%= tee.id %>' class="color-cell"><%= link_to(tee.color, edit_course_tee_path(@course, tee)) %></td>
+            <td id='tee-analyze-<%= tee.id %>' class="analyze-cell"><%= link_to('Analyze', course_tee_performances_path(@course, tee)) %></td>
             <td id='tee-slope-<%= tee.id %>' class="slope-cell"><%= tee.slope %></td>
             <td id='tee-rating-<%= tee.id %>' class="rating-cell"><%= tee.rating %></td>
             <td id='tee-holes-<%= tee.id %>' class="holes-cell"> <%= render 'holes/holes', tee: tee, holes: tee.sorted_holes %></td>

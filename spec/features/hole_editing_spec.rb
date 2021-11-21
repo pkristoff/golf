@@ -28,7 +28,7 @@ feature 'edit_existing_course' do
                                   hole_number: '5',
                                   yardage: '332',
                                   par: '4',
-                                  hdcp: '17',
+                                  hdcp: '13',
                                   hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
                                   replace_values: [],
                                   total_out_yardage: 2801,
@@ -53,7 +53,7 @@ feature 'edit_existing_course' do
                                   hole_number: '6',
                                   yardage: '331',
                                   par: '4',
-                                  hdcp: '7',
+                                  hdcp: '1',
                                   total_out_yardage: 3113,
                                   total_in_yardage: 2734,
                                   total_yardage: 5847 })
@@ -72,7 +72,7 @@ feature 'edit_existing_course' do
                                   hole_number: '7',
                                   yardage: '153',
                                   par: '3',
-                                  hdcp: '13',
+                                  hdcp: '3',
                                   total_out_yardage: 3113,
                                   total_in_yardage: 2734,
                                   total_yardage: 5847 })
@@ -88,7 +88,7 @@ feature 'edit_existing_course' do
                                   expect_messages: [[:flash_notice, 'hole updated']],
                                   hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
                                   replace_values: [{ hole_number: 5, yardage: 644, par: 5, hdcp: 10 }],
-                                  hole_number: '8', yardage: '375', par: '4', hdcp: '1',
+                                  hole_number: '8', yardage: '375', par: '4', hdcp: '17',
                                   total_out_yardage: 3113,
                                   total_in_yardage: 2734,
                                   total_yardage: 5847 })

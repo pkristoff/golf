@@ -39,7 +39,8 @@ class CompareWorkbook
     read_sheets = roo_workbook.sheets
     write_sheets = axlsx_workbook.worksheets
     read_sheets.each do |name|
-      nme = name.gsub("'", '&apos;')
+      nme = name.gsub("'", '&apos;').gsub('& ', '&amp; ')
+      pp "worksheet=#{nme}"
       expect(axlsx_workbook.sheet_by_name(nme)).to be_truthy
       compare_worksheets_courses(roo_workbook.sheet(name), axlsx_workbook.sheet_by_name(nme))
       compare_worksheets_rounds(roo_workbook.sheet(name), axlsx_workbook.sheet_by_name(nme))
@@ -49,9 +50,18 @@ class CompareWorkbook
 
   private
 
+  def pp_on
+    false
+  end
+
+  def pp(str)
+    puts str if pp_on
+  end
+
   def compare_worksheets_rounds(roo_worksheet, axlsx_worksheet)
     roo_date_cell_rows = find_roo_start_round_rows(roo_worksheet)
     axlsx_date_cell_rows = find_axlsx_start_row(axlsx_worksheet)
+    # puts "roo_date_cell_rows=#{roo_date_cell_rows.map{|row| roo_worksheet.row(row)}}"
     roo_date_cell_rows.each_with_index do |date_cell_row, index|
       axlsx_date_cell_row = axlsx_date_cell_rows[index]
       compare_date_row(roo_worksheet.row(date_cell_row), axlsx_worksheet.rows[axlsx_date_cell_row])
@@ -132,10 +142,9 @@ class CompareWorkbook
     expect(roo_row[0]).to eq(axlsx_row[0].value), "roo_row[0]=#{roo_row[0]} axlsx_row[0].value=#{axlsx_row[0].value}"
   end
 
-  HDCP_ROW = 8
-
   def find_roo_start_round_rows(roo_worksheet)
-    date_cell_row = HDCP_ROW + 2
+    hdcp_row_number = find_hdcp_row_number(roo_worksheet)
+    date_cell_row = hdcp_row_number + 2
     date_cell_rows = []
     until roo_worksheet.row(date_cell_row)[0].nil?
       date_cell_rows << date_cell_row
@@ -146,15 +155,24 @@ class CompareWorkbook
     date_cell_rows
   end
 
+  def find_hdcp_row_number(roo_worksheet)
+    i = 1
+    i += 1 until roo_worksheet.row(i)[0] == 'HDCP'
+    i
+  end
+
   def compare_worksheets_courses(roo_worksheet, axlsx_worksheet)
     compare_address(roo_worksheet.row(1), axlsx_worksheet.rows[0])
     compare_hole_row(roo_worksheet.row(2), axlsx_worksheet.rows[1])
     compare_empty_row(roo_worksheet.row(3), axlsx_worksheet.rows[2])
-    compare_tee_row(roo_worksheet.row(4), axlsx_worksheet.rows[3]) # Black
-    compare_tee_row(roo_worksheet.row(5), axlsx_worksheet.rows[4]) # White
-    compare_tee_row(roo_worksheet.row(6), axlsx_worksheet.rows[5]) # Blue
-    compare_par_row(roo_worksheet.row(7), axlsx_worksheet.rows[6]) # par
-    compare_hdcp_row(roo_worksheet.row(HDCP_ROW), axlsx_worksheet.rows[7]) # hdcp
+    i = 4
+    while roo_worksheet.row(i)[0] != 'Par'
+      compare_tee_row(roo_worksheet.row(i), axlsx_worksheet.rows[i - 1]) # tee
+      i += 1
+    end
+    compare_par_row(roo_worksheet.row(i), axlsx_worksheet.rows[i - 1]) # par
+    i += 1
+    compare_hdcp_row(roo_worksheet.row(i), axlsx_worksheet.rows[i - 1]) # hdcp
   end
 
   def compare_empty_row(roo_empty_row, axlsx_empty_row)
@@ -163,14 +181,19 @@ class CompareWorkbook
   end
 
   def compare_hdcp_row(roo_hdcp_row, axlsx_hdcp_row)
+    pp "hdcp roo cells=#{roo_hdcp_row}"
+    pp "hdcp axlsx cells=#{axlsx_hdcp_row.map(&:value)}"
     compare_row_cells(axlsx_hdcp_row, roo_hdcp_row, for_hdcp: true)
   end
 
   def compare_par_row(roo_par_row, axlsx_par_row)
+    pp "par cells roo=#{roo_par_row}"
+    pp "par cells axlsx=#{axlsx_par_row.map(&:value)}"
     compare_row_cells(axlsx_par_row, roo_par_row)
   end
 
   def compare_tee_row(roo_tee_row, axlsx_tee_row)
+    pp "tee cells #{roo_tee_row}"
     compare_row_cells(axlsx_tee_row, roo_tee_row)
   end
 
@@ -182,6 +205,7 @@ class CompareWorkbook
   # * <tt>:axlsx_hole_row</tt>
   #
   def compare_hole_row(roo_hole_row, axlsx_hole_row)
+    pp "holes#{roo_hole_row}"
     compare_row_cells(axlsx_hole_row, roo_hole_row)
   end
 
@@ -200,6 +224,7 @@ class CompareWorkbook
   end
 
   def compare_address(roo_address_row, axlsx_address_row)
+    pp "Address = #{roo_address_row}"
     expect(roo_address_row[0]).to eq(axlsx_address_row.cells[0].value)
     expect(roo_value(roo_address_row[1])).to eq(axlsx_address_row.cells[1].value)
     expect(roo_value(roo_address_row[2])).to eq(axlsx_address_row.cells[2].value)

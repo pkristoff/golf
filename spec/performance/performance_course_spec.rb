@@ -33,13 +33,13 @@ describe 'PerformanceCourse' do
     it 'Returns ave strokes round for two round' do
       tee = @round.tee
       course = tee.course
-      round2 = FactoryBot.create(:round, tee: tee, round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO_2])
+      round2 = FactoryBot.create(:round, tee: tee, round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO2])
       expect(tee).to eq(round2.tee)
       pc = PerformanceCourse.new(tee.rounds, course.number_of_holes)
-      expected_averages = [6, 5, 4, 6, 4, 5, 4, 6, 6, 46, 4, 3, 6, 5, 6, 5, 5, 5, 4, 43, 89]
+      expected_averages = [6.5, 5, 4, 6, 4, 5, 4, 6, 6, 46.5, 4, 3, 6, 5, 6, 5, 5, 5, 4.5, 43.5, 90]
       pc_average = pc.average_strokes_with_totals
       expected_averages.each_with_index do |strokes, index|
-        expect(pc_average[index]).to eq(strokes)
+        expect(pc_average[index]).to eq(strokes), "stroke mismatch for #{index}: pc_average[index]: #{pc_average[index]} does not eq strokes: #{strokes}"
       end
     end
   end
@@ -70,13 +70,13 @@ describe 'PerformanceCourse' do
     it 'Returns avg putts round for two round' do
       tee = @round.tee
       course = tee.course
-      round2 = FactoryBot.create(:round, tee: tee, round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO_2])
+      round2 = FactoryBot.create(:round, tee: tee, round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO2])
       expect(tee).to eq(round2.tee)
       pc = PerformanceCourse.new(tee.rounds, course.number_of_holes)
-      expected_averages = [1, 2, 2, 3, 3, 2, 2, 3, 3, 21, 2, 1, 1, 2, 3, 1, 2, 2, 1, 15, 36]
+      expected_averages = [1.5, 2, 2, 3, 3, 2, 2, 3, 3, 21.5, 2, 1, 1, 2, 3, 1, 2, 2, 1.5, 15.5, 37]
       pc_average_putts = pc.average_putts_with_totals
       expected_averages.each_with_index do |putts, index|
-        expect(pc_average_putts[index]).to eq(putts)
+        expect(pc_average_putts[index]).to eq(putts), "putts mismatch for #{index}: pc_average_putts[index]: #{pc_average_putts[index]} does not eq strokes: #{putts}"
       end
     end
   end

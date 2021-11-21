@@ -35,6 +35,7 @@ module Label
   module Round
     DATE = 'Date'.freeze
     NO_ROUNDS = 'No Rounds'.freeze
+    NO_ROUNDS_TO_ANALYZE = 'No Rounds to analyze'.freeze
     ROUNDS = 'Rounds'.freeze
     SHOW = 'Show Round'.freeze
     EDIT = 'Edit round'.freeze
@@ -86,6 +87,9 @@ module Fieldset
     EDIT = 'div[id=edit-div][class=fieldset-field-div] '.freeze
     ADDRESS = 'div[id=address-div][class=fieldset-field-div] '.freeze
   end
+  module Show
+    SHOW = 'Show'.freeze
+  end
   module Course
     ADDRESS = 'Golf Course Address'.freeze
     COURSE_BUTTONS = 'Course buttons'.freeze
@@ -99,6 +103,7 @@ module Fieldset
   end
   module Tee
     TEES = 'Tees'.freeze
+    ANALYZE_TEES = 'Analyze tees'.freeze
   end
   module Score
   end
@@ -110,6 +115,9 @@ module Heading
     NEW_COURSE = 'New CourseTT'.freeze
     NO_COURSES = 'No coursesTT'.freeze
     SHOW_COURSE = 'Show CourseTT'.freeze
+  end
+  module Performances
+    PERFORMANCES = 'Performances'.freeze
   end
   module Score
     EDIT_SCORE = 'Edit score'.freeze

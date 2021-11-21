@@ -3,7 +3,7 @@
 
 <ul>
   <% @tees.each do |tee| %>
-    <li id="li-id<%= tee.id %>"><%= link_to tee.color, course_tee_rounds_path(@course, tee) %></li>
+    <li id="li-id<%= tee.id %>"><%= link_to tee.color, course_tee_rounds_path(@course, tee), id: "link-tee-#{tee.id}" %>&nbsp;&nbsp;<%= link_to('Analyze', course_tee_performances_path(@course, tee), id: "analyze-tee-#{tee.id}") %></li>
   <% end %>
 </ul>
 <%= render 'layouts/other_buttons',

@@ -126,7 +126,8 @@ class GolfWriter
       row.add_cell(nil) unless tee.slope.zero? # slope
       tee.holes_inorder_with_hdcp_totals.each do |hole|
         row.add_cell(hole.hdcp) if hole.is_a? Hole
-        row.add_cell(nil) unless hole.is_a? Hole
+        row.add_cell(hole) if hole.is_a? Numeric # totals
+        row.add_cell(nil) if hole.nil?
       end
     end
   end

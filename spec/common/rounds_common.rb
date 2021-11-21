@@ -48,6 +48,8 @@ module RoundsCommon
 
       tees.each do |tee|
         expect(rendered_or_page).to have_link(tee.color)
+        expect(rendered_or_page).to have_link("link-tee-#{tee.id}", text: tee.color, count: 1)
+        expect(rendered_or_page).to have_link("analyze-tee-#{tee.id}", text: 'Analyze', count: 1)
       end
 
       expect_tees_round_other_buttons(rendered_or_page)
@@ -68,11 +70,13 @@ module RoundsCommon
       DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
       expect(rendered_or_page).to have_selector('h1', text: "Rounds for #{course.name} and tee #{tee.color}")
       if rounds.empty?
+        expect(rendered_or_page).to have_selector('p', text: Label::Round::NO_ROUNDS_TO_ANALYZE)
         expect(rendered_or_page).to have_selector('p', text: Label::Round::NO_ROUNDS)
       else
         rounds.each do |round|
           expect(rendered_or_page).to have_link(round.date.to_s)
         end
+        expect(rendered_or_page).to have_link('show analysis of tee')
       end
       expect_round_other_buttons(rendered_or_page)
     end

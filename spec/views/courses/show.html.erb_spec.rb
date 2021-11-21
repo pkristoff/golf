@@ -5,7 +5,7 @@ require 'common/course_common'
 
 describe 'courses/show.html.erb', type: :view do
   include CourseCommon
-  it 'has  readonly fields' do
+  it 'render' do
     course = FactoryBot.create(:course)
     assign(:course, course)
 

@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       collection do
         get 'rounds_tees'
       end
+      resources :performances
       resources :holes
       resources :rounds do
         resources :scores

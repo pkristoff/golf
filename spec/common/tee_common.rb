@@ -102,12 +102,14 @@ module TeeCommon
         # Check table headers
         expect(rendered_or_page).to have_selector("#{fieldset_locator} table[id=tees]", count: 1)
         expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-color]", count: 1, text: 'Color')
+        expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-analyze]", count: 1, text: 'Analyze')
         expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-slope]", count: 1, text: 'Slope')
         expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-rating]", count: 1, text: 'Rating')
 
         tees.each do |tee|
           expect(rendered_or_page).to have_selector("tr[id=tee-#{tee.id}]", count: 1)
           expect(rendered_or_page).to have_selector("td[id=tee-color-#{tee.id}]", count: 1, text: tee.color)
+          expect(rendered_or_page).to have_selector("td[id=tee-analyze-#{tee.id}]", count: 1, text: 'Analyze')
           expect(rendered_or_page).to have_selector("td[id=tee-slope-#{tee.id}]", count: 1, text: tee.slope)
           expect(rendered_or_page).to have_selector("td[id=tee-rating-#{tee.id}]", count: 1, text: tee.rating)
 

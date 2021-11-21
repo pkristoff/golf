@@ -51,7 +51,7 @@ feature 'add a new course' do
                                           ])
   end
 
-  scenario 'visit new course fill in valid values it should render show.html.erb' do
+  scenario 'visit new course fill in valid values it should render index.html.erb' do
     visit new_course_path
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
