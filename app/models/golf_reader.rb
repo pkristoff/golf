@@ -90,23 +90,16 @@ class GolfReader
     putts_row = sheet.row(row_num + 2)
     penalties_row = sheet.row(row_num + 3)
     tee_color = score_row[0]
-    # puts "course.name=#{course.name} tee_color=#{tee_color}"
     tee = course.tee(tee_color)
     round = Round.create(date: date_cell, tee: tee)
-    # puts "  round=#{date_cell}"
     offset = 0
     offset = 1 if tee.slope.zero?
     offset = 3 unless tee.slope.zero?
     tee.sorted_holes.each_with_index do |hole, index|
       offset += 1 if hole.number == 10
       strokes = score_row[index + offset]
-      # puts "index=#{index}  offset=#{offset} hole.number=#{hole.number}"
-      # puts "score_row=#{score_row}"
-      if strokes > 19
-        # puts "index=#{index}  offset=#{offset} hole.number=#{hole.number}"
-        # puts "score_row=#{score_row}"
-        raise("strokes too large=#{strokes}")
-      end
+
+      raise("strokes too large=#{strokes}") if strokes > 19
 
       putts = putts_row[index + offset]
       penalties = penalties_row[index + offset]
@@ -117,7 +110,6 @@ class GolfReader
 
   def find_round_row(sheet, row_num)
     putt_row = (row_num..sheet.last_row).detect { |row| sheet.row(row)[0] == 'putts' }
-    # puts "putt_row=#{putt_row}"
     return putt_row - 2 if putt_row.is_a? Integer
 
     nil if putt_row.nil?
@@ -156,7 +148,6 @@ class GolfReader
     rating = rating_index.nil? ? 0 : tee_row[rating_index]
     slope = slope_index.nil? ? 0 : tee_row[slope_index]
     tee_color = tee_row[0]
-    # puts "process_tee(course, tee_row, header_row): #{tee_color}:#{rating}"
     hole_info = []
     start_index = header_row.find_index do |cell|
       cell == 1
@@ -167,7 +158,6 @@ class GolfReader
     nine_total = nil
     second_total = nil
     eighteen_total = nil
-    # puts "course: #{course.name}, tee:#{tee_color}"
     (start_index..end_index).each do |idx|
       case header_row[idx]
       when '9 Total'
@@ -179,18 +169,15 @@ class GolfReader
       when '18 Total'
         hole_num = nil
         yardage = tee_row[idx]
-        # puts "18 total yardage: #{yardage}"
         par = par_row[idx]
         eighteen_total = [hole_num, yardage, par]
       else
         hole_num = header_row[idx].to_i
         yardage = tee_row[idx]
-        # puts "#{header_row[idx]} yardage: #{yardage}"
         par = par_row[idx]
         hdcp = nil
         hdcp = hdcp_row[idx] unless hdcp_row[idx].nil?
         hdcp = 0 if hdcp_row[idx].nil?
-        # puts "[hole_num, yardage, par, hdcp]=#{[hole_num, yardage, par, hdcp]}"
         hole_info.push([hole_num, yardage, par, hdcp])
       end
     end
@@ -213,7 +200,6 @@ class GolfReader
       par_err_msg = "#{err_msg} yardage sum problem: expected total=#{expected_par} hole total=#{par}"
       raise par_err_msg unless par == expected_par
     end
-    # puts "second_total.nil? || total_holes == 9=#{second_total.nil? || total_holes == 9}"
     unless second_total.nil? || total_holes == 9
       yardage = 0
       par = 0

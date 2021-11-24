@@ -57,7 +57,7 @@ module PerformancesCommon
       expect(rendered_or_page).to have_selector(header_row_txt, count: 1)
       expect(rendered_or_page).to have_selector("#{header_row_txt} td[id=hole-number-heading-#{values[:tee_id]}]",
                                                 count: 1, text: 'Number:')
-      [1, 2, 3, 4, 5, 6, 7, 8, 9, 'out', 10, 11, 12, 13, 14, 15, 16, 17, 18, 'in', 'tot'].each do |num|
+      [1, 2, 3, 4, 5, 6, 7, 8, 9, 'Out', 10, 11, 12, 13, 14, 15, 16, 17, 18, 'In', 'Total'].each do |num|
         expect(rendered_or_page).to have_selector("#{header_row_txt} td[id=hole-number-#{num}]",
                                                   count: 1, text: num)
       end

@@ -34,7 +34,6 @@ describe GolfReader, type: :model do
       end
       course = golf_reader.course("Knight's play 10-18")
       TeeHoleInfo::HOLE_INFO_KN_10_18[:Black_rounds].each do |round_info|
-        # puts "round_info[0]=#{round_info[0]}"
         @golf_reader_spec.expect_knights_play_round(golf_reader.round(Date.strptime(round_info[0], '%m/%d/%y'),
                                                                       course,
                                                                       'Black'),
@@ -149,10 +148,8 @@ class GolfReaderSpec
     front_nine_putts = 0
     back_nine_putts = 0
     doing_front_nine = true
-    # puts "round.scores=#{round.scores.map {|score| "#{score.hole.number} #{score.strokes}"}}"
     hole_num = 1
     score_info.each_with_index do |hole_score, index|
-      # puts "hole_score=#{hole_score} index=#{index}"
       case index
       when 9
         expect(hole_score[0]).to eq(front_nine_strokes)

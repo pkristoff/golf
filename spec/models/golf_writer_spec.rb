@@ -61,7 +61,6 @@ class CompareWorkbook
   def compare_worksheets_rounds(roo_worksheet, axlsx_worksheet)
     roo_date_cell_rows = find_roo_start_round_rows(roo_worksheet)
     axlsx_date_cell_rows = find_axlsx_start_row(axlsx_worksheet)
-    # puts "roo_date_cell_rows=#{roo_date_cell_rows.map{|row| roo_worksheet.row(row)}}"
     roo_date_cell_rows.each_with_index do |date_cell_row, index|
       axlsx_date_cell_row = axlsx_date_cell_rows[index]
       compare_date_row(roo_worksheet.row(date_cell_row), axlsx_worksheet.rows[axlsx_date_cell_row])
@@ -87,12 +86,9 @@ class CompareWorkbook
   end
 
   def compare_penalties_row(roo_row, axlsx_row)
-    # puts "pen roo_row=#{roo_row}"
     expect(roo_row[0]).to eq(axlsx_row[0].value) # penalties
     penalties_cell_num = roo_row[1].nil? ? 3 : 1 # handles when course does not have slope or rating
     roo_penalties = roo_row[penalties_cell_num]
-    # puts "roo_row=#{roo_row}"
-    # puts "axlsx_row=#{axlsx_row.cells.map{|cell| cell.value}}"
     until roo_penalties.nil?
       expect(roo_penalties).to eq(axlsx_row[penalties_cell_num].value)
       penalties_cell_num += 1
@@ -101,15 +97,11 @@ class CompareWorkbook
   end
 
   def compare_putts_row(roo_row, axlsx_row)
-    # puts "putts roo_row=#{roo_row}"
     expect(roo_row[0]).to eq(axlsx_row[0].value) # putts
     putt_cell_num = roo_row[1].nil? ? 3 : 1 # handles when course does not have slope or rating
     roo_putt = roo_row[putt_cell_num]
     until roo_putt.nil?
       axlsx_putt = axlsx_row[putt_cell_num].value
-      # puts "roo_row=#{roo_row}" unless roo_putt == axlsx_putt
-      # puts "axlsx_row=#{axlsx_row.cells.map { |cell| cell.value }}" unless roo_putt == axlsx_putt
-      # puts "putt_cell_num=#{putt_cell_num}"
       expect(roo_putt).to eq(axlsx_putt)
       putt_cell_num += 1
       roo_putt = roo_row[putt_cell_num]
@@ -117,12 +109,9 @@ class CompareWorkbook
   end
 
   def compare_strokes_row(roo_row, axlsx_row, date_cell_row)
-    # puts "strokes roo_row=#{roo_row}"
     expect(roo_row[0]).to eq(axlsx_row[0].value) # tee color
     stroke_cell_num = roo_row[1].nil? ? 3 : 1 # handles when course does not have slope or rating
     roo_stroke = roo_row[stroke_cell_num]
-    # puts "roo_row=#{roo_row}"
-    # puts "axlsx_row=#{axlsx_row.cells.map{|cell| cell.value}}"
     until roo_stroke.nil?
       unless roo_stroke == axlsx_row[stroke_cell_num].value
         puts "date_cell_row=#{date_cell_row}"

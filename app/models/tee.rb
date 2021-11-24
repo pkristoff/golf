@@ -58,7 +58,6 @@ class Tee < ApplicationRecord
   # * <tt>Array</tt> holes sorted by Hole.number
   #
   def sorted_holes
-    # puts "sorted=#{holes.sort_by(&:number).map{|h|h.number} }"
     holes.sort_by(&:number)
   end
 
@@ -69,7 +68,6 @@ class Tee < ApplicationRecord
   # * <tt>Array</tt> rounds sorted by Round.date
   #
   def sorted_rounds
-    # puts "sorted=#{holes.sort_by(&:number).map{|h|h.number} }"
     rounds.sort_by(&:date)
   end
 

@@ -3,7 +3,7 @@
 # Holder of average info related to score
 #
 class AverageScore
-  attr_accessor :hole, :strokes, :putts, :strokes_under80
+  attr_accessor :hole, :strokes, :putts, :strokes_under80, :max, :min
 
   # Make initial AverageScore
   #

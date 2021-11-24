@@ -141,10 +141,8 @@ feature 'edit_existing_course' do
     fill_in Label::Tee::RATING, with: 71.6
 
     click_button(Button::Tee::CREATE)
-    # puts "Edit Tee#{page.html}"
     expect(page).to have_selector('h1', text: Heading::Tee::EDIT_TEE)
     click_button(Button::Course::EDIT)
-    # puts "Edit Course#{page.html}"
     expect(page).to have_selector('h1', text: Heading::Course::EDIT_COURSE)
   end
 

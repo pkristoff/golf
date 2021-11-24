@@ -15,7 +15,7 @@ RSpec.describe 'performances/index.html.erb', type: :view do
     assign(:course, course)
     assign(:form_disabled, false)
     assign(:tee, tee)
-    assign(:performance, PerformanceCourse.new(tee.sorted_rounds, course.number_of_holes))
+    assign(:performance, PerformanceCourse.new(tee, course.number_of_holes))
 
     render
 
@@ -36,11 +36,10 @@ RSpec.describe 'performances/index.html.erb', type: :view do
     assign(:course, course)
     assign(:form_disabled, false)
     assign(:tee, tee)
-    assign(:performance, PerformanceCourse.new(tee.sorted_rounds, course.number_of_holes))
+    assign(:performance, PerformanceCourse.new(tee, course.number_of_holes))
 
     render
 
-    puts rendered
     PerformancesCommon.expect_index(rendered,
                                     {
                                       course_name: course.name,
@@ -61,11 +60,10 @@ RSpec.describe 'performances/index.html.erb', type: :view do
     assign(:course, course)
     assign(:form_disabled, false)
     assign(:tee, tee)
-    assign(:performance, PerformanceCourse.new(tee.sorted_rounds, course.number_of_holes))
+    assign(:performance, PerformanceCourse.new(tee, course.number_of_holes))
 
     render
 
-    puts rendered
     PerformancesCommon.expect_index(rendered,
                                     {
                                       course_name: course.name,

@@ -3,37 +3,47 @@
     <div id="subheading-div" class="fieldset-field-div">
       <%= render 'performances/subheading', course: course, tee: tee %>
     </div>
-    <% avg_score = performance.average_score_totals %>
-    <% if avg_score.size == 0 %>
+    <% pc_average_holes = performance.average_holes %>
+    <% if tee.rounds.size == 0 %>
       <p> No rounds for tee </p>
     <% else %>
       <table id=<%= "holes-#{tee.id}" %> style="width:100%">
         <% # Holes %>
         <tr id=<%= "hole-number-#{tee.id}" %>>
           <td id=<%= "hole-number-heading-#{tee.id}" %> class="heading-cell">Number:</td>
-          <% avg_score.each_with_index do |averageScore, index| %>
-            <% hole = averageScore.hole %>
-            <% hole_val = hole.nil? ? nil : hole.number %>
-            <% hole_val = 'out' if hole_val.nil? && index < 11 %>
-            <% hole_val = 'in' if hole_val.nil? && index == 19 %>
-            <% hole_val = 'tot' if hole_val.nil? && index == 20 %>
-            <td id='hole-number-<%= hole_val %>' class="number-cell"><%= hole_val %></td>
+          <% pc_average_holes.each_with_index do |average_hole, index| %>
+            <% title = average_hole.title %>
+            <td id='hole-number-<%= title %>' class="number-cell"><%= title %></td>
+          <% end %>
+        </tr>
+        <tr id=<%= "hole-par-#{tee.id}" %>>
+          <td id=<%= "hole-par-heading-#{tee.id}" %> class="heading-cell">Par:</td>
+          <% pc_average_holes.each_with_index do |average_hole, index| %>
+            <% par = average_hole.par %>
+            <td id='hole-par-<%= average_hole.title %>' class="number-cell"><%= par %></td>
+          <% end %>
+        </tr>
+        <tr id=<%= "hole-hdcp-#{tee.id}" %>>
+          <td id=<%= "hole-hdcp-heading-#{tee.id}" %> class="heading-cell">HDCP:</td>
+          <% pc_average_holes.each_with_index do |average_hole, index| %>
+            <% hdcp = average_hole.hdcp %>
+            <td id='hole-hdcp-<%= index %>' class="number-cell"><%= hdcp %></td>
           <% end %>
         </tr>
         <% # Strokes %>
-        <tr id=<%= "strokes-#{tee.id}" %> >
+        <tr id=<%= "strokes-#{tee.id}" %>>
           <td id=<%= "strokes-heading-#{tee.id}" %> class="heading-cell">Avg Strokes:</td>
-          <% avg_score.each_with_index do |averageScore, index| %>
-            <% strokes = averageScore.strokes %>
-            <td id='strokes-<%= index %>' class="number-cell"><%= strokes %></td>
+          <% pc_average_holes.each_with_index do |average_hole, index| %>
+            <% strokes = average_hole.strokes %>
+            <td id='strokes-<%= index %>' class="number-cell"><%= '%.1f' % strokes %></td>
           <% end %>
         </tr>
         <% # putts %>
-        <tr id=<%= "putts-#{tee.id}" %> >
+        <tr id=<%= "putts-#{tee.id}" %>>
           <td id=<%= "putts-heading-#{tee.id}" %> class="heading-cell">Avg Putts:</td>
-          <% avg_score.each_with_index do |averageScore, index| %>
-            <% putts = averageScore.putts %>
-            <td id='putts-<%= index %>' class="number-cell"><%= putts %></td>
+          <% pc_average_holes.each_with_index do |average_hole, index| %>
+            <% putts = average_hole.putts %>
+            <td id='putts-<%= index %>' class="number-cell"><%= '%.1f' % putts %></td>
           <% end %>
         </tr>
       </table>
