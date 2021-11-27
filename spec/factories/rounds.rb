@@ -78,22 +78,26 @@ def check_totals(round, front_nine_strokes, front_nine_putts,
   raise generate_error_message(round, front_nine_putts, sum_putts, 'front nine putts') unless sum_putts == front_nine_putts
 
   # rubocop:enable Layout/LineLength
-  back_sum_strokes = 0
-  back_sum_putts = 0
-  (10..18).each do |hole_number|
-    score = round.score(hole_number)
-    sum_strokes += score.strokes
-    back_sum_strokes += score.strokes
-    sum_putts += score.putts
-    back_sum_putts += score.putts
+  # rubocop:disable Style/GuardClause
+  if round.tee.course.number_of_holes == 18
+    back_sum_strokes = 0
+    back_sum_putts = 0
+    (10..18).each do |hole_number|
+      score = round.score(hole_number)
+      sum_strokes += score.strokes
+      back_sum_strokes += score.strokes
+      sum_putts += score.putts
+      back_sum_putts += score.putts
+    end
+    # rubocop:disable Layout/LineLength
+    raise generate_error_message(round, back_nine_strokes, back_sum_strokes, 'back nine strokes') unless back_sum_strokes == back_nine_strokes
+
+    raise generate_error_message(round, back_nine_putts, back_sum_putts, 'back nine putts') unless back_sum_putts == back_nine_putts
+
+    raise generate_error_message(round, stroke_total, sum_strokes, 'total strokes') unless sum_strokes == stroke_total
+
+    raise generate_error_message(round, putt_total, sum_putts, 'total putts') unless sum_putts == putt_total
+    # rubocop:enable Layout/LineLength
   end
-  # rubocop:disable Layout/LineLength
-  raise generate_error_message(round, back_nine_strokes, back_sum_strokes, 'back nine strokes') unless back_sum_strokes == back_nine_strokes
-
-  raise generate_error_message(round, back_nine_putts, back_sum_putts, 'back nine putts') unless back_sum_putts == back_nine_putts
-
-  raise generate_error_message(round, stroke_total, sum_strokes, 'total strokes') unless sum_strokes == stroke_total
-
-  raise generate_error_message(round, putt_total, sum_putts, 'total putts') unless sum_putts == putt_total
-  # rubocop:enable Layout/LineLength
+  # rubocop:enable Style/GuardClause
 end

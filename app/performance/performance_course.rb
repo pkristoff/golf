@@ -75,8 +75,8 @@ class PerformanceCourse
         entry.putts += putts if out_entry != entry && in_entry != entry
       end
     end
-    total_entry.strokes = out_entry.strokes + in_entry.strokes
-    total_entry.putts = out_entry.putts + in_entry.putts
+    total_entry.strokes = out_entry.strokes + in_entry.strokes if @number_of_holes == 18
+    total_entry.putts = out_entry.putts + in_entry.putts if @number_of_holes == 18
   end
 end
 
