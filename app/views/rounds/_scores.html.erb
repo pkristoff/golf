@@ -21,12 +21,14 @@
       <td id=<%= "score-strokes-heading-#{tee.id}" %> class="heading-cell"><%= Label::Score::STROKES %>:</td>
       <% in_out_tot = 0 %>
       <% total = 0 %>
-      <% local_assigns[:score_holes].each do |score_hole| %>
+      <% local_assigns[:score_holes].each_with_index do |score_hole, index| %>
         <% score = score_hole.score %>
         <% hole = score_hole.hole %>
         <% in_out_tot += score.strokes %>
         <% total += score.strokes %>
-        <td id='score-strokes-<%= score.id %>' class="strokes-cell-<%= score.green_in_regulation %>"><%= score.strokes %></td>
+        <%= render 'rounds/golf_term', strokes: score.strokes, stroke_type: :strokes,
+                   index: index, green_in_regulation: score.green_in_regulation,
+                   par: score.hole.par %>
         <% if hole.number == 9 %>
           <td id=<%= "total-out-strokes-#{tee.id}" %> class="strokes-cell"> <%= in_out_tot %> </td>
           <% in_out_tot = 0 %>

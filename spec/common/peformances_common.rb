@@ -61,19 +61,36 @@ module PerformancesCommon
         expect(rendered_or_page).to have_selector("#{header_row_txt} td[id=hole-number-#{num}]",
                                                   count: 1, text: num)
       end
-      strokes_row_txt = "#{table_txt} tr[id=strokes-#{values[:tee_id]}]"
-      expect(rendered_or_page).to have_selector(strokes_row_txt, count: 1)
-      expect(rendered_or_page).to have_selector("#{strokes_row_txt} td[id=strokes-heading-#{values[:tee_id]}]",
-                                                count: 1, text: 'Avg Strokes:')
-      values[:avg_strokes].each_with_index do |num, index|
-        expect(rendered_or_page).to have_selector("#{strokes_row_txt} td[id=strokes-#{index}]",
-                                                  count: 1, text: num)
-      end
+      puts rendered_or_page
+      strokes_cell(rendered_or_page, :max_strokes, 'Max Strokes:', values, true, table_txt)
+      strokes_cell(rendered_or_page, :avg_strokes, 'Avg Strokes:', values, false, table_txt)
+      strokes_cell(rendered_or_page, :min_strokes, 'Min Strokes:', values, true, table_txt)
+
       putts_row_txt = "#{table_txt} tr[id=putts-#{values[:tee_id]}]"
       expect(rendered_or_page).to have_selector(putts_row_txt, count: 1)
       values[:avg_putts].each_with_index do |num, index|
         expect(rendered_or_page).to have_selector("#{putts_row_txt} td[id=putts-#{index}]",
                                                   count: 1, text: num)
+      end
+    end
+
+    def strokes_cell(rendered_or_page, sym, header, values, expect_golf_term, pre_css = '')
+      row_css = "#{pre_css} tr[id=#{sym}-#{values[:tee_id]}]"
+      expect(rendered_or_page).to have_selector(row_css, count: 1)
+      expect(rendered_or_page).to have_selector("#{row_css} td[id=#{sym}-heading-#{values[:tee_id]}]",
+                                                count: 1, text: header)
+      expected_golf_terms = expect_golf_term ? values["#{sym}_golf_term".to_sym] : []
+      values[sym].each_with_index do |num, index|
+        if expect_golf_term
+          golf_term = expected_golf_terms[index]
+          td_css = "#{row_css} td[id=#{sym}-#{index}][title='#{golf_term}']" unless golf_term.empty?
+          td_css = "#{row_css} td[id=#{sym}-#{index}]" if golf_term.empty?
+          expect(rendered_or_page).to have_selector(td_css,
+                                                    count: 1, text: num)
+        else
+          expect(rendered_or_page).to have_selector("#{row_css} td[id=#{sym}-#{index}]",
+                                                    count: 1, text: num)
+        end
       end
     end
 

@@ -30,20 +30,26 @@
             <td id='hole-hdcp-<%= index %>' class="number-cell"><%= hdcp %></td>
           <% end %>
         </tr>
+        <% # Max Strokes %>
+        <%= render 'performances/strokes_with_golf_term', tee: tee, pc_average_holes: pc_average_holes,
+                   stroke_type: :max_strokes, heading: 'Max Strokes:' %>
         <% # Strokes %>
-        <tr id=<%= "strokes-#{tee.id}" %>>
-          <td id=<%= "strokes-heading-#{tee.id}" %> class="heading-cell">Avg Strokes:</td>
+        <tr id=<%= "avg_strokes-#{tee.id}" %>>
+          <td id=<%= "avg_strokes-heading-#{tee.id}" %> class="heading-cell">Avg Strokes:</td>
           <% pc_average_holes.each_with_index do |average_hole, index| %>
-            <% strokes = average_hole.strokes %>
-            <td id='strokes-<%= index %>' class="number-cell"><%= '%.1f' % strokes %></td>
+            <% avg_strokes = average_hole.strokes %>
+            <td id='avg_strokes-<%= index %>' class="number-cell"><%= '%.1f' % avg_strokes %></td>
           <% end %>
         </tr>
+        <% # Min Strokes %>
+        <%= render 'performances/strokes_with_golf_term', tee: tee, pc_average_holes: pc_average_holes,
+                   stroke_type: :min_strokes, heading: 'Min Strokes:' %>
         <% # putts %>
         <tr id=<%= "putts-#{tee.id}" %>>
           <td id=<%= "putts-heading-#{tee.id}" %> class="heading-cell">Avg Putts:</td>
           <% pc_average_holes.each_with_index do |average_hole, index| %>
-            <% putts = average_hole.putts %>
-            <td id='putts-<%= index %>' class="number-cell"><%= '%.1f' % putts %></td>
+            <% avg_putts = average_hole.putts %>
+            <td id='putts-<%= index %>' class="number-cell"><%= '%.1f' % avg_putts %></td>
           <% end %>
         </tr>
       </table>

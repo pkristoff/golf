@@ -1,0 +1,13 @@
+<tr id=<%= "#{stroke_type}-#{tee.id}" %>>
+  <td id=<%= "#{stroke_type}-heading-#{tee.id}" %> class="heading-cell"><%= heading %></td>
+  <% pc_average_holes.each_with_index do |average_hole, index| %>
+    <% strokes = average_hole.send(stroke_type) %>
+    <% if average_hole.title == 'Out' || average_hole.title == 'In' || average_hole.title == 'Total' %>
+      <td id='<%= stroke_type %>-<%= index %>' class="number-cell"><%= strokes %></td>
+    <% else %>
+      <%= render 'rounds/golf_term', strokes: strokes, stroke_type: stroke_type,
+                 index: index, green_in_regulation: average_hole.green_in_regulation,
+                 par: average_hole.par %>
+    <% end %>
+  <% end %>
+</tr>

@@ -96,4 +96,38 @@ describe Score, type: :model do
       expect(score.green_in_regulation).to be(true)
     end
   end
+  describe 'golf_term' do
+    it 'should return Albatross' do
+      expect(Score.golf_term(5, 2)).to eq('Albatross')
+      expect(Score.golf_term(4, 1)).to eq('Albatross')
+    end
+    it 'should return Eagle' do
+      expect(Score.golf_term(5, 3)).to eq('Eagle')
+      expect(Score.golf_term(4, 2)).to eq('Eagle')
+      expect(Score.golf_term(3, 1)).to eq('Eagle')
+    end
+    it 'should return Birdie' do
+      expect(Score.golf_term(5, 4)).to eq('Birdie')
+      expect(Score.golf_term(4, 3)).to eq('Birdie')
+      expect(Score.golf_term(3, 2)).to eq('Birdie')
+    end
+    it 'should return Par' do
+      expect(Score.golf_term(5, 5)).to eq('Par')
+      expect(Score.golf_term(4, 4)).to eq('Par')
+      expect(Score.golf_term(3, 3)).to eq('Par')
+    end
+    it 'should return Double-bogey' do
+      expect(Score.golf_term(5, 7)).to eq('Double-bogey')
+      expect(Score.golf_term(4, 6)).to eq('Double-bogey')
+      expect(Score.golf_term(3, 5)).to eq('Double-bogey')
+    end
+    it 'should return Triple-bogey' do
+      expect(Score.golf_term(5, 8)).to eq('Triple-bogey')
+      expect(Score.golf_term(4, 7)).to eq('Triple-bogey')
+      expect(Score.golf_term(3, 6)).to eq('Triple-bogey')
+
+      expect(Score.golf_term(5, 10)).to eq('Triple-bogey')
+      expect(Score.golf_term(5, 1)).to eq('Triple-bogey')
+    end
+  end
 end

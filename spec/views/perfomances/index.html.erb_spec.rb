@@ -45,6 +45,16 @@ RSpec.describe 'performances/index.html.erb', type: :view do
                                       course_name: course.name,
                                       tee_color: tee.color,
                                       tee_id: tee.id,
+                                      max_strokes: [5, 5, 4, 6, 4, 5, 4, 6, 5, 44, 5, 3, 6, 5, 6, 5, 5, 5, 5, 45, 89],
+                                      max_strokes_golf_term: ['Bogey', 'Bogey', 'Bogey', 'Double-bogey', 'Par', 'Bogey',
+                                                              'Bogey', 'Double-bogey', 'Par', '',
+                                                              'Bogey', 'Par', 'Bogey', 'Bogey', 'Double-bogey', 'Bogey',
+                                                              'Par', 'Double-bogey', 'Bogey', '', ''],
+                                      min_strokes_golf_term: ['Bogey', 'Bogey', 'Bogey', 'Double-bogey', 'Par', 'Bogey',
+                                                              'Bogey', 'Double-bogey', 'Par', '',
+                                                              'Bogey', 'Par', 'Bogey', 'Bogey', 'Double-bogey', 'Bogey',
+                                                              'Par', 'Double-bogey', 'Bogey', '', ''],
+                                      min_strokes: [5, 5, 4, 6, 4, 5, 4, 6, 5, 44, 5, 3, 6, 5, 6, 5, 5, 5, 5, 45, 89],
                                       avg_strokes: [5, 5, 4, 6, 4, 5, 4, 6, 5, 44, 5, 3, 6, 5, 6, 5, 5, 5, 5, 45, 89],
                                       avg_putts: [2, 2, 2, 3, 3, 2, 2, 3, 1, 20, 1, 1, 1, 2, 3, 1, 2, 2, 2, 15, 35]
                                     })
@@ -70,6 +80,12 @@ RSpec.describe 'performances/index.html.erb', type: :view do
                                       tee_color: tee.color,
                                       tee_id: tee.id,
                                       # rubocop:disable Layout/LineLength
+                                      max_strokes: [8, 5, 4, 6, 4, 5, 4, 6, 7, 49, 5, 3, 6, 5, 6, 5, 5, 5, 5, 45, 91],
+                                      min_strokes: [5, 5, 4, 6, 4, 5, 4, 6, 5, 44, 3, 3, 6, 5, 6, 5, 5, 5, 4, 42, 89],
+                                      max_strokes_golf_term: ['Triple-bogey', 'Bogey', 'Bogey', 'Double-bogey', 'Par', 'Bogey', 'Bogey', 'Double-bogey', 'Double-bogey', '',
+                                                              'Bogey', 'Par', 'Bogey', 'Bogey', 'Double-bogey', 'Bogey', 'Par', 'Double-bogey', 'Bogey', '', ''],
+                                      min_strokes_golf_term: ['Bogey', 'Bogey', 'Bogey', 'Double-bogey', 'Par', 'Bogey', 'Bogey', 'Double-bogey', 'Par', '',
+                                                              'Birdie', 'Par', 'Bogey', 'Bogey', 'Double-bogey', 'Bogey', 'Par', 'Double-bogey', 'Par', '', ''],
                                       avg_strokes: [6.5, 5.0, 4.0, 6.0, 4.0, 5.0, 4.0, 6.0, 6.0, 46.5, 4.0, 3.0, 6.0, 5.0, 6.0, 5.0, 5.0, 5.0, 4.5, 43.5, 90.0],
                                       avg_putts: [1.5, 2.0, 2.0, 3.0, 3.0, 2.0, 2.0, 3.0, 3.0, 21.5, 2.0, 1.0, 1.0, 2.0, 3.0, 1.0, 2.0, 2.0, 1.5, 15.5, 37.0]
                                       # rubocop:enable Layout/LineLength

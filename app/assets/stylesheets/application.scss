@@ -19,10 +19,13 @@
 // Custom bootstrap variables must be set or imported *before* bootstrap.
 @import "bootstrap";
 
-.field_with_errors input{
+.field_with_errors input {
   border: 1px solid red !important;
 }
-label {font-weight: bold}
+
+label {
+  font-weight: bold
+}
 
 .heading-cell {
   width: 80px;
@@ -55,17 +58,49 @@ label {font-weight: bold}
   border: 1px solid black
 }
 
-.strokes-cell-true, .strokes-cell-false, .strokes-cell {
+.gir-true, .gir-false, .strokes-cell {
   border: 1px solid black;
   text-align: center;
 }
 
-.strokes-cell-false {
+.gir-false {
   background-color: red;
 }
 
-.strokes-cell-true {
+.gir-true {
   background-color: green;
+}
+
+.par {
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+  line-height: 25px;
+  padding-bottom: 25px;
+  margin: auto;
+  color: #000;
+}
+
+.birdie {
+  border-radius: 50%;
+  border: 1px solid #000;
+  color: #fff;
+}
+
+.eagle, .albatross{
+  border-radius: 50%;
+  border: 3px double #000;
+  color: #fff;
+}
+
+.bogey {
+  border: 1px solid black;
+  color: #fff;
+}
+
+.double-bogey, .triple-bogey {
+  border: 3px double black;
+  color: #fff;
 }
 
 .putts-cell {

@@ -61,19 +61,41 @@ class PerformanceCourse
     in_entry = @average_holes[19]
     total_entry = @average_holes[20]
     @tee.sorted_rounds.each do |round|
+      total_out_strokes = 0
+      total_in_strokes = 0
+      total_out_putts = 0
+      total_in_putts = 0
       round.sorted_score_holes.each_with_index do |score_hole, index|
         entry = @average_holes[index] if score_hole.hole.number < 10
         entry = @average_holes[index + 1] if score_hole.hole.number > 9
-        strokes = score_hole.score.strokes.fdiv(@tee.rounds.size)
-        putts = score_hole.score.putts.fdiv(@tee.rounds.size)
+        strokes = score_hole.score.strokes
+        entry.green_in_regulation = score_hole.score.green_in_regulation
+        putts = score_hole.score.putts
+        avg_strokes = strokes.fdiv(@tee.rounds.size)
+        avg_putts = putts.fdiv(@tee.rounds.size)
 
-        out_entry.strokes += strokes if index < 9
-        in_entry.strokes += strokes if index >= 9
-        entry.strokes += strokes if out_entry != entry && in_entry != entry
-        out_entry.putts += putts if index < 9
-        in_entry.putts += putts if index >= 9
-        entry.putts += putts if out_entry != entry && in_entry != entry
+        entry.max_strokes = [entry.max_strokes, strokes].max
+        entry.min_strokes = [entry.min_strokes, strokes].min
+
+        total_out_strokes += strokes if index < 9
+        total_in_strokes += strokes if @number_of_holes == 18 && index >= 9 && index < 19
+        # puts "strokes=#{strokes} total_in_strokes=#{total_in_strokes}  index=#{index}"
+        total_out_putts += putts if index < 9
+        total_in_putts += putts if @number_of_holes == 18 && index >= 9 && index < 19
+
+        out_entry.strokes += avg_strokes if index < 9
+        in_entry.strokes += avg_strokes if index >= 9
+        entry.strokes += avg_strokes if out_entry != entry && in_entry != entry
+        out_entry.putts += avg_putts if index < 9
+        in_entry.putts += avg_putts if index >= 9 && @number_of_holes == 18
+        entry.putts += avg_putts if out_entry != entry && in_entry != entry
       end
+      out_entry.max_strokes = [out_entry.max_strokes, total_out_strokes].max
+      out_entry.min_strokes = [out_entry.min_strokes, total_out_strokes].min
+      in_entry.max_strokes = [in_entry.max_strokes, total_in_strokes].max if @number_of_holes == 18
+      in_entry.min_strokes = [in_entry.min_strokes, total_in_strokes].min if @number_of_holes == 18
+      total_entry.max_strokes = [total_entry.max_strokes, total_out_strokes + total_in_strokes].max if @number_of_holes == 18
+      total_entry.min_strokes = [total_entry.min_strokes, total_out_strokes + total_in_strokes].min if @number_of_holes == 18
     end
     total_entry.strokes = out_entry.strokes + in_entry.strokes if @number_of_holes == 18
     total_entry.putts = out_entry.putts + in_entry.putts if @number_of_holes == 18
@@ -83,7 +105,8 @@ end
 # Helper class
 #
 class AverageHole
-  attr_accessor :title, :strokes, :putts, :strokes_under80, :max_strokes, :min_strokes, :par, :hdcp
+  attr_accessor :title, :strokes, :putts, :strokes_under80, :max_strokes, :min_strokes, :par, :hdcp,
+                :green_in_regulation
 
   # initialize
   #

@@ -1,0 +1,4 @@
+<%  golf_term = Score.golf_term(par, strokes) %>
+<td id='<%= stroke_type %>-<%= index %>' class="gir-<%= green_in_regulation %>" title="<%= golf_term %>">
+  <span class="par <%= golf_term.downcase %>"><%= strokes %></span>
+</td>
