@@ -61,7 +61,6 @@ module PerformancesCommon
         expect(rendered_or_page).to have_selector("#{header_row_txt} td[id=hole-number-#{num}]",
                                                   count: 1, text: num)
       end
-      puts rendered_or_page
       strokes_cell(rendered_or_page, :max_strokes, 'Max Strokes:', values, true, table_txt)
       strokes_cell(rendered_or_page, :avg_strokes, 'Avg Strokes:', values, false, table_txt)
       strokes_cell(rendered_or_page, :min_strokes, 'Min Strokes:', values, true, table_txt)
