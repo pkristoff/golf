@@ -153,6 +153,176 @@ class Tee < ApplicationRecord
     holes_inorder_with_totals(:yardage)
   end
 
+  # calculate max score allowed for course_hdcp
+  #
+  # === Parameters:
+  #
+  # * <tt>:course_hdcp</tt> current course_hdcp
+  # * <tt>:hole_par</tt> par for the hole
+  #
+  # === Returns:
+  #
+  # * <tt>integer</tt> max strokes allowed for hole
+  #
+  def self.max_hdcp_score(course_hdcp, hole_par)
+    case course_hdcp
+    when 0..9
+      hole_par + 2
+    when 10..19
+      7
+    when 20..29
+      8
+    when 30..39
+      9
+    else
+      10
+    end
+  end
+
+  # current course handicccap
+  # 50 is the given default course handicap
+  #
+  # === Returns:
+  #
+  # * <tt>Float</tt> to 1 decimal plasce
+  #
+  def current_course_handicap
+    return 50 if @course_hdcp.nil?
+
+    @course_hdcp
+  end
+
+  # Calculate adjusted gross score
+  #
+  # === Parameters:
+  #
+  # * <tt>:course_hdcp</tt> current course handicap
+  # * <tt>:strokes</tt> strokes for current hole
+  # * <tt>:par</tt> par for current hole
+  #
+  # === Returns:
+  #
+  # * <tt>strokes</tt> the minimum of stroes and max hdcp allowed
+  #
+  def self.calc_adjusted_score(course_hdcp, strokes, par)
+    max_strokes = Tee.max_hdcp_score(course_hdcp, par)
+    [max_strokes, strokes].min
+  end
+
+  # calculate handicap differential
+  #
+  # === Parameters:
+  #
+  # * <tt>:ags</tt> adjusted gross score
+  # * <tt>:course_rating</tt> tee rating
+  # * <tt>:slope_rating</tt> tee slope rating
+  #
+  # === Returns:
+  #
+  # * <tt>Hole</tt>
+  #
+  def self.calc_handicap_differential(ags, course_rating, slope_rating)
+    # (AGS - Course Rating) x 113 / Slope Rating
+    hd = ((ags - course_rating) * 113) / slope_rating
+    hd.round(1)
+  end
+
+  # Calculate handicap index
+  #
+  # === Parameters:
+  #
+  # * <tt>:handicap_differentials</tt> Array of handicap differential
+  #
+  # === Returns:
+  #
+  # * <tt>Float</tt>truncated to the first decimal place
+  #
+  def self.calc_handicap_index(handicap_differentials)
+    # https://www.usga.org/content/usga/home-page/handicapping/roh/Content/rules/5%202%20Calculation%20of%20a%20Handicap%20Index.htm
+    case handicap_differentials.size
+    when 1
+      adjustment = 4
+      diffs_to_use = handicap_differentials.sort.first(1)
+    when 2
+      adjustment = 3
+      diffs_to_use = handicap_differentials.sort.first(1)
+    when 3
+      adjustment = 2
+      diffs_to_use = handicap_differentials.sort.first(1)
+    when 4
+      adjustment = 1
+      diffs_to_use = handicap_differentials.sort.first(1)
+    when 5
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(1)
+    when 6
+      adjustment = 1
+      diffs_to_use = handicap_differentials.sort.first(2)
+    when 7..8
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(2)
+    when 9..11
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(3)
+    when 12..14
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(4)
+    when 15..16
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(5)
+    when 17..18
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(6)
+    when 19
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(7)
+    when 20
+      adjustment = 0
+      diffs_to_use = handicap_differentials.sort.first(8)
+    else
+      raise("Only number of handicap_differentials is 1-20 but '#{handicap_differentials.size}'")
+    end
+    avg = diffs_to_use.sum.fdiv(diffs_to_use.size) - adjustment
+    (avg * 0.96).truncate(1)
+  end
+
+  # course handicapa
+  #
+  # === Returns:
+  #
+  # * <tt>Float</tt> rounded to first decimal
+  #
+  def calc_course_handicap
+    # https://www.wikihow.com/Calculate-Your-Golf-Handicap
+    hdcp_diffs = sorted_rounds.map do |round|
+      gross_score = 0
+      round.sorted_score_holes.each do |score_hole|
+        adj_score = Tee.calc_adjusted_score(current_course_handicap, score_hole.score.strokes, score_hole.hole.par)
+        gross_score += adj_score
+      end
+      handicap_differential = Tee.calc_handicap_differential(gross_score, rating, slope)
+      handicap_differential
+    end
+    Tee.calc_course_handicap(Tee.calc_handicap_index(hdcp_diffs), slope)
+  end
+
+  # Find the Hole with number hole_num
+  #
+  # === Parameters:
+  #
+  # * <tt>:handicap_index</tt>
+  # * <tt>:slope</tt> tee slope rating
+  #
+  # === Returns:
+  #
+  # * <tt>Float</tt> rouded to first decimal
+  #
+  def self.calc_course_handicap(handicap_index, slope)
+    # (Handicap Index) x (Slope Rating) / 113.
+    course_hdcp = (handicap_index * slope) / 113
+    course_hdcp.round(1)
+  end
+
   private
 
   def add_empty_hole(num)
