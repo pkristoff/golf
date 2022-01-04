@@ -265,12 +265,12 @@ describe Tee, type: :model do
         end
       end
     end
-    describe 'Handicap Differential' do
+    describe 'Score Differential' do
       it 'ags:85 ' do
         ags = 85
         course_rating = 69.3
         slope_rating = 117
-        expect(Tee.calc_handicap_differential(ags, course_rating, slope_rating)).to eq(15.2)
+        expect(Tee.calc_score_differential(ags, course_rating, slope_rating)).to eq(15.2)
       end
     end
     describe 'Handicap Index' do
@@ -280,105 +280,159 @@ describe Tee, type: :model do
         @handicap_differentials_r = @handicap_differentials.reverse
       end
       it 'one ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(1))).to eq(5.7)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(1))).to eq(45.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(1))).to eq(5.7)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(1))).to eq(45.1)
       end
       it 'two ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(2))).to eq(6.7)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(2))).to eq(44.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(2))).to eq(6.7)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(2))).to eq(44.1)
       end
       it 'three ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(3))).to eq(7.6)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(3))).to eq(43.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(3))).to eq(7.6)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(3))).to eq(43.1)
       end
       it 'four ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(4))).to eq(8.6)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(4))).to eq(42.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(4))).to eq(8.6)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(4))).to eq(42.2)
       end
       it 'five ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(5))).to eq(9.6)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(5))).to eq(41.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(5))).to eq(9.6)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(5))).to eq(41.2)
       end
       it 'six ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(6))).to eq(10.0)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(6))).to eq(39.3)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(6))).to eq(10.0)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(6))).to eq(39.3)
       end
       it 'seven ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(7))).to eq(11.0)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(7))).to eq(38.4)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(7))).to eq(11.0)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(7))).to eq(38.4)
       end
       it 'eight ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(8))).to eq(11.0)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(8))).to eq(36.4)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(8))).to eq(11.0)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(8))).to eq(36.4)
       end
       it 'nine ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(9))).to eq(12.1)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(9))).to eq(35.5)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(9))).to eq(12.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(9))).to eq(35.5)
       end
       it 'ten ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(10))).to eq(12.1)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(10))).to eq(33.6)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(10))).to eq(12.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(10))).to eq(33.6)
       end
       it 'eleven ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(11))).to eq(12.1)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(11))).to eq(31.6)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(11))).to eq(12.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(11))).to eq(31.6)
       end
       it 'twelve ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(12))).to eq(13.2)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(12))).to eq(30.7)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(12))).to eq(13.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(12))).to eq(30.7)
       end
       it 'thirteen ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(13))).to eq(13.2)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(13))).to eq(28.8)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(13))).to eq(13.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(13))).to eq(28.8)
       end
       it 'fourteen ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(14))).to eq(13.2)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(14))).to eq(26.8)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(14))).to eq(13.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(14))).to eq(26.8)
       end
       it 'fifteen ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(15))).to eq(14.2)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(15))).to eq(25.9)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(15))).to eq(14.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(15))).to eq(25.9)
       end
       it 'sixteen ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(16))).to eq(14.2)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(16))).to eq(24.0)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(16))).to eq(14.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(16))).to eq(24.0)
       end
       it 'seventeen ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(17))).to eq(15.2)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(17))).to eq(23.0)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(17))).to eq(15.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(17))).to eq(23.0)
       end
       it 'eighteen ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(18))).to eq(15.2)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(18))).to eq(21.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(18))).to eq(15.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(18))).to eq(21.1)
       end
       it 'nineteen ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(19))).to eq(16.1)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(19))).to eq(20.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(19))).to eq(16.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(19))).to eq(20.1)
       end
       it 'twenty ' do
-        expect(Tee.calc_handicap_index(@handicap_differentials.first(20))).to eq(17.1)
-        expect(Tee.calc_handicap_index(@handicap_differentials_r.first(20))).to eq(19.2)
+        expect(Tee.calc_scoring_index(@handicap_differentials.first(20))).to eq(17.1)
+        expect(Tee.calc_scoring_index(@handicap_differentials_r.first(20))).to eq(19.2)
+      end
+      it 'example 1 ' do
+        # https://www.usga.org/content/usga/home-page/handicapping/roh/Content/rules/5%202%20Calculation%20of%20a%20Handicap%20Index.htm
+        expectd_result = 34.1
+        handicap_differentials = [40.7, 42.4, 36.1]
+        expect(Tee.calc_scoring_index(handicap_differentials)).to eq((expectd_result * 0.96).truncate(1))
+      end
+      it 'example 2 ' do
+        # https://www.usga.org/content/usga/home-page/handicapping/roh/Content/rules/5%202%20Calculation%20of%20a%20Handicap%20Index.htm
+        expectd_result = 37.4
+        handicap_differentials = [40.7, 42.4, 36.1, 45.9, 43.6, 45.0]
+        expect(Tee.calc_scoring_index(handicap_differentials)).to eq((expectd_result * 0.96).truncate(1))
       end
       it 'zero ' do
         # rubocop:disable Layout/LineLength
-        expect { Tee.calc_handicap_index([]) }.to raise_error(RuntimeError) { "Only number of handicap_differentials is 1-20 but '0' were sent" }
+        expect { Tee.calc_scoring_index([]) }.to raise_error(RuntimeError) { "Only number of handicap_differentials is 1-20 but '0' were sent" }
         # rubocop:enable Layout/LineLength
       end
       it 'twenty-one ' do
         # rubocop:disable Layout/LineLength
-        expect { Tee.calc_handicap_index(@handicap_differentials.first(21)) }.to raise_error(RuntimeError) { "Only number of handicap_differentials is 1-20 but '21' were sent" }
+        expect { Tee.calc_scoring_index(@handicap_differentials.first(21)) }.to raise_error(RuntimeError) { "Only number of handicap_differentials is 1-20 but '21' were sent" }
         # rubocop:enable Layout/LineLength
       end
     end
     describe 'instance Course Handicap' do
       before do
-        @round = FactoryBot.create(:round, date: Time.zone.now.to_date)
+        @round = FactoryBot.create(:round, date: Time.zone.now.to_date - 5)
         # rubocop:disable Layout/LineLength
-        @round2 = FactoryBot.create(:round, date: Time.zone.now.to_date - 5, tee: @round.tee, round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO2])
+        @round2 = FactoryBot.create(:round, date: Time.zone.now.to_date, tee: @round.tee, round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO2])
         # rubocop:enable Layout/LineLength
       end
       it 'two rounds' do
-        expect(@round.tee.calc_course_handicap).to eq(13.0)
+        expect(@round.tee.calc_course_handicap(@round2)).to eq(13.6)
+      end
+    end
+    describe 'initial setting of round handicap' do
+      it 'one round' do
+        round = FactoryBot.create(:round, date: Time.zone.now.to_date)
+        round.tee.set_round_handicap
+
+        round = Round.find_by(id: round.id)
+        expect(round.handicap).to eq(12.4)
+      end
+      it 'two rounds' do
+        round = FactoryBot.create(:round, date: Time.zone.now.to_date - 5)
+        round2 = FactoryBot.create(:round,
+                                   date: Time.zone.now.to_date,
+                                   tee: round.tee,
+                                   round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO2])
+        round.tee.set_round_handicap
+
+        expect(Round.find_by(id: round.id).handicap).to eq(12.4)
+        round2 = Round.find_by(id: round2.id)
+        expect(round2.handicap).to eq(13.6)
+      end
+    end
+    describe 'set_round_handicap for new round' do
+      it 'one round' do
+        round = FactoryBot.create(:round, date: Time.zone.now.to_date)
+        round.tee.set_round_handicap
+
+        round = Round.find_by(id: round.id)
+        expect(round.handicap).to eq(12.4)
+      end
+      it 'two rounds' do
+        round = FactoryBot.create(:round, date: Time.zone.now.to_date - 5, handicap: 11.8)
+        round2 = FactoryBot.create(:round,
+                                   date: Time.zone.now.to_date,
+                                   tee: round.tee,
+                                   round_score_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO2])
+        round.tee.set_round_handicap
+        round.save!
+
+        round2 = Round.find_by(id: round2.id)
+        expect(round2.handicap).to eq(13.6)
       end
     end
   end

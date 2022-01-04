@@ -73,7 +73,7 @@ feature 'new round buttons' do
     RoundsCommon.expect_new_round(
       page,
       @tee,
-      { date: '2021-11-12',
+      { date: '2021-12-26',
         course_name: @course.name,
         show_tees: true }
     )
