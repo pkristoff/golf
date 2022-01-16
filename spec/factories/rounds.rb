@@ -9,7 +9,7 @@ FactoryBot.define do
       round_score_info { TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO] }
     end
     tee do
-      course = FactoryBot.create(:course, name: 'prk') if instance.tee.nil?
+      course = FactoryBot.create(:course, name: unique_name('prk')) if instance.tee.nil?
       course.tee('Black') if instance.tee.nil?
     end
     after(:create) do |round, evaluator|
@@ -45,6 +45,8 @@ FactoryBot.define do
   end
 end
 
+private
+
 # generate error message for round
 #
 # === Parameters:
@@ -60,7 +62,17 @@ def generate_error_message(round, expected, sum, type)
   # rubocop:enable Layout/LineLength
 end
 
-private
+def unique_name(base_name)
+  the_name = base_name
+  i = 0
+  course = Course.find_by(name: the_name)
+  until course.nil?
+    i += 1
+    the_name = base_name + i.to_s
+    course = Course.find_by(name: the_name)
+  end
+  the_name
+end
 
 def check_totals(round, front_nine_strokes, front_nine_putts,
                  back_nine_strokes, back_nine_putts,

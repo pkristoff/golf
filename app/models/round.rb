@@ -3,6 +3,7 @@
 # Round
 #
 class Round < ApplicationRecord
+  include DebugHelper
   has_many(:score_holes, dependent: :destroy)
   belongs_to(:tee, validate: false)
   accepts_nested_attributes_for(:score_holes, allow_destroy: true)
@@ -91,6 +92,19 @@ class Round < ApplicationRecord
   def self.rounds(course)
     Round.all.select do |round|
       round.course.name == course.name
+    end
+  end
+
+  # prints round date and score differential - debug
+  #
+  # === Parameters:
+  #
+  # * <tt>:rounds</tt>
+  #
+  def self.print(rounds)
+    rounds.each do |rd|
+      score_differential = Account.calc_score_differential(rd, 50)
+      xpp('Date', rd.date, 'score_diff', score_differential)
     end
   end
 

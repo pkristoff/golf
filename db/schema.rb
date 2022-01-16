@@ -10,10 +10,17 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_13_002630) do
+ActiveRecord::Schema.define(version: 2022_01_04_103604) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "accounts", force: :cascade do |t|
+    t.string "name", default: "Paul", null: false
+    t.decimal "handicap_index", default: "0.0", null: false
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+  end
 
   create_table "addresses", force: :cascade do |t|
     t.string "street1", default: "", null: false
@@ -47,8 +54,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.date "date", default: "2021-12-26", null: false
-    t.decimal "handicap", default: "0.0", null: false
+    t.date "date", default: "2022-01-09", null: false
     t.bigint "tee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -86,6 +92,7 @@ ActiveRecord::Schema.define(version: 2020_10_13_002630) do
     t.bigint "course_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "course_index", default: "0.0", null: false
     t.index ["color", "course_id"], name: "index_tees_on_color_and_course_id", unique: true
     t.index ["course_id"], name: "index_tees_on_course_id"
   end

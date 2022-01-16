@@ -3,6 +3,7 @@
 # Tee
 #
 class Tee < ApplicationRecord
+  include DebugHelper
   belongs_to(:course)
 
   has_many(:holes, dependent: :destroy)
@@ -179,33 +180,21 @@ class Tee < ApplicationRecord
     end
   end
 
-  # current course handicccap
-  # 50 is the given default course handicap
+  # Calculate course handicap
+  #
+  # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
+  #
+  # === Parameters:
+  #
+  # * <tt>:handicap_index</tt> the multi-course handicap
   #
   # === Returns:
   #
-  # * <tt>Float</tt> to 1 decimal plasce
+  # * <tt>Integer</tt>
   #
-  def current_course_handicap
-    previous = 0.0
-    sorted_rounds.each do |round|
-      break if round.handicap.zero?
-
-      previous = round.handicap
-    end
-    return 50 if previous.zero?
-
-    previous
-  end
-
-  # Calculate and saves round handicap
-  #
-  def set_round_handicap
-    sorted_rounds.each do |round|
-      course_handicap = calc_course_handicap(round) if round.handicap.zero?
-      round.handicap = course_handicap if round.handicap.zero?
-      round.save!
-    end
+  def course_handiccap(handicap_index)
+    # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
+    Tee.calc_course_handicap(handicap_index, slope, rating, par)
   end
 
   # Calculate adjusted gross score
@@ -241,8 +230,6 @@ class Tee < ApplicationRecord
     # https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html
     pcc_adjustment = 0
     score_differential = 113.fdiv(slope_rating) * (ags - course_rating - pcc_adjustment)
-    # hd = ((ags - course_rating) * 113) / slope_rating
-    # hd.round(1)
     score_differential.round(1)
   end
 
@@ -256,90 +243,62 @@ class Tee < ApplicationRecord
   #
   # * <tt>Float</tt>truncated to the first decimal place
   #
-  def self.calc_scoring_index(score_differentials)
-    # https://www.usga.org/content/usga/home-page/handicapping/roh/Content/rules/5%202%20Calculation%20of%20a%20Handicap%20Index.htm
+  def self.calc_handicap_index(score_differentials)
+    # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
+    sorted_score_diff = score_differentials.sort
     case score_differentials.size
     when 1
       adjustment = 4
-      diffs_to_use = score_differentials.sort.first(1)
+      diffs_to_use = sorted_score_diff.first(1)
     when 2
       adjustment = 3
-      diffs_to_use = score_differentials.sort.first(1)
+      diffs_to_use = sorted_score_diff.first(1)
     when 3
       adjustment = 2
-      diffs_to_use = score_differentials.sort.first(1)
+      diffs_to_use = sorted_score_diff.first(1)
     when 4
       adjustment = 1
-      diffs_to_use = score_differentials.sort.first(1)
+      diffs_to_use = sorted_score_diff.first(1)
     when 5
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(1)
+      diffs_to_use = sorted_score_diff.first(1)
     when 6
       adjustment = 1
-      diffs_to_use = score_differentials.sort.first(2)
+      diffs_to_use = sorted_score_diff.first(2)
     when 7..8
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(2)
+      diffs_to_use = sorted_score_diff.first(2)
     when 9..11
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(3)
+      diffs_to_use = sorted_score_diff.first(3)
     when 12..14
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(4)
+      diffs_to_use = sorted_score_diff.first(4)
     when 15..16
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(5)
+      diffs_to_use = sorted_score_diff.first(5)
     when 17..18
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(6)
+      diffs_to_use = sorted_score_diff.first(6)
     when 19
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(7)
+      diffs_to_use = sorted_score_diff.first(7)
     when 20
       adjustment = 0
-      diffs_to_use = score_differentials.sort.first(8)
+      diffs_to_use = sorted_score_diff.first(8)
     else
       raise("Only number of handicap_differentials is 1-20 but '#{score_differentials.size}'")
     end
-    avg = diffs_to_use.sum.fdiv(diffs_to_use.size) - adjustment
-    (avg * 0.96).truncate(1)
+    lowest_score_diff = diffs_to_use.sum.fdiv(diffs_to_use.size)
+    lowest_score_diff_adj = lowest_score_diff - adjustment
+    xpp('diffs_to_use', diffs_to_use.map { |x| format('%.1f', x) }, 'adjustment', adjustment)
+    xpp('lowest_score_diff', lowest_score_diff, 'lowest_score_diff_adj', lowest_score_diff_adj)
+    x = (lowest_score_diff_adj * 0.96).truncate(1)
+    xpp('score_index', x)
+    x
   end
 
-  # course handicap
-  #
-  # === Parameters:
-  #
-  # * <tt>:round_of_interest</tt> new round
-  #
-  # === Returns:
-  #
-  # * <tt>Float</tt> course_hdcp rounded to first decimal
-  #
-  def calc_course_handicap(round_of_interest)
-    found = false
-    # https://www.wikihow.com/Calculate-Your-Golf-Handicap
-    start_course_handicap = current_course_handicap
-    scoring_diffs = []
-    tee_par = 0
-    sorted_rounds.map do |round|
-      break if found
-
-      gross_score = 0
-      tee_par = 0
-      round.sorted_score_holes.each do |score_hole|
-        adj_score = Tee.calc_adjusted_score(start_course_handicap, score_hole.score.strokes, score_hole.hole.par)
-        tee_par += score_hole.hole.par
-        gross_score += adj_score
-      end
-      scoring_differential = Tee.calc_score_differential(gross_score, rating, slope)
-      found = round_of_interest == round
-      scoring_diffs.push(scoring_differential)
-    end
-    handicap_index = Tee.calc_scoring_index(scoring_diffs)
-    Tee.calc_course_handicap(handicap_index, slope, rating, tee_par)
-  end
-
-  # Calcuate course handicap
+  # Calculate course handicap
   #
   # === Parameters:
   #
@@ -355,7 +314,7 @@ class Tee < ApplicationRecord
   def self.calc_course_handicap(handicap_index, slope, rating, par)
     # (Handicap Index) x (Slope Rating) / 113.
     course_hdcp = (handicap_index * (slope / 113)) + (rating - par)
-    course_hdcp.round(1)
+    course_hdcp.round(0)
   end
 
   private
@@ -398,16 +357,16 @@ class Tee < ApplicationRecord
     golf_holes[0..8].<<(front_nine)
   end
 
-  # debuugging only
-  def print_hole_with_total(xxx)
+  # debugging only
+  def print_hole_with_total(_xxx)
     # xxx.each do |hole|
     #   puts "Hole#{hole.number}" if hole.is_a? Hole
     #   puts "Total#{hole}" unless hole.is_a? Hole
     # end
   end
 
-  # debuugging only
-  def pprint(heading = 'No heading')
+  # debugging only
+  def pprint(_heading = 'No heading')
     #   puts "tee-#{heading}"
     #   puts " color:#{color}"
     #   puts " rating:#{rating}"
