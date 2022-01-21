@@ -6,6 +6,12 @@ Rails.application.routes.draw do
   get 'welcome/filein_db'
   post 'welcome/upload'
 
+  resources :accounts do
+    collection do
+      get 'accounts_index'
+    end
+  end
+
   resources :courses do
     collection do
       get 'rounds_index'

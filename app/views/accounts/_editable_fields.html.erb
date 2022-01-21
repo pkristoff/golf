@@ -1,0 +1,46 @@
+<%= field_set_tag Fieldset::Edit::HEADING, class: 'fieldset' do %>
+  <div id="subheading-div" class="fieldset-field-div">
+    <%= render 'accounts/subheading', account: account %>
+  </div>
+  <div id="edit-div" class="fieldset-field-div">
+    <%= form_with model: account, local: true do |form| %>
+      <div id="line-one" class="field">
+        <%= form.label :name, Label::Account::NAME %><br>
+        <%= form.text_field :name, disabled: form_disabled %>
+        <% unless form_disabled
+             # doing Show.html.erb %>
+          <div>
+            <%= form.submit(Button::Account::SUBMIT) %>
+          </div>
+        <% end %>
+        <%= form.label :name, Label::Account::HANDICAP_INDEX %><br>
+        <%= form.number_field :handicap_index, disabled: true %><br>
+        <%= form.submit(Button::Account::CALCUATE_HANDICAP_INDEX) %>
+        <% if @eighteen_hole_rounds.empty? %>
+          <p><%= 'NO ROUNDS FOUND' %></p>
+        <% else %>
+
+          <table class="table table-striped">
+            <thead>
+            <tr>
+              <th>Course Name</th>
+              <th>Date</th>
+              <th>sd</th>
+            </tr>
+            </thead>
+            <tbody id="18-hole-rounds">
+            <% @eighteen_hole_rounds.each do |round| %>
+              <tr id="tr-id-<%= round.id %>">
+                <td id="course-name-<%= round.id %>"> <%= round.tee.course.name %> </td>
+                <td id="date-<%= round.id %>"> <%= round.date %> </td>
+                <% hi = @account.handicap_index == 0.0 ? 50 : @account.handicap_index %>
+                <td id="sd-<%= round.id %>"> <%= Account.calc_score_differential(round, hi) %> </td>
+              </tr>
+            <% end %>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
+    <% end # form %>
+  </div>
+<% end # field_set %>

@@ -23,7 +23,7 @@ module PerformancesCommon
     #
     def expect_index(rendered_or_page, values = {})
       AsideCommon.expect_aside(rendered_or_page, true) unless rendered_or_page.is_a? String
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 

@@ -47,10 +47,6 @@ describe 'Internal' do
       expect(system('rubocop spec/features')).to eq(true)
     end
 
-    it 'should pass helpers' do
-      expect(system('rubocop spec/helpers')).to eq(true)
-    end
-
     it 'should pass  models' do
       expect(system('rubocop spec/views')).to eq(true)
     end

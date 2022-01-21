@@ -28,7 +28,7 @@ module HoleCommon
     #
     def expect_edit_hole(rendered_or_page, tee, hole, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       expect_holes_list(rendered_or_page, tee, values)
 
@@ -52,7 +52,7 @@ module HoleCommon
     #
     def expect_new_hole(rendered_or_page, tee, values)
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       expect_holes_list(rendered_or_page, tee, values)
 

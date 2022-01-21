@@ -29,7 +29,7 @@ module CourseCommon
     #
     def expect_edit_course(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Course::EDIT_COURSE)
 
@@ -49,7 +49,7 @@ module CourseCommon
     #
     def expect_new_course(rendered_or_page, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Course::NEW_COURSE)
 
@@ -108,7 +108,7 @@ module CourseCommon
     #
     def expect_show_course(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       MethodCommon.expect_heading(rendered_or_page, Heading::Course::SHOW_COURSE)
 

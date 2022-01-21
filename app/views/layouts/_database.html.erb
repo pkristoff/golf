@@ -1,14 +1,21 @@
+<nav class="navbar navbar-expand-sm bg-light">
 
-<ul class="navbar-nav">
+  <div class="container-fluid">
+    <ul class="navbar-nav">
 
-  <!-- Dropdown -->
-  <li class="nav-item dropdown">
-    <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
-      <%= Label::Database::DATABASE %>
-    </a>
-    <ul class="dropdown-menu">
-      <li><%= link_to(Label::Database::CLEAR, welcome_clear_db_path, id: 'clear_db') %></li>
-      <li><%= link_to(Label::Database::LOAD_XSXL, welcome_filein_db_path, id: 'load_in_xsxl_file') %></li>
+      <li class="nav-item" id="account">
+        <a class="nav-link" id="account" href=<%= accounts_path %>><%= Label::Account::ACCOUNT %></a>
+      </li>
+      <!-- Dropdown -->
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbardrop" data-toggle="dropdown">
+          <%= Label::Database::DATABASE %>
+        </a>
+        <ul class="dropdown-menu">
+          <li><%= link_to(Label::Database::CLEAR, welcome_clear_db_path, id: 'clear_db') %></li>
+          <li><%= link_to(Label::Database::LOAD_XSXL, welcome_filein_db_path, id: 'load_in_xsxl_file') %></li>
+        </ul>
+      </li>
     </ul>
-  </li>
-</ul>
+  </div>
+</nav>

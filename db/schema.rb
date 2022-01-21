@@ -54,10 +54,11 @@ ActiveRecord::Schema.define(version: 2022_01_04_103604) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.date "date", default: "2022-01-09", null: false
+    t.date "date", default: "2022-01-19", null: false
     t.bigint "tee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.decimal "course_handicap", default: "0.0", null: false
     t.index ["tee_id"], name: "index_rounds_on_tee_id"
   end
 
@@ -92,7 +93,6 @@ ActiveRecord::Schema.define(version: 2022_01_04_103604) do
     t.bigint "course_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.decimal "course_index", default: "0.0", null: false
     t.index ["color", "course_id"], name: "index_tees_on_color_and_course_id", unique: true
     t.index ["course_id"], name: "index_tees_on_course_id"
   end

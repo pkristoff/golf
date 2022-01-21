@@ -12,6 +12,7 @@ class CreateAccounts < ActiveRecord::Migration[6.0]
 
       t.timestamps
     end
-    add_column :tees, :course_index, :numeric, default: 0.0, null: false
+    add_column :rounds, :course_handicap, :numeric, default: 0.0, null: false
+    Account.create(name: 'Paul')
   end
 end

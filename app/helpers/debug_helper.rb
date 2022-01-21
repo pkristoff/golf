@@ -28,9 +28,9 @@ module DebugHelper
     # * <tt>:value3</tt> optional
     #
     def xpp(name, value, name2 = nil, value2 = nil, name3 = nil, value3 = nil)
-      # puts "X#{name}=#{value}" if name2.nil?
-      # puts "X#{name}=#{value} #{name2}=#{value2}" if !name2.nil? && name3.nil?
-      # puts "X#{name}=#{value} #{name2}=#{value2} #{name3}=#{value3}" unless name3.nil?
+      # puts "XX#{name}=#{value}" if name2.nil?
+      # puts "XX#{name}=#{value} #{name2}=#{value2}" if !name2.nil? && name3.nil?
+      # puts "XX#{name}=#{value} #{name2}=#{value2} #{name3}=#{value3}" unless name3.nil?
     end
   end
 

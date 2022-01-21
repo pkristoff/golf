@@ -22,7 +22,7 @@ module RoundsCommon
     #
     def expect_index_rounds_course(rendered_or_page, courses)
       AsideCommon.expect_aside(rendered_or_page, false) unless rendered_or_page.is_a? String
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
 
       expect(rendered_or_page).to have_selector('h1', text: Button::Round::CHOOSE_COURSE)
       courses.each do |course|
@@ -41,7 +41,7 @@ module RoundsCommon
     #
     def expect_rounds_tees(rendered_or_page, course, tees)
       AsideCommon.expect_aside(rendered_or_page, true) unless rendered_or_page.is_a? String
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
 
       expect(rendered_or_page).to have_selector('h1', text: 'Rounds')
       expect(rendered_or_page).to have_selector('h1', text: "Choose Tee for course #{course.name}")
@@ -67,7 +67,7 @@ module RoundsCommon
     #
     def expect_index_rounds(rendered_or_page, course, tee, rounds, show_tees)
       AsideCommon.expect_aside(rendered_or_page, show_tees) unless rendered_or_page.is_a? String
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
       expect(rendered_or_page).to have_selector('h1', text: "Rounds for #{course.name} and tee #{tee.color}")
       if rounds.empty?
         expect(rendered_or_page).to have_selector('p', text: Label::Round::NO_ROUNDS_TO_ANALYZE)
@@ -91,7 +91,7 @@ module RoundsCommon
     #
     def expect_edit_round(rendered_or_page, round, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
@@ -115,7 +115,7 @@ module RoundsCommon
     #
     def expect_new_round(rendered_or_page, tee, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
@@ -141,7 +141,7 @@ module RoundsCommon
     #
     def expect_show_round(rendered_or_page, round, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a? String
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a? String
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 

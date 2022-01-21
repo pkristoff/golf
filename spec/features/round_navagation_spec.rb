@@ -65,7 +65,7 @@ feature 'edit_existing_course' do
     RoundsCommon.expect_new_round(
       page,
       @tee,
-      { date: '2022-01-09',
+      { date: '2022-01-19',
         course_name: @course.name,
         show_tees: true }
     )

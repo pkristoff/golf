@@ -192,16 +192,26 @@ class Tee < ApplicationRecord
   #
   # * <tt>Integer</tt>
   #
-  def course_handiccap(handicap_index)
+  def course_handicap(handicap_index)
     # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
-    Tee.calc_course_handicap(handicap_index, slope, rating, par)
+    Tee.calc_course_handicap(handicap_index, slope, rating, total_par)
+  end
+
+  # calculate par for tee
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt> par
+  #
+  def total_par
+    Hole.where("tee_id = #{id}").sum(&:par)
   end
 
   # Calculate adjusted gross score
   #
   # === Parameters:
   #
-  # * <tt>:course_hdcp</tt> current course handicap
+  # * <tt>:course_handicap</tt> current course handicap
   # * <tt>:strokes</tt> strokes for current hole
   # * <tt>:par</tt> par for current hole
   #
@@ -209,8 +219,8 @@ class Tee < ApplicationRecord
   #
   # * <tt>strokes</tt> the minimum of stroes and max hdcp allowed
   #
-  def self.calc_adjusted_score(course_hdcp, strokes, par)
-    max_strokes = Tee.max_hdcp_score(course_hdcp, par)
+  def self.calc_adjusted_score(course_handicap, strokes, par)
+    max_strokes = Tee.max_hdcp_score(course_handicap, par)
     [max_strokes, strokes].min
   end
 
@@ -243,7 +253,7 @@ class Tee < ApplicationRecord
   #
   # * <tt>Float</tt>truncated to the first decimal place
   #
-  def self.calc_handicap_index(score_differentials)
+  def self.final_calc_handicap_index(score_differentials)
     # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
     sorted_score_diff = score_differentials.sort
     case score_differentials.size
@@ -305,15 +315,14 @@ class Tee < ApplicationRecord
   # * <tt>:handicap_index</tt>
   # * <tt>:slope</tt> tee slope rating
   # * <tt>:rating</tt> tee rating
-  # * <tt>:par</tt> par for tee
+  # * <tt>:tee_par</tt> par for tee
   #
   # === Returns:
   #
   # * <tt>Float</tt> rouded to first decimal
   #
-  def self.calc_course_handicap(handicap_index, slope, rating, par)
-    # (Handicap Index) x (Slope Rating) / 113.
-    course_hdcp = (handicap_index * (slope / 113)) + (rating - par)
+  def self.calc_course_handicap(handicap_index, slope, rating, tee_par)
+    course_hdcp = (handicap_index * (slope / 113)) + (rating - tee_par)
     course_hdcp.round(0)
   end
 

@@ -10,8 +10,8 @@ FactoryBot.define do
       tee_hole_info { nil }
     end
     color { 'Black' }
-    rating { 60.7 }
-    slope { 62.9 }
+    rating { 72 }
+    slope { 113 }
     course do
       FactoryBot.create(:course, name: 'for factorybot tee', should_fillin_tees: false)
     end

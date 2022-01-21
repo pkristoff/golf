@@ -27,7 +27,7 @@ module TeeCommon
     #
     def expect_new_tee(rendered_or_page, course, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
 
@@ -51,7 +51,7 @@ module TeeCommon
     #
     def expect_edit_tee(rendered_or_page, tee, tees, values = {})
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
 
@@ -77,7 +77,7 @@ module TeeCommon
       include AsideCommon unless rendered_or_page.is_a?(String)
       include DatabaseCommon unless rendered_or_page.is_a?(String)
       AsideCommon.expect_aside(rendered_or_page, show_tees) unless rendered_or_page.is_a?(String)
-      DatabaseCommon.expect_database(rendered_or_page) unless rendered_or_page.is_a?(String)
+      DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
       MethodCommon.expect_heading(rendered_or_page, "#{Heading::Tee::PICK} #{course.name}")
 

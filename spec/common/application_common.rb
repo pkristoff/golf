@@ -37,8 +37,8 @@ module DatabaseCommon
     #
     # * <tt>:rendered_or_page</tt> html
     #
-    def expect_database(rendered_or_page)
-      expect(rendered_or_page).to have_selector('a[id=navbardrop]', text: Label::Database::DATABASE, count: 1)
+    def expect_menu(rendered_or_page)
+      expect(rendered_or_page).to have_selector('a[id=account]', text: Label::Account::ACCOUNT, count: 1)
       expect(rendered_or_page).to have_selector('ul[class=dropdown-menu] a[id=clear_db]',
                                                 text: Label::Database::CLEAR,
                                                 count: 1)

@@ -126,11 +126,11 @@ describe Account, type: :model do
           [nil, 61, 18],
           [nil, 129, 36]
         ]
-        create_round(113, 72, 1, 0)
+        create_round(113, 71, 1, 0)
       end
       describe '1..9' do
         before do
-          @expected_handicap = 20.1
+          @expected_handicap = 21.1
         end
         it '1' do
           account = set_handicap_index(@account.id, 1)
@@ -145,7 +145,7 @@ describe Account, type: :model do
       end
       describe '10..19' do
         before do
-          @expected_handicap = 29.7
+          @expected_handicap = 30.7
         end
         it '10' do
           account = set_handicap_index(@account.id, 10)
@@ -160,7 +160,7 @@ describe Account, type: :model do
       end
       describe '20..29' do
         before do
-          @expected_handicap = 39.3
+          @expected_handicap = 40.3
         end
         it '20' do
           account = set_handicap_index(@account.id, 20)
@@ -175,7 +175,7 @@ describe Account, type: :model do
       end
       describe '30..39' do
         before do
-          @expected_handicap = 46
+          @expected_handicap = 47
         end
         it '30' do
           account = set_handicap_index(@account.id, 30)
@@ -190,7 +190,7 @@ describe Account, type: :model do
       end
       describe '40..54' do
         before do
-          @expected_handicap = 49.9
+          @expected_handicap = 50.8
         end
         it '40' do
           account = set_handicap_index(@account.id, 40)

@@ -1,4 +1,8 @@
 module Label
+  module Account
+    HANDICAP_INDEX = 'Handicap Index'.freeze
+    NAME = 'Name'.freeze
+  end
   module Common
     EDIT = 'Edit'.freeze
     NEW = 'New'.freeze
@@ -7,6 +11,9 @@ module Label
     CLEAR = 'Clear DB'.freeze
     DATABASE = 'DatabaseTT'.freeze
     LOAD_XSXL = 'Load in XSXL File'.freeze
+  end
+  module Account
+    ACCOUNT = 'Account'.freeze
   end
   module Course
     COURSE = 'Course'.freeze
@@ -49,6 +56,10 @@ module Label
   end
 end
 module Button
+  module Account
+    CALCUATE_HANDICAP_INDEX = 'Calculate handicap index'
+    SUBMIT = 'Update account'
+  end
   module Course
     CREATE = 'Create Course'.freeze
     DESTROY = 'Destroy'.freeze
@@ -109,6 +120,12 @@ module Fieldset
   end
 end
 module Heading
+  module Account
+    ACCOUNTS = 'Accounts'.freeze
+    NO_ACCOUNTS = 'No accounts'.freeze
+    EDIT_ACCOUNT = 'Edit account'.freeze
+    NAME = 'Name'.freeze
+  end
   module Course
     COURSES = 'CoursesTT'.freeze
     EDIT_COURSE = 'Edit CourseTT'.freeze
