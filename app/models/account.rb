@@ -11,11 +11,29 @@ class Account < ApplicationRecord
     rounds_18hole = Account.find_18_hole_rounds
     sorted_rounds = rounds_18hole.sort_by(&:date)
     # Round.print(sorted_rounds)
+    initial_handicap_index = handicap_index == 0.0 ? 50 : handicap_index
+    calc_handicap_index_for_rounds(sorted_rounds, initial_handicap_index)
+  end
+
+  # calculates handicap_index given an array of rounds
+  # also sets the field handicap_index
+  #
+  # === Parameters:
+  #
+  # * <tt>:sorted_rounds</tt>
+  # * <tt>:initial_handicap_index</tt> initial handicap_index
+  #
+  # === Returns:
+  #
+  # * <tt>:Number</tt> handicap_index
+  #
+  #
+  def calc_handicap_index_for_rounds(sorted_rounds, initial_handicap_index)
     score_diffs = sorted_rounds.last(20).map do |round|
       # handicap_indeX should be course_handicap
-      xpp('handicap_index', handicap_index)
-      sd = Account.calc_score_differential(round, handicap_index == 0.0 ? 50 : handicap_index)
-      xpp('handicap_index', handicap_index)
+      xpp('initial_handicap_index', initial_handicap_index)
+      sd = Account.calc_score_differential(round, initial_handicap_index)
+      xpp('initial_handicap_index', initial_handicap_index)
       xpp('  Course', round.tee.course.name, 'round.date', round.date, 'score_diff', sd)
       sd
     end
