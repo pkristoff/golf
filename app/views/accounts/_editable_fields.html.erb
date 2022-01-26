@@ -16,30 +16,8 @@
         <%= form.label :name, Label::Account::HANDICAP_INDEX %><br>
         <%= form.number_field :handicap_index, disabled: true %><br>
         <%= form.submit(Button::Account::CALCUATE_HANDICAP_INDEX) %>
-        <% if @eighteen_hole_rounds.empty? %>
-          <p><%= 'NO ROUNDS FOUND' %></p>
-        <% else %>
-
-          <table class="table table-striped">
-            <thead>
-            <tr>
-              <th>Course Name</th>
-              <th>Date</th>
-              <th>sd</th>
-            </tr>
-            </thead>
-            <tbody id="18-hole-rounds">
-            <% @eighteen_hole_rounds.each do |round| %>
-              <tr id="tr-id-<%= round.id %>">
-                <td id="course-name-<%= round.id %>"> <%= round.tee.course.name %> </td>
-                <td id="date-<%= round.id %>"> <%= round.date %> </td>
-                <% hi = @account.handicap_index == 0.0 ? 50 : @account.handicap_index %>
-                <td id="sd-<%= round.id %>"> <%= Account.calc_score_differential(round, hi) %> </td>
-              </tr>
-            <% end %>
-            </tbody>
-          </table>
-        <% end %>
+        <%= form.submit(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT) %>
+        <%= render 'accounts/debug_info', form_disabled: form_disabled, account: account %>
       </div>
     <% end # form %>
   </div>

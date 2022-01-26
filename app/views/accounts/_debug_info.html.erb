@@ -1,0 +1,42 @@
+<% if @eighteen_hole_rounds.empty? %>
+  <p><%= 'NO ROUNDS FOUND' %></p>
+<% else %>
+  <ul>
+    <li>AVG = <%= @avg %></li>
+    <li>AVG-adjustment(<%= @adjustment %>) = <%= @avg_adj %></li>
+    <li>adjusted_avg * .96= <%= @avg_adj96 %></li>
+  </ul>
+  <table class="table table-striped">
+    <thead>
+    <tr>
+      <th>Course Name</th>
+      <th>Date</th>
+      <th>sd</th>
+      <th>uses(<%= @diffs_to_use.size %>)</th>
+      <th>course handicap</th>
+      <th>slope</th>
+      <th>rating</th>
+      <th>par</th>
+      <th>adjusted score</th>
+      <th>gross score</th>
+    </tr>
+    </thead>
+    <tbody id="18-hole-rounds">
+    <% @eighteen_hole_rounds.each_with_index do |round, index| %>
+      <tr id="tr-id-<%= round.id %>">
+        <td id="course-name-<%= round.id %>"> <%= round.tee.course.name %> </td>
+        <td id="date-<%= round.id %>"> <%= round.date %> </td>
+        <td id="sd-<%= round.id %>"> <%= @score_differentials[index] %></td>
+        <td id="uses-<%= round.id %>"> <%= '*' if @diffs_to_use.include? @score_differentials[index] %> </td>
+        <% info = @sd_info[index] %>
+        <td id="course-handicap-<%= round.id %>"> <%= info[3] %></td>
+        <td id="slope-<%= round.id %>"> <%= info[4] %></td>
+        <td id="rating-<%= round.id %>"> <%= info[5] %></td>
+        <td id="par-<%= round.id %>"> <%= info[0] %></td>
+        <td id="adjusted-score-<%= round.id %>"> <%= info[1] %></td>
+        <td id="gross-score-<%= round.id %>"> <%= info[2] %></td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+<% end %>

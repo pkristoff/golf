@@ -58,6 +58,7 @@ end
 module Button
   module Account
     CALCUATE_HANDICAP_INDEX = 'Calculate handicap index'
+    CALCUATE_HANDICAP_INDEX_NO_INIT = 'Calculate handicap index with no initial'
     SUBMIT = 'Update account'
   end
   module Course

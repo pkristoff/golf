@@ -234,7 +234,7 @@ class Tee < ApplicationRecord
   #
   # === Returns:
   #
-  # * <tt>Hole</tt>
+  # * <tt>Number</tt> score_differential rounded to decimal place
   #
   def self.calc_score_differential(ags, course_rating, slope_rating)
     # https://www.usga.org/content/usga/home-page/handicapping/world-handicap-system/world-handicap-system-usga-golf-faqs/faqs---what-is-a-score-differential.html
@@ -243,7 +243,8 @@ class Tee < ApplicationRecord
     score_differential.round(1)
   end
 
-  # Calculate handicap index
+  # Calculate score_differentials to use and any
+  # adjustment
   #
   # === Parameters:
   #
@@ -251,10 +252,9 @@ class Tee < ApplicationRecord
   #
   # === Returns:
   #
-  # * <tt>Float</tt>truncated to the first decimal place
+  # * <tt>Array</tt> 0=diffs_to_use, 1=adjustment
   #
-  def self.final_calc_handicap_index(score_differentials)
-    # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
+  def self.calc_diffs_to_use(score_differentials)
     sorted_score_diff = score_differentials.sort
     case score_differentials.size
     when 1
@@ -299,13 +299,46 @@ class Tee < ApplicationRecord
     else
       raise("Only number of handicap_differentials is 1-20 but '#{score_differentials.size}'")
     end
-    lowest_score_diff = diffs_to_use.sum.fdiv(diffs_to_use.size)
-    lowest_score_diff_adj = lowest_score_diff - adjustment
-    xpp('diffs_to_use', diffs_to_use.map { |x| format('%.1f', x) }, 'adjustment', adjustment)
-    xpp('lowest_score_diff', lowest_score_diff, 'lowest_score_diff_adj', lowest_score_diff_adj)
-    x = (lowest_score_diff_adj * 0.96).truncate(1)
-    xpp('score_index', x)
-    x
+    [diffs_to_use, adjustment]
+  end
+
+  # Calculate handicap index
+  #
+  # === Parameters:
+  #
+  # * <tt>:score_differentials</tt> Array of scoring differential
+  #
+  # === Returns:
+  #
+  # * <tt>Float</tt>truncated to the first decimal place
+  #
+  def self.final_calc_handicap_index(score_differentials)
+    # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
+    diffs_to_use, adjustment = Tee.calc_diffs_to_use(score_differentials)
+    hix, avg, avg_adj, avg_adj96 = calc_score_index(diffs_to_use, adjustment)
+    [hix, diffs_to_use, adjustment, avg, avg_adj, avg_adj96]
+  end
+
+  # Calculate score_index
+  #
+  # === Parameters:
+  #
+  # * <tt>:diffs_to_use</tt> Array of scoring differential
+  # * <tt>:adjustment</tt> adjustment to subtract
+  #
+  # === Returns:
+  #
+  # * <tt>Float</tt> score_index
+  #
+  def self.calc_score_index(diffs_to_use, adjustment)
+    avg = diffs_to_use.sum.fdiv(diffs_to_use.size)
+    avg_adj = avg - adjustment
+    # xpp('diffs_to_use', diffs_to_use.map { |x| format('%.1f', x) }, 'adjustment', adjustment)
+    # xpp('lowest_score_diff', lowest_score_diff, 'lowest_score_diff_adj', lowest_score_diff_adj)
+    avg_adj96 = avg_adj * 0.96
+    score_index = (avg_adj96).truncate(1)
+    # xpp('score_index', score_index)
+    [score_index, avg, avg_adj, avg_adj96]
   end
 
   # Calculate course handicap

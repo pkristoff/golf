@@ -279,98 +279,98 @@ describe Tee, type: :model do
       @handicap_differentials_r = @handicap_differentials.reverse
     end
     it 'one ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(1))).to eq(5.7)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(1))).to eq(45.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(1)).first).to eq(5.7)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(1)).first).to eq(45.1)
     end
     it 'two ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(2))).to eq(6.7)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(2))).to eq(44.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(2)).first).to eq(6.7)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(2)).first).to eq(44.1)
     end
     it 'three ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(3))).to eq(7.6)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(3))).to eq(43.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(3)).first).to eq(7.6)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(3)).first).to eq(43.1)
     end
     it 'four ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(4))).to eq(8.6)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(4))).to eq(42.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(4)).first).to eq(8.6)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(4)).first).to eq(42.2)
     end
     it 'five ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(5))).to eq(9.6)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(5))).to eq(41.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(5)).first).to eq(9.6)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(5)).first).to eq(41.2)
     end
     it 'six ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(6))).to eq(10.0)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(6))).to eq(39.3)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(6)).first).to eq(10.0)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(6)).first).to eq(39.3)
     end
     it 'seven ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(7))).to eq(11.0)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(7))).to eq(38.4)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(7)).first).to eq(11.0)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(7)).first).to eq(38.4)
     end
     it 'eight ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(8))).to eq(11.0)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(8))).to eq(36.4)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(8)).first).to eq(11.0)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(8)).first).to eq(36.4)
     end
     it 'nine ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(9))).to eq(12.1)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(9))).to eq(35.5)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(9)).first).to eq(12.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(9)).first).to eq(35.5)
     end
     it 'ten ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(10))).to eq(12.1)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(10))).to eq(33.6)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(10)).first).to eq(12.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(10)).first).to eq(33.6)
     end
     it 'eleven ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(11))).to eq(12.1)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(11))).to eq(31.6)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(11)).first).to eq(12.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(11)).first).to eq(31.6)
     end
     it 'twelve ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(12))).to eq(13.2)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(12))).to eq(30.7)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(12)).first).to eq(13.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(12)).first).to eq(30.7)
     end
     it 'thirteen ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(13))).to eq(13.2)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(13))).to eq(28.8)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(13)).first).to eq(13.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(13)).first).to eq(28.8)
     end
     it 'fourteen ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(14))).to eq(13.2)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(14))).to eq(26.8)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(14)).first).to eq(13.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(14)).first).to eq(26.8)
     end
     it 'fifteen ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(15))).to eq(14.2)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(15))).to eq(25.9)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(15)).first).to eq(14.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(15)).first).to eq(25.9)
     end
     it 'sixteen ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(16))).to eq(14.2)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(16))).to eq(24.0)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(16)).first).to eq(14.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(16)).first).to eq(24.0)
     end
     it 'seventeen ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(17))).to eq(15.2)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(17))).to eq(23.0)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(17)).first).to eq(15.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(17)).first).to eq(23.0)
     end
     it 'eighteen ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(18))).to eq(15.2)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(18))).to eq(21.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(18)).first).to eq(15.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(18)).first).to eq(21.1)
     end
     it 'nineteen ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(19))).to eq(16.1)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(19))).to eq(20.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(19)).first).to eq(16.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(19)).first).to eq(20.1)
     end
     it 'twenty ' do
-      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(20))).to eq(17.1)
-      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(20))).to eq(19.2)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials.first(20)).first).to eq(17.1)
+      expect(Tee.final_calc_handicap_index(@handicap_differentials_r.first(20)).first).to eq(19.2)
     end
     it 'example 1 ' do
       # https://www.usga.org/content/usga/home-page/handicapping/roh/Content/rules/5%202%20Calculation%20of%20a%20Handicap%20Index.htm
       expectd_result = 34.1
       handicap_differentials = [40.7, 42.4, 36.1]
-      expect(Tee.final_calc_handicap_index(handicap_differentials)).to eq((expectd_result * 0.96).truncate(1))
+      expect(Tee.final_calc_handicap_index(handicap_differentials).first).to eq((expectd_result * 0.96).truncate(1))
     end
     it 'example 2 ' do
       # https://www.usga.org/content/usga/home-page/handicapping/roh/Content/rules/5%202%20Calculation%20of%20a%20Handicap%20Index.htm
       expectd_result = 37.4
       handicap_differentials = [40.7, 42.4, 36.1, 45.9, 43.6, 45.0]
-      expect(Tee.final_calc_handicap_index(handicap_differentials)).to eq((expectd_result * 0.96).truncate(1))
+      expect(Tee.final_calc_handicap_index(handicap_differentials).first).to eq((expectd_result * 0.96).truncate(1))
     end
-    it 'zero ' do
+    it 'zero' do
       # rubocop:disable Layout/LineLength
       expect { Tee.final_calc_handicap_index([]) }.to raise_error(RuntimeError) { "Only number of handicap_differentials is 1-20 but '0' were sent" }
       # rubocop:enable Layout/LineLength
