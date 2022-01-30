@@ -9,7 +9,7 @@ describe Account, type: :model do
     end
     describe 'calc_handicap_index' do
       before do
-        @round_score_info_black = [
+        @round_score_info_black18 = [
           # [hole, strokes, putts, penalties, Fairways, strokes inside 80]
           [1, 4, 2],
           [2, 4, 2],
@@ -42,17 +42,17 @@ describe Account, type: :model do
       it '1 rounds' do
         @round = FactoryBot.create(:round,
                                    date: Time.zone.now.to_date - 5,
-                                   round_score_info: generate_round_scores(@round_score_info_black, 1))
+                                   round_score_info: generate_round_scores(@round_score_info_black18, 1))
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(9.6)
       end
       it '2 rounds different tee' do
-        @round = FactoryBot.create(:round, date: Time.zone.now.to_date - 3, round_score_info: @round_score_info_black)
+        @round = FactoryBot.create(:round, date: Time.zone.now.to_date - 3, round_score_info: @round_score_info_black18)
         @round2 = FactoryBot.create(:round,
                                     tee: @round.tee,
                                     date: Time.zone.now.to_date - 4,
-                                    round_score_info: generate_round_scores(@round_score_info_black, 1))
+                                    round_score_info: generate_round_scores(@round_score_info_black18, 1))
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(-3.3)
@@ -60,9 +60,9 @@ describe Account, type: :model do
       it '3 rounds different course' do
         @round = FactoryBot.create(:round,
                                    date: Time.zone.now.to_date - 3,
-                                   round_score_info: generate_round_scores(@round_score_info_black, 1))
-        @round2 = create_round(113, 79, 4, 1)
-        @round3 = create_round(110, 67, 5, 1)
+                                   round_score_info: generate_round_scores(@round_score_info_black18, 1))
+        @round2 = create_round18(113, 79, 4, 1)
+        @round3 = create_round18(110, 67, 5, 1)
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(7.6)
@@ -72,21 +72,21 @@ describe Account, type: :model do
           slope = info[0]
           rating = info[1]
           score_increase = info[2]
-          create_round(slope, rating, index + 6, score_increase)
+          create_round18(slope, rating, index + 6, score_increase)
         end
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(7.7)
       end
       it '6 rounds different course' do
-        @round = create_round(139, 79, 3, 1)
-        @round2 = create_round(113, 79, 4, 1)
-        @round3 = create_round(110, 67, 5, 1)
+        @round = create_round18(139, 79, 3, 1)
+        @round2 = create_round18(113, 79, 4, 1)
+        @round3 = create_round18(110, 67, 5, 1)
         [[139, 79, 3], [139, 79, 3], [139, 79, 3]].each_with_index do |info, index|
           slope = info[0]
           rating = info[1]
           score_increase = info[2]
-          create_round(slope, rating, index + 6, score_increase)
+          create_round18(slope, rating, index + 6, score_increase)
         end
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
@@ -95,7 +95,7 @@ describe Account, type: :model do
     end
     describe 'max_hdcp_score' do
       before do
-        @round_score_info_black = [
+        @round_score_info_black18 = [
           # [hole, strokes, putts]
           # 0..9
           [1, 6, 2], # 4
@@ -126,7 +126,7 @@ describe Account, type: :model do
           [nil, 61, 18],
           [nil, 129, 36]
         ]
-        create_round(113, 71, 1, 0)
+        create_round18(113, 71, 1, 0)
       end
       describe '1..9' do
         before do
@@ -204,6 +204,185 @@ describe Account, type: :model do
         end
       end
     end
+    describe 'find_rounds' do
+      before do
+        @round_score_info_black18 = [
+          # [hole, strokes, putts]
+          # 0..9
+          [1, 6, 2], # 4
+          [2, 6, 2], # 4
+          [3, 5, 2], # 3
+          # 10..19
+          [4, 8, 2], # 4
+          [5, 8, 2], # 4
+          [6, 8, 2], # 4
+          # 20..29
+          [7, 9, 2], # 3
+          [8, 9, 2], # 4
+          [9, 9, 2], # 5
+
+          [nil, 68, 18],
+
+          # 30..39
+          [10, 10, 2], # 4
+          [11, 10, 2], # 3
+          [12, 10, 2], # 5
+          # else
+          [13, 11, 2], # 4
+          [14, 4, 2], # 4
+          [15, 4, 2], # 4
+          [16, 5, 2], # 5
+          [17, 3, 2], # 3
+          [18, 4, 2], # 4
+          [nil, 61, 18],
+          [nil, 129, 36]
+        ]
+        @round_score_info_black9 = [
+          # [hole, strokes, putts]
+          # 0..9
+          [1, 6, 2], # 4
+          [2, 6, 2], # 4
+          [3, 5, 2], # 3
+          # 10..19
+          [4, 8, 2], # 4
+          [5, 8, 2], # 4
+          [6, 8, 2], # 4
+          # 20..29
+          [7, 9, 2], # 3
+          [8, 9, 2], # 4
+          [9, 9, 2], # 5
+
+          [nil, 68, 18],
+
+          # 30..39
+          [10, 10, 2], # 4
+          [11, 10, 2], # 3
+          [12, 10, 2], # 5
+          # else
+          [13, 11, 2], # 4
+          [14, 4, 2], # 4
+          [15, 4, 2], # 4
+          [16, 5, 2], # 5
+          [17, 3, 2], # 3
+          [18, 4, 2], # 4
+          [nil, 61, 18],
+          [nil, 129, 36]
+        ]
+      end
+      describe 'find_9_hole_rounds_with_matching18' do
+        it 'no rounds' do
+          expect(Account.find_9_hole_rounds_with_matching18.size).to eq(0)
+        end
+        it '1 rounds' do
+          create_round9(113, 71, 1, 0)
+          expect(Account.find_9_hole_rounds_with_matching18.size).to eq(0)
+          rounds = Round.all
+          expect(rounds.size).to eq(1)
+          expect(rounds.first.tee.course.number_of_holes).to eq(9)
+        end
+        it '2 rounds diff date' do
+          create_round9(113, 71, 1, 0)
+          create_round9(113, 71, 2, 0)
+          expect(Account.find_9_hole_rounds_with_matching18.size).to eq(0)
+          rounds = Round.all
+          expect(rounds.size).to eq(2)
+          expect(rounds.first.tee.course.number_of_holes).to eq(9)
+          expect(rounds.second.tee.course.number_of_holes).to eq(9)
+        end
+        it '2 rounds same date' do
+          create_round9(113, 71, 1, 0)
+          create_round9(113, 71, 1, 0)
+          all_round_info_sorted = Account.find_9_hole_rounds_with_matching18
+          expect(all_round_info_sorted.size).to eq(1)
+          rounds = Round.all
+          expect(rounds.size).to eq(2)
+          expect(rounds.first.tee.course.number_of_holes).to eq(9)
+          expect(rounds.second.tee.course.number_of_holes).to eq(9)
+        end
+        it '3 rounds same date' do
+          round1 = create_round9(113, 71, 1, 0)
+          round2 = create_round9(113, 71, 1, 0)
+          round3 = create_round9(113, 71, 1, 0)
+
+          all_round_info_sorted = Account.find_9_hole_rounds_with_matching18.sort_by(&:date)
+
+          expect(all_round_info_sorted.size).to eq(1)
+          expect(all_round_info_sorted.first.includes?(round1)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round2)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round3)).to eq(false)
+        end
+        it '3 rounds 2 with same date' do
+          round1 = create_round9(113, 71, 1, 0)
+          round2 = create_round9(113, 71, 1, 0)
+          round3 = create_round9(113, 71, 2, 0)
+          all_round_info_sorted = Account.find_9_hole_rounds_with_matching18.sort_by(&:date)
+          expect(all_round_info_sorted.size).to eq(1)
+          expect(all_round_info_sorted.first.includes?(round1)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round2)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round3)).to eq(false)
+        end
+      end
+      describe 'find_all_rounds' do
+        it 'no rounds' do
+          expect(Account.find_all_rounds.size).to eq(0)
+        end
+        it 'one 9-hole round' do
+          create_round9(113, 71, 1, 0)
+          expect(Account.find_all_rounds.size).to eq(0)
+        end
+        it 'one 9-hole round one 18-hole' do
+          create_round9(113, 71, 1, 0)
+          round18 = create_round18(113, 71, 1, 0)
+          all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
+          expect(all_round_info_sorted.size).to eq(1)
+          expect(all_round_info_sorted.first.includes?(round18)).to eq(true)
+        end
+        it 'two 9-hole rounds diff date one 18-hole' do
+          create_round9(113, 71, 1, 0)
+          create_round9(113, 71, 3, 0)
+          round18 = create_round18(113, 71, 2, 0)
+          all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
+          expect(all_round_info_sorted.size).to eq(1)
+          expect(all_round_info_sorted.first.includes?(round18)).to eq(true)
+        end
+        it 'two 9-hole rounds same date one 18-hole' do
+          round9_a = create_round9(113, 71, 1, 0)
+          round9_b = create_round9(113, 71, 1, 0)
+          round18 = create_round18(113, 71, 0, 0)
+          all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
+          expect(all_round_info_sorted.size).to eq(2)
+          expect(all_round_info_sorted.first.includes?(round9_a)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round9_b)).to eq(true)
+          expect(all_round_info_sorted.second.includes?(round18)).to eq(true)
+        end
+        it 'three 9-hole rounds same date one 18-hole' do
+          round9_a = create_round9(113, 71, 1, 0)
+          round9_b = create_round9(113, 71, 1, 0)
+          round9_c = create_round9(113, 71, 1, 0)
+          round18 = create_round18(113, 71, 0, 0)
+          all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
+          expect(all_round_info_sorted.size).to eq(2)
+          expect(all_round_info_sorted.first.includes?(round9_a)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round9_b)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round9_c)).to eq(false)
+          expect(all_round_info_sorted.second.includes?(round18)).to eq(true)
+        end
+        it 'four 9-hole rounds same date around one 18-hole' do
+          round9_a = create_round9(113, 71, 3, 0)
+          round9_b = create_round9(113, 71, 3, 0)
+          round9_c = create_round9(113, 71, 1, 0)
+          round9_d = create_round9(113, 71, 1, 0)
+          round18 = create_round18(113, 71, 2, 0)
+          all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
+          expect(all_round_info_sorted.size).to eq(3)
+          expect(all_round_info_sorted.first.includes?(round9_a)).to eq(true)
+          expect(all_round_info_sorted.first.includes?(round9_b)).to eq(true)
+          expect(all_round_info_sorted.second.includes?(round18)).to eq(true)
+          expect(all_round_info_sorted.third.includes?(round9_c)).to eq(true)
+          expect(all_round_info_sorted.third.includes?(round9_d)).to eq(true)
+        end
+      end
+    end
   end
 
   private
@@ -215,13 +394,30 @@ describe Account, type: :model do
     account
   end
 
-  def create_round(slope, rating, today_offset, score_increase)
+  def create_round18(slope, rating, today_offset, score_increase)
     round = FactoryBot.create(:round,
                               date: Time.zone.now.to_date - today_offset,
-                              round_score_info: generate_round_scores(@round_score_info_black, score_increase))
+                              round_score_info: generate_round_scores(@round_score_info_black18, score_increase))
     round.tee.slope = slope
     round.tee.rating = rating
     round.tee.save!
+    round
+  end
+
+  def create_round9(slope, rating, today_offset, score_increase, _time_offset = 0)
+    now = Time.zone.now
+    round = FactoryBot.create(:round,
+                              date: now.to_date - today_offset,
+                              round_score_info: generate_round_scores(@round_score_info_black9, score_increase))
+
+    tee = round.tee
+    course = tee.course
+    course.number_of_holes = 9
+    course.update_number_of_holes
+    tee.slope = slope
+    tee.rating = rating
+    course.save!
+    tee.save!
     round
   end
 
