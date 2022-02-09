@@ -32,7 +32,7 @@ class AccountsController < ApplicationController
       @initial_handicap_index = 50
       @initial_handicap_index = @account.handicap_index unless @account.handicap_index == 0.0
       @handicap_index, @initial_handicap_index, @eighteen_hole_rounds, @score_differentials, @diffs_to_use, @adjustment,
-        @avg, @avg_adj, @avg_adj96, @hix, @sd_info = @account.calc_handicap_index
+        @avg, @avg_adj, @avg_adj96, @hix = @account.calc_handicap_index
       @account.save!
       logger.info('Ending calc_handicap_index')
       @avg = @diffs_to_use.sum.fdiv(@diffs_to_use.size)
@@ -41,9 +41,10 @@ class AccountsController < ApplicationController
       render :edit, alert: "#{Button::Account::CALCUATE_HANDICAP_INDEX} successful "
     when Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT
       logger.info('Starting calc_handicap_index')
-      # hix, initial_handicap_index, rounds, score_differentials, diffs_to_use, adjustment, avg, avg_adj, avg_adj96, hix, sd_info
-      @handicap_index, @initial_handicap_index, @eighteen_hole_rounds, @score_differentials, @diffs_to_use, @adjustment,
-        @avg, @avg_adj, @avg_adj96, @hix, @sd_info = @account.calc_handicap_index(50)
+      # hix, initial_handicap_index, rounds, score_differentials, diffs_to_use, adjustment, avg, avg_adj, avg_adj96, hix
+      @handicap_index, @sorted_round_info_last, @initial_handicap_index,
+        @eighteen_hole_rounds, @score_differentials, @diffs_to_use, @adjustment,
+        @avg, @avg_adj, @avg_adj96, @hix = @account.calc_handicap_index(50)
       @account.save!
       logger.info('Ending calc_handicap_index')
       render :edit, alert: "#{Button::Account::CALCUATE_HANDICAP_INDEX} successful "

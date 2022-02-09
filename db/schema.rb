@@ -54,7 +54,7 @@ ActiveRecord::Schema.define(version: 2022_01_04_103604) do
   end
 
   create_table "rounds", force: :cascade do |t|
-    t.date "date", default: "2022-01-19", null: false
+    t.date "date", default: "2022-02-03", null: false
     t.bigint "tee_id"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false

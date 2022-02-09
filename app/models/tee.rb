@@ -372,6 +372,7 @@ class Tee < ApplicationRecord
   def remove_back_nine
     sorted_holes = holes.sort { |hole1, hole2| hole1.number <=> hole2.number }
     self.holes = sorted_holes[0..8]
+    sorted_holes[9..sorted_holes.size - 1].each(&:delete)
   end
 
   # Returns sorted array of holes and integers(representing totals for yardage, par or hdcp)

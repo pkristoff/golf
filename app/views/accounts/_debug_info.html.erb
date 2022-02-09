@@ -11,7 +11,9 @@
     <tr>
       <th>Course Name</th>
       <th>Date</th>
+      <th>Holes</th>
       <th>sd</th>
+      <th>total score differential</th>
       <th>uses(<%= @diffs_to_use.size %>)</th>
       <th>course handicap</th>
       <th>slope</th>
@@ -21,21 +23,40 @@
       <th>gross score</th>
     </tr>
     </thead>
-    <tbody id="18-hole-rounds">
-    <% @eighteen_hole_rounds.each_with_index do |round, index| %>
+    <tbody id="round_info">
+    <% @sorted_round_info_last.each_with_index do |round_info, index| %>
+      <% round = round_info.round %>
       <tr id="tr-id-<%= round.id %>">
         <td id="course-name-<%= round.id %>"> <%= round.tee.course.name %> </td>
         <td id="date-<%= round.id %>"> <%= round.date %> </td>
-        <td id="sd-<%= round.id %>"> <%= @score_differentials[index] %></td>
+        <td id="number-of-holes-<%= round.id %>"> <%= round_info.number_of_holes %> </td>
+        <td id="sd-<%= round.id %>"> <%= round_info.sd %></td>
+        <td id="total-score-differential-<%= round.id %>"> <%= round_info.total_score_differential %></td>
         <td id="uses-<%= round.id %>"> <%= '*' if @diffs_to_use.include? @score_differentials[index] %> </td>
-        <% info = @sd_info[index] %>
-        <td id="course-handicap-<%= round.id %>"> <%= info[3] %></td>
-        <td id="slope-<%= round.id %>"> <%= info[4] %></td>
-        <td id="rating-<%= round.id %>"> <%= info[5] %></td>
-        <td id="par-<%= round.id %>"> <%= info[0] %></td>
-        <td id="adjusted-score-<%= round.id %>"> <%= info[1] %></td>
-        <td id="gross-score-<%= round.id %>"> <%= info[2] %></td>
+        <td id="course-handicap-<%= round.id %>"> <%= round_info.course_handicap %></td>
+        <td id="slope-<%= round.id %>"> <%= round_info.slope %></td>
+        <td id="rating-<%= round.id %>"> <%= round_info.rating %></td>
+        <td id="par-<%= round.id %>"> <%= round_info.par %></td>
+        <td id="adjusted-score-<%= round.id %>"> <%= round_info.adjusted_score %></td>
+        <td id="unadjusted-score-<%= round.id %>"> <%= round_info.unadjusted_score %></td>
       </tr>
+      <% if round_info.number_of_holes == 9 %>
+        <% round = round_info.round2 %>
+        <tr id="tr-id-<%= round.id %>">
+          <td id="course-name-<%= round.id %>"> <%= round.tee.course.name %> </td>
+          <td id="date-<%= round.id %>"> <%= round.date %> </td>
+          <td id="number-of-holes-<%= round.id %>"> <%= round_info.number_of_holes %> </td>
+          <td id="sd-<%= round.id %>"> <%= round_info.sd2 %></td>
+          <td id="total-score-differential-<%= round.id %>"> <%= round_info.total_score_differential %></td>
+          <td id="uses-<%= round.id %>"> <%= '*' if @diffs_to_use.include? @score_differentials[index] %> </td>
+          <td id="course-handicap-<%= round.id %>"> <%= round_info.course_handicap2 %></td>
+          <td id="slope-<%= round.id %>"> <%= round_info.slope2 %></td>
+          <td id="rating-<%= round.id %>"> <%= round_info.rating2 %></td>
+          <td id="par-<%= round.id %>"> <%= round_info.par2 %></td>
+          <td id="adjusted-score-<%= round.id %>"> <%= round_info.adjusted_score2 %></td>
+          <td id="unadjusted-score-<%= round.id %>"> <%= round_info.unadjusted_score2 %></td>
+        </tr>
+      <% end %>
     <% end %>
     </tbody>
   </table>

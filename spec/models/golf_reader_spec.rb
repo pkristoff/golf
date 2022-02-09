@@ -100,9 +100,9 @@ class GolfReaderSpec
     expect(course).to be_truthy, "Course not found: #{name}"
     expect_address(course, TeeHoleInfo::KNIGHTS_PLAY_ADDRESS)
 
-    expect_tee(course, 'Black', 71.6, 139, hole_info[:Black])
-    expect_tee(course, 'White', 54, 126, hole_info[:White])
-    expect_tee(course, 'Blue', 27, 113, hole_info[:Blue])
+    expect_tee(course, 'Black', 28, 113, hole_info[:Black])
+    expect_tee(course, 'White', 27, 113, hole_info[:White])
+    expect_tee(course, 'Blue', 26, 113, hole_info[:Blue])
   end
 
   # Compare reading of xlsx worksheet round for knights play golf course

@@ -16,7 +16,7 @@ describe 'rounds/new.html.erb', type: :view do
     RoundsCommon.expect_new_round(
       rendered,
       tee,
-      { date: '2022-01-19',
+      { date: '2022-02-03',
         course_name: tee.course.name,
         tee_color: tee.color }
     )

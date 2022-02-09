@@ -145,6 +145,7 @@ describe Tee, type: :model do
   describe 'adjust_number_of_holes' do
     it 'should remove back nine' do
       tee = FactoryBot.create(:tee, tee_hole_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue])
+      unadjusted_par = tee.total_par
       course = tee.course
       expect(Hole.all.size).to eq(18)
       tee.adjust_number_of_holes
@@ -153,6 +154,8 @@ describe Tee, type: :model do
       tee.adjust_number_of_holes
       expect(tee.number_of_holes).to eq(9)
       expect(Hole.all.size).to eq(9)
+      expect(tee.total_par).not_to eq(unadjusted_par)
+      expect(tee.total_par).to eq(35)
     end
     it 'should add back nine' do
       tee = FactoryBot.create(:tee, tee_hole_info: TeeHoleInfo::HOLE_INFO_KN_1_9[:Black])
