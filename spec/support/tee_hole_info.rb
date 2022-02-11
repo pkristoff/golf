@@ -1,5 +1,6 @@
-module TeeHoleInfo
+# frozen_string_literal: true
 
+module TeeHoleInfo
   HOLE_INFO_KN_1_9 = {
     Black: [
       [1, 126, 3, 1],
@@ -75,7 +76,8 @@ module TeeHoleInfo
         [5, 2, ''],
         [4, 2, ''],
         [34, 16, '']
-      ]]
+      ]
+    ]
   }.freeze
 
   HOLE_INFO_KN_10_18 = {
@@ -152,7 +154,8 @@ module TeeHoleInfo
         [5, 3, ''],
         [4, 2, ''],
         [39, 20, '']
-      ]],
+      ]
+    ],
 
     BLACK_SCORE_INFO: [
       # [hole, strokes, putts, penalties, Fairways, strokes inside 80]
@@ -361,8 +364,7 @@ module TeeHoleInfo
        [6, 1, ''],
        [6, 2, ''],
        [56, 16, ''],
-       [111, 34, ''],
-      ]
+       [111, 34, '']]
     ],
 
     BLACK_SCORE_INFO: [
@@ -387,7 +389,7 @@ module TeeHoleInfo
       [17, 5, 2],
       [18, 5, 2],
       [nil, 45, 15],
-      [nil, 89, 35],
+      [nil, 89, 35]
     ],
 
     BLACK_SCORE_INFO2: [
@@ -411,7 +413,7 @@ module TeeHoleInfo
       [17, 5, 2],
       [18, 4, 1],
       [nil, 42, 16],
-      [nil, 91, 39],
+      [nil, 91, 39]
     ]
   }.freeze
 
@@ -430,5 +432,4 @@ module TeeHoleInfo
     'NC',
     '27539'
   ].freeze
-
 end

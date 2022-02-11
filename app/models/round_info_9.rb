@@ -27,6 +27,7 @@ class RoundInfo9 < RoundInfo
       adj_score = Tee.calc_adjusted_score(course_handicap2, score_hole.score.strokes, hole_par)
       self.unadjusted_score2 += score_hole.score.strokes
       self.adjusted_score2 += adj_score
+      # puts "score_hole.hole.number=#{score_hole.hole.number} adj_score=#{adj_score}"
     end
     sd = Tee.calc_score_differential(adjusted_score2, rating2, slope2)
     self.sd2 = sd

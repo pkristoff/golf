@@ -1,8 +1,11 @@
 # frozen_string_literal: true
 
-describe RoundInfo9, type: :model do
+require 'support/round_info_spec_helper'
+
+describe RoundInfo, type: :model do
+  include(RoundInfoSpecHelper)
   before do
-    @round_score_info_black9 = [
+    @round_score_info_black = [
       # [hole, strokes, putts]
       # 0..9
       [1, 6, 2], # 4
@@ -33,11 +36,32 @@ describe RoundInfo9, type: :model do
       [nil, 61, 18],
       [nil, 129, 36]
     ]
-    @round1 = RoundInfoSpecHelper.create_round9(113, 71, 0, 0, @round_score_info_black9)
-    @round2 = RoundInfoSpecHelper.create_round9(113, 71, 1, 1, @round_score_info_black9)
+    @round18 = RoundInfoSpecHelper.create_round18(113, 71, 0, 0, @round_score_info_black)
+    @round_info = RoundInfo.new(@round18, 18)
   end
   it 'delegates: tee, date' do
-    round_info9 = RoundInfo9.new(@round1, @round2, 9)
-    expect(round_info9.tee).to eq(@round2.tee)
+    expect(@round_info.tee).to eq(@round18.tee)
+  end
+  it 'include?' do
+    @round2 = RoundInfoSpecHelper.create_round18(113, 71, 0, 0, @round_score_info_black)
+    expect(@round_info.includes?(@round18)).to eq(true)
+    expect(@round_info.includes?(@round2)).to eq(false)
+  end
+  it 'calc_score_differential' do
+    total_score_differential = @round_info.calc_score_differential(50)
+    # @round_info.print_hi_info([total_score_differential])
+    expect(total_score_differential).to eq(57)
+  end
+  it 'debug info' do
+    @round_info.calc_score_differential(50)
+    expect(@round_info.round).to eq(@round18)
+    expect(@round_info.number_of_holes).to eq(18)
+    expect(@round_info.sd).to eq(57.0)
+    expect(@round_info.par).to eq(71)
+    expect(@round_info.adjusted_score).to eq(128)
+    expect(@round_info.unadjusted_score).to eq(129)
+    expect(@round_info.course_handicap).to eq(50.0)
+    expect(@round_info.slope).to eq(113.0)
+    expect(@round_info.rating).to eq(71.0)
   end
 end

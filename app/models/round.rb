@@ -52,6 +52,18 @@ class Round < ApplicationRecord
     score
   end
 
+  # The number of holes for the course has been changed
+  # so need to adjust the holes.
+  #
+  def adjust_number_of_holes
+    num_of_holes = tee.course.number_of_holes
+    number_of_holes = score_holes.size
+    return if num_of_holes == number_of_holes
+
+    add_back_nine if num_of_holes == 18 && number_of_holes == 9
+    remove_back_nine if num_of_holes == 9 && number_of_holes == 18
+  end
+
   # return Score for hole_number
   #
   # === Parameters:
@@ -90,9 +102,10 @@ class Round < ApplicationRecord
   # * <tt>Array</tt> of Round
   #
   def self.rounds(course)
-    Round.all.select do |round|
+    course_rounds = Round.all.select do |round|
       round.course.name == course.name
     end
+    course_rounds.sort_by(&:date)
   end
 
   # prints round date and score differential - debug
@@ -150,5 +163,11 @@ class Round < ApplicationRecord
 
   def score_hole(score)
     score_holes.detect { |score_hole| score == score_hole.score }
+  end
+
+  def remove_back_nine
+    sorted = sorted_score_holes
+    self.score_holes = sorted[0..8]
+    sorted[9..sorted.size - 1].each(&:delete)
   end
 end

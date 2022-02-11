@@ -4,7 +4,7 @@
 #
 class RoundInfo
   include DebugHelper
-  attr_accessor :sorted_score_holes, :round, :number_of_holes, :total_score_differential, :sd, :debug_info,
+  attr_accessor :sorted_score_holes, :round, :number_of_holes, :total_score_differential, :sd,
                 :par, :adjusted_score, :unadjusted_score, :course_handicap, :slope, :rating
 
   # calculate score differential
@@ -31,7 +31,6 @@ class RoundInfo
     # xpp('par', tee_par, 'gross_score', gross_score, 'unadjusted_score', unadjusted_score)
     sd1 = Tee.calc_score_differential(self.adjusted_score, rating, slope)
     self.sd = sd1
-    puts "setting sd=#{sd}"
     self.total_score_differential = sd1
     total_score_differential
   end

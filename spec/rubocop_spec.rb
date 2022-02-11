@@ -43,6 +43,10 @@ describe 'Internal' do
       expect(system('rubocop spec/factories/')).to eq(true)
     end
 
+    it 'should pass support' do
+      expect(system('rubocop spec/support/')).to eq(true)
+    end
+
     it 'should pass features' do
       expect(system('rubocop spec/features')).to eq(true)
     end
