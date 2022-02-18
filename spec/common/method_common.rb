@@ -54,7 +54,7 @@ module MethodCommon
     #
     def expect_have_field_num(rendered_or_page, field_name, field_id, value, disabled, pre_selector, clazz = nil)
       expect(rendered_or_page).to have_field(field_name, disabled: disabled, count: 1)
-      clazz_str = '' if clazz.nil?
+      clazz_str = ''
       clazz_str = "[class=#{clazz}]" unless clazz.nil?
       expect(rendered_or_page).to have_selector("#{pre_selector}input[type=number][id=#{field_id}]#{clazz_str}[value=#{value}]")
     end

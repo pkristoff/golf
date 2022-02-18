@@ -1,10 +1,10 @@
-<% if @eighteen_hole_rounds.empty? %>
-  <p><%= 'NO ROUNDS FOUND' %></p>
+<% if @calc_hix_rounds.empty? %>
+  <p id="no-calc_run"><%= 'No calculate handicap index' %></p>
 <% else %>
-  <ul>
-    <li>AVG = <%= @avg %></li>
-    <li>AVG-adjustment(<%= @adjustment %>) = <%= @avg_adj %></li>
-    <li>adjusted_avg * .96= <%= @avg_adj96 %></li>
+  <ul id="calc-run">
+    <li id="avg">AVG = <%= @avg %></li>
+    <li id="avg-adj">AVG-adjustment(<%= @adjustment %>) = <%= @avg_adj %></li>
+    <li id="avg96">adjusted_avg * .96= <%= @avg_adj96 %></li>
   </ul>
   <table class="table table-striped">
     <thead>

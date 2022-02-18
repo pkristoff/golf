@@ -13,7 +13,7 @@ class AccountsController < ApplicationController
   #
   def edit
     @account = Account.find_by(id: params[:id])
-    @eighteen_hole_rounds = []
+    @calc_hix_rounds = []
   end
 
   # update edit page
@@ -22,6 +22,7 @@ class AccountsController < ApplicationController
     @account = Account.find_by(id: params[:id])
     case params[:commit]
     when Button::Account::SUBMIT
+      @calc_hix_rounds = [] if @calc_hix_rounds.nil?
       if @account.update(account_params)
         render :edit, alert: 'Update successful '
       else
@@ -31,7 +32,7 @@ class AccountsController < ApplicationController
       logger.info('Starting calc_handicap_index')
       @initial_handicap_index = 50
       @initial_handicap_index = @account.handicap_index unless @account.handicap_index == 0.0
-      @handicap_index, @initial_handicap_index, @eighteen_hole_rounds, @score_differentials, @diffs_to_use, @adjustment,
+      @handicap_index, @initial_handicap_index, @calc_hix_rounds, @score_differentials, @diffs_to_use, @adjustment,
         @avg, @avg_adj, @avg_adj96, @hix = @account.calc_handicap_index
       @account.save!
       logger.info('Ending calc_handicap_index')
@@ -43,7 +44,7 @@ class AccountsController < ApplicationController
       logger.info('Starting calc_handicap_index')
       # hix, initial_handicap_index, rounds, score_differentials, diffs_to_use, adjustment, avg, avg_adj, avg_adj96, hix
       @handicap_index, @sorted_round_info_last, @initial_handicap_index,
-        @eighteen_hole_rounds, @score_differentials, @diffs_to_use, @adjustment,
+        @calc_hix_rounds, @score_differentials, @diffs_to_use, @adjustment,
         @avg, @avg_adj, @avg_adj96, @hix = @account.calc_handicap_index(50)
       @account.save!
       logger.info('Ending calc_handicap_index')
