@@ -11,30 +11,7 @@ describe Account, type: :model do
     end
     describe 'calc_handicap_index' do
       before do
-        @round_score_info_black18 = [
-          # [hole, strokes, putts, penalties, Fairways, strokes inside 80]
-          [1, 4, 2],
-          [2, 4, 2],
-          [3, 3, 2],
-          [4, 4, 2],
-          [5, 4, 2],
-          [6, 4, 2],
-          [7, 3, 2],
-          [8, 4, 2],
-          [9, 5, 2],
-          [nil, 35, 18],
-          [10, 4, 2],
-          [11, 3, 2],
-          [12, 5, 2],
-          [13, 4, 2],
-          [14, 4, 2],
-          [15, 4, 2],
-          [16, 5, 2],
-          [17, 3, 2],
-          [18, 4, 2],
-          [nil, 36, 18],
-          [nil, 71, 36]
-        ]
+        @round_score_info_black18 = RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18
       end
       it '0 rounds' do
         account = Account.find_by(id: @account.id)
@@ -232,37 +209,7 @@ describe Account, type: :model do
           [nil, 61, 18],
           [nil, 129, 36]
         ]
-        @round_score_info_black9 = [
-          # [hole, strokes, putts]
-          # 0..9
-          [1, 6, 2], # 4
-          [2, 6, 2], # 4
-          [3, 5, 2], # 3
-          # 10..19
-          [4, 8, 2], # 4
-          [5, 8, 2], # 4
-          [6, 8, 2], # 4
-          # 20..29
-          [7, 9, 2], # 3
-          [8, 9, 2], # 4
-          [9, 9, 2], # 5
-
-          [nil, 68, 18],
-
-          # 30..39
-          [10, 10, 2], # 4
-          [11, 10, 2], # 3
-          [12, 10, 2], # 5
-          # else
-          [13, 11, 2], # 4
-          [14, 4, 2], # 4
-          [15, 4, 2], # 4
-          [16, 5, 2], # 5
-          [17, 3, 2], # 3
-          [18, 4, 2], # 4
-          [nil, 61, 18],
-          [nil, 129, 36]
-        ]
+        @round_score_info_black9 = RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9
       end
       describe 'find_9_hole_rounds_with_matching9' do
         it '0 rounds' do

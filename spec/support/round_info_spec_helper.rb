@@ -27,6 +27,37 @@ module RoundInfoSpecHelper
     [nil, 36, 18],
     [nil, 71, 36]
   ].freeze
+  ROUND_SCORE_INFO_BLACK18_2 = [
+    # [hole, strokes, putts]
+    # 0..9
+    [1, 6, 2], # 4
+    [2, 6, 2], # 4
+    [3, 5, 2], # 3
+    # 10..19
+    [4, 8, 2], # 4
+    [5, 8, 2], # 4
+    [6, 8, 2], # 4
+    # 20..29
+    [7, 9, 2], # 3
+    [8, 9, 2], # 4
+    [9, 9, 2], # 5
+
+    [nil, 68, 18],
+
+    # 30..39
+    [10, 10, 2], # 4
+    [11, 10, 2], # 3
+    [12, 10, 2], # 5
+    # else
+    [13, 11, 2], # 4
+    [14, 4, 2], # 4
+    [15, 4, 2], # 4
+    [16, 5, 2], # 5
+    [17, 3, 2], # 3
+    [18, 4, 2], # 4
+    [nil, 61, 18],
+    [nil, 129, 36]
+  ].freeze
   ROUND_SCORE_INFO_BLACK9 = [
     # [hole, strokes, putts]
     # 0..9
@@ -58,6 +89,7 @@ module RoundInfoSpecHelper
     [nil, 61, 18],
     [nil, 129, 36]
   ].freeze
+
   class << self
     # check totals for tee if problem raise signal
     #
