@@ -11,7 +11,6 @@ describe Account, type: :model do
     end
     describe 'calc_handicap_index' do
       before do
-        @round_score_info_black18 = RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18
       end
       it '0 rounds' do
         account = Account.find_by(id: @account.id)
@@ -19,22 +18,22 @@ describe Account, type: :model do
         expect(account.handicap_index).to eq(0.0)
       end
       it '1 rounds' do
-        @round = RoundInfoSpecHelper.create_round18(139, 71.6, 5, 1, @round_score_info_black18)
+        @round = RoundInfoSpecHelper.create_round18(5, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 139, 71.6)
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(9.6)
       end
       it '2 rounds different tee' do
-        @round = RoundInfoSpecHelper.create_round18(139, 71.6, 3, 0, @round_score_info_black18)
-        @round2 = RoundInfoSpecHelper.create_round18(139, 71.6, 4, 1, @round_score_info_black18)
+        @round = RoundInfoSpecHelper.create_round18(3, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 139, 71.6)
+        @round2 = RoundInfoSpecHelper.create_round18(4, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 139, 71.6)
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(-3.3)
       end
       it '3 rounds different course' do
-        @round = RoundInfoSpecHelper.create_round18(139, 71.6, 3, 1, @round_score_info_black18)
-        @round2 = RoundInfoSpecHelper.create_round18(113, 79, 4, 1, @round_score_info_black18)
-        @round3 = RoundInfoSpecHelper.create_round18(110, 67, 5, 1, @round_score_info_black18)
+        @round = RoundInfoSpecHelper.create_round18(3, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 139, 71.6)
+        @round2 = RoundInfoSpecHelper.create_round18(4, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 113, 79.0)
+        @round3 = RoundInfoSpecHelper.create_round18(5, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 110, 67)
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(7.6)
@@ -44,21 +43,23 @@ describe Account, type: :model do
           slope = info[0]
           rating = info[1]
           score_increase = info[2]
-          RoundInfoSpecHelper.create_round18(slope, rating, index + 6, score_increase, @round_score_info_black18)
+          RoundInfoSpecHelper.create_round18(index + 6, score_increase, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18,
+                                             slope, rating)
         end
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
         expect(account.handicap_index).to eq(7.7)
       end
       it '6 rounds different course' do
-        @round = RoundInfoSpecHelper.create_round18(139, 79, 3, 1, @round_score_info_black18)
-        @round2 = RoundInfoSpecHelper.create_round18(113, 79, 4, 1, @round_score_info_black18)
-        @round3 = RoundInfoSpecHelper.create_round18(110, 67, 5, 1, @round_score_info_black18)
+        @round = RoundInfoSpecHelper.create_round18(3, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 139, 79)
+        @round2 = RoundInfoSpecHelper.create_round18(4, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 113, 79)
+        @round3 = RoundInfoSpecHelper.create_round18(5, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 110, 67)
         [[139, 79, 3], [139, 79, 3], [139, 79, 3]].each_with_index do |info, index|
           slope = info[0]
           rating = info[1]
           score_increase = info[2]
-          RoundInfoSpecHelper.create_round18(slope, rating, index + 6, score_increase, @round_score_info_black18)
+          RoundInfoSpecHelper.create_round18(index + 6, score_increase, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18,
+                                             slope, rating)
         end
         account = Account.find_by(id: @account.id)
         account.calc_handicap_index
@@ -67,164 +68,82 @@ describe Account, type: :model do
     end
     describe 'max_hdcp_score' do
       before do
-        @round_score_info_black18 = [
-          # [hole, strokes, putts]
-          # 0..9
-          [1, 6, 2], # 4
-          [2, 6, 2], # 4
-          [3, 5, 2], # 3
-          # 10..19
-          [4, 8, 2], # 4
-          [5, 8, 2], # 4
-          [6, 8, 2], # 4
-          # 20..29
-          [7, 9, 2], # 3
-          [8, 9, 2], # 4
-          [9, 9, 2], # 5
-
-          [nil, 68, 18],
-
-          # 30..39
-          [10, 10, 2], # 4
-          [11, 10, 2], # 3
-          [12, 10, 2], # 5
-          # else
-          [13, 11, 2], # 4
-          [14, 4, 2], # 4
-          [15, 4, 2], # 4
-          [16, 5, 2], # 5
-          [17, 3, 2], # 3
-          [18, 4, 2], # 4
-          [nil, 61, 18],
-          [nil, 129, 36]
-        ]
-        RoundInfoSpecHelper.create_round18(113, 71, 1, 0, @round_score_info_black18)
+        @strokes = 10
+        @par = 4
       end
       describe '1..9' do
         before do
-          @expected_handicap = 21.1
+          @expected_strokes = 6
         end
         it '1' do
-          account = set_handicap_index(@account.id, 1)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(1, @strokes, @par)).to eq(@expected_strokes)
         end
         it '9' do
-          account = set_handicap_index(@account.id, 9)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(1, @strokes, @par)).to eq(@expected_strokes)
         end
       end
       describe '10..19' do
         before do
-          @expected_handicap = 30.7
+          @expected_strokes = 7
         end
         it '10' do
-          account = set_handicap_index(@account.id, 10)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(10, @strokes, @par)).to eq(@expected_strokes)
         end
         it '19' do
-          account = set_handicap_index(@account.id, 19)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(19, @strokes, @par)).to eq(@expected_strokes)
         end
       end
       describe '20..29' do
         before do
-          @expected_handicap = 40.3
+          @expected_strokes = 8
         end
         it '20' do
-          account = set_handicap_index(@account.id, 20)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(20, @strokes, @par)).to eq(@expected_strokes)
         end
         it '29' do
-          account = set_handicap_index(@account.id, 29)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(29, @strokes, @par)).to eq(@expected_strokes)
         end
       end
       describe '30..39' do
         before do
-          @expected_handicap = 47
+          @expected_strokes = 9
         end
         it '30' do
-          account = set_handicap_index(@account.id, 30)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(30, @strokes, @par)).to eq(@expected_strokes)
         end
         it '39' do
-          account = set_handicap_index(@account.id, 39)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(39, @strokes, @par)).to eq(@expected_strokes)
         end
       end
       describe '40..54' do
         before do
-          @expected_handicap = 50.8
+          @expected_strokes = 10
         end
         it '40' do
-          account = set_handicap_index(@account.id, 40)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(40, @strokes, @par)).to eq(@expected_strokes)
         end
         it '54' do
-          account = set_handicap_index(@account.id, 54)
-          account.calc_handicap_index
-          expect(account.handicap_index).to eq(@expected_handicap)
+          expect(Tee.calc_adjusted_score(54, @strokes, @par)).to eq(@expected_strokes)
         end
       end
     end
     describe 'find_rounds' do
       before do
-        @round_score_info_black18 = [
-          # [hole, strokes, putts]
-          # 0..9
-          [1, 6, 2], # 4
-          [2, 6, 2], # 4
-          [3, 5, 2], # 3
-          # 10..19
-          [4, 8, 2], # 4
-          [5, 8, 2], # 4
-          [6, 8, 2], # 4
-          # 20..29
-          [7, 9, 2], # 3
-          [8, 9, 2], # 4
-          [9, 9, 2], # 5
-
-          [nil, 68, 18],
-
-          # 30..39
-          [10, 10, 2], # 4
-          [11, 10, 2], # 3
-          [12, 10, 2], # 5
-          # else
-          [13, 11, 2], # 4
-          [14, 4, 2], # 4
-          [15, 4, 2], # 4
-          [16, 5, 2], # 5
-          [17, 3, 2], # 3
-          [18, 4, 2], # 4
-          [nil, 61, 18],
-          [nil, 129, 36]
-        ]
-        @round_score_info_black9 = RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9
       end
       describe 'find_9_hole_rounds_with_matching9' do
         it '0 rounds' do
           expect(Account.find_9_hole_rounds_with_matching9.size).to eq(0)
         end
         it '1 rounds' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
           expect(Account.find_9_hole_rounds_with_matching9.size).to eq(0)
           rounds = Round.all
           expect(rounds.size).to eq(1)
           expect(rounds.first.tee.course.number_of_holes).to eq(9)
         end
         it '2 rounds diff date' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          RoundInfoSpecHelper.create_round9(113, 71, 2, 0, @round_score_info_black9)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          RoundInfoSpecHelper.create_round9(2, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
           expect(Account.find_9_hole_rounds_with_matching9.size).to eq(0)
           rounds = Round.all
           expect(rounds.size).to eq(2)
@@ -232,8 +151,8 @@ describe Account, type: :model do
           expect(rounds.second.tee.course.number_of_holes).to eq(9)
         end
         it '2 rounds same date' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
           all_round_info_sorted = Account.find_9_hole_rounds_with_matching9
           expect(all_round_info_sorted.size).to eq(1)
           rounds = Round.all
@@ -242,9 +161,9 @@ describe Account, type: :model do
           expect(rounds.second.tee.course.number_of_holes).to eq(9)
         end
         it '3 rounds same date' do
-          round1 = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round2 = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round3 = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
+          round1 = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round2 = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round3 = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
 
           all_round_info_sorted = Account.find_9_hole_rounds_with_matching9.sort_by(&:date)
 
@@ -254,9 +173,9 @@ describe Account, type: :model do
           expect(all_round_info_sorted.first.includes?(round3)).to eq(false)
         end
         it '3 rounds 2 with same date' do
-          round1 = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round2 = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round3 = RoundInfoSpecHelper.create_round9(113, 71, 2, 0, @round_score_info_black9)
+          round1 = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round2 = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round3 = RoundInfoSpecHelper.create_round9(2, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
           all_round_info_sorted = Account.find_9_hole_rounds_with_matching9.sort_by(&:date)
           expect(all_round_info_sorted.size).to eq(1)
           expect(all_round_info_sorted.first.includes?(round1)).to eq(true)
@@ -269,28 +188,28 @@ describe Account, type: :model do
           expect(Account.find_all_rounds.size).to eq(0)
         end
         it 'one 9-hole round' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
           expect(Account.find_all_rounds.size).to eq(0)
         end
         it 'one 9-hole round one 18-hole' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round18 = RoundInfoSpecHelper.create_round18(113, 71, 1, 0, @round_score_info_black18)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round18 = RoundInfoSpecHelper.create_round18(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 113, 71)
           all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
           expect(all_round_info_sorted.size).to eq(1)
           expect(all_round_info_sorted.first.includes?(round18)).to eq(true)
         end
         it 'two 9-hole rounds diff date one 18-hole' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          RoundInfoSpecHelper.create_round9(113, 71, 3, 0, @round_score_info_black9)
-          round18 = RoundInfoSpecHelper.create_round18(113, 71, 2, 0, @round_score_info_black18)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          RoundInfoSpecHelper.create_round9(3, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round18 = RoundInfoSpecHelper.create_round18(2, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 113, 71)
           all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
           expect(all_round_info_sorted.size).to eq(1)
           expect(all_round_info_sorted.first.includes?(round18)).to eq(true)
         end
         it 'two 9-hole rounds same date one 18-hole' do
-          round9_a = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round9_b = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round18 = RoundInfoSpecHelper.create_round18(113, 71, 0, 0, @round_score_info_black18)
+          round9_a = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round9_b = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round18 = RoundInfoSpecHelper.create_round18(0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 113, 71)
           all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
           expect(all_round_info_sorted.size).to eq(2)
           expect(all_round_info_sorted.first.includes?(round9_a)).to eq(true)
@@ -298,10 +217,10 @@ describe Account, type: :model do
           expect(all_round_info_sorted.second.includes?(round18)).to eq(true)
         end
         it 'three 9-hole rounds same date one 18-hole' do
-          round9_a = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round9_b = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round9_c = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round18 = RoundInfoSpecHelper.create_round18(113, 71, 0, 0, @round_score_info_black18)
+          round9_a = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round9_b = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round9_c = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round18 = RoundInfoSpecHelper.create_round18(0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 113, 71)
           all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
           expect(all_round_info_sorted.size).to eq(2)
           expect(all_round_info_sorted.first.includes?(round9_a)).to eq(true)
@@ -310,11 +229,11 @@ describe Account, type: :model do
           expect(all_round_info_sorted.second.includes?(round18)).to eq(true)
         end
         it 'four 9-hole rounds same date around one 18-hole' do
-          round9_a = RoundInfoSpecHelper.create_round9(113, 71, 3, 0, @round_score_info_black9)
-          round9_b = RoundInfoSpecHelper.create_round9(113, 71, 3, 0, @round_score_info_black9)
-          round9_c = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round9_d = RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          round18 = RoundInfoSpecHelper.create_round18(113, 71, 2, 0, @round_score_info_black18)
+          round9_a = RoundInfoSpecHelper.create_round9(3, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round9_b = RoundInfoSpecHelper.create_round9(3, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round9_c = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round9_d = RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          round18 = RoundInfoSpecHelper.create_round18(2, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 113, 71)
           all_round_info_sorted = Account.find_all_rounds.sort_by(&:date)
           expect(all_round_info_sorted.size).to eq(3)
           expect(all_round_info_sorted.first.includes?(round9_a)).to eq(true)
@@ -331,21 +250,21 @@ describe Account, type: :model do
           expect(account.handicap_index).to eq(0.0)
         end
         it '1 9-hole round' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
           account = Account.find_by(id: @account.id)
           account.calc_handicap_index
           expect(account.handicap_index).to eq(0.0)
         end
         it '2 9-hole round diff date' do
-          RoundInfoSpecHelper.create_round9(113, 71, 1, 0, @round_score_info_black9)
-          RoundInfoSpecHelper.create_round9(113, 71, 0, 0, @round_score_info_black9)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
+          RoundInfoSpecHelper.create_round9(0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 71)
           account = Account.find_by(id: @account.id)
           account.calc_handicap_index
           expect(account.handicap_index).to eq(0.0)
         end
         it '2 9-hole round same date' do
-          RoundInfoSpecHelper.create_round9(113, 35, 1, 0, @round_score_info_black9)
-          RoundInfoSpecHelper.create_round9(113, 35, 1, 1, @round_score_info_black9)
+          RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
+          RoundInfoSpecHelper.create_round9(1, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
           account = Account.find_by(id: @account.id)
           hix, sorted_round_info_last, initial_handicap_index, sorted_round_info, score_differentials, diffs_to_use, adjustment,
             avg, avg_adj, avg_adj96, max_hix = account.calc_handicap_index

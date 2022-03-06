@@ -32,7 +32,7 @@ feature 'Account editing' do
   end
 
   scenario 'Calculate handicap index with no initial - 18holes' do
-    round = RoundInfoSpecHelper.create_round18(139, 71.6, 0, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18)
+    round = RoundInfoSpecHelper.create_round18(0, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 139, 71.6)
     today = Time.zone.today
     visit edit_account_path(@account)
 
@@ -69,8 +69,8 @@ feature 'Account editing' do
   end
 
   scenario 'Calculate handicap index with no initial - 9oles' do
-    round1 = RoundInfoSpecHelper.create_round9(113, 27, 0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9)
-    round2 = RoundInfoSpecHelper.create_round9(113, 27, 0, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9)
+    round1 = RoundInfoSpecHelper.create_round9(0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
+    round2 = RoundInfoSpecHelper.create_round9(0, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
     today = Time.zone.today
     visit edit_account_path(@account)
 
@@ -85,21 +85,21 @@ feature 'Account editing' do
                                       { account_name: 'Paul',
                                         handicap_index: 54.0,
                                         calc_run: true,
-                                        avg: 91.0,
+                                        avg: 75.0,
                                         adjustment: 4,
-                                        avg_adj: 87.0,
-                                        avg96: 83.52,
+                                        avg_adj: 71.0,
+                                        avg96: 68.16,
                                         round: {
                                           id: round1.id,
                                           course_name: 'prk',
                                           number_of_holes: 9,
                                           date: today,
-                                          sd: 41.0,
-                                          total_score_differential: 91.0,
+                                          sd: 33.0,
+                                          total_score_differential: 75.0,
                                           uses: '*',
-                                          course_handicap: 42.0,
+                                          course_handicap: 50.0,
                                           slope: 113,
-                                          rating: 27.0,
+                                          rating: 35.0,
                                           par: 35,
                                           adjusted_score: 68,
                                           unadjusted_score: 68
@@ -109,12 +109,12 @@ feature 'Account editing' do
                                           course_name: 'prk',
                                           number_of_holes: 9,
                                           date: today,
-                                          sd: 50.0,
-                                          total_score_differential: 91.0,
+                                          sd: 42.0,
+                                          total_score_differential: 75.0,
                                           uses: '*',
-                                          course_handicap: 42.0,
+                                          course_handicap: 50.0,
                                           slope: 113,
-                                          rating: 27.0,
+                                          rating: 35.0,
                                           par: 35,
                                           adjusted_score: 77,
                                           unadjusted_score: 77
@@ -122,8 +122,8 @@ feature 'Account editing' do
   end
 
   scenario 'Calculate handicap index with no initial - 2 9holes' do
-    RoundInfoSpecHelper.create_round9(113, 35, 1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9)
-    RoundInfoSpecHelper.create_round9(113, 35, 1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9)
+    RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
+    RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
     visit edit_account_path(@account)
 
     AccountCommon.expect_edit_account(page, @account,

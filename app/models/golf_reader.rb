@@ -181,7 +181,7 @@ class GolfReader
         hole_info.push([hole_num, yardage, par, hdcp])
       end
     end
-    tee = course.add_tee(nil, tee_color, rating, slope, hole_info)
+    tee = course.add_tee(nil, tee_color, slope, rating, hole_info)
     total_holes = tee.number_of_holes
 
     unless nine_total.nil?

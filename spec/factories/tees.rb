@@ -19,7 +19,7 @@ FactoryBot.define do
       hole_info = evaluator.tee_hole_info
       if hole_info
         tee.course.number_of_holes = hole_info.size == 10 ? 9 : 18
-        tee.course.add_tee(tee, tee.color, tee.rating, tee.slope, evaluator.tee_hole_info)
+        tee.course.add_tee(tee, tee.color, tee.slope, tee.rating, evaluator.tee_hole_info)
       else
         tee.course.number_of_holes = 18
         tee.add_18_holes

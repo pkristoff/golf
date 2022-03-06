@@ -25,7 +25,7 @@ describe Course, type: :model do
       course.address.state = 'IN'
       course.address.state = '47529'
       course.save!
-      course.add_tee(nil, 'Black', 67.3, 70.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
+      course.add_tee(nil, 'Black', 70.7, 67.3, TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO])
       expect(course.tees.size).to eq(1)
 
       tee = course.tees.first
@@ -53,10 +53,10 @@ describe Course, type: :model do
   describe 'validation' do
     it 'should raise error if a course has two tees of same color' do
       course = FactoryBot.create(:course)
-      tee1 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+      tee1 = course.add_tee(nil, 'Black', 140, 71.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
       expect(tee1.errors[:color][0]).to eq('has already been taken')
       # case insensitive
-      tee2 = course.add_tee(nil, 'Black', 71.7, 140, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
+      tee2 = course.add_tee(nil, 'Black', 140, 71.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
       expect(tee2.errors[:color][0]).to eq('has already been taken')
     end
     it 'should if number_of_holes eq 9 or 18' do

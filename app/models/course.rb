@@ -47,15 +47,15 @@ class Course < ApplicationRecord
   #
   # * <tt>:tee</tt> nil or Tee if nil create Tee
   # * <tt>:color</tt> color of tee
-  # * <tt>:rating</tt> rating of tee
   # * <tt>:slope</tt> slope of tee
+  # * <tt>:rating</tt> rating of tee
   # * <tt>:hole_info</tt> Array of hole_num, yardage, par, hdcp
   #
   # === Returns:
   #
   # * <tt>Tee</tt>
   #
-  def add_tee(tee, color, rating, slope, hole_info)
+  def add_tee(tee, color, slope, rating, hole_info)
     if tee.nil?
       tee = tees.create(course: self, color: color, rating: rating, slope: slope)
     else

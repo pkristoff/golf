@@ -6,10 +6,17 @@ FactoryBot.define do
   factory :round do
     date { Time.zone.today }
     transient do
+      number_of_holes { 18 }
+      hole_info { TeeHoleInfo::HOLE_INFO_LOCHMERE }
       round_score_info { TeeHoleInfo::HOLE_INFO_LOCHMERE[:BLACK_SCORE_INFO] }
     end
     tee do
-      course = FactoryBot.create(:course, name: unique_name('prk')) if instance.tee.nil?
+      if instance.tee.nil?
+        course = FactoryBot.create(:course,
+                                   name: unique_name('prk'),
+                                   number_of_holes: number_of_holes,
+                                   hole_info: hole_info)
+      end
       course.tee('Black') if instance.tee.nil?
     end
     after(:create) do |round, evaluator|
