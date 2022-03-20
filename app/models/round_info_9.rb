@@ -10,9 +10,9 @@ class RoundInfo9 < RoundInfo
   #
   # === Parameters:
   #
-  # * <tt>:initial_handicap_index</tt> initial handicap_index
+  # * <tt>:initial_hix</tt> initial handicap_index
   #
-  def calc_score_differential(initial_handicap_index)
+  def calc_score_differential(initial_hix)
     super
     self.adjusted_score2 = 0
     self.unadjusted_score2 = 0
@@ -20,8 +20,7 @@ class RoundInfo9 < RoundInfo
     self.par2 = tee.total_par
     self.rating2 = tee.rating
     self.slope2 = tee.slope
-    self.course_handicap2 = Tee.calc_course_handicap(initial_handicap_index, slope2, rating2, par2)
-    # xpp('course_handicap', course_handicap, 'slope', slope, 'rating', rating)
+    self.course_handicap2 = tee.calc_course_handicap(initial_hix)
     round2.sorted_score_holes.each do |score_hole|
       hole_par = score_hole.hole.par
       adj_score = Tee.calc_adjusted_score(course_handicap2, score_hole.score.strokes, hole_par)

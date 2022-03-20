@@ -11,16 +11,16 @@ class RoundInfo
   #
   # === Parameters:
   #
-  # * <tt>:initial_handicap_index</tt> initial handicap_index
+  # * <tt>:initial_hix</tt> initial handicap_index
   #
-  def calc_score_differential(initial_handicap_index)
+  def calc_score_differential(initial_hix)
     self.adjusted_score = 0
     self.unadjusted_score = 0
     tee = round.tee
     self.par = tee.total_par
     self.rating = tee.rating
     self.slope = tee.slope
-    self.course_handicap = Tee.calc_course_handicap(initial_handicap_index, slope, rating, par)
+    self.course_handicap = tee.calc_course_handicap(initial_hix)
     # xpp('course_handicap', course_handicap, 'slope', slope, 'rating', rating)
     round.sorted_score_holes.each do |score_hole|
       hole_par = score_hole.hole.par

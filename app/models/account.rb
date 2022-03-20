@@ -9,27 +9,34 @@ class Account < ApplicationRecord
   #
   # === Parameters:
   #
-  # * <tt>:ihix</tt> initial handicap_index
+  # * <tt>:initial_hix</tt> initial handicap_index
   #
-  def calc_handicap_index(ihix = nil)
-    rounds_18hole = Account.find_18_hole_rounds
-    rounds9holes = Account.find_9_hole_rounds_with_matching9
-    sorted_round_info = rounds_18hole.concat(rounds9holes).sort_by(&:date)
-    # Round.print(sorted_rounds)
-    initial_handicap_index = ihix unless ihix.nil?
-    initial_handicap_index = (handicap_index == 0.0 ? 50 : handicap_index) if ihix.nil?
-    hix, sorted_round_info_last, initial_handicap_index,
+  # === Returns:
+  #
+  # * <tt>:hix</tt> handicap_index
+  # * <tt>:sorted_round_info_last</tt> list of most recent 20 round info
+  # * <tt>:initial_hix</tt> starting hix
+  # * <tt>:score_diffs</tt> list of score_differential for round
+  # * <tt>:adjustments</tt> debug info
+  # * <tt>:avg</tt> debug info
+  # * <tt>:avg_adj</tt> debug info
+  # * <tt>:avg_adj96</tt> debug info
+  #
+  def calc_handicap_index(initial_hix = nil)
+    sorted_round_info = Account.all_round_infos.sort_by(&:date)
+
+    hix, sorted_round_info_last, initial_hix,
       score_differentials, diffs_to_use,
       adjustment, avg, avg_adj, avg_adj96 =
-      calc_handicap_index_for_rounds(sorted_round_info, initial_handicap_index)
+      calc_handicap_index_for_rounds(sorted_round_info, initial_hix.nil? ? initial_handicap_index : initial_hix)
 
     max_hix = nil
     max_hix = [hix, 54].min unless hix.nil?
     self.handicap_index = max_hix unless hix.nil?
 
-    print_hi_info(initial_handicap_index, sorted_round_info_last, diffs_to_use, adjustment, avg, avg_adj, avg_adj96, hix)
+    print_hi_info(initial_hix, sorted_round_info_last, diffs_to_use, adjustment, avg, avg_adj, avg_adj96, hix)
 
-    [hix, sorted_round_info_last, initial_handicap_index, sorted_round_info, score_differentials, diffs_to_use, adjustment,
+    [hix, sorted_round_info_last, initial_hix, sorted_round_info, score_differentials, diffs_to_use, adjustment,
      avg, avg_adj, avg_adj96, max_hix]
   end
 
@@ -37,7 +44,7 @@ class Account < ApplicationRecord
   #
   # === Parameters:
   #
-  # * <tt>:initial_handicap_index</tt> initial handicap_index
+  # * <tt>:initial_hix</tt> initial handicap_index
   # * <tt>:sorted_round_info</tt> the rounds to consider
   # * <tt>:diffs_to_use</tt> the score_differentials to avg
   # * <tt>:adjustment</tt> the adjustment to avg
@@ -46,10 +53,10 @@ class Account < ApplicationRecord
   # * <tt>:avg_adj96</tt> 96% of avg_adj
   # * <tt>:hix</tt> handicap index
   #
-  def print_hi_info(initial_handicap_index, sorted_round_info, diffs_to_use, adjustment,
+  def print_hi_info(initial_hix, sorted_round_info, diffs_to_use, adjustment,
                     avg, avg_adj, avg_adj96, hix)
     xpp('CALCULATING', 'calc_handicap_index')
-    xpp('initial_handicap_index', initial_handicap_index)
+    xpp('initial_hix', initial_hix)
     xpp('diffs_to_use', diffs_to_use.size) unless sorted_round_info.empty?
     sorted_round_info.each do |round_info|
       xpp('start =================== ', round_info.number_of_holes)
@@ -61,50 +68,23 @@ class Account < ApplicationRecord
     end
   end
 
-  # calculates handicap_index given an array of rounds
-  # also sets the field handicap_index
-  #
-  # === Parameters:
-  #
-  # * <tt>:sorted_round_info</tt>
-  # * <tt>:initial_handicap_index</tt> initial handicap_index
+  # find all rounds with played on 18 hole course
   #
   # === Returns:
   #
-  # * <tt>:Number</tt> handicap_index
+  # * <tt>:Array</tt> of RoundInfo
   #
-  #
-  def calc_handicap_index_for_rounds(sorted_round_info, initial_handicap_index)
-    sorted_round_info_last = sorted_round_info.last(20)
-    score_diffs = sorted_round_info_last.map do |round_info|
-      total_score_differential =
-        round_info.calc_score_differential(initial_handicap_index)
-      total_score_differential
-    end
-    unless score_diffs.empty?
-      hix, diffs_to_use, adjustments, avg, avg_adj, avg_adj96 =
-        Tee.final_calc_handicap_index(score_diffs.sort)
-    end
-    [hix, sorted_round_info_last, initial_handicap_index, score_diffs, diffs_to_use, adjustments, avg, avg_adj, avg_adj96]
+  def self.all_round_infos
+    Account.find_18_hole_round_infos.concat(Account.find_9_hole_round_infos_with_matching9)
   end
 
   # find all rounds with played on 18 hole course
   #
   # === Returns:
   #
-  # * <tt>:Array</tt> rounds
+  # * <tt>:Array</tt> of RoundInfo
   #
-  def self.find_all_rounds
-    Account.find_18_hole_rounds.concat(Account.find_9_hole_rounds_with_matching9)
-  end
-
-  # find all rounds with played on 18 hole course
-  #
-  # === Returns:
-  #
-  # * <tt>:Array</tt> rounds
-  #
-  def self.find_18_hole_rounds
+  def self.find_18_hole_round_infos
     rounds_18hole = []
     Round.find_each do |round|
       rounds_18hole.push(RoundInfo.new(round, 18)) if round.tee.course.number_of_holes == 18
@@ -116,9 +96,9 @@ class Account < ApplicationRecord
   #
   # === Returns:
   #
-  # * <tt>:Array</tt> rounds
+  # * <tt>:Array</tt> of RoundInfo
   #
-  def self.find_9_hole_rounds_with_matching9
+  def self.find_9_hole_round_infos_with_matching9
     rounds_9hole = []
     Round.find_each do |round|
       rounds_9hole.push(round) if round.tee.course.number_of_holes == 9
@@ -152,7 +132,7 @@ class Account < ApplicationRecord
     tee_par = tee.total_par
     rating = tee.rating
     slope = tee.slope
-    course_handicap = Tee.calc_course_handicap(handicap_index, slope, rating, tee_par)
+    course_handicap = tee.calc_course_handicap(handicap_index)
     # xpp('course_handicap', course_handicap, 'slope', slope, 'rating', rating)
     round_info.sorted_score_holes.each do |score_hole|
       hole_par = score_hole.hole.par
@@ -173,5 +153,71 @@ class Account < ApplicationRecord
   #
   def self.basic_permitted_params
     %i[name id]
+  end
+
+  # given a Round calculate the course handicate based on previous rounds and then
+  # calculate the course handicap
+  #
+  # === Parameters:
+  #
+  # * <tt>:round</tt>
+  #
+  # === Returns:
+  #
+  # * <tt>Integer</tt> course handicap
+  # * <tt>Float</tt> handicap index
+  #
+  def calc_course_hdcp(round)
+    round_infos = Account.all_round_infos.sort_by(&:date).select do |rd|
+      rd.date < round.date
+    end
+    hix, sorted_round_info_last, initial_hix,
+      _score_differentials, diffs_to_use,
+      adjustment, avg, avg_adj, avg_adj96 = calc_handicap_index_for_rounds(round_infos, initial_handicap_index)
+
+    print_hi_info(initial_hix, sorted_round_info_last, diffs_to_use, adjustment, avg, avg_adj, avg_adj96, hix)
+
+    return [round.tee.calc_course_handicap(hix), hix] unless hix.nil?
+
+    nil
+  end
+
+  private
+
+  def initial_handicap_index
+    (handicap_index == 0.0 ? 50 : handicap_index)
+  end
+
+  # calculates handicap_index given an array of rounds
+  # also sets the field handicap_index
+  #
+  # === Parameters:
+  #
+  # * <tt>:sorted_round_info</tt>
+  # * <tt>:initial_hix</tt> initial handicap_index
+  #
+  # === Returns:
+  #
+  # * <tt>:hix</tt> handicap_index
+  # * <tt>:sorted_round_info_last</tt>list of most recent 20 round info
+  # * <tt>:initial_hix</tt>starting hix
+  # * <tt>:score_diffs</tt>list of score_differential for round
+  # * <tt>:adjustments</tt> debug info
+  # * <tt>:avg</tt>debug info
+  # * <tt>:avg_adj</tt>debug info
+  # * <tt>:avg_adj96</tt>debug info
+  #
+  def calc_handicap_index_for_rounds(sorted_round_info, initial_hix)
+    sorted_round_info_last = sorted_round_info.last(20)
+    score_diffs = sorted_round_info_last.map do |round_info|
+      total_score_differential =
+        round_info.calc_score_differential(initial_hix)
+      total_score_differential
+    end
+    unless score_diffs.empty?
+      hix, diffs_to_use, adjustments, avg, avg_adj, avg_adj96 =
+        Tee.final_calc_handicap_index(score_diffs.sort)
+    end
+    [hix, sorted_round_info_last, initial_hix, score_diffs, diffs_to_use, adjustments, avg, avg_adj, avg_adj96]
   end
 end

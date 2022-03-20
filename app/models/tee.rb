@@ -192,7 +192,7 @@ class Tee < ApplicationRecord
   #
   # * <tt>Integer</tt>
   #
-  def course_handicap(handicap_index)
+  def calc_course_handicap(handicap_index)
     # https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
     Tee.calc_course_handicap(handicap_index, slope, rating, total_par)
   end

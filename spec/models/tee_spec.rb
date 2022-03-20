@@ -387,7 +387,7 @@ describe Tee, type: :model do
   describe 'Course Handicap' do
     it 'course_handicap' do
       tee = FactoryBot.create(:tee, tee_hole_info: TeeHoleInfo::HOLE_INFO_LOCHMERE[:Blue])
-      expect(tee.course_handicap(36)).to eq(37)
+      expect(tee.calc_course_handicap(36)).to eq(37)
     end
   end
   describe 'calc_course_handicap' do
