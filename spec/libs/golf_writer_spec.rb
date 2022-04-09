@@ -3,11 +3,15 @@
 require 'rails_helper'
 require 'support/tee_hole_info'
 
-describe GolfWriter, type: :model do
+describe GolfWriter, type: :lib do
   describe 'writing excel spreadsheet' do
-    before(:each) do
+    before(:all) do
+      puts 'all called'
       @write_path = 'tmp/Golf_writer.xlsx'
       @read_path = 'spec/fixtures/Golf.xlsx'
+    end
+    before(:each) do
+      puts 'each called'
       File.delete(@write_path) if File.exist?(@write_path)
     end
     after(:each) do

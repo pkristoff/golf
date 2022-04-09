@@ -2,7 +2,7 @@
 
 require 'support/round_info_spec_helper'
 
-describe RoundInfo, type: :model do
+describe RoundInfo, type: :lib do
   include(RoundInfoSpecHelper)
   before do
     @round18 = RoundInfoSpecHelper.create_round18(0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18_2)

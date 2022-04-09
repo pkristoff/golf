@@ -3,7 +3,7 @@
 require 'rails_helper'
 require 'support/tee_hole_info'
 
-describe GolfReader, type: :model do
+describe GolfReader, type: :lib do
   describe 'Reading excel spreadsheet' do
     before(:each) do
       @golf_reader_spec = GolfReaderSpec.new

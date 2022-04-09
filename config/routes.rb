@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "welcome#index"
 
   get 'welcome/index'
-  get 'welcome/clear_db'
+  post 'welcome/clear_db'
   get 'welcome/filein_db'
   post 'welcome/upload'
 

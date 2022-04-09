@@ -12,7 +12,7 @@
           <%= Label::Database::DATABASE %>
         </a>
         <ul class="dropdown-menu">
-          <li><%= link_to(Label::Database::CLEAR, welcome_clear_db_path, id: 'clear_db') %></li>
+          <li><%= link_to(Label::Database::CLEAR, welcome_clear_db_path, method: :post, data: { confirm: "Are you sure?" }, id: 'clear_db') %></li>
           <li><%= link_to(Label::Database::LOAD_XSXL, welcome_filein_db_path, id: 'load_in_xsxl_file') %></li>
         </ul>
       </li>

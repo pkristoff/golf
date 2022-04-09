@@ -57,7 +57,7 @@ describe Account, type: :model do
       end
     end
     describe 'max_hdcp_score' do
-      before do
+      before(:all) do
         @strokes = 10
         @par = 4
       end
@@ -292,7 +292,6 @@ describe Account, type: :model do
       course_hdcp, hix = account.calc_course_hdcp(round2)
       expect(hix).to eq(9.6)
       expect(course_hdcp).to eq(12)
-      # expect(account.calc_course_hdcp(round2)).to eq(12)
     end
     it '3 rounds' do
       expected_hi = create_two_rounds

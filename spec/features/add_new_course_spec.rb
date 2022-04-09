@@ -4,11 +4,11 @@ require 'common/course_common'
 feature 'add a new course' do
   include CourseCommon
   # include ViewsHelpers
-  before(:each) do
-  end
-
-  after(:each) do
-  end
+  # before(:each) do
+  # end
+  #
+  # after(:each) do
+  # end
 
   scenario 'visit new course' do
     visit new_course_path

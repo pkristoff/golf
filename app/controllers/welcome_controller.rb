@@ -7,12 +7,30 @@ class WelcomeController < ApplicationController
   #
   def filein_db; end
 
+  # clean out DB
+  #
+  def clear_db
+    begin
+      DbStuff.clear_db
+    rescue StandardError => e
+      flash[:notice] = "Error while clearing db: #{e.message}"
+    else
+      flash[:notice] = 'DB cleared'
+    end
+    render 'index'
+  end
+
   # upload ,xslx file
   #
   def upload
-    uploaded_filepath = params[:file].path
-    GolfReader.new(uploaded_filepath)
-    flash[:notice] = 'DB updated'
+    begin
+      uploaded_filepath = params[:file].path
+      DbStuff.load_in_db(uploaded_filepath)
+    rescue StandardError => e
+      flash[:notice] = "Error while uploading file: #{e.message}"
+    else
+      flash[:notice] = 'DB updated'
+    end
     render 'index'
   end
 
