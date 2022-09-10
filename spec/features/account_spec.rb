@@ -59,7 +59,7 @@ feature 'Account editing' do
                                           sd: 14.1,
                                           total_score_differential: 14.1,
                                           uses: '*',
-                                          course_handicap: 62.0,
+                                          course_handicap: 62,
                                           slope: 139,
                                           rating: 71.6,
                                           par: 71,
@@ -68,7 +68,7 @@ feature 'Account editing' do
                                         } })
   end
 
-  scenario 'Calculate handicap index with no initial - 9oles' do
+  scenario 'Calculate handicap index with no initial - 9 holes' do
     round1 = RoundInfoSpecHelper.create_round9(0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
     round2 = RoundInfoSpecHelper.create_round9(0, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
     today = Time.zone.today
@@ -97,7 +97,7 @@ feature 'Account editing' do
                                           sd: 33.0,
                                           total_score_differential: 75.0,
                                           uses: '*',
-                                          course_handicap: 50.0,
+                                          course_handicap: 50,
                                           slope: 113,
                                           rating: 35.0,
                                           par: 35,
@@ -112,7 +112,7 @@ feature 'Account editing' do
                                           sd: 42.0,
                                           total_score_differential: 75.0,
                                           uses: '*',
-                                          course_handicap: 50.0,
+                                          course_handicap: 50,
                                           slope: 113,
                                           rating: 35.0,
                                           par: 35,

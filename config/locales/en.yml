@@ -30,4 +30,38 @@
 # available at https://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: "Hello world"
+  activerecord:
+    attributes:
+      address:
+        city: City
+        state: State
+        street_1: Street 1
+        street_2: Street 2
+        zip_code: Zip code
+  flash:
+    alert:
+      clearing: 'Error while clearing db:: %{message}'
+      date: 'date cannot blank.'
+      hole:
+        creating: 'Error creating hole'
+        updating: 'Error updating hole'
+      round: 'Error updating round'
+      score: 'Error updating score'
+      tee: 'Error updating tee'
+      uploading_file: 'Error while uploading file: %{message}'
+      validation: 'Validation error(s).'
+    notice:
+      db:
+        cleared: DB cleared
+        updated: DB updated
+      hole:
+        created: 'hole created'
+        updated: 'hole updated'
+      round:
+        updated: Round updated
+      score:
+        added: Score added
+        updated:  Score updated
+      tee:
+        added: Tee added
+        updated:  Tee updated

@@ -10,10 +10,10 @@ class HolesController < ApplicationController
     @tee = Tee.find(params[:tee_id])
     @hole = @tee.holes.create(tee_params)
     if @tee.errors.any?
-      flash.now[:alert] = 'Error creating hole'
+      flash.now[:alert] = t('flash.alert.hole.creating')
       render 'holes/new'
     else
-      flash[:notice] = 'hole added'
+      flash[:notice] = t('flash.notice.hole.created')
       render 'holes/edit'
     end
   end
@@ -42,9 +42,9 @@ class HolesController < ApplicationController
     @hole = Hole.find(params[:id])
     @hole.update(hole_params)
     if @hole.errors.any?
-      flash.now[:alert] = 'Error updating hole'
+      flash.now[:alert] = t('flash.alert.hole')
     else
-      flash[:notice] = 'hole updated'
+      flash[:notice] = t('flash.notice.hole.updated')
       @hole = @tee.next_hole(@hole)
     end
     render 'holes/edit'

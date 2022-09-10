@@ -29,11 +29,11 @@ class RoundsController < ApplicationController
     @round = nil
     @round = Round.create(round_params) if date.present?
     if date.present? && @round.present? && @round.errors.empty?
-      redirect_to course_tee_round_path(@course, @tee, @round), alert: 'Round updated.'
+      redirect_to course_tee_round_path(@course, @tee, @round), alert: t('flash.alert.round')
     else
       # @round = Round.new
-      flash.now[:alert] = 'Validation error(s).' if date.present?
-      flash.now[:alert] = 'date cannot blank.' if date.blank?
+      flash.now[:alert] = t('flash.alert.validation') if date.present?
+      flash.now[:alert] = t('flash.alert.date') if date.blank?
       render :new
     end
   end
@@ -72,10 +72,10 @@ class RoundsController < ApplicationController
     date = params[:round][:date]
 
     if date.present? && @round.update(round_params)
-      redirect_to course_tee_rounds_path(@course, @tee), alert: 'Round updated.'
+      redirect_to course_tee_rounds_path(@course, @tee), alert: t('flash.alert.round')
     else
-      flash.now[:alert] = 'Validation error(s).' if date.present?
-      flash.now[:alert] = 'date cannot blank.' if date.blank?
+      flash.now[:alert] = t('flash.alert.validation') if date.present?
+      flash.now[:alert] = t('flash.alert.date') if date.blank?
       render :edit
     end
   end

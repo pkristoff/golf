@@ -25,11 +25,11 @@ class ScoresController < ApplicationController
     @score = Score.find(params[:id])
     @score.update(score_params)
     if @score.errors.any?
-      flash.now[:alert] = 'Error updating score'
+      flash.now[:alert] = t('flash.alert.score')
     else
       @score.calculate_green_in_regulation(@score.hole)
       @score.save
-      flash[:notice] = 'score updated'
+      flash[:notice] = t('flash.notice.score.updated')
       @score = @round.next_score(@score)
     end
     render 'scores/edit'

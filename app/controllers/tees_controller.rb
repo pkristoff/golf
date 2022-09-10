@@ -18,7 +18,7 @@ class TeesController < ApplicationController
       when 18
         @tee.add_18_holes
       end
-      flash[:notice] = 'tee added'
+      flash[:notice] = t('flash.notice.tee.added')
       render 'tees/edit'
     end
   end
@@ -50,10 +50,10 @@ class TeesController < ApplicationController
     @tee = Tee.find(params[:id])
     @tee.update(tee_params)
     if @tee.errors.any?
-      flash.now[:alert] = 'Error updating tee'
+      flash.now[:alert] = t('flash.alert.tee')
       render 'tees/new'
     else
-      flash[:notice] = 'tee updated'
+      flash[:notice] = t('flash.notice.tee.updated')
       render 'tees/edit'
     end
   end

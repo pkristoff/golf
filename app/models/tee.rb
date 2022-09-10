@@ -336,7 +336,7 @@ class Tee < ApplicationRecord
     # xpp('diffs_to_use', diffs_to_use.map { |x| format('%.1f', x) }, 'adjustment', adjustment)
     # xpp('lowest_score_diff', lowest_score_diff, 'lowest_score_diff_adj', lowest_score_diff_adj)
     avg_adj96 = avg_adj * 0.96
-    score_index = (avg_adj96).truncate(1)
+    score_index = avg_adj96.truncate(1)
     # xpp('score_index', score_index)
     [score_index, avg, avg_adj, avg_adj96]
   end

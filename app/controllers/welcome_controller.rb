@@ -13,9 +13,9 @@ class WelcomeController < ApplicationController
     begin
       DbStuff.clear_db
     rescue StandardError => e
-      flash[:notice] = "Error while clearing db: #{e.message}"
+      flash[:alert] = "Error while clearing db: #{e.message}"
     else
-      flash[:notice] = 'DB cleared'
+      flash[:notice] = t('flash.notice.db.cleared')
     end
     render 'index'
   end
@@ -27,9 +27,9 @@ class WelcomeController < ApplicationController
       uploaded_filepath = params[:file].path
       DbStuff.load_in_db(uploaded_filepath)
     rescue StandardError => e
-      flash[:notice] = "Error while uploading file: #{e.message}"
+      flash[:alert] = t('flash.notice.db.updated', message: e.message)
     else
-      flash[:notice] = 'DB updated'
+      flash[:notice] = t('flash.notice.db.updated')
     end
     render 'index'
   end

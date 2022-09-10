@@ -50,7 +50,7 @@ feature 'edit_existing_course' do
     TeeCommon.expect_edit_tee(page,
                               @course.tee('Black'),
                               @course.tees,
-                              { expect_messages: [[:flash_notice, 'tee updated']],
+                              { expect_messages: [[:flash_notice, I18n.t('flash.notice.tee.updated')]],
                                 course_name: @course.name,
                                 tee_color: 'Black',
                                 tee_slope: '140.0',
