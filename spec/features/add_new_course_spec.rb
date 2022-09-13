@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'common/course_common'
-feature 'add a new course' do
+describe 'add a new course' do
   include CourseCommon
   # include ViewsHelpers
   # before(:each) do
@@ -10,7 +10,7 @@ feature 'add a new course' do
   # after(:each) do
   # end
 
-  scenario 'visit new course' do
+  it 'visit new course' do
     visit new_course_path
 
     CourseCommon.expect_new_course(page,
@@ -20,7 +20,7 @@ feature 'add a new course' do
                                    street1: '', street2: '', city: '', state: '', zip_code: '27502')
   end
 
-  scenario 'visit new course fill in invalid values &look for errors' do
+  it 'visit new course fill in invalid values &look for errors' do
     visit new_course_path
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
@@ -51,7 +51,7 @@ feature 'add a new course' do
                                           ])
   end
 
-  scenario 'visit new course fill in valid values it should render index.html.erb' do
+  it 'visit new course fill in valid values it should render index.html.erb' do
     visit new_course_path
     CourseCommon.expect_new_course(page,
                                    show_tees: false,

@@ -21,6 +21,4 @@ describe 'rounds/new.html.erb', type: :view do
         tee_color: tee.color }
     )
   end
-  it 'initially show list of rounds' do
-  end
 end

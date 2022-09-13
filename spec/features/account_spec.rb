@@ -3,21 +3,15 @@
 require 'common/account_common'
 require 'support/round_info_spec_helper'
 
-feature 'Account editing' do
+describe 'Account editing' do
   include AccountCommon
   include RoundInfoSpecHelper
-  # include ViewsHelpers
-  before(:each) do
-    @account = FactoryBot.create(:account)
-  end
+  let(:account) { FactoryBot.create(:account) }
 
-  after(:each) do
-  end
+  it 'edit account name' do
+    visit edit_account_path(account)
 
-  scenario 'edit account name' do
-    visit edit_account_path(@account)
-
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
                                         handicap_index: 0.0,
                                         calc_run: false })
@@ -25,25 +19,25 @@ feature 'Account editing' do
     fill_in Label::Account::NAME, with: 'PRK'
     click_button(Button::Account::SUBMIT)
 
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'PRK',
                                         handicap_index: 0.0,
                                         calc_run: false })
   end
 
-  scenario 'Calculate handicap index with no initial - 18holes' do
+  it 'Calculate handicap index with no initial - 18holes' do
     round = RoundInfoSpecHelper.create_round18(0, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK18, 139, 71.6)
     today = Time.zone.today
-    visit edit_account_path(@account)
+    visit edit_account_path(account)
 
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
                                         handicap_index: 0.0,
                                         calc_run: false })
 
     click_button(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT)
 
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
                                         handicap_index: 9.6,
                                         calc_run: true,
@@ -68,20 +62,20 @@ feature 'Account editing' do
                                         } })
   end
 
-  scenario 'Calculate handicap index with no initial - 9 holes' do
+  it 'Calculate handicap index with no initial - 9 holes' do
     round1 = RoundInfoSpecHelper.create_round9(0, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
     round2 = RoundInfoSpecHelper.create_round9(0, 1, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
     today = Time.zone.today
-    visit edit_account_path(@account)
+    visit edit_account_path(account)
 
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
                                         handicap_index: 0.0,
                                         calc_run: false })
 
     click_button(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT)
 
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
                                         handicap_index: 54.0,
                                         calc_run: true,
@@ -121,19 +115,19 @@ feature 'Account editing' do
                                         } })
   end
 
-  scenario 'Calculate handicap index with no initial - 2 9holes' do
+  it 'Calculate handicap index with no initial - 2 9holes' do
     RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
     RoundInfoSpecHelper.create_round9(1, 0, RoundInfoSpecHelper::ROUND_SCORE_INFO_BLACK9, 113, 35)
-    visit edit_account_path(@account)
+    visit edit_account_path(account)
 
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
                                         handicap_index: 0.0,
                                         calc_run: false })
 
     click_button(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT)
 
-    AccountCommon.expect_edit_account(page, @account,
+    AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
                                         handicap_index: 54.0,
                                         calc_run: true,

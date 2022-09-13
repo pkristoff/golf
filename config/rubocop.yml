@@ -1,3 +1,5 @@
+require: rubocop-rspec
+
 #
 # This file is called via the .rubocop.yml "inherit_from: config/rubocop.yml"
 #
@@ -480,3 +482,32 @@ Rails/ToFormattedS: # new in 2.15
   Enabled: true
 Rails/TransactionExitStatement: # new in 2.14
   Enabled: true
+
+RSpec/BeEq: # new in 2.9.0
+  Enabled: true
+RSpec/BeNil: # new in 2.9.0
+  Enabled: true
+RSpec/ChangeByZero: # new in 2.11.0
+  Enabled: true
+RSpec/ExampleLength:
+  Enabled: false
+RSpec/ExcessiveDocstringSpacing: # new in 2.5
+  Enabled: true
+RSpec/IdenticalEqualityAssertion: # new in 2.4
+  Enabled: true
+RSpec/MultipleExpectations:
+  Enabled: false
+RSpec/SubjectDeclaration: # new in 2.5
+  Enabled: true
+RSpec/VerifiedDoubleReference: # new in 2.10.0
+  Enabled: true
+RSpec/Capybara/SpecificMatcher: # new in 2.12
+  Enabled: false
+RSpec/FactoryBot/SyntaxMethods: # new in 2.7
+  Enabled: false
+RSpec/Rails/AvoidSetupHook: # new in 2.4
+  Enabled: true
+RSpec/Rails/HaveHttpStatus: # new in 2.12
+  Enabled: false
+RSpec/NestedGroups: # new in 2.12
+  Enabled: false

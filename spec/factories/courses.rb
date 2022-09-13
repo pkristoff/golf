@@ -19,6 +19,7 @@ FactoryBot.define do
       address.state = 'IN'
       address.zip_code = '47529'
     end
+
     after(:create) do |course, evaluator|
       if evaluator.should_fillin_tees
         hole_info = evaluator.hole_info

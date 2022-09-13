@@ -5,7 +5,7 @@ require 'common/hole_common'
 
 describe 'holes/new.html.erb', type: :view do
   include HoleCommon
-  it 'has  no holes for tee' do
+  it 'has no holes for tee' do
     course = FactoryBot.create(:course, should_fillin_tees: true, should_fillin_holes: false)
     assign(:course, course)
     assign(:form_disabled, false)

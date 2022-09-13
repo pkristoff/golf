@@ -11,7 +11,6 @@ describe GolfWriter, type: :lib do
       @read_path = 'spec/fixtures/Golf.xlsx'
     end
     before(:each) do
-      puts 'each called'
       File.delete(@write_path) if File.exist?(@write_path)
     end
     after(:each) do

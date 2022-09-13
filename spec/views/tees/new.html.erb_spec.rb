@@ -5,7 +5,7 @@ require 'common/tee_common'
 
 describe 'tees/new.html.erb', type: :view do
   include TeeCommon
-  it 'has  readonly fields' do
+  it 'has readonly fields' do
     course = FactoryBot.create(:course, should_fillin_tees: false)
     assign(:course, course)
     assign(:form_disabled, false)
@@ -22,7 +22,8 @@ describe 'tees/new.html.erb', type: :view do
                                tee_rating: '0.0',
                                show_tees: true })
   end
-  it 'initially  show list of tees' do
+
+  it 'initially show list of tees' do
     course = FactoryBot.create(:course)
     assign(:course, course)
     assign(:tee, Tee.new)

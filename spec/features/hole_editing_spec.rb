@@ -3,27 +3,21 @@
 require 'common/tee_common'
 require 'common/hole_common'
 require 'common/course_common'
-feature 'edit_existing_course' do
+describe 'edit_existing_course' do
   include TeeCommon
   include CourseCommon
   include HoleCommon
-  before(:each) do
-  end
-
-  after(:each) do
-  end
-
-  scenario 'edit a holes' do
-    @course = FactoryBot.create(:course, should_fillin_tees: true, should_fillin_holes: true)
-    @tee = @course.tee('White')
-    @hole = @tee.hole(5)
-    visit edit_course_tee_hole_path(@course, @tee, @hole)
+  it 'edit a holes' do
+    course = FactoryBot.create(:course, should_fillin_tees: true, should_fillin_holes: true)
+    tee = course.tee('White')
+    hole = tee.hole(5)
+    visit edit_course_tee_hole_path(course, tee, hole)
 
     HoleCommon.expect_edit_hole(page,
-                                @tee,
-                                @hole,
-                                { course_name: @course.name,
-                                  tee_color: @tee.color,
+                                tee,
+                                hole,
+                                { course_name: course.name,
+                                  tee_color: tee.color,
                                   show_tees: true,
                                   hole_number: '5',
                                   yardage: '332',
@@ -42,10 +36,10 @@ feature 'edit_existing_course' do
     click_button('Update Hole')
 
     HoleCommon.expect_edit_hole(page,
-                                @tee,
-                                @tee.hole(6),
-                                { course_name: @course.name,
-                                  tee_color: @tee.color,
+                                tee,
+                                tee.hole(6),
+                                { course_name: course.name,
+                                  tee_color: tee.color,
                                   show_tees: true,
                                   expect_messages: [[:flash_notice, 'hole updated']],
                                   hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
@@ -61,10 +55,10 @@ feature 'edit_existing_course' do
     click_link('7')
 
     HoleCommon.expect_edit_hole(page,
-                                @tee,
-                                @tee.hole(7),
-                                { course_name: @course.name,
-                                  tee_color: @tee.color,
+                                tee,
+                                tee.hole(7),
+                                { course_name: course.name,
+                                  tee_color: tee.color,
                                   show_tees: true,
                                   expect_messages: [[:flash_notice, 'hole updated']],
                                   hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],
@@ -80,10 +74,10 @@ feature 'edit_existing_course' do
     click_button('Update Hole')
 
     HoleCommon.expect_edit_hole(page,
-                                @tee,
-                                @tee.hole(8),
-                                { course_name: @course.name,
-                                  tee_color: @tee.color,
+                                tee,
+                                tee.hole(8),
+                                { course_name: course.name,
+                                  tee_color: tee.color,
                                   show_tees: true,
                                   expect_messages: [[:flash_notice, 'hole updated']],
                                   hole_values: TeeHoleInfo::HOLE_INFO_LOCHMERE[:White],

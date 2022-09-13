@@ -6,20 +6,22 @@ require 'support/tee_hole_info'
 describe Course, type: :model do
   describe 'basic creation' do
     it 'default values' do
-      course = Course.new(name: 'Lochmere')
+      course = described_class.new(name: 'Lochmere')
       expect(course.name).to eq('Lochmere')
     end
+
     it 'duplicate course name case insensitive' do
       FactoryBot.create(:course, name: 'george')
-      expect(Course.all.size).to eq(1)
+      expect(described_class.all.size).to eq(1)
       # rubocop:disable Layout/LineLength
-      expect { Course.create!(name: 'george') }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken, Address is invalid')
+      expect { described_class.create!(name: 'george') }.to raise_error(ActiveRecord::RecordInvalid, 'Validation failed: Name has already been taken, Address is invalid')
       # rubocop:enable Layout/LineLength
-      course2 = Course.create(name: 'george')
+      course2 = described_class.create(name: 'george')
       expect(course2.errors[:name][0]).to eq('has already been taken')
     end
+
     it 'tees' do
-      course = Course.new(name: 'Lochmere')
+      course = described_class.new(name: 'Lochmere')
       course.address.street1 = '555 Xxx Ave.'
       course.address.city = 'Clarksville'
       course.address.state = 'IN'
@@ -32,6 +34,7 @@ describe Course, type: :model do
       expect(tee.color).to eq('Black')
     end
   end
+
   describe 'Factory create' do
     it 'address' do
       course = FactoryBot.create(:course)
@@ -42,6 +45,7 @@ describe Course, type: :model do
       expect(address.state).to eq('IN')
       expect(address.zip_code).to eq('47529')
     end
+
     it 'tees' do
       course = FactoryBot.create(:course)
       expect_tee(course, 'Black', 71.6, 139, 18)
@@ -50,8 +54,9 @@ describe Course, type: :model do
       expect_tee(course, 'Red', 63.6, 106, 18)
     end
   end
+
   describe 'validation' do
-    it 'should raise error if a course has two tees of same color' do
+    it 'raise error if a course has two tees of same color' do
       course = FactoryBot.create(:course)
       tee1 = course.add_tee(nil, 'Black', 140, 71.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
       expect(tee1.errors[:color][0]).to eq('has already been taken')
@@ -59,38 +64,43 @@ describe Course, type: :model do
       tee2 = course.add_tee(nil, 'Black', 140, 71.7, TeeHoleInfo::HOLE_INFO_LOCHMERE[:Black])
       expect(tee2.errors[:color][0]).to eq('has already been taken')
     end
-    it 'should if number_of_holes eq 9 or 18' do
+
+    it 'if number_of_holes eq 9 or 18' do
       course = FactoryBot.create(:course)
       course.number_of_holes = 9
-      expect(course.valid?).to be_truthy
+      expect(course).to be_valid
       course.number_of_holes = 18
-      expect(course.valid?).to be_truthy
+      expect(course).to be_valid
     end
-    it 'should if number_of_holes eq 0, 1, 8, 10, 17, 19' do
+
+    it 'if number_of_holes eq 0, 1, 8, 10, 17, 19' do
       course = FactoryBot.create(:course)
       [0, 1, 8, 10, 17, 19].each do |num|
         course.number_of_holes = num
-        expect(course.valid?).to be_falsey
+        expect(course).not_to be_valid
       end
     end
   end
+
   describe 'destroy' do
-    it 'should remove course, address, tee, holes' do
+    it 'remove course, address, tee, holes' do
       course = FactoryBot.create(:course)
-      expect(Course.all.size).to eq(1)
+      expect(described_class.all.size).to eq(1)
       expect(Tee.all.size).to eq(4)
       expect(Hole.all.size).to eq(72)
       course.destroy
-      expect(Course.all.size).to eq(0)
+      expect(described_class.all.size).to eq(0)
       expect(Tee.all.size).to eq(0)
       expect(Hole.all.size).to eq(0)
     end
   end
+
   describe 'Sorting tees' do
     it 'empty tees' do
-      course = Course.new
+      course = described_class.new
       expect(course.sorted_tees).to be_empty
     end
+
     it 'already sorted tees' do
       course = FactoryBot.create(:course)
       sorted_tees = course.sorted_tees

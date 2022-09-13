@@ -5,7 +5,7 @@ require 'common/tee_common'
 
 describe 'tees/edit.html.erb', type: :view do
   include TeeCommon
-  it 'should render' do
+  it 'render' do
     course = FactoryBot.create(:course, should_fillin_tees: true)
     assign(:course, course)
     assign(:form_disabled, false)
@@ -22,7 +22,8 @@ describe 'tees/edit.html.erb', type: :view do
                                 tee_slope: '139.0',
                                 tee_rating: '71.6' })
   end
-  it 'initially  show list of tees' do
+
+  it 'initially show list of tees' do
     course = FactoryBot.create(:course)
     assign(:course, course)
     tee = course.tee('Blue')

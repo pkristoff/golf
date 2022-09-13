@@ -28,6 +28,7 @@ RSpec.describe 'performances/index.html.erb', type: :view do
                                       avg_putts: []
                                     })
   end
+
   it 'show performance 1 round' do
     round = FactoryBot.create(:round)
     tee = round.tee
@@ -59,6 +60,7 @@ RSpec.describe 'performances/index.html.erb', type: :view do
                                       avg_putts: [2, 2, 2, 3, 3, 2, 2, 3, 1, 20, 1, 1, 1, 2, 3, 1, 2, 2, 2, 15, 35]
                                     })
   end
+
   it 'show performance 2 rounds' do
     round = FactoryBot.create(:round)
     tee = round.tee

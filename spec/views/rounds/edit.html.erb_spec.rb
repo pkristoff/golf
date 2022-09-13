@@ -22,6 +22,7 @@ describe 'rounds/edit.html.erb', type: :view do
         course_name: 'prk' }
     )
   end
+
   it 'initially show list of rounds' do
   end
 end

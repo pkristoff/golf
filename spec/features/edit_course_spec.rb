@@ -1,20 +1,15 @@
 # frozen_string_literal: true
 
 require 'common/course_common'
-feature 'edit_existing_course' do
+describe 'edit_existing_course' do
   include CourseCommon
-  before(:each) do
-    @course = FactoryBot.create(:course)
-  end
+  let(:course) { FactoryBot.create(:course) }
 
-  after(:each) do
-  end
-
-  scenario 'visit edit course' do
-    visit edit_course_path(@course.id)
+  it 'visit edit course' do
+    visit edit_course_path(course.id)
     CourseCommon.expect_edit_course(page,
-                                    @course,
-                                    @course.tees,
+                                    course,
+                                    course.tees,
                                     show_tees: true,
                                     course_name: 'George',
                                     number_of_holes: 18,
@@ -25,8 +20,8 @@ feature 'edit_existing_course' do
                                     zip_code: '47529')
   end
 
-  scenario 'visit edit course and make sure errors occur' do
-    visit edit_course_path(@course.id)
+  it 'visit edit course and make sure errors occur' do
+    visit edit_course_path(course.id)
 
     fill_in Label::Course::NAME, with: ''
     fill_in Label::Course::ZIP, with: ''
@@ -34,8 +29,8 @@ feature 'edit_existing_course' do
     click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_edit_course(page,
-                                    @course,
-                                    @course.tees,
+                                    course,
+                                    course.tees,
                                     show_tees: true,
                                     name: '',
                                     number_of_holes: 18,
@@ -57,20 +52,20 @@ feature 'edit_existing_course' do
                                           ])
   end
 
-  scenario 'visit edit course number of holes' do
-    visit edit_course_path(@course.id)
+  it 'visit edit course number of holes' do
+    visit edit_course_path(course.id)
 
     fill_in Label::Course::NAME, with: 'Pete'
     fill_in Label::Course::NUMBER_OF_HOLES, with: 9
 
     click_button(Button::Course::SUBMIT)
 
-    tees = Course.find_by(id: @course.id).tees
+    tees = Course.find_by(id: course.id).tees
     tees.each do |tee|
       expect(tee.holes.size).to eq(9)
     end
     CourseCommon.expect_show_course(page,
-                                    @course,
+                                    course,
                                     tees,
                                     show_tees: true,
                                     course_name: 'Pete',
@@ -82,8 +77,8 @@ feature 'edit_existing_course' do
                                     zip_code: '47529')
   end
 
-  scenario 'visit edit course and make sure values are updated' do
-    visit edit_course_path(@course.id)
+  it 'visit edit course and make sure values are updated' do
+    visit edit_course_path(course.id)
 
     fill_in Label::Course::NAME, with: 'George1'
     fill_in Label::Course::STATE, with: 'AK'
@@ -91,8 +86,8 @@ feature 'edit_existing_course' do
     click_button(Button::Course::SUBMIT)
 
     CourseCommon.expect_show_course(page,
-                                    @course,
-                                    @course.tees,
+                                    course,
+                                    course.tees,
                                     show_tees: true,
                                     course_name: 'George1',
                                     number_of_holes: 18,
@@ -116,8 +111,8 @@ feature 'edit_existing_course' do
     )
   end
 
-  scenario 'visit edit course and go to show courses' do
-    visit edit_course_path(@course.id)
+  it 'visit edit course and go to show courses' do
+    visit edit_course_path(course.id)
 
     click_button(Button::Course::SHOW_COURSES)
 

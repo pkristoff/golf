@@ -29,6 +29,7 @@ describe 'holes/edit.html.erb', type: :view do
                                   total_in_yardage: 3261,
                                   total_yardage: 6627 })
   end
+
   it 'edits 3rd hole' do
     course = FactoryBot.create(:course)
     assign(:course, course)

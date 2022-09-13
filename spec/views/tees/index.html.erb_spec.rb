@@ -16,7 +16,7 @@ describe 'tees/index.html.erb', type: :view do
     TeeCommon.expect_index_tees(rendered, course, course.sorted_tees, true)
   end
 
-  it 'should show no tees' do
+  it 'show no tees' do
     course = FactoryBot.create(:course, name: 'Course1', should_fillin_tees: false)
     assign(:course, course)
     assign(:tees, course.tees)
@@ -26,7 +26,7 @@ describe 'tees/index.html.erb', type: :view do
     TeeCommon.expect_index_tees(rendered, course, course.sorted_tees, true)
   end
 
-  it 'should show no holes' do
+  it 'show no holes' do
     course = FactoryBot.create(:course, name: 'Course1', should_fillin_holes: false)
     assign(:course, course)
     assign(:tees, course.tees)

@@ -15,6 +15,7 @@ describe 'rounds/index.html.erb', type: :view do
 
     RoundsCommon.expect_index_rounds(rendered, course1, course_tee, course_tee.rounds, true)
   end
+
   it 'show rounds' do
     round = FactoryBot.create(:round)
     tee = round.tee

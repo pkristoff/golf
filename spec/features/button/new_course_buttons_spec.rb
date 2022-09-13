@@ -1,16 +1,13 @@
 # frozen_string_literal: true
 
 require 'common/course_common'
-feature 'new course buttons' do
+describe 'new course buttons' do
   include CourseCommon
-  before(:each) do
+  before do
     visit new_course_path
   end
 
-  after(:each) do
-  end
-
-  scenario 'click Button::Course::NEW' do
+  it 'click Button::Course::NEW' do
     # so i can tell the difference
     fill_in Label::Course::NAME, with: 'xxx'
 
