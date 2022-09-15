@@ -1,4 +1,4 @@
-<%= render 'share/error_messages.html.erb', resource: @round %>
+<%= render 'share/error_messages', formats: [:html], resource: @round %>
 
 <%= render "rounds/editable_fields", course: @course, tee: @tee, round: @round, form_disabled: form_disabled %>
 

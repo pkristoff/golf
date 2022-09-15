@@ -1,5 +1,5 @@
-<%= render 'share/error_messages.html.erb', resource: course %>
+<%= render 'share/error_messages', formats: [:html], resource: course %>
 
-<%= render 'courses/editable_fields.html.erb', form_disabled: form_disabled, course: course %>
+<%= render 'courses/editable_fields', formats: [:html], form_disabled: form_disabled, course: course %>
 
 <%= render "tees/tees", tees: course.sorted_tees %>

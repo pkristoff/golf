@@ -1,5 +1,5 @@
-<%= render 'share/error_messages.html.erb', resource: @tee %>
+<%= render 'share/error_messages', formats: [:html], resource: @tee %>
 
-<%= render 'tees/editable_fields.html.erb' %>
+<%= render 'tees/editable_fields', formats: [:html] %>
 
 <%= render "tees/tees", tees: tees %>

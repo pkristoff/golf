@@ -14,7 +14,7 @@
         <%= form.number_field :number_of_holes, in: [9, 18], disabled: form_disabled %>
         <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
       </div>
-      <%= render 'courses/editable_address_fields.html.erb', form: form, form_disabled: form_disabled, course: course %>
+      <%= render 'courses/editable_address_fields', formats: [:html], form: form, form_disabled: form_disabled, course: course %>
 
       <% unless form_disabled
            # doing Show.html.erb %>
