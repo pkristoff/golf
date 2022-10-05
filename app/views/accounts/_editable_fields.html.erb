@@ -1,22 +1,23 @@
-<%= field_set_tag Fieldset::Edit::HEADING, class: 'fieldset' do %>
+<%= field_set_tag I18n.t('fieldset.edit.text'), class: 'fieldset' do %>
   <div id="subheading-div" class="fieldset-field-div">
     <%= render 'accounts/subheading', account: account %>
   </div>
   <div id="edit-div" class="fieldset-field-div">
     <%= form_with model: account, local: true do |form| %>
       <div id="line-one" class="field">
-        <%= form.label :name, Label::Account::NAME %><br>
+        <%= form.label :name %><br>
         <%= form.text_field :name, disabled: form_disabled %>
         <% unless form_disabled
              # doing Show.html.erb %>
           <div>
-            <%= form.submit(Button::Account::SUBMIT) %>
+            <%= form.submit(I18n.t('button.account.submit')) %>
           </div>
         <% end %>
-        <%= form.label :name, Label::Account::HANDICAP_INDEX %><br>
-        <%= form.number_field :handicap_index, disabled: true %><br>
-        <%= form.submit(Button::Account::CALCUATE_HANDICAP_INDEX) %>
-        <%= form.submit(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT) %>
+        <%= form.label :handicap_index %><br>
+        <%= form.number_field :handicap_index, disabled: true %>
+        <br>
+        <%= form.submit(I18n.t('button.account.calculate_handicap_index')) %>
+        <%= form.submit(I18n.t('button.account.calculate_handicap_index_no_init')) %>
         <%= render 'accounts/debug_info', form_disabled: form_disabled, account: account %>
       </div>
     <% end # form %>

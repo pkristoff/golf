@@ -1,13 +1,13 @@
 
 <ul id="sidebar" class="flex-md-column flex-row navbar-nav w-100 justify-content-betwe">
-  <li class="nav-item bg-light"><%= Label::Course::COURSE %></li>
+  <li class="nav-item bg-light"><%= I18n.t('label.nav.course') %></li>
   <li class="nav-item">
-    <%= button_to Button::Course::SHOW_COURSES, courses_path, method: :get, class: 'nav-link bg-dark pl-0 text-nowrap' %>
-    <%= button_to(Button::Tee::SHOW_TEES, course_tees_path(@course), method: :get, class: 'nav-link bg-dark pl-0 text-nowrap') if @course.present? && !@course.new_record?  %>
+    <%= button_to I18n.t('button.course.show_courses'), courses_path, method: :get, class: 'nav-link bg-dark pl-0 text-nowrap' %>
+    <%= button_to(I18n.t('button.tee.show_tees'), course_tees_path(@course), method: :get, class: 'nav-link bg-dark pl-0 text-nowrap') if @course.present? && !@course.new_record?  %>
   </li>
-  <li class="nav-item bg-light"><%= Label::Round::ROUNDS %></li>
+  <li class="nav-item bg-light"><%= t('label.nav.rounds') %></li>
   <li class="nav-item">
-    <%= button_to Button::Round::COURSES, rounds_index_courses_path, method: :get, class: 'nav-link bg-dark pl-0 text-nowrap' %>
-    <%= button_to(Button::Round::TEES, rounds_tees_course_tees_path(@course), method: :get, class: 'nav-link bg-dark pl-0 text-nowrap') if @course.present? && !@course.new_record? %>
+    <%= button_to I18n.t('button.round.show_courses'), rounds_index_courses_path, method: :get, class: 'nav-link bg-dark pl-0 text-nowrap' %>
+    <%= button_to(I18n.t('button.course.show_tees'), rounds_tees_course_tees_path(@course), method: :get, class: 'nav-link bg-dark pl-0 text-nowrap') if @course.present? && !@course.new_record? %>
   </li>
 </ul>

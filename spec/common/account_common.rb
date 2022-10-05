@@ -25,10 +25,10 @@ module AccountCommon
     # * <tt>:accounts</tt> list of accounts
     #
     def expect_index_account(rendered_or_page, accounts)
-      MethodCommon.expect_heading(rendered_or_page, Heading::Account::ACCOUNTS)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.account.accounts'))
       expect_number_of_accounts(rendered_or_page, accounts)
       if accounts.empty?
-        expect(rendered_or_page).to have_selector('h2', text: Heading::Account::NO_ACCOUNTS)
+        expect(rendered_or_page).to have_selector('h2', text: I18n.t('info.account.no_accounts'))
       else
         accounts.each do |account|
           expect(rendered_or_page).to have_selector("a[id='edit_link_#{account.id}']", text: account.name)
@@ -49,7 +49,7 @@ module AccountCommon
       AsideCommon.expect_aside(rendered_or_page, false) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Account::EDIT_ACCOUNT)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.account.edit'))
 
       expect_edit_fieldset_account(rendered_or_page, account, values)
 
@@ -83,18 +83,17 @@ module AccountCommon
     end
 
     def expect_edit_fieldset_account(rendered_or_page, account, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      # expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
       form_txt = " form[action='/accounts/#{account.id}'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_account_values(rendered_or_page, values, false, fieldset_form_txt)
 
       ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false,
-                                          Button::Account::SUBMIT)
+                                          I18n.t('button.account.submit'))
       ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false,
-                                          Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT)
+                                          I18n.t('button.account.calculate_handicap_index_no_init'))
       ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false,
-                                          Button::Account::CALCUATE_HANDICAP_INDEX)
+                                          I18n.t('button.account.calculate_handicap_index'))
       expect_debug_info(rendered_or_page, values)
     end
 
@@ -134,16 +133,16 @@ module AccountCommon
 
     def expect_account_values(rendered_or_page, values, disabled, fieldset_form_txt = '')
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Account::NAME,
+                                          I18n.t('activerecord.attributes.account.name'),
                                           'account_name',
                                           values[:account_name],
                                           disabled,
                                           fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Account::HANDICAP_INDEX,
+                                         I18n.t('activerecord.attributes.account.handicap_index'),
                                          'account_handicap_index',
                                          "'#{values[:handicap_index]}'",
-                                         false, # This should bbe true
+                                         true, # This should bbe true
                                          fieldset_form_txt)
     end
   end

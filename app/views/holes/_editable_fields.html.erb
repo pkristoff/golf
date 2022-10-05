@@ -1,18 +1,18 @@
 <% is_new = hole.new_record? %>
 
-<%= field_set_tag Fieldset::Edit::HEADING, class: 'fieldset' do %>
+<%= field_set_tag I18n.t('fieldset.edit.text'), class: 'fieldset' do %>
   <div id="subheading-div" class="fieldset-field-div">
     <%= render 'holes/subheading', course: course, tee: tee, hole: hole, is_new: is_new %>
   </div>
   <div id="edit-div" class="fieldset-field-div">
     <%= form_with model: [course, tee, hole], local: true do |hole_form| %>
-      <%= hole_form.label :number, Label::Hole::NUMBER %>
+      <%= hole_form.label :number %>
       <%= hole_form.number_field :number, disabled: true %>
-      <%= hole_form.label :yardage, Label::Hole::YARDAGE %>
+      <%= hole_form.label :yardage %>
       <%= hole_form.number_field :yardage, disabled: is_new, autofocus: true %>
-      <%= hole_form.label :par, Label::Hole::PAR %>
+      <%= hole_form.label :par %>
       <%= hole_form.number_field :par, disabled: is_new %>
-      <%= hole_form.label :hdcp, Label::Hole::HDCP %>
+      <%= hole_form.label :hdcp, I18n.t('activerecord.attributes.hole.hdcp') %>
       <%= hole_form.number_field :hdcp, disabled: is_new %>
 
       <%= hole_form.submit unless is_new %>

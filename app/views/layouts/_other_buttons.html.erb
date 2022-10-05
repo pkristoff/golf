@@ -1,7 +1,7 @@
 <div class="container">
   <div class="row">
     <div class="col-sm">
-      <%= field_set_tag Fieldset::Course::COURSE_BUTTONS, class: 'fieldset' do %>
+      <%= field_set_tag I18n.t('fieldset.course.buttons'), class: 'fieldset' do %>
         <div id="course-div" class="fieldset-button-div">
           <% courses.each do |button| %>
             <%= button %>
@@ -10,7 +10,7 @@
       <% end %>
     </div>
     <div class="col-sm">
-      <%= field_set_tag Fieldset::Round::ROUND_BUTTONS, class: 'fieldset' do %>
+      <%= field_set_tag I18n.t('fieldset.round.buttons'), class: 'fieldset' do %>
         <div id="round-div" class="fieldset-button-div">
           <% rounds.each do |button| %>
             <%= button %>

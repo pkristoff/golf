@@ -16,8 +16,8 @@ describe 'Account editing' do
                                         handicap_index: 0.0,
                                         calc_run: false })
 
-    fill_in Label::Account::NAME, with: 'PRK'
-    click_button(Button::Account::SUBMIT)
+    fill_in I18n.t('activerecord.attributes.account.name'), with: 'PRK'
+    click_button(I18n.t('button.account.submit'))
 
     AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'PRK',
@@ -35,7 +35,7 @@ describe 'Account editing' do
                                         handicap_index: 0.0,
                                         calc_run: false })
 
-    click_button(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT)
+    click_button(I18n.t('button.account.calculate_handicap_index_no_init'))
 
     AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
@@ -73,7 +73,7 @@ describe 'Account editing' do
                                         handicap_index: 0.0,
                                         calc_run: false })
 
-    click_button(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT)
+    click_button(I18n.t('button.account.calculate_handicap_index_no_init'))
 
     AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',
@@ -125,7 +125,7 @@ describe 'Account editing' do
                                         handicap_index: 0.0,
                                         calc_run: false })
 
-    click_button(Button::Account::CALCUATE_HANDICAP_INDEX_NO_INIT)
+    click_button(I18n.t('button.account.calculate_handicap_index_no_init'))
 
     AccountCommon.expect_edit_account(page, account,
                                       { account_name: 'Paul',

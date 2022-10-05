@@ -1,4 +1,4 @@
-<h1><%= Button::Round::CHOOSE_COURSE %></h1>
+<h1><%= I18n.t('button.round.choose_round_course') %></h1>
 
 <ul id="courses">
   <% @courses.each do |course| %>
@@ -7,6 +7,6 @@
 </ul>
 
 <%= render 'layouts/other_buttons',
-           courses: [button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)
+           courses: [button_to(I18n.t('button.course.new'), new_course_path(Course.new), method: :get)
            ], rounds: []
 %>

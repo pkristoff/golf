@@ -31,7 +31,7 @@ module CourseCommon
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Course::EDIT_COURSE)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.account.edit'))
 
       TeeCommon.expect_tees(rendered_or_page, tees)
 
@@ -51,9 +51,9 @@ module CourseCommon
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Course::NEW_COURSE)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.course.new'))
 
-      expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 1)
+      expect(rendered_or_page).to have_button(I18n.t('button.course.submit'), count: 1)
       TeeCommon.expect_tees(rendered_or_page, [])
       expect_new_fieldset_course(rendered_or_page, values)
 
@@ -68,10 +68,10 @@ module CourseCommon
     # * <tt>:courses</tt> list of courses
     #
     def expect_index_course(rendered_or_page, courses)
-      MethodCommon.expect_heading(rendered_or_page, Heading::Course::COURSES)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.course.courses'))
       expect_number_of_courses(rendered_or_page, courses)
       if courses.empty?
-        expect(rendered_or_page).to have_selector('h2', text: Heading::Course::NO_COURSES)
+        expect(rendered_or_page).to have_selector('h2', text: I18n.t('info.course.no_courses'))
       else
         courses.each do |course|
           expect(rendered_or_page).to have_selector("a[id='edit_link_#{course.id}']", text: course.name)
@@ -110,14 +110,14 @@ module CourseCommon
       AsideCommon.expect_aside(rendered_or_page, values[:show_tees]) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Course::SHOW_COURSE)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.course.show'))
 
       TeeCommon.expect_tees(rendered_or_page, tees)
 
       expect_show_fieldset_course(rendered_or_page, course, values)
 
-      expect(rendered_or_page).to have_button(Button::Course::SUBMIT, count: 0)
-      expect(rendered_or_page).to have_button(Button::Course::UPDATE, count: 0)
+      expect(rendered_or_page).to have_button(I18n.t('button.course.submit'), count: 0)
+      expect(rendered_or_page).to have_button(I18n.t('button.course.update'), count: 0)
 
       expect_show_other_buttons(rendered_or_page)
     end
@@ -125,39 +125,39 @@ module CourseCommon
     private
 
     def expect_new_fieldset_course(rendered_or_page, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_new_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
       form_txt = " form[action='/courses'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_course_values(rendered_or_page, values, false, fieldset_form_txt)
-      form_txt_address = form_txt + Fieldset::Edit::ADDRESS
+      form_txt_address = form_txt + Selector::Edit::ADDRESS
       expect_address_fields(rendered_or_page, values, false, form_txt_address)
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Course::CREATE)
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, I18n.t('button.course.create'))
     end
 
     def expect_edit_fieldset_course(rendered_or_page, course, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_edit_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
       form_txt = " form[action='/courses/#{course.id}'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_course_values(rendered_or_page, values, false, fieldset_form_txt)
-      form_txt_address = form_txt + Fieldset::Edit::ADDRESS
+      form_txt_address = form_txt + Selector::Edit::ADDRESS
       expect_address_fields(rendered_or_page, values, false, form_txt_address)
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Course::UPDATE)
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, I18n.t('button.course.update'))
     end
 
     def expect_show_fieldset_course(rendered_or_page, course, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_show_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_show_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
       form_txt = " form[action='/courses/#{course.id}'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_course_values(rendered_or_page, values, true, fieldset_form_txt)
-      form_txt_address = form_txt + Fieldset::Edit::ADDRESS
+      form_txt_address = form_txt + Selector::Edit::ADDRESS
       expect_address_fields(rendered_or_page, values, true, form_txt_address)
 
-      ButtonToCommon.expect_no_submit_button(rendered_or_page, Button::Course::UPDATE)
+      ButtonToCommon.expect_no_submit_button(rendered_or_page, I18n.t('button.course.update'))
     end
 
     def expect_edit_subheadings(rendered_or_page, values, fieldset_subheading); end
@@ -172,13 +172,13 @@ module CourseCommon
 
     def expect_course_values(page, values, disabled, fieldset_form_txt = '')
       MethodCommon.expect_have_field_text(page,
-                                          Label::Course::NAME,
+                                          I18n.t('activerecord.attributes.course.name'),
                                           'course_name',
                                           values[:course_name],
                                           disabled,
                                           fieldset_form_txt)
       MethodCommon.expect_have_field_num(page,
-                                         Label::Course::NUMBER_OF_HOLES,
+                                         I18n.t('activerecord.attributes.course.number_of_holes'),
                                          'course_number_of_holes',
                                          values[:number_of_holes],
                                          disabled,
@@ -187,60 +187,60 @@ module CourseCommon
 
     def expect_edit_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
-                                          [Button::Course::NEW, Button::Tee::NEW],
+                                          [I18n.t('button.course.new'), I18n.t('button.tee.new')],
                                           [])
     end
 
     def expect_index_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
-                                          [Button::Course::NEW],
+                                          [I18n.t('button.course.new')],
                                           [])
     end
 
     def expect_new_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
-                                          [Button::Course::NEW],
+                                          [I18n.t('button.course.new')],
                                           [])
     end
 
     def expect_show_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::DESTROY,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.destroy'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new')
                                           ],
                                           [])
     end
 
     def expect_address_fields(rendered_or_page, values, disabled, form_txt_address = '')
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Course::STREET1,
+                                          I18n.t('activerecord.attributes.course.address/address.street1'),
                                           'course_address_attributes_street1',
                                           values[:street1],
                                           disabled,
                                           form_txt_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Course::STREET2,
+                                          I18n.t('activerecord.attributes.course.address/address.street2'),
                                           'course_address_attributes_street2',
                                           values[:street2],
                                           disabled,
                                           form_txt_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Course::CITY,
+                                          I18n.t('activerecord.attributes.course.address/address.city'),
                                           'course_address_attributes_city',
                                           values[:city],
                                           disabled,
                                           form_txt_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Course::STATE,
+                                          I18n.t('activerecord.attributes.course.address/address.state'),
                                           'course_address_attributes_state',
                                           values[:state],
                                           disabled,
                                           form_txt_address)
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Course::ZIP,
+                                          I18n.t('activerecord.attributes.course.address/address.zip_code'),
                                           'course_address_attributes_zip_code',
                                           values[:zip_code],
                                           disabled,

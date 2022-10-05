@@ -16,7 +16,7 @@ describe 'edit_existing_course' do
     course = tee.course
     score = round.score(1)
     visit welcome_index_path
-    click_button Button::Round::COURSES
+    click_button I18n.t('button.round.show_courses')
     click_link(course.name)
     click_link(tee.color)
     click_link(round.date.to_s)
@@ -32,9 +32,9 @@ describe 'edit_existing_course' do
                                     round_date: round.date,
                                     hole_number: score.hole.number })
 
-    fill_in Label::Score::STROKES, with: '10'
-    fill_in Label::Score::PUTTS, with: '3'
-    fill_in Label::Score::PENALTIES, with: 'WW'
+    fill_in I18n.t('activerecord.attributes.score.strokes'), with: '10'
+    fill_in I18n.t('activerecord.attributes.score.putts'), with: '3'
+    fill_in I18n.t('activerecord.attributes.score.penalties'), with: 'WW'
 
     click_button('Update Score')
 

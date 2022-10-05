@@ -1,13 +1,13 @@
-<h1>Edit score:</h1>
+<h1><%= t('heading.score.edit') %></h1>
 
 <%= render "scores/form", score_holes: @round.sorted_score_holes %>
 
 <%= render 'layouts/other_buttons',
-           courses: [button_to(Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get),
-                     button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-                     button_to(Button::Course::EDIT, edit_course_path(@course), method: :get),
-                     button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)
-           ], rounds: [button_to(Button::Round::NEW, new_course_tee_round_path(@course, @tee, Round.new), method: :get),
-                       button_to(Button::Round::EDIT, edit_course_tee_round_path(@course, @tee, @round), method: :get)
+           courses: [button_to(I18n.t('button.tee.edit'), edit_course_tee_path(@course, @tee), method: :get),
+                     button_to(I18n.t('button.tee.new'), new_course_tee_path(@course, Tee.new), method: :get),
+                     button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get),
+                     button_to(I18n.t('button.course.new'), new_course_path(Course.new), method: :get)
+           ], rounds: [button_to(I18n.t('button.round.new_round'), new_course_tee_round_path(@course, @tee, Round.new), method: :get),
+                       button_to(I18n.t('button.round.edit_round'), edit_course_tee_round_path(@course, @tee, @round), method: :get)
   ]
 %>

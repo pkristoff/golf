@@ -1,4 +1,4 @@
-<%= field_set_tag 'Scores', class: 'fieldset' do %>
+<%= field_set_tag t('fieldset.score.scores'), class: 'fieldset' do %>
   <% if local_assigns[:score_holes].empty? %>
     <p>No scores</p>
   <% else %>
@@ -19,7 +19,7 @@
         <% end %>
       </tr>
       <tr id=<%= "hole-strokes-#{@round.id}" %>>
-        <td id=<%= "hole-strokes-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::STROKES %>:</td>
+        <td id=<%= "hole-strokes-heading-#{@round.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.score.strokes') %>:</td>
         <% in_out_tot = 0 %>
         <% total = 0 %>
         <% local_assigns[:score_holes].each do |score_hole| %>
@@ -39,7 +39,7 @@
         <% end %>
       </tr>
       <tr id=<%= "hole-putts-#{@round.id}" %>>
-        <td id=<%= "hole-putts-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::PUTTS %>:</td>
+        <td id=<%= "hole-putts-heading-#{@round.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.score.putts') %>:</td>
         <% in_out_tot = 0 %>
         <% total = 0 %>
         <% local_assigns[:score_holes].each do |score_hole| %>
@@ -59,7 +59,7 @@
         <% end %>
       </tr>
       <tr id=<%= "hole-penalties-#{@round.id}" %>>
-        <td id=<%= "hole-penalties-heading-#{@round.id}" %> class="heading-cell"><%= Label::Score::PENALTIES %>:</td>
+        <td id=<%= "hole-penalties-heading-#{@round.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.score.penalties') %>:</td>
         <% local_assigns[:score_holes].each do |score_hole| %>
           <% hole = score_hole.hole %>
           <% score = score_hole.score %>

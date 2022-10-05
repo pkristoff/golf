@@ -1,12 +1,12 @@
-<h1><%= Heading::Hole::EDIT %></h1>
+<h1><%= t('heading.hole.edit') %></h1>
 
 <%= render "holes/form", holes: @tee.sorted_holes %>
 
 <%= render "layouts/other_buttons", courses:
   [
-    button_to(Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get),
-    button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-    button_to(Button::Course::EDIT, edit_course_path(@course), method: :get),
-    button_to(Button::Course::NEW, new_course_path(@course), method: :get)],
+    button_to(I18n.t('button.tee.edit'), edit_course_tee_path(@course, @tee), method: :get),
+    button_to(I18n.t('button.tee.new'), new_course_tee_path(@course, Tee.new), method: :get),
+    button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get),
+    button_to(I18n.t('button.course.new'), new_course_path(@course), method: :get)],
            rounds: [] %>
 

@@ -31,7 +31,7 @@ module ScoreCommon
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Score::EDIT_SCORE)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.score.edit'))
 
       round = score.round
       expect_scores_list(rendered_or_page, replace_values, round)
@@ -58,23 +58,23 @@ module ScoreCommon
     def expect_edit_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW,
-                                            Button::Tee::EDIT
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new'),
+                                            I18n.t('button.tee.edit')
                                           ],
                                           [
-                                            Button::Round::NEW,
-                                            Button::Round::EDIT
+                                            I18n.t('button.round.new_round'),
+                                            I18n.t('button.round.edit_round')
                                           ])
     end
 
     def expect_edit_fieldset_score(rendered_or_page, score, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_edit_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
       tee = score.round.tee
       form_txt = " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds/#{score.round.id}/scores/#{score.id}'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_editable_field_values_score(rendered_or_page, values, fieldset_form_txt)
 
       ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, 'Update Score')
@@ -89,20 +89,20 @@ module ScoreCommon
 
     def expect_editable_field_values_score(rendered_or_page, values, fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Score::STROKES,
+                                         I18n.t('activerecord.attributes.score.strokes'),
                                          'score_strokes',
                                          values[:strokes],
                                          false,
                                          fieldset_form_txt,
                                          values[:gir].nil? ? nil : "strokes-cell-#{values[:gir]}")
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Score::PUTTS,
+                                         I18n.t('activerecord.attributes.score.putts'),
                                          'score_putts',
                                          values[:putts],
                                          false,
                                          fieldset_form_txt)
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Score::PENALTIES,
+                                          I18n.t('activerecord.attributes.score.penalties'),
                                           'score_penalties',
                                           values[:penalties],
                                           false,

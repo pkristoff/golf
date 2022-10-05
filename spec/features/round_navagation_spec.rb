@@ -14,7 +14,7 @@ describe 'edit_existing_course' do
     course = FactoryBot.create(:course, should_fillin_tees: true, should_fillin_holes: true)
     tee = course.tee('Black')
     visit welcome_index_path
-    click_button Button::Round::COURSES
+    click_button I18n.t('button.round.show_courses')
 
     RoundsCommon.expect_index_rounds_course(page, [course])
 
@@ -33,7 +33,7 @@ describe 'edit_existing_course' do
     course = tee.course
 
     visit welcome_index_path
-    click_button Button::Round::COURSES
+    click_button I18n.t('button.round.show_courses')
 
     RoundsCommon.expect_index_rounds_course(page, [course])
 
@@ -52,10 +52,10 @@ describe 'edit_existing_course' do
     course = tee.course
 
     visit welcome_index_path
-    click_button Button::Round::COURSES
+    click_button I18n.t('button.round.show_courses')
     click_link(course.name)
     click_link(tee.color)
-    click_button Button::Round::NEW
+    click_button I18n.t('button.round.new_round')
 
     RoundsCommon.expect_new_round(
       page,
@@ -65,9 +65,9 @@ describe 'edit_existing_course' do
         show_tees: true }
     )
 
-    fill_in Label::Round::DATE, with: '2021-09-03'
+    fill_in I18n.t('activerecord.attributes.round.date'), with: '2021-09-03'
 
-    click_button Button::Round::CREATE
+    click_button I18n.t('button.round.create')
 
     round = Round.find_by(date: '2021-09-03')
 

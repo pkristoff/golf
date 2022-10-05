@@ -1,15 +1,15 @@
-<h1><%= Heading::Round::SHOW %></h1>
+<h1><%= t('heading.round.show') %></h1>
 
 <%= render "rounds/form", course: @course, tee: @tee, round: @round, form_disabled: true %>
 
 <%= render 'layouts/other_buttons',
-           courses: [(button_to Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get),
-                     button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-                     button_to(Button::Course::EDIT, edit_course_path(@course), method: :get),
-                     button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)
-           ], rounds: [button_to(Button::Round::NEW, new_course_tee_round_path(@course, @tee, Round.new), method: :get),
-                       button_to(Button::Round::EDIT, edit_course_tee_round_path(@course, @tee, @round), method: :get),
-                       button_to(Button::Round::DESTROY, edit_course_tee_round_path(@course, @tee, @round),
+           courses: [(button_to I18n.t('button.tee.edit'), edit_course_tee_path(@course, @tee), method: :get),
+                     button_to(I18n.t('button.tee.new'), new_course_tee_path(@course, Tee.new), method: :get),
+                     button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get),
+                     button_to(I18n.t('button.course.new'), new_course_path(Course.new), method: :get)
+           ], rounds: [button_to(I18n.t('button.round.new_round'), new_course_tee_round_path(@course, @tee, Round.new), method: :get),
+                       button_to(I18n.t('button.round.edit_round'), edit_course_tee_round_path(@course, @tee, @round), method: :get),
+                       button_to(I18n.t('button.round.destroy_round'), edit_course_tee_round_path(@course, @tee, @round),
                                  method: :delete,
                                  data: { confirm: "Are you sure?" })
   ]

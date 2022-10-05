@@ -16,7 +16,7 @@
       <% end %>
     </tr>
     <tr id=<%= "hole-yardage-#{tee.id}" %>>
-      <td id=<%= "hole-yardage-heading-#{tee.id}" %> class="heading-cell"><%= Label::Hole::YARDAGE %>:</td>
+      <td id=<%= "hole-yardage-heading-#{tee.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.hole.yardage') %>:</td>
       <% in_out_tot = 0 %>
       <% total = 0 %>
       <% local_assigns[:holes].each do |hole| %>
@@ -34,7 +34,7 @@
       <% end %>
     </tr>
     <tr id=<%= "hole-par-#{tee.id}" %>>
-      <td id=<%= "hole-par-heading-#{tee.id}" %> class="heading-cell"><%= Label::Hole::PAR %>:</td>
+      <td id=<%= "hole-par-heading-#{tee.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.hole.par') %>:</td>
       <% in_out_tot = 0 %>
       <% total = 0 %>
       <% local_assigns[:holes].each do |hole| %>
@@ -52,7 +52,7 @@
       <% end %>
     </tr>
     <tr id=<%= "hole-hdcp-#{tee.id}" %>>
-      <td id=<%= "hole-hdcp-heading-#{tee.id}" %> class="heading-cell"><%= Label::Hole::HDCP %>:</td>
+      <td id=<%= "hole-hdcp-heading-#{tee.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.hole.hdcp') %>:</td>
       <% local_assigns[:holes].each do |hole| %>
         <td id='hole-hdcp-<%= hole.id %>' class="hdcp-cell"><%= hole.hdcp %></td>
         <% if hole.number == 9 %>

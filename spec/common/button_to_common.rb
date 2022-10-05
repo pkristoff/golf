@@ -78,7 +78,7 @@ module ButtonToCommon
     private
 
     def expect_button_within_round_fieldset(rendered_or_page, names)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Round::ROUND_BUTTONS)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.round.buttons'))
       expect_button_count(rendered_or_page, 'round-div', names.size)
       names.each do |name|
         expect_button_to(rendered_or_page, 'round-div', name)
@@ -86,7 +86,7 @@ module ButtonToCommon
     end
 
     def expect_button_within_course_fieldset(rendered_or_page, names)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Course::COURSE_BUTTONS)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.course.buttons'))
       expect_button_count(rendered_or_page, 'course-div', names.size)
       names.each do |name|
         expect_button_to(rendered_or_page, 'course-div', name)

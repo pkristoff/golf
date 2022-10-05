@@ -23,10 +23,10 @@ describe 'edit_existing_course' do
   it 'visit edit course and make sure errors occur' do
     visit edit_course_path(course.id)
 
-    fill_in Label::Course::NAME, with: ''
-    fill_in Label::Course::ZIP, with: ''
+    fill_in I18n.t('activerecord.attributes.course.name'), with: ''
+    fill_in I18n.t('activerecord.attributes.address.zip_code'), with: ''
 
-    click_button(Button::Course::SUBMIT)
+    click_button(I18n.t('button.course.submit'))
 
     CourseCommon.expect_edit_course(page,
                                     course,
@@ -55,10 +55,10 @@ describe 'edit_existing_course' do
   it 'visit edit course number of holes' do
     visit edit_course_path(course.id)
 
-    fill_in Label::Course::NAME, with: 'Pete'
-    fill_in Label::Course::NUMBER_OF_HOLES, with: 9
+    fill_in I18n.t('activerecord.attributes.course.name'), with: 'Pete'
+    fill_in I18n.t('activerecord.attributes.course.number_of_holes'), with: 9
 
-    click_button(Button::Course::SUBMIT)
+    click_button(I18n.t('button.course.submit'))
 
     tees = Course.find_by(id: course.id).tees
     tees.each do |tee|
@@ -80,10 +80,10 @@ describe 'edit_existing_course' do
   it 'visit edit course and make sure values are updated' do
     visit edit_course_path(course.id)
 
-    fill_in Label::Course::NAME, with: 'George1'
-    fill_in Label::Course::STATE, with: 'AK'
+    fill_in I18n.t('activerecord.attributes.course.name'), with: 'George1'
+    fill_in I18n.t('activerecord.attributes.address.state'), with: 'AK'
 
-    click_button(Button::Course::SUBMIT)
+    click_button(I18n.t('button.course.submit'))
 
     CourseCommon.expect_show_course(page,
                                     course,
@@ -114,7 +114,7 @@ describe 'edit_existing_course' do
   it 'visit edit course and go to show courses' do
     visit edit_course_path(course.id)
 
-    click_button(Button::Course::SHOW_COURSES)
+    click_button(I18n.t('button.course.show_courses'))
 
     expect(page).to have_selector('h1', text: 'Courses')
   end

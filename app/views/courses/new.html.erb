@@ -1,7 +1,7 @@
-<h1><%= Heading::Course::NEW_COURSE %></h1>
+<h1><%= I18n.t('heading.course.new') %></h1>
 
 <%= render "courses/form", course: @course, form_disabled: false %>
 
 <%= render "layouts/other_buttons", courses:
-  [button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)],
+  [button_to(I18n.t('button.course.new'), new_course_path(Course.new), method: :get)],
            rounds: [] %>

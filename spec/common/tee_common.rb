@@ -31,7 +31,7 @@ module TeeCommon
 
       expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Tee::NEW_TEE)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.tee.new'))
 
       expect_tees(rendered_or_page, tees)
 
@@ -55,7 +55,7 @@ module TeeCommon
 
       expect_messages(values[:expect_messages], rendered_or_page) unless values[:expect_messages].nil?
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Tee::EDIT_TEE)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.tee.edit'))
 
       expect_tees(rendered_or_page, tees)
 
@@ -79,7 +79,7 @@ module TeeCommon
       AsideCommon.expect_aside(rendered_or_page, show_tees) unless rendered_or_page.is_a?(String)
       DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a?(String)
 
-      MethodCommon.expect_heading(rendered_or_page, "#{Heading::Tee::PICK} #{course.name}")
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.tee.pick', name: course.name))
 
       expect_tees(rendered_or_page, tees)
 
@@ -94,7 +94,7 @@ module TeeCommon
     # * <tt>:tees</tt> list of tees
     #
     def expect_tees(rendered_or_page, tees)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Tee::TEES)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.course.tees'))
       fieldset_locator = 'div[id=tees-div][class=fieldset-field-div]'
       if tees.empty?
         expect(rendered_or_page).to have_selector("#{fieldset_locator} p", count: 1, text: 'No tees')
@@ -102,7 +102,9 @@ module TeeCommon
         # Check table headers
         expect(rendered_or_page).to have_selector("#{fieldset_locator} table[id=tees]", count: 1)
         expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-color]", count: 1, text: 'Color')
-        expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-analyze]", count: 1, text: 'Analyze')
+        expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-analyze]",
+                                                  count: 1,
+                                                  text: I18n.t('button.tee.analyze'))
         expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-slope]", count: 1, text: 'Slope')
         expect(rendered_or_page).to have_selector("#{fieldset_locator} th[id=tees-rating]", count: 1, text: 'Rating')
 
@@ -133,31 +135,31 @@ module TeeCommon
 
     def expect_edit_fieldset_tee(rendered_or_page, tee, values)
       form_txt = "form[action='/courses/#{tee.course.id}/tees/#{tee.id}']"
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_edit_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect(rendered_or_page).to have_selector(form_txt)
 
       expect_editable_field_values_tee(rendered_or_page, values, "#{fieldset_form_txt} ")
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, 'Update Tee')
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, I18n.t('button.tee.update'))
     end
 
     def expect_new_fieldset_tee(rendered_or_page, course, values)
       form_txt = "form[action='/courses/#{course.id}/tees']"
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_new_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect(rendered_or_page).to have_selector(fieldset_form_txt)
       expect_editable_field_values_tee(rendered_or_page, values, "#{fieldset_form_txt} ")
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, 'Create Tee')
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, I18n.t('button.tee.create'))
     end
 
     def expect_new_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT
+                                            I18n.t('button.course.edit')
                                           ],
                                           [])
     end
@@ -165,8 +167,8 @@ module TeeCommon
     def expect_edit_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Tee::NEW
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.tee.new')
                                           ],
                                           [])
     end
@@ -174,8 +176,8 @@ module TeeCommon
     def expect_index_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Tee::NEW
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.tee.new')
                                           ],
                                           [])
     end
@@ -184,12 +186,17 @@ module TeeCommon
       tee_color = values[:tee_color]
       raise('tee_color not set') if tee_color.nil?
 
-      MethodCommon.expect_have_field_text(rendered_or_page, Label::Tee::COLOR, 'tee_color', tee_color, false, fieldset_form_txt)
+      MethodCommon.expect_have_field_text(rendered_or_page,
+                                          I18n.t('activerecord.attributes.tee.color'),
+                                          'tee_color',
+                                          tee_color,
+                                          false,
+                                          fieldset_form_txt)
       tee_slope = values[:tee_slope]
       raise('tee_slope not set') if tee_slope.nil?
 
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Tee::SLOPE,
+                                         I18n.t('activerecord.attributes.tee.slope'),
                                          'tee_slope',
                                          "'#{tee_slope}'",
                                          false,
@@ -198,7 +205,7 @@ module TeeCommon
       raise('tee_rating not set') if tee_rating.nil?
 
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Tee::RATING,
+                                         I18n.t('activerecord.attributes.tee.rating'),
                                          'tee_rating',
                                          "'#{tee_rating}'",
                                          false,

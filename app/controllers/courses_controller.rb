@@ -25,7 +25,7 @@ class CoursesController < ApplicationController
   def update
     @course = Course.find(params[:id])
     case params[:commit]
-    when Button::Tee::CREATE
+    when I18n.t('button.tee.create')
       @course_id = params[:id]
       @tee = Tee.new
       render 'tees/new'

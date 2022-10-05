@@ -7,11 +7,11 @@ describe 'new course buttons' do
     visit new_course_path
   end
 
-  it 'click Button::Course::NEW' do
+  it "click I18n.t('button.course.new')" do
     # so i can tell the difference
-    fill_in Label::Course::NAME, with: 'xxx'
+    fill_in I18n.t('activerecord.attributes.course.name'), with: 'xxx'
 
-    click_button(Button::Course::NEW)
+    click_button(I18n.t('button.course.new'))
 
     CourseCommon.expect_new_course(page,
                                    show_tees: false,

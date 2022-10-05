@@ -1,11 +1,12 @@
-<%= field_set_tag Fieldset::Edit::HEADING, class: 'fieldset' do %>
+<%= field_set_tag I18n.t('fieldset.edit.text'), class: 'fieldset' do %>
   <div id="subheading-div" class="fieldset-field-div">
     <%= render 'rounds/subheading', course: course, tee: tee %>
   </div>
   <div id="edit-div" class="fieldset-field-div">
       <%= form_with model: [@course, @tee, @round], local: true do |round_form| %>
-        <%= round_form.label :date, Label::Round::DATE %>
-        <%= round_form.date_field :date, disabled: form_disabled %><br>
+        <%= round_form.label :date %>
+        <%= round_form.date_field :date, disabled: form_disabled %>
+      <br>
         <%= round_form.submit disabled: form_disabled %>
     <% end # form %>
   </div>

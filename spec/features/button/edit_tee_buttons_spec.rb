@@ -10,8 +10,8 @@ describe 'edit tee buttons' do
     visit edit_course_tee_path(course, tee)
   end
 
-  it 'click Button::Course::EDIT' do
-    click_button(Button::Course::EDIT)
+  it "click I18n.t('button.course.edit')" do
+    click_button(I18n.t('button.course.edit'))
 
     CourseCommon.expect_edit_course(page,
                                     course,
@@ -26,8 +26,8 @@ describe 'edit tee buttons' do
                                     zip_code: '47529')
   end
 
-  it 'click Button::Tee::NEW' do
-    click_button(Button::Tee::NEW)
+  it "click I18n.t('button.tee.new')" do
+    click_button(I18n.t('button.tee.new'))
 
     TeeCommon.expect_new_tee(page,
                              course,

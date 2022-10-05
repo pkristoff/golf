@@ -1,7 +1,7 @@
-<h1><%= Heading::Account::ACCOUNTS %></h1>
+<h1><%= t('heading.account.accounts') %></h1>
 
 <% if @accounts.empty? %>
-  <h2><%= Heading::Account::NO_ACCOUNTS %></h2>
+  <h2><%= t('info.account.no_accounts') %></h2>
 <% else %>
   <ul>
     <% @accounts.each do |account| %>

@@ -1,9 +1,9 @@
-<h1><%= Heading::Tee::PICK %> <%= @course.name %></h1>
+<h1><%= t('heading.tee.pick', name: @course.name) %> </h1>
 
 <%=render "tees/tees", tees: @course.sorted_tees, new_tee: false %>
 
 <%= render 'layouts/other_buttons',
-           courses: [button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-                     button_to(Button::Course::EDIT, edit_course_path(@course), method: :get)
+           courses: [button_to(I18n.t('button.tee.new'), new_course_tee_path(@course, Tee.new), method: :get),
+                     button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get)
            ], rounds: []
 %>

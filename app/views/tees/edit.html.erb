@@ -1,10 +1,10 @@
-<h1><%= Heading::Tee::EDIT_TEE %></h1>
+<h1><%= t('heading.tee.edit') %></h1>
 
 <%=render "tees/form", tees: @course.sorted_tees, new_tee: false %>
 
 <%= render 'layouts/other_buttons',
-           courses: [button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-                     button_to(Button::Course::EDIT, edit_course_path(@course), method: :get)
+           courses: [button_to(I18n.t('button.tee.new'), new_course_tee_path(@course, Tee.new), method: :get),
+                     button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get)
            ], rounds: []
 %>
 

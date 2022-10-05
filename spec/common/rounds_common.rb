@@ -24,7 +24,7 @@ module RoundsCommon
       AsideCommon.expect_aside(rendered_or_page, false) unless rendered_or_page.is_a? String
       DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
 
-      expect(rendered_or_page).to have_selector('h1', text: Button::Round::CHOOSE_COURSE)
+      expect(rendered_or_page).to have_selector('h1', text: I18n.t('button.round.choose_round_course'))
       courses.each do |course|
         expect(rendered_or_page).to have_link(course.name)
       end
@@ -49,7 +49,7 @@ module RoundsCommon
       tees.each do |tee|
         expect(rendered_or_page).to have_link(tee.color)
         expect(rendered_or_page).to have_link("link-tee-#{tee.id}", text: tee.color, count: 1)
-        expect(rendered_or_page).to have_link("analyze-tee-#{tee.id}", text: 'Analyze', count: 1)
+        expect(rendered_or_page).to have_link("analyze-tee-#{tee.id}", text: I18n.t('button.tee.analyze'), count: 1)
       end
 
       expect_tees_round_other_buttons(rendered_or_page)
@@ -70,8 +70,8 @@ module RoundsCommon
       DatabaseCommon.expect_menu(rendered_or_page) unless rendered_or_page.is_a? String
       expect(rendered_or_page).to have_selector('h1', text: "Rounds for #{course.name} and tee #{tee.color}")
       if rounds.empty?
-        expect(rendered_or_page).to have_selector('p', text: Label::Round::NO_ROUNDS_TO_ANALYZE)
-        expect(rendered_or_page).to have_selector('p', text: Label::Round::NO_ROUNDS)
+        expect(rendered_or_page).to have_selector('p', text: I18n.t('info.round.no_rounds_to_analyze'))
+        expect(rendered_or_page).to have_selector('p', text: I18n.t('info.round.no_rounds'))
       else
         rounds.each do |round|
           expect(rendered_or_page).to have_link(round.date.to_s)
@@ -95,7 +95,7 @@ module RoundsCommon
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Round::EDIT)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.round.edit'))
 
       expect_edit_fieldset_round(rendered_or_page,
                                  round,
@@ -119,14 +119,14 @@ module RoundsCommon
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Round::NEW)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.round.new'))
 
       expect_new_fieldset_round(rendered_or_page,
                                 tee,
                                 false,
                                 values)
 
-      expect(rendered_or_page).to have_button(Button::Round::CREATE, count: 1)
+      expect(rendered_or_page).to have_button(I18n.t('button.round.create'), count: 1)
 
       expect_new_other_buttons(rendered_or_page)
     end
@@ -145,15 +145,15 @@ module RoundsCommon
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Round::SHOW)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.round.show'))
 
       expect_show_fieldset_round(rendered_or_page,
                                  round,
                                  true,
                                  values)
 
-      expect(rendered_or_page).not_to have_button(Button::Round::CREATE, count: 1)
-      expect(rendered_or_page).not_to have_button(Button::Round::UPDATE, count: 1)
+      expect(rendered_or_page).not_to have_button(I18n.t('button.round.create'), count: 1)
+      expect(rendered_or_page).not_to have_button(I18n.t('button.round.update'), count: 1)
 
       expect_show_other_buttons(rendered_or_page)
     end
@@ -163,73 +163,73 @@ module RoundsCommon
     def expect_show_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW,
-                                            Button::Tee::EDIT
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new'),
+                                            I18n.t('button.tee.edit')
                                           ],
                                           [
-                                            Button::Round::EDIT,
-                                            Button::Round::DESTROY,
-                                            Button::Round::NEW
+                                            I18n.t('button.round.edit_round'),
+                                            I18n.t('button.round.destroy_round'),
+                                            I18n.t('button.round.new_round')
                                           ])
     end
 
     def expect_edit_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW,
-                                            Button::Tee::EDIT
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new'),
+                                            I18n.t('button.tee.edit')
                                           ],
                                           [
-                                            Button::Round::EDIT,
-                                            Button::Round::NEW
+                                            I18n.t('button.round.edit_round'),
+                                            I18n.t('button.round.new_round')
                                           ])
     end
 
     def expect_new_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW,
-                                            Button::Tee::EDIT
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new'),
+                                            I18n.t('button.tee.edit')
                                           ],
-                                          [Button::Round::NEW])
+                                          [I18n.t('button.round.new_round')])
     end
 
     def expect_new_fieldset_round(rendered_or_page, tee, disabled, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      fieldset_subheading = Fieldset::Edit::SUBHEADING
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      fieldset_subheading = Selector::Edit::SUBHEADING
       expect_new_subheading(rendered_or_page, values, fieldset_subheading)
       form_txt = " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/rounds'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Round::CREATE)
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, I18n.t('button.round.create'))
     end
 
     def expect_edit_fieldset_round(rendered_or_page, round, disabled, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      fieldset_subheading = Fieldset::Edit::SUBHEADING
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      fieldset_subheading = Selector::Edit::SUBHEADING
       expect_edit_subheading(rendered_or_page, values, fieldset_subheading)
       form_txt = " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Round::UPDATE)
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, I18n.t('button.round.update'))
     end
 
     def expect_show_fieldset_round(rendered_or_page, round, disabled, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_show_subheading(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_show_subheading(rendered_or_page, values, Selector::Edit::SUBHEADING)
       form_txt = " form[action='/courses/#{round.tee.course.id}/tees/#{round.tee.id}/rounds/#{round.id}'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, true, Button::Round::UPDATE)
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, true, I18n.t('button.round.update'))
     end
 
     def expect_editable_field_values_round(rendered_or_page, disabled, values, fieldset_form_txt)
@@ -237,7 +237,7 @@ module RoundsCommon
       raise('date not set') if date.nil?
 
       MethodCommon.expect_have_field_date(rendered_or_page,
-                                          Label::Round::DATE,
+                                          I18n.t('activerecord.attributes.round.date'),
                                           'round_date',
                                           date,
                                           disabled,
@@ -262,7 +262,7 @@ module RoundsCommon
     def expect_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::NEW
+                                            I18n.t('button.course.new')
                                           ],
                                           [])
     end
@@ -270,9 +270,9 @@ module RoundsCommon
     def expect_tees_round_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new')
                                           ],
                                           [])
     end
@@ -280,12 +280,12 @@ module RoundsCommon
     def expect_round_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW,
-                                            Button::Tee::EDIT
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new'),
+                                            I18n.t('button.tee.edit')
                                           ],
-                                          [Button::Round::NEW])
+                                          [I18n.t('button.round.new_round')])
     end
   end
 end

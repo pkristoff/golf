@@ -11,8 +11,8 @@ describe 'edit hole buttons' do
     visit edit_course_tee_hole_path(course, tee, hole)
   end
 
-  it 'click Button::Course::EDIT' do
-    click_button(Button::Course::EDIT)
+  it "click I18n.t('button.course.edit')" do
+    click_button(I18n.t('button.course.edit'))
 
     CourseCommon.expect_edit_course(page,
                                     course,
@@ -27,8 +27,8 @@ describe 'edit hole buttons' do
                                     zip_code: '47529')
   end
 
-  it 'click Button::Course::NEW' do
-    click_button(Button::Course::NEW)
+  it "click I18n.t('button.course.new')" do
+    click_button(I18n.t('button.course.new'))
 
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
@@ -37,8 +37,8 @@ describe 'edit hole buttons' do
                                    street1: '', street2: '', city: '', state: '', zip_code: '27502')
   end
 
-  it 'click Button::Tee::NEW' do
-    click_button(Button::Tee::NEW)
+  it "click I18n.t('button.tee.new')" do
+    click_button(I18n.t('button.tee.new'))
 
     TeeCommon.expect_new_tee(page,
                              course,
@@ -50,8 +50,8 @@ describe 'edit hole buttons' do
                                show_tees: true })
   end
 
-  it 'click Button::Tee::EDIT' do
-    click_button(Button::Tee::EDIT)
+  it "click I18n.t('button.tee.edit')" do
+    click_button(I18n.t('button.tee.edit'))
 
     TeeCommon.expect_edit_tee(page,
                               course.tee('Black'),

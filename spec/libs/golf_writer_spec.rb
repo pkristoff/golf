@@ -6,7 +6,6 @@ require 'support/tee_hole_info'
 describe GolfWriter, type: :lib do
   describe 'writing excel spreadsheet' do
     before(:all) do
-      puts 'all called'
       @write_path = 'tmp/Golf_writer.xlsx'
       @read_path = 'spec/fixtures/Golf.xlsx'
     end

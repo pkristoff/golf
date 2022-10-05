@@ -1,14 +1,14 @@
-<%= field_set_tag Fieldset::Edit::HEADING, class: 'fieldset' do %>
+<%= field_set_tag I18n.t('fieldset.edit.text'), class: 'fieldset' do %>
   <div id="subheading-div" class="fieldset-field-div">
     <%= render 'scores/subheading', round: @round, course: @course, tee: @tee, score: @score %>
   </div>
   <div id="edit-div" class="fieldset-field-div">
     <%= form_with model: [@course, @tee, @round, @score], local: true do |form| %>
-      <%= form.label :strokes, Label::Score::STROKES %>
+      <%= form.label :strokes %>
       <%= form.number_field :strokes, autofocus: true, class: "strokes-cell-#{form.object.green_in_regulation}"%><br>
-      <%= form.label :putts, Label::Score::PUTTS %>
+      <%= form.label :putts %>
       <%= form.number_field :putts %><br>
-      <%= form.label :penalties, Label::Score::PENALTIES %>
+      <%= form.label :penalties %>
       <%= form.text_field :penalties %>
 
       <%= form.submit %>

@@ -9,8 +9,8 @@ describe 'new tee buttons' do
     visit new_course_tee_path(course.id)
   end
 
-  it 'click Button::Course::EDIT' do
-    click_button(Button::Course::EDIT)
+  it "click I18n.t('button.course.edit')" do
+    click_button(I18n.t('button.course.edit'))
 
     CourseCommon.expect_edit_course(page,
                                     course,

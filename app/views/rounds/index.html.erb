@@ -1,8 +1,8 @@
 <h1>Rounds for <%= @course.name %> and tee <%= @tee.color %></h1>
 <% rounds = @tee.sorted_rounds %>
 <% if rounds.empty? %>
-  <p> <%= Label::Round::NO_ROUNDS %></p>
-  <p> <%= Label::Round::NO_ROUNDS_TO_ANALYZE %></p>
+  <p> <%= t('info.round.no_rounds') %></p>
+  <p> <%= t('info.round.no_rounds_to_analyze') %></p>
 <% else %>
   <ul>
     <% rounds.each do |round| %>
@@ -13,8 +13,8 @@
 <% end %>
 
 <%= render "layouts/other_buttons", courses:
-  [button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-    button_to(Button::Tee::EDIT, edit_course_tee_path(@course, @tee), method: :get),
-    button_to(Button::Course::NEW, new_course_path, method: :get),
-    button_to(Button::Course::EDIT, edit_course_path(@course), method: :get)],
-    rounds: [button_to(Button::Round::NEW, new_course_tee_round_path(@course, @tee, Round.new), method: :get)] %>
+  [button_to(I18n.t('button.tee.new'), new_course_tee_path(@course, Tee.new), method: :get),
+    button_to(I18n.t('button.tee.edit'), edit_course_tee_path(@course, @tee), method: :get),
+    button_to(I18n.t('button.course.new'), new_course_path, method: :get),
+    button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get)],
+    rounds: [button_to(I18n.t('button.round.new_round'), new_course_tee_round_path(@course, @tee, Round.new), method: :get)] %>

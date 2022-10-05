@@ -37,7 +37,7 @@ module HoleCommon
                                 false,
                                 values)
 
-      expect(rendered_or_page).to have_button(Button::Hole::UPDATE, count: 1)
+      expect(rendered_or_page).to have_button(I18n.t('button.hole.update'), count: 1)
 
       expect_hole_edit_other_buttons(rendered_or_page)
     end
@@ -61,7 +61,7 @@ module HoleCommon
                                true,
                                values)
       # New holes are created automatically.  So should not be able to get to this page.
-      expect(rendered_or_page).not_to have_button(Button::Hole::CREATE)
+      expect(rendered_or_page).not_to have_button(I18n.t('button.hole.create'))
 
       expect_hole_edit_other_buttons(rendered_or_page)
     end
@@ -145,9 +145,15 @@ module HoleCommon
       expect(rendered_or_page).to have_selector("table[id=holes-#{tee.id}]", count: 1)
 
       expect(rendered_or_page).to have_selector("td[id=hole-number-heading-#{tee.id}]", count: 1, text: 'Number')
-      expect(rendered_or_page).to have_selector("td[id=hole-yardage-heading-#{tee.id}]", count: 1, text: Label::Hole::YARDAGE)
-      expect(rendered_or_page).to have_selector("td[id=hole-par-heading-#{tee.id}]", count: 1, text: Label::Hole::PAR)
-      expect(rendered_or_page).to have_selector("td[id=hole-hdcp-heading-#{tee.id}]", count: 1, text: Label::Hole::HDCP)
+      expect(rendered_or_page).to have_selector("td[id=hole-yardage-heading-#{tee.id}]",
+                                                count: 1,
+                                                text: I18n.t('activerecord.attributes.hole.yardage'))
+      expect(rendered_or_page).to have_selector("td[id=hole-par-heading-#{tee.id}]",
+                                                count: 1,
+                                                text: I18n.t('activerecord.attributes.hole.par'))
+      expect(rendered_or_page).to have_selector("td[id=hole-hdcp-heading-#{tee.id}]",
+                                                count: 1,
+                                                text: I18n.t('activerecord.attributes.hole.hdcp'))
 
       expect(rendered_or_page).to have_selector("tr[id=hole-number-#{tee.id}]", count: 1)
       expect(rendered_or_page).to have_selector("tr[id=hole-yardage-#{tee.id}]", count: 1)
@@ -162,10 +168,10 @@ module HoleCommon
     def expect_hole_edit_other_buttons(rendered_or_page)
       ButtonToCommon.expect_other_buttons(rendered_or_page,
                                           [
-                                            Button::Course::EDIT,
-                                            Button::Course::NEW,
-                                            Button::Tee::NEW,
-                                            Button::Tee::EDIT
+                                            I18n.t('button.course.edit'),
+                                            I18n.t('button.course.new'),
+                                            I18n.t('button.tee.new'),
+                                            I18n.t('button.tee.edit')
                                           ],
                                           [])
     end
@@ -182,45 +188,45 @@ module HoleCommon
     end
 
     def expect_new_fieldset_hole(rendered_or_page, tee, is_disabled, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_new_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_new_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
       form_txt = " form[action='/courses/#{tee.course.id}/tees/#{tee.id}/holes'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_editable_field_values_hole(rendered_or_page, is_disabled, values, fieldset_form_txt)
 
-      ButtonToCommon.expect_no_submit_button(rendered_or_page, Button::Hole::CREATE)
+      ButtonToCommon.expect_no_submit_button(rendered_or_page, I18n.t('button.hole.create'))
     end
 
     def expect_edit_fieldset_hole(rendered_or_page, hole, is_disabled, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Edit::HEADING)
-      expect_edit_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.edit.text'))
+      expect_edit_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
       form_txt = " form[action='/courses/#{hole.tee.course.id}/tees/#{hole.tee.id}/holes/#{hole.id}'] "
-      fieldset_form_txt = Fieldset::Edit::EDIT + form_txt
+      fieldset_form_txt = Selector::Edit::EDIT + form_txt
       expect_editable_field_values_hole(rendered_or_page, is_disabled, values, fieldset_form_txt)
 
-      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, Button::Hole::UPDATE)
+      ButtonToCommon.expect_submit_button(rendered_or_page, fieldset_form_txt, false, I18n.t('button.hole.update'))
     end
 
     def expect_editable_field_values_hole(rendered_or_page, is_disabled, values, fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Hole::NUMBER,
+                                         I18n.t('activerecord.attributes.hole.number'),
                                          'hole_number',
                                          values[:hole_number],
                                          true,
                                          fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Hole::YARDAGE,
+                                         I18n.t('activerecord.attributes.hole.yardage'),
                                          'hole_yardage',
                                          values[:yardage],
                                          is_disabled, fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Hole::PAR,
+                                         I18n.t('activerecord.attributes.hole.par'),
                                          'hole_par',
                                          values[:par],
                                          is_disabled,
                                          fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Hole::HDCP,
+                                         I18n.t('activerecord.attributes.hole.hdcp'),
                                          'hole_hdcp',
                                          values[:hdcp],
                                          is_disabled,

@@ -28,11 +28,11 @@ describe 'add a new course' do
                                    number_of_holes: '18', street1: '', street2: '',
                                    city: '', state: '', zip_code: '27502')
 
-    fill_in Label::Course::NAME, with: ''
-    fill_in Label::Course::NUMBER_OF_HOLES, with: 0
-    fill_in Label::Course::ZIP, with: ''
+    fill_in I18n.t('activerecord.attributes.course.name'), with: ''
+    fill_in I18n.t('activerecord.attributes.course.number_of_holes'), with: 0
+    fill_in I18n.t('activerecord.attributes.course.address/address.zip_code'), with: ''
 
-    click_button(Button::Course::SUBMIT)
+    click_button(I18n.t('button.course.submit'))
 
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
@@ -58,15 +58,15 @@ describe 'add a new course' do
                                    course_name: '...', number_of_holes: '18',
                                    street1: '', street2: '', city: '', state: '', zip_code: '27502')
 
-    fill_in Label::Course::NAME, with: 'Lochmere'
+    fill_in I18n.t('activerecord.attributes.course.name'), with: 'Lochmere'
 
-    fill_in Label::Course::STREET1, with: '2116 Frissell Ave.'
-    fill_in Label::Course::STREET2, with: ''
-    fill_in Label::Course::CITY, with: 'Apex'
-    fill_in Label::Course::STATE, with: 'NC'
-    fill_in Label::Course::ZIP, with: '27502'
+    fill_in I18n.t('activerecord.attributes.course.address/address.street1'), with: '2116 Frissell Ave.'
+    fill_in I18n.t('activerecord.attributes.course.address/address.street2'), with: ''
+    fill_in I18n.t('activerecord.attributes.course.address/address.city'), with: 'Apex'
+    fill_in I18n.t('activerecord.attributes.course.address/address.state'), with: 'NC'
+    fill_in I18n.t('activerecord.attributes.course.address/address.zip_code'), with: '27502'
 
-    click_button(Button::Course::SUBMIT)
+    click_button(I18n.t('button.course.submit'))
 
     expect(Course.all.size).to eq(1)
 
@@ -97,7 +97,7 @@ describe 'add a new course' do
       ]
     )
 
-    click_button(Button::Tee::NEW)
+    click_button(I18n.t('button.tee.new'))
 
     expect(Course.all.size).to eq(1)
 
@@ -112,14 +112,14 @@ describe 'add a new course' do
                                tee_rating: '0.0',
                                show_tees: true })
 
-    fill_in 'Slope', with: 140.0
-    fill_in('Rating', with: 75.0)
+    fill_in I18n.t('activerecord.attributes.tee.slope'), with: 140.0
+    fill_in(I18n.t('activerecord.attributes.tee.rating'), with: 75.0)
 
-    click_button(Button::Tee::CREATE)
+    click_button(I18n.t('button.tee.create'))
 
-    click_button(Button::Course::EDIT)
+    click_button(I18n.t('button.course.edit'))
 
-    click_button(Button::Course::UPDATE)
+    click_button(I18n.t('button.course.update'))
 
     CourseCommon.expect_show_course(page,
                                     course,

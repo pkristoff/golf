@@ -1,67 +1,180 @@
-# Files in the config/locales directory are used for internationalization
-# and are automatically loaded by Rails. If you want to use locales other
-# than English, add the necessary files in this directory.
-#
-# To use the locales, use `I18n.t`:
-#
-#     I18n.t 'hello'
-#
-# In views, this is aliased to just `t`:
-#
-#     <%= t('hello') %>
-#
-# To use a different locale, set it with `I18n.locale`:
-#
-#     I18n.locale = :es
-#
-# This would use the information in config/locales/es.yml.
-#
-# The following keys must be escaped otherwise they will not be retrieved by
-# the default I18n backend:
-#
-# true, false, on, off, yes, no
-#
-# Instead, surround them with single quotes.
-#
-# en:
-#   'true': 'foo'
-#
-# To learn more, please read the Rails Internationalization guide
-# available at https://guides.rubyonrails.org/i18n.html.
-
+---
 en:
   activerecord:
     attributes:
+      account:
+        handicap_index: Handicap index
+        name: Name
       address:
         city: City
         state: State
         street_1: Street 1
         street_2: Street 2
         zip_code: Zip code
+      course:
+        address/address:
+          city: City
+          state: State
+          street1: Street1
+          street2: Street2
+          zip_code: Zip code
+        name: Name
+        number_of_holes: Number of holes
+      hole:
+        hdcp: HDCP
+        number: Number
+        par: Par
+        yardage: Yardage
+      round:
+        date: Date
+        tee/tee:
+          color: Color
+          number_of_holes: Number of holes
+          rating: Rating
+          slope: Slope
+      score:
+        fairway_hit: Fairway hit
+        green_in_regulation: Green in regulation
+        penalties: Penalties
+        putts: Putts
+        strokes: Strokes
+        strokes_under80: Strokes under 80
+      score_hole:
+        hole/hole:
+          hdcp: HDCP
+          number: Number
+          par: Par
+          yardage: Yardage
+        score/score:
+          fairway_hit: Fairway hit
+          green_in_regulation: Green in regulation
+          penalties: Penalties
+          putts: Putts
+          strokes: Strokes
+          strokes_under80: Strokes under 80
+      tee:
+        color: Color
+        number_of_holes: Number of holes
+        rating: Rating
+        slope: Slope
+    models:
+      account: Account
+      address: Address
+      course: Course
+      hole: Hole
+      round: Round
+      score: Score
+      score_hole: Score hole
+      tee: Tee
+  button:
+    account:
+      calculate_handicap_index: Calculate handicap index
+      calculate_handicap_index_no_init: Calculate handicap index with no init
+      submit: Submit
+    course:
+      create: Create Course
+      destroy: Destroy course
+      edit: Edit course
+      new: New course
+      show_courses: Show Courses
+      show_tees: Show Tees for Course
+      submit: Submit Course
+      update: Update Course
+    hole:
+      create: Create Hole
+      update: Update Hole
+    round:
+      choose_round_course: Choose Round Course
+      create: Create Round
+      destroy_round: Destroy Round
+      edit_round: Edit Round
+      new_round: New Round
+      show_courses: Show Round Courses
+      update: Update Round
+    tee:
+      analyze: Analyze
+      create: Create Tee
+      edit: Edit Tee
+      new: New Tee
+      show_tees: Show Tees
+      update: Update Tee
+  fieldset:
+    course:
+      buttons: Course buttons
+      tees: Golf Course Tees
+    edit:
+      text: Edit
+    round:
+      buttons: Round buttons
+    score:
+      scores: Scores
+    show:
+      text: Show
   flash:
     alert:
       clearing: 'Error while clearing db:: %{message}'
-      date: 'date cannot blank.'
+      date: date cannot blank.
       hole:
-        creating: 'Error creating hole'
-        updating: 'Error updating hole'
-      round: 'Error updating round'
-      score: 'Error updating score'
-      tee: 'Error updating tee'
+        creating: Error creating hole
+        updating: Error updating hole
+      round: Error updating round
+      score: Error updating score
+      tee: Error updating tee
       uploading_file: 'Error while uploading file: %{message}'
-      validation: 'Validation error(s).'
+      validation: Validation error(s).
     notice:
       db:
         cleared: DB cleared
         updated: DB updated
       hole:
-        created: 'hole created'
-        updated: 'hole updated'
+        created: hole created
+        updated: hole updated
       round:
         updated: Round updated
       score:
         added: Score added
-        updated:  Score updated
+        updated: Score updated
       tee:
         added: Tee added
-        updated:  Tee updated
+        updated: Tee updated
+  heading:
+    account:
+      accounts: Accounts
+      edit: Edit account
+    course:
+      courses: Courses
+      new: New course
+      show: Show course
+    hole:
+      edit: Edit hole
+      new: New hole
+    performances:
+      performances: Performances
+    round:
+      edit: Edit round
+      new: New round
+      show: Show round
+    score:
+      edit: Edit score
+    tee:
+      edit: Edit tee
+      new: New tee
+      pick: 'Pick tee for course: %{name}'
+  info:
+    account:
+      no_accounts: No accounts
+    course:
+      no_courses: No courses
+    round:
+      no_rounds: No rounds
+      no_rounds_to_analyze: No rounds to analyze
+    sccore:
+      no_scores: No scores
+  label:
+    menu:
+      clear: Clear DB
+      database: Database
+      load_xsxl: Load in XSXL file
+    nav:
+      course: Course
+      rounds: Rounds

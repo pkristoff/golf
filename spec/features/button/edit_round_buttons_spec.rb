@@ -13,8 +13,8 @@ describe 'new round buttons' do
     visit edit_course_tee_round_path(course, tee, round)
   end
 
-  it 'click Button::Course::EDIT' do
-    click_button(Button::Course::EDIT)
+  it "click I18n.t('button.course.edit')" do
+    click_button(I18n.t('button.course.edit'))
 
     CourseCommon.expect_edit_course(page,
                                     course,
@@ -29,8 +29,8 @@ describe 'new round buttons' do
                                     zip_code: '47529')
   end
 
-  it 'click Button::Course::NEW' do
-    click_button(Button::Course::NEW)
+  it "click I18n.t('button.course.new')" do
+    click_button(I18n.t('button.course.new'))
 
     CourseCommon.expect_new_course(page,
                                    show_tees: false,
@@ -39,8 +39,8 @@ describe 'new round buttons' do
                                    street1: '', street2: '', city: '', state: '', zip_code: '27502')
   end
 
-  it 'click Button::Tee::NEW' do
-    click_button(Button::Tee::NEW)
+  it "click I18n.t('button.tee.new')" do
+    click_button(I18n.t('button.tee.new'))
 
     TeeCommon.expect_new_tee(page,
                              course,
@@ -52,8 +52,8 @@ describe 'new round buttons' do
                                show_tees: true })
   end
 
-  it 'click Button::Tee::EDIT' do
-    click_button(Button::Tee::EDIT)
+  it "click I18n.t('button.tee.edit')" do
+    click_button(I18n.t('button.tee.edit'))
 
     TeeCommon.expect_edit_tee(page,
                               course.tee('Black'),
@@ -65,8 +65,8 @@ describe 'new round buttons' do
                                 show_tees: true })
   end
 
-  it 'click Button::Round::NEW' do
-    click_button(Button::Round::NEW)
+  it "click I18n.t('button.round.new_round')" do
+    click_button(I18n.t('button.round.new_round'))
 
     RoundsCommon.expect_new_round(
       page,
@@ -77,8 +77,8 @@ describe 'new round buttons' do
     )
   end
 
-  it 'click Button::Round::EDIT' do
-    click_button(Button::Round::EDIT)
+  it "click I18n.t('button.round.edit_round')" do
+    click_button(I18n.t('button.round.edit_round'))
 
     RoundsCommon.expect_edit_round(
       page,

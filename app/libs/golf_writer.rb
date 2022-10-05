@@ -119,7 +119,7 @@ class GolfWriter
   def add_hdcp_rows(tees, sheet)
     tee = tees[0]
     sheet.add_row do |row|
-      row.add_cell(Label::Hole::HDCP)
+      row.add_cell(I18n.t('activerecord.attributes.hole.hdcp'))
       row.add_cell(nil) unless tee.rating.zero? # rating
       row.add_cell(nil) unless tee.slope.zero? # slope
       tee.holes_inorder_with_hdcp_totals.each do |hole|
@@ -133,7 +133,7 @@ class GolfWriter
   def add_par_rows(tees, sheet)
     tee = tees[0]
     sheet.add_row do |row|
-      row.add_cell(Label::Hole::PAR)
+      row.add_cell(I18n.t('activerecord.attributes.hole.par'))
       row.add_cell(nil) unless tee.rating.zero? # rating
       row.add_cell(nil) unless tee.slope.zero? # slope
       tee.holes_inorder_with_par_totals.each do |hole|

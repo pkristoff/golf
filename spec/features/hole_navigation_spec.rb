@@ -38,7 +38,7 @@ describe 'edit_existing_course' do
 
     fill_in 'Slope', with: 140.0
     fill_in('Rating', with: 75.0)
-    click_button('Update Tee')
+    click_button(I18n.t('button.tee.update'))
 
     course = Course.find(course.id)
 
@@ -77,9 +77,9 @@ describe 'edit_existing_course' do
                                   total_in_yardage: 3261,
                                   total_yardage: 6627 })
 
-    fill_in Label::Hole::YARDAGE, with: 644
-    fill_in Label::Hole::PAR, with: 5
-    fill_in Label::Hole::HDCP, with: 10
+    fill_in I18n.t('activerecord.attributes.hole.yardage'), with: 644
+    fill_in I18n.t('activerecord.attributes.hole.par'), with: 5
+    fill_in I18n.t('activerecord.attributes.hole.hdcp'), with: 10
 
     click_button('Update Hole')
 

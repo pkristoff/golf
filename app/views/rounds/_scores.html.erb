@@ -1,5 +1,5 @@
 <% if local_assigns[:score_holes].empty? %>
-  <p>No scores</p>
+  <p><%= I18n.t('info.sccore.no_scores') %></p>
 <% else %>
   <table id="scores" style="width:100%">
     <tr id=<%= "score-number-#{tee.id}" %>>
@@ -18,7 +18,7 @@
       <% end %>
     </tr>
     <tr id=<%= "score-strokes-#{tee.id}" %>>
-      <td id=<%= "score-strokes-heading-#{tee.id}" %> class="heading-cell"><%= Label::Score::STROKES %>:</td>
+      <td id=<%= "score-strokes-heading-#{tee.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.score.strokes') %>:</td>
       <% in_out_tot = 0 %>
       <% total = 0 %>
       <% local_assigns[:score_holes].each_with_index do |score_hole, index| %>
@@ -40,7 +40,7 @@
       <% end %>
     </tr>
     <tr id=<%= "score-putts-#{tee.id}" %>>
-      <td id=<%= "score-putts-heading-#{tee.id}" %> class="heading-cell"><%= Label::Score::PUTTS %>:</td>
+      <td id=<%= "score-putts-heading-#{tee.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.score.putts') %>:</td>
       <% in_out_tot = 0 %>
       <% total = 0 %>
       <% local_assigns[:score_holes].each do |score_hole| %>
@@ -60,7 +60,7 @@
       <% end %>
     </tr>
     <tr id=<%= "score-penalties-#{tee.id}" %>>
-      <td id=<%= "score-penalties-heading-#{tee.id}" %> class="heading-cell"><%= Label::Score::PENALTIES %>:</td>
+      <td id=<%= "score-penalties-heading-#{tee.id}" %> class="heading-cell"><%= I18n.t('activerecord.attributes.score.penalties') %>:</td>
       <% local_assigns[:score_holes].each do |score_hole| %>
         <% score = score_hole.score %>
         <% hole = score_hole.hole %>

@@ -3,13 +3,13 @@
 
 <ul>
   <% @tees.each do |tee| %>
-    <li id="li-id<%= tee.id %>"><%= link_to tee.color, course_tee_rounds_path(@course, tee), id: "link-tee-#{tee.id}" %>&nbsp;&nbsp;<%= link_to('Analyze', course_tee_performances_path(@course, tee), id: "analyze-tee-#{tee.id}") %></li>
+    <li id="li-id<%= tee.id %>"><%= link_to tee.color, course_tee_rounds_path(@course, tee), id: "link-tee-#{tee.id}" %>&nbsp;&nbsp;<%= link_to(t('button.tee.analyze'), course_tee_performances_path(@course, tee), id: "analyze-tee-#{tee.id}") %></li>
   <% end %>
 </ul>
 <%= render 'layouts/other_buttons',
-           courses: [button_to(Button::Tee::NEW, new_course_tee_path(@course, Tee.new), method: :get),
-                     button_to(Button::Course::EDIT, edit_course_path(@course), method: :get),
-                     button_to(Button::Course::NEW, new_course_path(Course.new), method: :get)
+           courses: [button_to(I18n.t('button.tee.new'), new_course_tee_path(@course, Tee.new), method: :get),
+                     button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get),
+                     button_to(I18n.t('button.course.new'), new_course_path(Course.new), method: :get)
            ], rounds: []
 %>
 

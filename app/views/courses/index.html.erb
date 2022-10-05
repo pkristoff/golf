@@ -1,7 +1,7 @@
-<h1><%= Heading::Course::COURSES %></h1>
+<h1><%= I18n.t('heading.course.courses') %></h1>
 
 <% if @courses.empty? %>
-  <h2><%= Heading::Course::NO_COURSES %></h2>
+  <h2><%= I18n.t('info.course.no_courses') %></h2>
 <% else %>
   <ul>
     <% @courses.each do |course| %>
@@ -12,5 +12,5 @@
 <% end %>
 
 <%= render "layouts/other_buttons", courses:
-  [button_to(Button::Course::NEW, new_course_path, method: :get)],
+  [button_to(I18n.t('button.course.new'), new_course_path, method: :get)],
            rounds: [] %>

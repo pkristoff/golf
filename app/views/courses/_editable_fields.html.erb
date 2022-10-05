@@ -1,16 +1,16 @@
-<%= field_set_tag Fieldset::Edit::HEADING, class: 'fieldset' do %>
+<%= field_set_tag I18n.t('fieldset.edit.text'), class: 'fieldset' do %>
   <div id="subheading-div" class="fieldset-field-div">
     <%= render 'courses/subheading', course: @course %>
   </div>
   <div id="edit-div" class="fieldset-field-div">
     <%= form_with model: course, local: true do |form| %>
       <div id="line-one" class="field">
-        <%= form.label :name, Label::Course::NAME %><br>
+        <%= form.label :name %><br>
         <%= form.text_field :name, disabled: form_disabled %>
         <%= render 'attribute_error', object_with_errors: course, attribute: :name %>
       </div>
       <div id="line-two" class="field">
-        <%= form.label :number_of_holes, Label::Course::NUMBER_OF_HOLES %><br>
+        <%= form.label :number_of_holes %><br>
         <%= form.number_field :number_of_holes, in: [9, 18], disabled: form_disabled %>
         <%= render 'attribute_error', object_with_errors: course, attribute: :number_of_holes %>
       </div>
@@ -19,7 +19,7 @@
       <% unless form_disabled
            # doing Show.html.erb %>
         <div>
-          <%= form.submit(id: Button::Course::SUBMIT) %>
+          <%= form.submit(id: t('button.course.submit')) %>
         </div>
       <% end %>
     <% end # form %>

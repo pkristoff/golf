@@ -27,7 +27,7 @@ module PerformancesCommon
 
       expect_messages(values[:expect_messages]) unless values[:expect_messages].nil?
 
-      MethodCommon.expect_heading(rendered_or_page, Heading::Performances::PERFORMANCES)
+      MethodCommon.expect_heading(rendered_or_page, I18n.t('heading.performances.performances'))
 
       expect_show_fieldset(
         rendered_or_page,
@@ -40,8 +40,8 @@ module PerformancesCommon
     private
 
     def expect_show_fieldset(rendered_or_page, values)
-      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: Fieldset::Show::SHOW)
-      expect_show_subheadings(rendered_or_page, values, Fieldset::Edit::SUBHEADING)
+      expect(rendered_or_page).to have_selector('fieldset', count: 1, text: I18n.t('fieldset.show.text'))
+      expect_show_subheadings(rendered_or_page, values, Selector::Edit::SUBHEADING)
       fieldset_txt = 'div[id=fieldset-div][class=fieldset-field-div] '
       if values[:avg_strokes].empty?
         expect(rendered_or_page).to have_selector("#{fieldset_txt}p", count: 1, text: 'No rounds for tee')
@@ -105,20 +105,20 @@ module PerformancesCommon
 
     def expect_editable_field_values_score(rendered_or_page, values, fieldset_form_txt)
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Score::STROKES,
+                                         I18n.t('activerecord.attributes.score.strokes'),
                                          'score_strokes',
                                          values[:strokes],
                                          false,
                                          fieldset_form_txt,
                                          values[:gir].nil? ? nil : "strokes-cell-#{values[:gir]}")
       MethodCommon.expect_have_field_num(rendered_or_page,
-                                         Label::Score::PUTTS,
+                                         I18n.t('activerecord.attributes.score.putts'),
                                          'score_putts',
                                          values[:putts],
                                          false,
                                          fieldset_form_txt)
       MethodCommon.expect_have_field_text(rendered_or_page,
-                                          Label::Score::PENALTIES,
+                                          I18n.t('activerecord.attributes.score.penalties'),
                                           'score_penalties',
                                           values[:penalties],
                                           false,
@@ -126,6 +126,7 @@ module PerformancesCommon
     end
 
     def expect_scores_strokes(rendered_or_page, score_holes, replace_values)
+      # I18n-ize
       expect_scores_totals(rendered_or_page, score_holes, 'strokes', :strokes, true, replace_values)
     end
 

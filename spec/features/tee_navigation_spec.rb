@@ -22,7 +22,7 @@ describe 'edit_existing_course' do
                                     city: 'Clarksville',
                                     state: 'IN',
                                     zip_code: '47529')
-    click_button(Button::Tee::NEW)
+    click_button(I18n.t('button.tee.new'))
 
     course = Course.find_by(id: course.id)
     TeeCommon.expect_new_tee(page,
@@ -50,7 +50,7 @@ describe 'edit_existing_course' do
                                     state: 'IN',
                                     zip_code: '47529')
 
-    click_button(Button::Tee::NEW)
+    click_button(I18n.t('button.tee.new'))
 
     TeeCommon.expect_new_tee(page,
                              course,
@@ -61,11 +61,11 @@ describe 'edit_existing_course' do
                                tee_rating: '0.0',
                                show_tees: true })
 
-    fill_in Label::Tee::COLOR, with: 'Black'
-    fill_in Label::Tee::SLOPE, with: '139'
-    fill_in Label::Tee::RATING, with: '71.6'
+    fill_in I18n.t('activerecord.attributes.tee.color'), with: 'Black'
+    fill_in I18n.t('activerecord.attributes.tee.slope'), with: '139'
+    fill_in I18n.t('activerecord.attributes.tee.rating'), with: '71.6'
 
-    click_button(Button::Tee::CREATE)
+    click_button(I18n.t('button.tee.create'))
   end
 
   it 'create a new Tee for course and back to edit course' do
@@ -83,7 +83,7 @@ describe 'edit_existing_course' do
                                     state: 'IN',
                                     zip_code: '47529')
 
-    click_button(Button::Tee::NEW)
+    click_button(I18n.t('button.tee.new'))
 
     TeeCommon.expect_new_tee(page,
                              course,
@@ -94,15 +94,15 @@ describe 'edit_existing_course' do
                                tee_rating: '0.0',
                                show_tees: true })
 
-    fill_in Label::Tee::COLOR, with: 'Black'
-    fill_in Label::Tee::SLOPE, with: '139'
-    fill_in Label::Tee::RATING, with: '71.6'
+    fill_in I18n.t('activerecord.attributes.tee.color'), with: 'Black'
+    fill_in I18n.t('activerecord.attributes.tee.slope'), with: '139'
+    fill_in I18n.t('activerecord.attributes.tee.rating'), with: '71.6'
 
-    click_button(Button::Tee::CREATE)
+    click_button(I18n.t('button.tee.create'))
     # expect heading
-    expect(page).to have_selector('h1', text: Heading::Tee::EDIT_TEE)
-    click_button(Button::Course::EDIT)
-    expect(page).to have_selector('h1', text: Heading::Course::EDIT_COURSE)
+    expect(page).to have_selector('h1', text: I18n.t('heading.tee.edit'))
+    click_button(I18n.t('button.course.edit'))
+    expect(page).to have_selector('h1', text: I18n.t('heading.account.edit'))
   end
 
   it 'create a new Tee for course with a validation error' do
@@ -120,7 +120,7 @@ describe 'edit_existing_course' do
                                     state: 'IN',
                                     zip_code: '47529')
 
-    click_button(Button::Tee::NEW)
+    click_button(I18n.t('button.tee.new'))
 
     TeeCommon.expect_new_tee(page,
                              course,
@@ -131,14 +131,14 @@ describe 'edit_existing_course' do
                                tee_rating: '0.0',
                                show_tees: true })
 
-    fill_in Label::Tee::COLOR, with: 'Black'
-    fill_in Label::Tee::SLOPE, with: 0.0
-    fill_in Label::Tee::RATING, with: 71.6
+    fill_in I18n.t('activerecord.attributes.tee.color'), with: 'Black'
+    fill_in I18n.t('activerecord.attributes.tee.slope'), with: 0.0
+    fill_in I18n.t('activerecord.attributes.tee.rating'), with: 71.6
 
-    click_button(Button::Tee::CREATE)
-    expect(page).to have_selector('h1', text: Heading::Tee::EDIT_TEE)
-    click_button(Button::Course::EDIT)
-    expect(page).to have_selector('h1', text: Heading::Course::EDIT_COURSE)
+    click_button(I18n.t('button.tee.create'))
+    expect(page).to have_selector('h1', text: I18n.t('heading.tee.edit'))
+    click_button(I18n.t('button.course.edit'))
+    expect(page).to have_selector('h1', text: I18n.t('heading.account.edit'))
   end
 
   it 'Navigate to edit.html.erb on Tee with no holes' do

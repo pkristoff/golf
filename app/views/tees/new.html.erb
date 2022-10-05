@@ -1,9 +1,9 @@
-<h1><%= Heading::Tee::NEW_TEE %></h1>
+<h1><%= t('heading.tee.new') %></h1>
 
 <%=render "tees/form", tees: @course.sorted_tees, new_tee: true %>
 
 <%= render 'layouts/other_buttons',
-           courses: [button_to(Button::Course::EDIT, edit_course_path(@course), method: :get)
+           courses: [button_to(I18n.t('button.course.edit'), edit_course_path(@course), method: :get)
            ], rounds: []
 %>
 
