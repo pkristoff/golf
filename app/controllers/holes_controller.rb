@@ -13,7 +13,7 @@ class HolesController < ApplicationController
       flash.now[:alert] = t('flash.alert.hole.creating')
       render 'holes/new'
     else
-      flash[:notice] = t('flash.notice.hole.created')
+      flash.now[:notice] = t('flash.notice.hole.created')
       render 'holes/edit'
     end
   end

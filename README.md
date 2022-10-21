@@ -5,7 +5,10 @@ application up and running.
 
 Things you may want to cover:
 
-* Ruby version
+* USGA rules for handicap
+  * https://www.usga.org/handicapping/roh/2020-rules-of-handicapping.html
+
+* Ruby version: 3.1.2
 
 * System dependencies
 
